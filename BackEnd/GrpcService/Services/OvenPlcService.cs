@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using GrpcService.Models;
 using GrpcService.Protos;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Modbus.Device;
@@ -27,7 +26,7 @@ namespace GrpcService.Services
         public OvenPlcService(ILogger<OvenPlcService> logger, IOptions<PLCConfig> config)
         {
             _logger = logger;
-            _config = config;        
+            _config = config;
         }
 
         public async Task ConnectDevice()
@@ -60,24 +59,22 @@ namespace GrpcService.Services
 
             foreach (var item in SensorList)
             {
-                ushort[] SensorResult = await _Device.ReadHoldingRegistersAsync(1, item, 1);
-                if (SensorResult.Length > 0)
+                int SensorResult = (await _Device.ReadHoldingRegistersAsync(1, item, 1))[0];
+                _logger.LogDebug(SensorResult.ToString());
+                switch (item)
                 {
-                    switch (item)
-                    {
-                        case 100:
-                            TempSensor.TempOven = Convert.ToInt32(SensorResult[0]);
-                            break;
-                        case 120:
-                            TempSensor.TempAFB = Convert.ToInt32(SensorResult[0]);
-                            break;
-                        case 160:
-                            TempSensor.TempFloor = Convert.ToInt32(SensorResult[0]);
-                            break;
-                        case 140:
-                            TempSensor.TempTube = Convert.ToInt32(SensorResult[0]);
-                            break;
-                    }
+                    case 100:
+                        TempSensor.TempOven = SensorResult;
+                        break;
+                    case 120:
+                        TempSensor.TempAFB = SensorResult;
+                        break;
+                    case 160:
+                        TempSensor.TempFloor = SensorResult;
+                        break;
+                    case 140:
+                        TempSensor.TempTube = SensorResult;
+                        break;
                 }
             }
 
@@ -102,23 +99,23 @@ namespace GrpcService.Services
         {
             mcStatus Status = new mcStatus();
 
-            Status.Operation = Convert.ToBoolean(_Device.ReadCoilsAsync(1, 500, 1).Result[0]);
-            Status.Door = Convert.ToBoolean(_Device.ReadCoilsAsync(1, 85, 1).Result[0]);
+            Status.Operation = (await _Device.ReadCoilsAsync(1, 500, 1))[0];
+            Status.Door = (await _Device.ReadCoilsAsync(1, 85, 1))[0];
 
             ushort[] HeaderList = { 200, 299, 500, 572, 574 };
             foreach (var item in HeaderList)
             {
-                int StatusResult = Convert.ToInt32(_Device.ReadHoldingRegistersAsync(1, item, 1).Result[0]);
+                int StatusResult = (await _Device.ReadHoldingRegistersAsync(1, item, 1))[0];
                 switch (item)
                 {
                     case 200:
-                        Status.TotalStep = Convert.ToInt32(StatusResult);
+                        Status.TotalStep = StatusResult;
                         break;
                     case 299:
-                        Status.PatternId = Convert.ToInt32(StatusResult);
+                        Status.PatternId = StatusResult;
                         break;
                     case 500:
-                        Status.CurrentStep = Convert.ToInt32(StatusResult);
+                        Status.CurrentStep = StatusResult;
                         break;
                     case 572:
                         Status.RemainMins = TimeSpan.FromMinutes(StatusResult).ToDuration();
@@ -132,7 +129,7 @@ namespace GrpcService.Services
             ushort[] StatusList = { 601, 602, 603, 607 };
             foreach (var item in StatusList)
             {
-                bool Result = Convert.ToBoolean(_Device.ReadCoilsAsync(1, item, 1).Result[0]);
+                bool Result = (await _Device.ReadCoilsAsync(1, item, 1))[0];
                 switch (item)
                 {
                     case 601:

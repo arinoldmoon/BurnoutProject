@@ -29,7 +29,10 @@ namespace GrpcService.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await _plcService.ConnectDevice();
-            await WorkerMonitorPLC(stoppingToken);
+            if (OvenPlcService._IsConnected)
+            {
+                await WorkerMonitorPLC(stoppingToken);
+            }
         }
 
         private Task WorkerMonitorPLC(CancellationToken stoppingToken)
