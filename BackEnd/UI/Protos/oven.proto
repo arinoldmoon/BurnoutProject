@@ -1,0 +1,123 @@
+syntax = "proto3";
+package Oven;
+
+option csharp_namespace = "UI.Protos";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+service OvenProto {
+    rpc GrpcConnect(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+    rpc GetOvenInfo(google.protobuf.Empty) returns (ProtoOvenInfo);
+    rpc UpdateMachineInfo(ProtoOvenInfo) returns (google.protobuf.BoolValue);  
+    rpc GetOvenSetting(google.protobuf.Empty) returns (ProtoOvenSetting);
+    rpc UpdateOvenSetting(ProtoOvenSetting) returns (google.protobuf.BoolValue);     
+    rpc MonitorDevice (google.protobuf.Empty) returns (stream ProtoOvenResponse);       
+}
+
+service PatternProto {    
+    rpc GetPatternList(google.protobuf.Empty) returns (ProtoPatternList);
+    rpc GetPattern(google.protobuf.Int32Value) returns (ProtoPattern);
+    rpc CreatePattern(ProtoPattern) returns (google.protobuf.BoolValue);
+    rpc UpdatePattern(ProtoPattern) returns (google.protobuf.BoolValue);
+    rpc DeletePattern(google.protobuf.Int32Value) returns (google.protobuf.BoolValue);
+}
+
+service OperationProto {
+    rpc StartOperation(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+    rpc StopOperation(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+}
+
+service NotificationProto {
+    rpc Notification (google.protobuf.Empty) returns (stream google.protobuf.Empty);
+}
+
+enum PatternStatus {
+    Standby = 0;
+    Up = 1;
+    Down = 2;
+    Stable = 3;
+    End = 4;
+}
+
+message ProtoOvenInfo {
+    int32 SerialNumber = 1;
+    int32 MachineModel = 2;
+    google.protobuf.Timestamp WarrantyStart = 3;
+    google.protobuf.Timestamp WarrantyEnd = 4;
+    string MachineName = 5;
+}
+
+message ProtoOvenSetting {
+    int32 SettingId = 1;
+    int32 AfbStartTemp = 2;
+    int32 AfbEndTemp  = 3;
+    int32 AfbDelay  = 4;
+    int32 PumpStartTemp  = 5;
+    int32 PumpEndTemp = 6;
+    int32 PumpDelay  = 7;
+    int32 TubeStartTemp = 8;
+    int32 FloorStartTemp = 9;
+    int32 AlarmOven = 10;
+    int32 AlarmAfb = 11;
+}
+
+message ProtoOvenResponse {
+    Temp Temp = 1;
+    Coil Coil = 2;
+    mcStatus Status = 3;
+}
+
+message Temp {
+    int32 TempOven = 1;
+    int32 TempAFB = 2;
+    int32 TempTube = 3;
+    int32 TempFloor = 4;
+}
+message Coil {
+    bool CoilOven = 1;
+    bool CoilAFB = 2;
+    bool CoilTube = 3;
+    bool CoilPump = 4;
+    bool CoilFloor = 5;
+}
+message mcStatus {
+    bool Door = 1;
+    bool Operation = 2;
+    int32 PatternId = 3;
+    int32 TotalStep = 4;
+    int32 CurrentStep = 5;
+    PatternStatus PatternStatus = 6;
+    google.protobuf.Duration RemainHours = 7;
+    google.protobuf.Duration RemainMins = 8;
+}
+
+message ProtoPattern {
+    int32 PatternId = 1;
+    string PatternName = 2;
+    int32 StepCount = 3;    
+    google.protobuf.Duration TotalTime = 4;
+    ProtoAirpump AirPump = 5;
+    repeated ProtoPatternDetail PatternDetail = 6;
+    google.protobuf.Timestamp CreateDate = 7;
+    google.protobuf.Timestamp ModifyDate = 8;
+}
+message ProtoAirpump {
+    int32 Id = 1;    
+    int32 StartTemp = 3;
+    int32 EndTemp = 4;
+    google.protobuf.Duration DelayMinuteDuration = 5;
+}
+message ProtoPatternDetail {
+    int32 DetailId = 1;
+    int32 PatternId = 2;
+    int32 Step = 3;
+    int32 Temp = 4;
+    google.protobuf.Duration StepDuration = 5;
+}
+
+message ProtoPatternList {
+    repeated ProtoPattern Pattern = 1;
+}
