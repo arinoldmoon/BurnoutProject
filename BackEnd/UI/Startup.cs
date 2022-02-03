@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using UI.Data;
+using Radzen;
 using UI.Protos;
+using UI.Services;
 
 namespace UI
 {
@@ -27,8 +28,11 @@ namespace UI
             services.AddGrpcClient<OvenProto.OvenProtoClient>(o =>
             {
                 o.Address = new Uri("http://localhost:5000");
-            });
-            services.AddSingleton<WeatherForecastService>();
+            });  
+
+            services.AddScoped<DialogService>();
+            services.AddScoped<NotificationService>();
+            services.AddScoped<GlobalService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

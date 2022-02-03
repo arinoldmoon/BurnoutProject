@@ -1,17 +1,67 @@
-﻿@inherits LayoutComponentBase
+@inherits MainLayoutComponent
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<RadzenDialog />
+<RadzenNotification />
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<RadzenHeader>
+    <ChildContent>
+        <div class="row justify-content-start align-items-center">
+            <div class="col-6 d-flex align-items-center">
+                <RadzenSidebarToggle Click="@SidebarToggleClick">
+                </RadzenSidebarToggle>
+                <RadzenLabel style="font-size: 3vh; font-weight: 700" Text=@Info.MachineName>
+                </RadzenLabel>
+                <RadzenLabel style="font-size: 2vh; padding-left: 15px" Text=@MachineModel>
+                </RadzenLabel>
+            </div>
+            <div class="col-6 text-right">
+                <div class="align-items-center d-flex col-xl-2 offset-md-5 col-md-2 justify-content-end offset-xl-6 col-6"
+                    style="float: right">
+                    <RadzenButton Icon="notifications" style="background-color: #e6ecef; color: #414141">
+                    </RadzenButton>
+                </div>
+            </div>
         </div>
-
-        <div class="content px-4">
+    </ChildContent>
+</RadzenHeader>
+<RadzenBody @ref="body0">
+    <ChildContent>
+        <RadzenContentContainer Name="main">
             @Body
-        </div>
-    </div>
-</div>
+        </RadzenContentContainer>
+    </ChildContent>
+</RadzenBody>
+<RadzenSidebar @ref="sidebar0">
+    <ChildContent>
+        <RadzenPanelMenu style="height: 100%">
+            <ChildContent>
+                <div class="col-lg-12" style="text-align:center; margin-top:15px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <RadzenImage Path="/icon-512.png" Style="width:32px">
+                            </RadzenImage>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <RadzenLabel style="font-size: 3vh; font-weight: 700" Text="Old Moon">
+                            </RadzenLabel>
+                        </div>
+                    </div>
+                </div>
+                <RadzenPanelMenuItem Icon="timeline" Path="/" Text="Monitoring">
+                </RadzenPanelMenuItem>
+                <RadzenPanelMenuItem Icon="bar_chart" Path="#" Text="Data">
+                </RadzenPanelMenuItem>
+                <RadzenPanelMenuItem Icon="settings" Path="/setting" Text="Setting">
+                </RadzenPanelMenuItem>
+            </ChildContent>
+        </RadzenPanelMenu>
+    </ChildContent>
+</RadzenSidebar>
+<RadzenFooter>
+    <ChildContent>
+        <RadzenLabel Text="Burnout IOT by Oldmoon Co.,Ltd., Copyright Ⓒ 2021">
+        </RadzenLabel>
+    </ChildContent>
+</RadzenFooter>
