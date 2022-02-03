@@ -5,8 +5,9 @@ namespace GrpcService.Services
 {
     public interface IOvenPlcService
     {
+        Task ConnectDevice();
         Task<Temp> GetTempSensorAsync();
-        Task<Coil> GetCoilSensor();
-        Task<mcStatus> GetMachineStatus();
+        Task<Coil> GetCoilSensorAsync();
+        Task<mcStatus> GetMachineStatusAsync();
     }
 }

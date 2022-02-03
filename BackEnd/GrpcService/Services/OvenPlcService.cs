@@ -2,9 +2,11 @@ using System;
 using System.IO.Ports;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
+using GrpcService.Models;
 using GrpcService.Protos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Modbus.Device;
 
 namespace GrpcService.Services
@@ -12,6 +14,7 @@ namespace GrpcService.Services
     public class OvenPlcService : IOvenPlcService
     {
         private readonly ILogger<OvenPlcService> _logger;
+        private readonly IOptions<PLCConfig> _config;
 
         private SerialPort _Port;
         private IModbusMaster _Device;
@@ -19,21 +22,24 @@ namespace GrpcService.Services
         private string _PortName = string.Empty;
         private int _BaudRate = 0;
 
-        private bool _IsConnected = false;
+        public static bool _IsConnected = false;
 
-        public OvenPlcService(ILogger<OvenPlcService> logger, IConfiguration Config)
+        public OvenPlcService(ILogger<OvenPlcService> logger, IOptions<PLCConfig> config)
         {
             _logger = logger;
-            _PortName = Config.GetSection("PLCConfig").GetSection("PortName").Value;
-            _BaudRate = Convert.ToInt16(Config.GetSection("PLCConfig").GetSection("BaudRate").Value);
+            _config = config;        
         }
 
         public async Task ConnectDevice()
         {
+            _PortName = _config.Value.PortName;
+            _BaudRate = _config.Value.BaudRate;
+            _logger.LogInformation($"USBPort : {_PortName} , BuadRate : {_BaudRate} | Create Connection");
+
             _Port = new SerialPort(_PortName, _BaudRate, Parity.None, 8, StopBits.One);
             _Device = ModbusSerialMaster.CreateRtu(_Port);
-            _logger.LogInformation($"USBPort : {_PortName} | Create Connected");
 
+            _Port.Open();
             var OperationState = await _Device.ReadCoilsAsync(1, 500, 1);
             if (OperationState != null)
             {
@@ -78,7 +84,7 @@ namespace GrpcService.Services
             return TempSensor;
         }
 
-        public async Task<Coil> GetCoilSensor()
+        public async Task<Coil> GetCoilSensorAsync()
         {
             Coil CoilSensor = new Coil();
             bool[] CoilResult = await _Device.ReadCoilsAsync(1, 70, 5);
@@ -92,17 +98,17 @@ namespace GrpcService.Services
             return CoilSensor;
         }
 
-        public async Task<mcStatus> GetMachineStatus()
+        public async Task<mcStatus> GetMachineStatusAsync()
         {
             mcStatus Status = new mcStatus();
 
-            Status.Operation = Convert.ToBoolean(await _Device.ReadCoilsAsync(1, 500, 1));
-            Status.Door = Convert.ToBoolean(await _Device.ReadCoilsAsync(1, 85, 1));
+            Status.Operation = Convert.ToBoolean(_Device.ReadCoilsAsync(1, 500, 1).Result[0]);
+            Status.Door = Convert.ToBoolean(_Device.ReadCoilsAsync(1, 85, 1).Result[0]);
 
             ushort[] HeaderList = { 200, 299, 500, 572, 574 };
             foreach (var item in HeaderList)
             {
-                int StatusResult = Convert.ToInt32(await _Device.ReadHoldingRegistersAsync(1, item, 1));
+                int StatusResult = Convert.ToInt32(_Device.ReadHoldingRegistersAsync(1, item, 1).Result[0]);
                 switch (item)
                 {
                     case 200:
@@ -126,7 +132,7 @@ namespace GrpcService.Services
             ushort[] StatusList = { 601, 602, 603, 607 };
             foreach (var item in StatusList)
             {
-                bool Result = Convert.ToBoolean(await _Device.ReadCoilsAsync(1, item, 1));
+                bool Result = Convert.ToBoolean(_Device.ReadCoilsAsync(1, item, 1).Result[0]);
                 switch (item)
                 {
                     case 601:
@@ -144,7 +150,6 @@ namespace GrpcService.Services
                     default:
                         Status.PatternStatus = (Result) ? PatternStatus.Standby : PatternStatus.Standby;
                         break;
-
                 }
             }
 

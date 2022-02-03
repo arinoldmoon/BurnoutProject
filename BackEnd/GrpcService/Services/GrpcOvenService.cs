@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -6,6 +7,7 @@ using GrpcService.Models;
 using GrpcService.Protos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace GrpcService.Services
 {
@@ -13,14 +15,13 @@ namespace GrpcService.Services
     {
         private readonly ILogger<GrpcOvenService> _logger;
         private readonly IOvenDbService _dbService;
-        private readonly int _streamDelay = 0;
+        private readonly IOptions<PLCConfig> _config;
 
-
-        public GrpcOvenService(ILogger<GrpcOvenService> logger, IConfiguration Config, IOvenDbService dbService)
+        public GrpcOvenService(ILogger<GrpcOvenService> logger, IOvenDbService dbService, IOptions<PLCConfig> config)
         {
             _logger = logger;
             _dbService = dbService;
-            _streamDelay = Convert.ToInt32(Config["PLCConfig:StreamDelay"]);
+            _config = config;
         }
 
         public override Task<BoolValue> GrpcConnect(Empty request, ServerCallContext context)
@@ -96,6 +97,22 @@ namespace GrpcService.Services
             setting.AlarmAfb = request.AlarmAfb;
 
             return new BoolValue() { Value = await _dbService.UpdateMachineSetting(setting) };
+        }
+
+        public override async Task MonitorDevice(Empty request, IServerStreamWriter<ProtoOvenResponse> responseStream, ServerCallContext context)
+        {
+            while (!context.CancellationToken.IsCancellationRequested)
+            {
+                ProtoOvenResponse Response = new ProtoOvenResponse()
+                {
+                    Temp = WorkerService.tempResponse,
+                    Coil = WorkerService.coilResponse,
+                    Status = WorkerService.statusResponse
+                };
+
+                await responseStream.WriteAsync(Response);
+                Thread.Sleep(TimeSpan.FromMilliseconds(_config.Value.Delay2));
+            }
         }
     }
 }

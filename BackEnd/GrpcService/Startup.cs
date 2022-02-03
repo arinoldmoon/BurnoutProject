@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GrpcService.Data;
+using GrpcService.Models;
 using GrpcService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +31,11 @@ namespace GrpcService
             services.AddGrpc(opt => opt.EnableDetailedErrors = true);
             services.AddDbContext<DataContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("SQLiteConnection")), ServiceLifetime.Singleton);
 
+            services.Configure<PLCConfig>(Configuration.GetSection("PLCConfig"));
+
             services.AddSingleton<IOvenDbService, OvenDbService>();
             services.AddSingleton<IOvenPlcService, OvenPlcService>();
+            services.AddHostedService<WorkerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
