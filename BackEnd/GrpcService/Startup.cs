@@ -31,6 +31,7 @@ namespace GrpcService
             services.AddDbContext<DataContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("SQLiteConnection")), ServiceLifetime.Singleton);
 
             services.AddSingleton<IOvenDbService, OvenDbService>();
+            services.AddSingleton<IOvenPlcService, OvenPlcService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
