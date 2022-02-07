@@ -4,14 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace GrpcService.Models
+namespace UI.Models
 {
     public class Pattern
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PatternNumber { get; set; }
 
-        [Required]
         public string PatternName { get; set; }
 
         public string CreateDate { get; set; }
@@ -22,9 +20,9 @@ namespace GrpcService.Models
 
         public virtual ICollection<PatternItem> PatternItems { get; set; } = new HashSet<PatternItem>();
 
-        public int StepCount { get { return PatternItems.Max(x => x.Step); } }
+        public int StepCount { get; set; }
 
-        public int TotalTime { get { return PatternItems.Sum(s => s.StepDuration); } }
+        public int TotalTime { get; set; }
 
     }
 }

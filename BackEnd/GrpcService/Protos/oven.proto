@@ -10,6 +10,7 @@ import "google/protobuf/wrappers.proto";
 
 service OvenProto {
     rpc GrpcConnect(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+    rpc PLCConnect(google.protobuf.Empty) returns (google.protobuf.BoolValue);
     rpc GetOvenInfo(google.protobuf.Empty) returns (ProtoOvenInfo);
     rpc UpdateMachineInfo(ProtoOvenInfo) returns (google.protobuf.BoolValue);  
     rpc GetOvenSetting(google.protobuf.Empty) returns (ProtoOvenSetting);

@@ -220,7 +220,7 @@ namespace GrpcService.Services
                 var chkListEmpty = await GetPatternList();
                 if (chkListEmpty == null)
                 {
-                    
+
                 }
             }
             catch (SqliteException ex)

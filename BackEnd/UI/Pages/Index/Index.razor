@@ -1,9 +1,47 @@
 ﻿@page "/"
+@using UI.Pages.Index.Component.Card
+@using UI.Pages.Index.Component.OperationState
 @layout MainLayout
 @inherits IndexComponent
 
 <RadzenContent Container="main">
     <ChildContent>
-                
+        @* Row 1 Machine Status *@
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-md-12 col-xl-6" style="margin-top: 5px;">
+                @if (Monitor.Status.Operation)
+                {
+                    <p>True</p>
+                    @* <RuningState processPercen="Percen" program="Globals.D299" hTime="D574" mTime="D572"></RuningState> *@
+                }
+                else
+                {
+                    <IdleState PatternID="Monitor.Status.PatternId"></IdleState>
+                }
+            </div>
+            <div class="col-md-6 col-xl-3" style="margin-top: 5px;">
+                <SensorCard State="Monitor.Status.Door" CardName="Door"></SensorCard>
+            </div>
+            <div class="col-md-6 col-xl-3" style="margin-top: 5px;">
+                <SensorCard State="Monitor.Coil.CoilPump" CardName="Air Flow"></SensorCard>
+            </div>
+        </div>
+
+        @* Row 2 TempCard *@
+        <div style="margin-top: 10px;" class="row">
+            <div class="col-xl-3 col-md-6" style="margin-top: 5px">
+                <TempCard CardName="Oven" State="Monitor.Coil.CoilOven" Value="Monitor.Temp.TempOven"></TempCard>
+            </div>
+            <div class="col-xl-3 col-md-6" style="margin-top: 5px">
+                <TempCard CardName="AFB" State="Monitor.Coil.CoilAFB" Value="Monitor.Temp.TempAFB"></TempCard>
+            </div>
+            <div class="col-xl-3 col-md-6" style="margin-top: 5px">
+                <TempCard CardName="Floor" State="Monitor.Coil.CoilFloor" Value="Monitor.Temp.TempFloor"></TempCard>
+            </div>
+            <div class="col-xl-3 col-md-6" style="margin-top: 5px">
+                <TempCard CardName="Tube" State="Monitor.Coil.CoilTube" Value="Monitor.Temp.TempTube"></TempCard>
+            </div>
+        </div>
+
     </ChildContent>
 </RadzenContent>

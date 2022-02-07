@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="google.protobuf" Version="3.19.4" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.42.0" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
     <PackageReference Include="Grpc.Tools" Version="2.43.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

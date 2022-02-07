@@ -29,7 +29,7 @@ namespace GrpcService.Services
             _config = config;
         }
 
-        public async Task ConnectDevice()
+        public async Task<bool> ConnectDevice()
         {
             _PortName = _config.Value.PortName;
             _BaudRate = _config.Value.BaudRate;
@@ -38,18 +38,30 @@ namespace GrpcService.Services
             _Port = new SerialPort(_PortName, _BaudRate, Parity.None, 8, StopBits.One);
             _Device = ModbusSerialMaster.CreateRtu(_Port);
 
-            _Port.Open();
-            var OperationState = await _Device.ReadCoilsAsync(1, 500, 1);
-            if (OperationState != null)
+            try
             {
-                _IsConnected = true;
-                _logger.LogInformation($"PLC Status : Connected");
+                _Port.Open();
+                if (_Port.IsOpen)
+                {
+                    var OperationState = await _Device.ReadCoilsAsync(1, 500, 1);
+                    if (OperationState != null)
+                    {
+                        _IsConnected = true;
+                        _logger.LogInformation($"PLC Status : Connected");
+                    }
+                    else
+                    {
+                        _Device.Dispose();
+                        _logger.LogInformation($"PLC Status : NotConnect");
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _Device.Dispose();
-                _logger.LogInformation($"PLC Status : NotConnect");
+                _logger.LogError($"{ex.Message.ToString()}");
             }
+
+            return _IsConnected;
         }
 
         public async Task<Temp> GetTempSensorAsync()

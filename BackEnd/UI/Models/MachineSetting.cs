@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GrpcService.Models
+namespace UI.Models
 {
     public class MachineSetting
     {

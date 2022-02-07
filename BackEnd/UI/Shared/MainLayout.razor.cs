@@ -1,30 +1,31 @@
 using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
-using UI.Protos;
-using static UI.Protos.OvenProto;
+using UI.Models;
+using UI.Services;
 
 namespace UI.Shared
 {
     public class MainLayoutComponent : LayoutComponentBase
     {
         [Inject]
-        protected OvenProtoClient Client { get; set; }
+        protected OvenService service { get; set; }
+
+        [Inject]
+        protected GlobalService Globals { get; set; }
+
+
         protected RadzenBody body0;
         protected RadzenSidebar sidebar0;
 
-        public ProtoOvenInfo Info { get; set; } = new ProtoOvenInfo();
+        public MachineInfo Info { get; set; } = new MachineInfo();
         public string MachineModel { get; set; } = string.Empty;
 
-        protected override async Task OnInitializedAsync()
+
+        protected override async Task OnParametersSetAsync()
         {
-            var _IsConnected = await Client.GrpcConnectAsync(new Empty());
-            if (_IsConnected.Value)
-            {
-                Info = await Client.GetOvenInfoAsync(new Empty());
-                MachineModel = "S6 Eco (Fixed)";
-            }
+            MachineModel = "GrpcService NotConnection";
+            await base.OnParametersSetAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -32,6 +33,22 @@ namespace UI.Shared
             if (firstRender)
             {
                 await SidebarToggleClick();
+                bool IsConnected = await service.GrpcConnect();
+
+                if (IsConnected)
+                {
+                    Globals.ServiceConnected = true;
+                    Globals.PlcConnected = await service.PLCConnect();
+
+                    MachineModel = "S6 Eco (Fixed)";
+                    Info = await service.GetMachineInfo();
+                }
+                else
+                {
+                    Globals.ServiceConnected = false;
+                    MachineModel = "GrpcService NotConnection";
+                }
+                StateHasChanged();
             }
         }
 

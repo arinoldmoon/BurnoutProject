@@ -30,6 +30,12 @@ namespace GrpcService.Services
             return Task.FromResult(new BoolValue() { Value = true });
         }
 
+        public override Task<BoolValue> PLCConnect(Empty request, ServerCallContext context)
+        {
+            _logger.LogInformation("PLCConnect");
+            return Task.FromResult(new BoolValue() { Value = OvenPlcService._IsConnected });
+        }
+
         public override async Task<ProtoOvenInfo> GetOvenInfo(Empty request, ServerCallContext context)
         {
             _logger.LogInformation("GetOvenInfo");

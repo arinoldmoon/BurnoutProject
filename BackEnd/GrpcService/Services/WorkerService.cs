@@ -19,6 +19,8 @@ namespace GrpcService.Services
         public static Coil coilResponse = new Coil();
         public static mcStatus statusResponse = new mcStatus();
 
+        private bool IsConnected = false;
+
         public WorkerService(ILogger<WorkerService> logger, IOvenPlcService plcService, IOptions<PLCConfig> config)
         {
             _logger = logger;
@@ -28,8 +30,8 @@ namespace GrpcService.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _plcService.ConnectDevice();
-            if (OvenPlcService._IsConnected)
+            IsConnected = await _plcService.ConnectDevice();
+            if (IsConnected)
             {
                 await WorkerMonitorPLC(stoppingToken);
             }

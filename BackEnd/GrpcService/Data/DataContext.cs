@@ -10,7 +10,7 @@ namespace GrpcService.Data
         }
 
         public DbSet<MachineInfo> MachineInfos { get; set; }
-        public DbSet<MachineSetting> MachineSettings { get; set; }        
+        public DbSet<MachineSetting> MachineSettings { get; set; }
         public DbSet<AirPumpSetting> AirPumpSettings { get; set; }
         public DbSet<Pattern> Patterns { get; set; }
         public DbSet<PatternItem> PatternItems { get; set; }
@@ -18,7 +18,7 @@ namespace GrpcService.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MachineInfo>().HasKey(t => t.SerialNumber);
-            modelBuilder.Entity<MachineSetting>().HasKey(t => t.Setting_ID);            
+            modelBuilder.Entity<MachineSetting>().HasKey(t => t.Setting_ID);
             modelBuilder.Entity<AirPumpSetting>().HasKey(t => t.Id);
             modelBuilder.Entity<PatternItem>().HasKey(t => t.Id);
             modelBuilder.Entity<Pattern>().HasKey(t => t.PatternNumber);
