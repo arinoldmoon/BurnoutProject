@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
@@ -19,13 +21,23 @@ namespace UI.Shared
         protected RadzenSidebar sidebar0;
 
         public MachineInfo Info { get; set; } = new MachineInfo();
-        public string MachineModel { get; set; } = string.Empty;
+        public string MachineModel { get; set; } = "GrpcService NotConnection";
+        private bool IsConnected = false;
 
-
-        protected override async Task OnParametersSetAsync()
+        public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            MachineModel = "GrpcService NotConnection";
-            await base.OnParametersSetAsync();
+        }
+
+        protected override void OnInitialized()
+        {
+            Globals.PropertyChanged += OnPropertyChanged;
+            IsConnected = service.GrpcConnect();
+
+            if (IsConnected)
+            {
+                MachineModel = "S6 Eco (Fixed)";
+                Globals.ServiceConnected = true;
+            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -33,22 +45,14 @@ namespace UI.Shared
             if (firstRender)
             {
                 await SidebarToggleClick();
-                bool IsConnected = await service.GrpcConnect();
 
                 if (IsConnected)
                 {
-                    Globals.ServiceConnected = true;
-                    Globals.PlcConnected = await service.PLCConnect();
-
-                    MachineModel = "S6 Eco (Fixed)";
+                    Globals.PlcConnected = service.PLCConnect();
                     Info = await service.GetMachineInfo();
+
+                    StateHasChanged();
                 }
-                else
-                {
-                    Globals.ServiceConnected = false;
-                    MachineModel = "GrpcService NotConnection";
-                }
-                StateHasChanged();
             }
         }
 

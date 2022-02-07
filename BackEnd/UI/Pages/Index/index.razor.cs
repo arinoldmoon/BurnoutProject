@@ -17,18 +17,11 @@ namespace UI.Pages.Index
 
         public MachineMonitor Monitor { get; set; }
 
+        private static int loop = 0;
 
-        public async void OnPropertyChanged(PropertyChangedEventArgs args)
+
+        public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            if (args.Name == "ServiceConnected")
-            {
-                if ((bool)args.NewValue)
-                {
-                    await Services.PLCConnect();
-                    await MonitorDevice();
-                }
-                StateHasChanged();
-            }
         }
 
         public void Dispose()
@@ -46,9 +39,20 @@ namespace UI.Pages.Index
             Monitor.Status = new mcStatus();
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                if (Globals.PlcConnected)
+                {
+                    await MonitorDevice();
+                }
+            }
+        }
+
         private async Task MonitorDevice()
         {
-            if (Globals.PlcConnected)
+            if (Globals.ServiceConnected && Globals.PlcConnected)
             {
                 using (var response = await Services.MonitorDevice())
                 {

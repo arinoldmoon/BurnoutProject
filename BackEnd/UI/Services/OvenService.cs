@@ -28,11 +28,11 @@ namespace UI.Services
             OvenProto = new OvenProtoClient(channel);
         }
 
-        public async Task<bool> GrpcConnect()
+        public bool GrpcConnect()
         {
             try
             {
-                var response = await OvenProto.GrpcConnectAsync(new Empty());
+                var response = OvenProto.GrpcConnect(new Empty());
 
                 GrpcIsConnected = response.Value;
                 return GrpcIsConnected;
@@ -44,11 +44,11 @@ namespace UI.Services
             }
         }
 
-        public async Task<bool> PLCConnect()
+        public bool PLCConnect()
         {
             try
             {
-                var response = await OvenProto.GrpcConnectAsync(new Empty());
+                var response = OvenProto.GrpcConnect(new Empty());
 
                 PLCIsConnected = response.Value;
                 return PLCIsConnected;
@@ -60,14 +60,14 @@ namespace UI.Services
             }
         }
 
-        public async Task<MachineInfo> GetMachineInfo()
+        public Task<MachineInfo> GetMachineInfo()
         {
             MachineInfo info = new MachineInfo();
             try
             {
                 if (GrpcIsConnected)
                 {
-                    ProtoOvenInfo response = (await OvenProto.GetOvenInfoAsync(new Empty()));
+                    ProtoOvenInfo response = (OvenProto.GetOvenInfo(new Empty()));
                     info.MachineModel = response.MachineModel;
                     info.MachineName = response.MachineName;
                     info.SerialNumber = response.SerialNumber;
@@ -78,28 +78,28 @@ namespace UI.Services
             catch (RpcException ex)
             {
                 Console.WriteLine($"GetMachineInfo Error {ex.StatusCode} : {ex.Message}");
-                return new MachineInfo(); ;
+                return Task.FromResult(new MachineInfo());
             }
 
-            return info;
+            return Task.FromResult(info);
         }
 
         public async Task<AsyncServerStreamingCall<ProtoOvenResponse>> MonitorDevice()
         {
             try
             {
-                if (!GrpcIsConnected)
+                if (PLCIsConnected)
                 {
-                    await GrpcConnect();
+                    return await Task.FromResult(OvenProto.MonitorDevice(new Empty()));
                 }
-                return OvenProto.MonitorDevice(new Empty());
-
             }
             catch (RpcException ex)
             {
-                Console.WriteLine($"Error : {ex.StatusCode}");
+                Console.WriteLine($"MonitorDevice Error {ex.StatusCode} : {ex.Message}");
                 return null;
             }
+
+            return null;
         }
     }
 }
