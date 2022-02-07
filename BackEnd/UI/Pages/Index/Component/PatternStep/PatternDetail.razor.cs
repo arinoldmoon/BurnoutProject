@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 using UI.Models;
+using UI.Services;
 
 namespace UI.Pages.Index.Component.PatternStep
 {
@@ -21,15 +23,22 @@ namespace UI.Pages.Index.Component.PatternStep
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
+        [Inject]
+        protected GlobalService Globals {get;set;}
 
         protected RadzenDataGrid<PatternItem> OvenStepGrid;
 
         protected override async Task OnInitializedAsync()
         {
-            PatternData = new Pattern();
-            PatternData.Airpump = new AirPumpSetting();
-            PatternData.PatternItems = new List<PatternItem>();
+            if (PatternData == null)
+            {
+                PatternData = new Pattern();
+                PatternData.Airpump = new AirPumpSetting();
+                PatternData.PatternItems = new List<PatternItem>();
 
+                PatternData.PatternNumber = 99;
+            }
+            
             await Task.CompletedTask;
         }
 
@@ -59,7 +68,7 @@ namespace UI.Pages.Index.Component.PatternStep
             int rowindex = PatternData.PatternItems.Count() + 1;
             if (rowindex <= 16)
             {
-                PatternItem dialogResult = await DialogService.OpenAsync<AddStep>("Add New Step", new Dictionary<string, object>() { { "_rowindex", rowindex } });
+                PatternItem dialogResult = await DialogService.OpenAsync<AddStep>("Add New Step", new Dictionary<string, object>() { { "RowIndex", rowindex } });
                 if (dialogResult != null)
                 {
                     PatternData.PatternItems.Add(dialogResult);
@@ -77,9 +86,10 @@ namespace UI.Pages.Index.Component.PatternStep
 
         protected async Task Next(MouseEventArgs args)
         {
-            // PatternData.PatternNumber = 99;            
-            await Task.CompletedTask;
+            Globals.GlobalPattern = new Pattern();
+            Globals.GlobalPattern = PatternData;     
 
+            await Task.CompletedTask;
             DialogService.Close(null);
         }
     }

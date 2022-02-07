@@ -33,8 +33,8 @@ namespace UI.Services
             try
             {
                 var response = OvenProto.GrpcConnect(new Empty());
-
                 GrpcIsConnected = response.Value;
+                
                 return GrpcIsConnected;
             }
             catch (RpcException ex)
@@ -48,9 +48,9 @@ namespace UI.Services
         {
             try
             {
-                var response = OvenProto.GrpcConnect(new Empty());
-
+                var response = OvenProto.PLCConnect(new Empty());
                 PLCIsConnected = response.Value;
+
                 return PLCIsConnected;
             }
             catch (RpcException ex)

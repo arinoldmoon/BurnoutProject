@@ -1,4 +1,5 @@
 using System;
+using UI.Models;
 
 namespace UI.Services
 {
@@ -37,6 +38,42 @@ namespace UI.Services
                 {
                     var args = new PropertyChangedEventArgs() { Name = "PlcConnected", NewValue = value, OldValue = _PlcConnected, IsGlobal = true };
                     _PlcConnected = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
+        }
+   
+        MachineMonitor _GlobalMonitor;
+        public MachineMonitor GlobalMonitor
+        {
+            get
+            {
+                return _GlobalMonitor;
+            }
+            set
+            {
+                if (!object.Equals(_GlobalMonitor, value))
+                {
+                    var args = new PropertyChangedEventArgs() { Name = "GlobalMonitor", NewValue = value, OldValue = _GlobalMonitor, IsGlobal = true };
+                    _GlobalMonitor = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
+        }
+    
+        Pattern _GlobalPattern;
+        public Pattern GlobalPattern
+        {
+            get
+            {
+                return _GlobalPattern;
+            }
+            set
+            {
+                if (!object.Equals(_GlobalMonitor, value))
+                {
+                    var args = new PropertyChangedEventArgs() { Name = "GlobalPattern", NewValue = value, OldValue = _GlobalPattern, IsGlobal = true };
+                    _GlobalPattern = value;
                     PropertyChanged?.Invoke(args);
                 }
             }

@@ -16,9 +16,9 @@ namespace UI.Models
 
         public string ModifyDate { get; set; }
 
-        public virtual AirPumpSetting Airpump { get; set; }
+        public AirPumpSetting Airpump { get; set; } = new AirPumpSetting();
 
-        public virtual ICollection<PatternItem> PatternItems { get; set; } = new HashSet<PatternItem>();
+        public ICollection<PatternItem> PatternItems { get; set; } = new HashSet<PatternItem>();
 
         public int StepCount { get; set; }
 

@@ -5,6 +5,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using UI.Models;
+using UI.Protos;
 using static UI.Protos.PatternProto;
 
 namespace UI.Services
@@ -54,6 +55,38 @@ namespace UI.Services
             return PatternList;
         }
 
+        public async Task<Pattern> GetPatternByID(int PatternNumber)
+        {
+            Pattern result = new Pattern();
+            ProtoPattern response = await client.GetPatternAsync(new Int32Value(){Value = PatternNumber});
 
+            result.PatternNumber = response.PatternId;
+            result.PatternName = response.PatternName;
+            result.StepCount = response.StepCount;
+            result.TotalTime = (int)TimeSpan.FromSeconds(response.TotalTime.Seconds).TotalMinutes;
+
+            result.Airpump = new AirPumpSetting()
+            {
+                Id = response.AirPump.Id,
+                StartTemp = response.AirPump.StartTemp,
+                EndTemp = response.AirPump.EndTemp,
+                DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
+            };
+            
+            foreach(var item in response.PatternDetail)
+            {
+                PatternItem pattern = new PatternItem()
+                {
+                    Id = item.DetailId,
+                    Step = item.Step,
+                    Temp = item.Temp,
+                    StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
+                };
+                result.PatternItems.Add(pattern);
+            }
+            
+            await Task.CompletedTask;
+            return result;
+        }
     }
 }

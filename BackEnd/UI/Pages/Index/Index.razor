@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using UI.Pages.Index.Component.Card
+@using UI.Pages.Index.Component.Controller
 @using UI.Pages.Index.Component.OperationState
 @layout MainLayout
 @inherits IndexComponent
@@ -40,6 +41,28 @@
             </div>
             <div class="col-xl-3 col-md-6" style="margin-top: 5px">
                 <TempCard CardName="Tube" State="Monitor.Coil.CoilTube" Value="Monitor.Temp.TempTube"></TempCard>
+            </div>
+        </div>
+
+         @* Row 3 Chart & Program *@
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-12 col-xl-9" style="margin-top:5px;">
+                @* <RadzenCard Style="height: 450px;">
+                    <ChildContent>
+                        <LineChart></LineChart>
+                    </ChildContent>
+                </RadzenCard> *@
+            </div>
+            <div class="col-md-12 col-xl-3" style="margin-top:5px;">                
+                @* <RadzenLabel Text="@($"{Monitor.Status.PatternId}")"></RadzenLabel> *@
+                @if (Globals.GlobalPattern.PatternNumber == 0)
+                {
+                    <GraphSetting></GraphSetting>
+                }
+                else
+                {
+                    <OperationState></OperationState>
+                }               
             </div>
         </div>
 

@@ -10,18 +10,22 @@ namespace UI.Pages.Index
     public partial class IndexComponent : ComponentBase
     {
         [Inject]
-        protected OvenService Services { get; set; }
+        protected OvenService OvenService { get; set; }
+
+        [Inject]
+        protected PatternService PatternService { get; set; }
 
         [Inject]
         protected GlobalService Globals { get; set; }
 
         public MachineMonitor Monitor { get; set; }
 
-        private static int loop = 0;
-
-
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
+            if(args.Name == "GlobalPattern")
+            {
+                StateHasChanged();
+            }
         }
 
         public void Dispose()
@@ -37,6 +41,9 @@ namespace UI.Pages.Index
             Monitor.Temp = new Temp();
             Monitor.Coil = new Coil();
             Monitor.Status = new mcStatus();
+
+            Globals.GlobalPattern = new Pattern();
+            Globals.GlobalMonitor = Monitor;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -54,7 +61,7 @@ namespace UI.Pages.Index
         {
             if (Globals.ServiceConnected && Globals.PlcConnected)
             {
-                using (var response = await Services.MonitorDevice())
+                using (var response = await OvenService.MonitorDevice())
                 {
                     while (await response.ResponseStream.MoveNext(CancellationToken.None))
                     {
@@ -85,6 +92,12 @@ namespace UI.Pages.Index
                             RemainHours = (int)TimeSpan.FromSeconds(response.ResponseStream.Current.Status.RemainHours.Seconds).TotalHours,
                             RemainMins = (int)TimeSpan.FromSeconds(response.ResponseStream.Current.Status.RemainHours.Seconds).TotalMinutes
                         };
+
+                        if (response.ResponseStream.Current.Status.Operation)
+                        {
+                            Globals.GlobalMonitor = Monitor;
+                            Globals.GlobalPattern = await PatternService.GetPatternByID(response.ResponseStream.Current.Status.PatternId);
+                        }
 
                         StateHasChanged();
                     }

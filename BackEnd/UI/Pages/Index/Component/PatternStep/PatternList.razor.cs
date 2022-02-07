@@ -29,27 +29,13 @@ namespace UI.Pages.Index.Component.PatternStep
 
         public IList<Pattern> Selected { get; set; }
 
-        public void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-        }
-
-        public void Dispose()
-        {
-            Globals.PropertyChanged -= OnPropertyChanged;
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            Globals.PropertyChanged += OnPropertyChanged;
-            await base.OnInitializedAsync();
-        }
-
         protected async Task btnLoadClick(MouseEventArgs args)
         {
-            // Globals.D299 = SelectID;
-            // Globals.D200 = PatternList.Where(x => x.Id.Equals(SelectID)).FirstOrDefault().PatternStepCount;
-            // Console.WriteLine(Selected.First().PatternNumber);
-            await Task.CompletedTask;
+            int PatternNumber = Selected[0].PatternNumber;
+            var response = await Service.GetPatternByID(PatternNumber);            
+            
+            Globals.GlobalPattern = new Pattern();
+            Globals.GlobalPattern = response;
 
             DialogService.Close(null);
         }
