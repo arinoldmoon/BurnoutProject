@@ -21,6 +21,9 @@ namespace UI.Pages.Index.Component.PatternStep
         [Inject]
         protected GlobalService Globals { get; set; }
 
+        [Inject]
+        protected NotificationService NotificationService { get; set; }
+
         public IEnumerable<Pattern> PatternList { get; set; }
 
         protected RadzenDataGrid<Pattern> grid;
@@ -32,10 +35,16 @@ namespace UI.Pages.Index.Component.PatternStep
         protected async Task btnLoadClick(MouseEventArgs args)
         {
             int PatternNumber = Selected[0].PatternNumber;
-            var response = await Service.GetPatternByID(PatternNumber);            
-            
-            Globals.GlobalPattern = new Pattern();
-            Globals.GlobalPattern = response;
+            Pattern response = await Service.GetPatternByID(PatternNumber);
+
+            if (response != null)
+            {
+                Globals.GlobalPattern = response;
+            }
+            else
+            {
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"PatternList", Detail = $"Load Failed" });
+            }
 
             DialogService.Close(null);
         }

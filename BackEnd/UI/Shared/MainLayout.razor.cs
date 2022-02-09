@@ -8,7 +8,7 @@ using UI.Services;
 
 namespace UI.Shared
 {
-    public class MainLayoutComponent : LayoutComponentBase
+    public partial class MainLayoutComponent : LayoutComponentBase
     {
         [Inject]
         protected OvenService service { get; set; }

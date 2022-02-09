@@ -11,11 +11,12 @@
                         @if (PatternID == 0)
                         {
                             <RadzenLabel style="color: #f9777f; font-size: 1.2em; font-weight: 700" Text="Idel">
-                            </RadzenLabel> 
+                            </RadzenLabel>
                         }
                         else
                         {
-                            <RadzenLabel style="color: #e6c54f; font-size: 1.2em; font-weight: 700" Text="Waiting">
+                            <RadzenLabel style="color: #e6c54f; font-size: 1.2em; font-weight: 700"
+                            Text="@($"Waiting Program {PatternID}")">
                             </RadzenLabel>
                         }
                         <div class="row">
@@ -28,7 +29,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <RadzenButton ButtonStyle="ButtonStyle.Light" Text="New Program" Click="NewProgramClick">
+                                        <RadzenButton ButtonStyle="ButtonStyle.Light" Text="New Program"
+                                            Click="NewProgramClick" Disabled=IsDisable>
                                         </RadzenButton>
                                     </div>
                                 </div>
@@ -42,7 +44,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12" style="border-left: 1px solid #6d787d">
-                                        <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Load Program" Click="LoadProgram">
+                                        <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Load Program"
+                                            Click="LoadProgram" Disabled=IsDisable>
                                         </RadzenButton>
                                     </div>
                                 </div>

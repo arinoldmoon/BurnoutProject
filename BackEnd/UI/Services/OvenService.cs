@@ -7,7 +7,6 @@ using Grpc.Net.Client;
 using UI.Models;
 using UI.Protos;
 using static UI.Protos.OvenProto;
-using static UI.Protos.PatternProto;
 
 namespace UI.Services
 {
@@ -34,7 +33,7 @@ namespace UI.Services
             {
                 var response = OvenProto.GrpcConnect(new Empty());
                 GrpcIsConnected = response.Value;
-                
+
                 return GrpcIsConnected;
             }
             catch (RpcException ex)
@@ -101,5 +100,6 @@ namespace UI.Services
 
             return null;
         }
+
     }
 }

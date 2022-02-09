@@ -12,7 +12,7 @@ using UI.Services;
 
 namespace UI.Pages.Index.Component.PatternStep
 {
-    public partial class PatternDetailComponent : ComponentBase
+    public partial class PatternDetailComponent : ComponentBase, IDisposable
     {
         [Parameter]
         public Pattern PatternData { get; set; }
@@ -24,11 +24,28 @@ namespace UI.Pages.Index.Component.PatternStep
         protected NotificationService NotificationService { get; set; }
 
         [Inject]
-        protected GlobalService Globals {get;set;}
+        protected GlobalService Globals { get; set; }
 
         protected RadzenDataGrid<PatternItem> OvenStepGrid;
 
-        protected override async Task OnInitializedAsync()
+
+
+        public void Reload()
+        {
+            InvokeAsync(StateHasChanged);
+        }
+
+        public void Dispose()
+        {
+            Globals.PropertyChanged -= OnPropertyChanged;
+        }
+
+        public void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            Reload();
+        }
+
+        protected override void OnInitialized()
         {
             if (PatternData == null)
             {
@@ -38,8 +55,8 @@ namespace UI.Pages.Index.Component.PatternStep
 
                 PatternData.PatternNumber = 99;
             }
-            
-            await Task.CompletedTask;
+
+            Globals.PropertyChanged += OnPropertyChanged;
         }
 
         protected void LoadDataGrid(LoadDataArgs args)
@@ -84,12 +101,12 @@ namespace UI.Pages.Index.Component.PatternStep
             }
         }
 
-        protected async Task Next(MouseEventArgs args)
+        protected void Next(MouseEventArgs args)
         {
             Globals.GlobalPattern = new Pattern();
-            Globals.GlobalPattern = PatternData;     
+            Globals.GlobalPattern = PatternData;
+            Globals.GlobalPattern.StepCount = PatternData.PatternItems.Count;
 
-            await Task.CompletedTask;
             DialogService.Close(null);
         }
     }

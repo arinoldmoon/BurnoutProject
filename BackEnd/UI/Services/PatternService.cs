@@ -15,7 +15,7 @@ namespace UI.Services
         private GrpcChannel channel { get; set; }
         private PatternProtoClient client { get; set; }
 
-        private bool IsConnected { get { return OvenService.GrpcIsConnected; } }
+        private bool GrpcIsConnected { get { return OvenService.GrpcIsConnected; } }
 
         public PatternService(string IP)
         {
@@ -30,7 +30,7 @@ namespace UI.Services
             List<Pattern> PatternList = new List<Pattern>();
             try
             {
-                if (IsConnected)
+                if (GrpcIsConnected)
                 {
                     var response = (await client.GetPatternListAsync(new Empty()));
                     foreach (var item in response.Pattern)
@@ -58,7 +58,7 @@ namespace UI.Services
         public async Task<Pattern> GetPatternByID(int PatternNumber)
         {
             Pattern result = new Pattern();
-            ProtoPattern response = await client.GetPatternAsync(new Int32Value(){Value = PatternNumber});
+            ProtoPattern response = await client.GetPatternAsync(new Int32Value() { Value = PatternNumber });
 
             result.PatternNumber = response.PatternId;
             result.PatternName = response.PatternName;
@@ -72,8 +72,8 @@ namespace UI.Services
                 EndTemp = response.AirPump.EndTemp,
                 DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
             };
-            
-            foreach(var item in response.PatternDetail)
+
+            foreach (var item in response.PatternDetail)
             {
                 PatternItem pattern = new PatternItem()
                 {
@@ -84,7 +84,7 @@ namespace UI.Services
                 };
                 result.PatternItems.Add(pattern);
             }
-            
+
             await Task.CompletedTask;
             return result;
         }

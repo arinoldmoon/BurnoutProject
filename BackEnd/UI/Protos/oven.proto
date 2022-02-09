@@ -27,8 +27,9 @@ service PatternProto {
 }
 
 service OperationProto {
-    rpc StartOperation(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+    rpc StartOperation(ProtoPattern) returns (google.protobuf.BoolValue);
     rpc StopOperation(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+    rpc CurrentPattern(google.protobuf.Empty) returns (ProtoPattern);
 }
 
 service NotificationProto {

@@ -42,7 +42,7 @@ namespace UI.Services
                 }
             }
         }
-   
+
         MachineMonitor _GlobalMonitor;
         public MachineMonitor GlobalMonitor
         {
@@ -54,13 +54,13 @@ namespace UI.Services
             {
                 if (!object.Equals(_GlobalMonitor, value))
                 {
-                    var args = new PropertyChangedEventArgs() { Name = "GlobalMonitor", NewValue = value, OldValue = _GlobalMonitor, IsGlobal = true };
+                    var args = new PropertyChangedEventArgs() { Name = "GlobalMonitor", NewValue = value, OldValue = _GlobalMonitor, IsGlobal = false };
                     _GlobalMonitor = value;
                     PropertyChanged?.Invoke(args);
                 }
             }
         }
-    
+
         Pattern _GlobalPattern;
         public Pattern GlobalPattern
         {

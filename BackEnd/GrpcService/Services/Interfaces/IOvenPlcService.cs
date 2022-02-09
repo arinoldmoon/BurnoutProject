@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using GrpcService.Protos;
 
 namespace GrpcService.Services
@@ -9,5 +10,8 @@ namespace GrpcService.Services
         Task<Temp> GetTempSensorAsync();
         Task<Coil> GetCoilSensorAsync();
         Task<mcStatus> GetMachineStatusAsync();
+        Task<BoolValue> PushStopOperation();
+        Task<BoolValue> PushStartOperation(ProtoPattern request);
+        Task<ProtoPattern> GetCuerrentPattern();
     }
 }

@@ -11,7 +11,7 @@ using UI.Services;
 
 namespace UI
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -20,10 +20,12 @@ namespace UI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        partial void OnConfigureServices(IServiceCollection services);
+        partial void OnConfiguringServices(IServiceCollection services);
         public void ConfigureServices(IServiceCollection services)
         {
+            OnConfiguringServices(services);
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
@@ -33,12 +35,18 @@ namespace UI
 
             services.AddSingleton<OvenService>(o => new OvenService("localhost"));
             services.AddSingleton<PatternService>(o => new PatternService("localhost"));
+            services.AddSingleton<OperationService>(o => new OperationService("localhost"));
+
+            OnConfigureServices(services);
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        partial void OnConfigure(IApplicationBuilder app, IWebHostEnvironment env);
+        partial void OnConfiguring(IApplicationBuilder app, IWebHostEnvironment env);
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            OnConfiguring(app, env);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,7 +54,6 @@ namespace UI
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -60,6 +67,8 @@ namespace UI
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+            OnConfigure(app, env);
         }
     }
 }

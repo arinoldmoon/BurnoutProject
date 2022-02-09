@@ -6,5 +6,6 @@ namespace GrpcService.Models
         public int BaudRate { get; set; } = 0;
         public int Delay1 { get; set; } = 0;
         public int Delay2 { get; set; } = 0;
+        public int Delay3 { get; set; } = 0;
     }
 }
