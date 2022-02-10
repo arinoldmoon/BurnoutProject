@@ -47,6 +47,7 @@ namespace GrpcService
             }
 
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

@@ -137,7 +137,7 @@ namespace GrpcService.Services
                         Status.RemainMins = TimeSpan.FromMinutes(StatusResult).ToDuration();
                         break;
                     case 574:
-                        Status.RemainHours = TimeSpan.FromHours(StatusResult).ToDuration();
+                        Status.RemainHours = TimeSpan.FromMinutes(StatusResult).ToDuration();
                         break;
                 }
             }
@@ -161,7 +161,7 @@ namespace GrpcService.Services
                         Status.PatternStatus = (Result) ? PatternStatus.End : PatternStatus.Standby;
                         break;
                     default:
-                        Status.PatternStatus = (Result) ? PatternStatus.Standby : PatternStatus.Standby;
+                        Status.PatternStatus = PatternStatus.Standby;
                         break;
                 }
             }
@@ -254,28 +254,33 @@ namespace GrpcService.Services
 
                     result.StepCount = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)200, (ushort)1))[0];
 
-                    result.AirPump.StartTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)553, (ushort)1))[0];
-                    result.AirPump.EndTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)554, (ushort)1))[0];
-                    result.AirPump.DelayMinuteDuration = TimeSpan.FromMinutes((await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)551, (ushort)1))[0]).ToDuration();
-
-                    for (int i = 0; i < result.StepCount * 3; i++)
+                    if (result.StepCount != 0)
                     {
-                        int item = Convert.ToInt32(_Device.ReadHoldingRegisters((byte)1, addr, 1)[0]);
-                        DetailList.Add(item);
-                        addr++;
-                    }
+                        result.AirPump.StartTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)553, (ushort)1))[0];
+                        result.AirPump.EndTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)554, (ushort)1))[0];
+                        result.AirPump.DelayMinuteDuration = TimeSpan.FromMinutes((await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)551, (ushort)1))[0]).ToDuration();
 
-                    for (int u = 0; u < DetailList.Count;)
-                    {
-                        result.PatternDetail.Add(new ProtoPatternDetail()
+                        for (int i = 0; i < result.StepCount * 3; i++)
                         {
-                            PatternId = result.PatternId,
-                            Step = result.PatternDetail.Count + 1,
-                            Temp = DetailList[u],
-                            StepDuration = TimeSpan.Parse($"{DetailList[u + 1]}:{DetailList[u + 2]}").ToDuration()
-                        });
+                            int item = Convert.ToInt32(_Device.ReadHoldingRegisters((byte)1, addr, 1)[0]);
+                            DetailList.Add(item);
+                            addr++;
+                        }
 
-                        u += 3;
+                        for (int u = 0; u < DetailList.Count;)
+                        {
+                            result.PatternDetail.Add(new ProtoPatternDetail()
+                            {
+                                Step = result.PatternDetail.Count + 1,
+                                Temp = DetailList[u],
+                                StepDuration = TimeSpan.Parse($"{DetailList[u + 1]}:{DetailList[u + 2]}").ToDuration()
+                            });
+
+                            u += 3;
+                        }
+                    }
+                    else{
+                        Console.WriteLine("result.StepCount == 0");
                     }
                 }
 
