@@ -88,7 +88,6 @@ namespace UI.Services
                     {
                         result.PatternItems.Add(new PatternItem()
                         {
-                            Id = item.DetailId,
                             Step = item.Step,
                             Temp = item.Temp,
                             StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes

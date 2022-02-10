@@ -20,6 +20,10 @@ namespace UI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    #if RELEASE
+                    webBuilder.UseUrls("http://*:8000");
+                    #endif
+                    
                     webBuilder.UseStartup<Startup>();
                 });
     }

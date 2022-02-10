@@ -33,7 +33,7 @@ namespace UI.Pages.Index
 
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            Reload();
+
         }
 
         protected override void OnInitialized()
@@ -61,12 +61,16 @@ namespace UI.Pages.Index
 
         private async Task MonitorDevice()
         {
+
             if (Globals.ServiceConnected && Globals.PlcConnected)
             {
                 using (var response = await OvenService.MonitorDevice())
                 {
                     while (await response.ResponseStream.MoveNext(CancellationToken.None))
                     {
+                        Globals.ServiceConnected = OvenService.GrpcConnect();
+                        Globals.PlcConnected = OvenService.PLCConnect();
+
                         MachineMonitor Monitor = new MachineMonitor();
 
                         Monitor.Temp = new Models.Temp()
@@ -94,7 +98,7 @@ namespace UI.Pages.Index
                             CurrentStep = response.ResponseStream.Current.Status.CurrentStep,
                             PatternStatus = (PatternStatus)response.ResponseStream.Current.Status.PatternStatus,
                             RemainHours = (int)TimeSpan.FromSeconds(response.ResponseStream.Current.Status.RemainHours.Seconds).TotalHours,
-                            RemainMins = (int)TimeSpan.FromSeconds(response.ResponseStream.Current.Status.RemainHours.Seconds).TotalMinutes
+                            RemainMins = (int)TimeSpan.FromSeconds(response.ResponseStream.Current.Status.RemainMins.Seconds).TotalMinutes
                         };
 
                         if (!object.Equals(Globals.GlobalMonitor.Status.Operation, Monitor.Status.Operation))
@@ -103,18 +107,17 @@ namespace UI.Pages.Index
                             {
                                 Globals.GlobalPattern.PatternNumber = Monitor.Status.PatternId;
                                 NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Runing" });
+
                             }
                             else
                             {
                                 Globals.GlobalPattern.PatternNumber = 0;
                                 NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Stoped" });
                             }
-
-                            Reload();
                         }
 
                         Globals.GlobalMonitor = Monitor;
-                        await Task.Delay(1000);
+                        Reload();
                     }
                 }
             }

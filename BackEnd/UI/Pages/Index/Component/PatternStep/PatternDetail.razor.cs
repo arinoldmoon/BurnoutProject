@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -27,8 +26,6 @@ namespace UI.Pages.Index.Component.PatternStep
         protected GlobalService Globals { get; set; }
 
         protected RadzenDataGrid<PatternItem> OvenStepGrid;
-
-
 
         public void Reload()
         {
@@ -103,10 +100,11 @@ namespace UI.Pages.Index.Component.PatternStep
 
         protected void Next(MouseEventArgs args)
         {
-            Globals.GlobalPattern = new Pattern();
-            Globals.GlobalPattern = PatternData;
-            Globals.GlobalPattern.StepCount = PatternData.PatternItems.Count;
+            PatternData.PatternNumber = 99;
+            PatternData.PatternName = "New Program";
+            PatternData.StepCount = PatternData.PatternItems.Count();
 
+            Globals.GlobalPattern = PatternData;
             DialogService.Close(null);
         }
     }

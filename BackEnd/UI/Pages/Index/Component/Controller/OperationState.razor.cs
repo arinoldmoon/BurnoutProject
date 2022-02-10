@@ -35,18 +35,23 @@ namespace UI.Pages.Index.Component.Controller
 
         public RadzenDataGrid<PatternItem> OvenStepGrid;
 
-        public async void OnPropertyChanged(PropertyChangedEventArgs args)
+        public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            if (args.Name == "GlobalPattern")
+
+            if (args.Name == "GlobalMonitor")
             {
-                await CheckName(SelectedPattern);
+                CurrentPattern = SelectedPattern.PatternItems.Where(x => x.Step == Globals.GlobalMonitor.Status.CurrentStep).ToList();
             }
+
+            StateHasChanged();
+
         }
 
         protected override async Task OnInitializedAsync()
         {
             SelectedPattern = new Pattern();
             Globals.PropertyChanged += OnPropertyChanged;
+
             await base.OnInitializedAsync();
         }
 
@@ -57,23 +62,16 @@ namespace UI.Pages.Index.Component.Controller
                 if (Globals.GlobalMonitor.Status.Operation)
                 {
                     SelectedPattern = await OperationService.CurrentPattern();
+                    Globals.GlobalPattern.PatternItems = SelectedPattern.PatternItems;
 
-                    if (SelectedPattern.PatternNumber == 99)
-                    {
-                        SelectedPattern.PatternName = "New Program";
-                    }
-                    else
-                    {
-                        await CheckName(SelectedPattern);
-                    }
-
-                    Globals.GlobalPattern = SelectedPattern;
+                    await CheckName(SelectedPattern);
                 }
                 else
                 {
                     SelectedPattern = Globals.GlobalPattern;
                 }
 
+                CurrentPattern = SelectedPattern.PatternItems.Where(x => x.Step == Globals.GlobalMonitor.Status.CurrentStep).ToList();
                 StateHasChanged();
             }
         }
@@ -112,31 +110,26 @@ namespace UI.Pages.Index.Component.Controller
 
         private async Task CheckName(Pattern pattern)
         {
-            var check = (await PatternServices.GetPatternByID(SelectedPattern.PatternNumber));
-
-            var DB = check.PatternItems;
-            var PLC = pattern.PatternItems;
-
-            bool res = false;
-
-            foreach (var itemPLC in PLC)
+            if (Globals.GlobalMonitor.Status.Operation)
             {
-                foreach (var itemDB in DB)
+                if (pattern.PatternNumber == 99)
                 {
-                    res = object.Equals(itemPLC.Step, itemDB.Step);
-                    res = object.Equals(itemPLC.Temp, itemDB.Temp);
-                    res = object.Equals(itemPLC.StepDuration, itemDB.StepDuration);
+                    SelectedPattern.PatternName = "New Program";
+                }
+                else
+                {
+                    var PatternByID = (await PatternServices.GetPatternByID(SelectedPattern.PatternNumber));
+                    if (PatternByID != null)
+                    {
+                        SelectedPattern = PatternByID;
+                    }
+                    else
+                    {
+                        Console.WriteLine("GetPatternByID = Null");
+                    }
                 }
             }
-
-            if (res)
-            {
-                SelectedPattern.PatternName = check.PatternName;
-            }
-            else
-            {
-                SelectedPattern.PatternName = check.PatternName + " (Edit)";
-            }
         }
+
     }
 }

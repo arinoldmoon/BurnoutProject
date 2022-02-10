@@ -60,32 +60,32 @@ namespace UI.Services
             Pattern result = new Pattern();
             ProtoPattern response = await client.GetPatternAsync(new Int32Value() { Value = PatternNumber });
 
-            result.PatternNumber = response.PatternId;
-            result.PatternName = response.PatternName;
-            result.StepCount = response.StepCount;
-            result.TotalTime = (int)TimeSpan.FromSeconds(response.TotalTime.Seconds).TotalMinutes;
-
-            result.Airpump = new AirPumpSetting()
+            if (response != null)
             {
-                Id = response.AirPump.Id,
-                StartTemp = response.AirPump.StartTemp,
-                EndTemp = response.AirPump.EndTemp,
-                DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
-            };
+                result.PatternNumber = response.PatternId;
+                result.PatternName = response.PatternName;
+                result.StepCount = response.StepCount;
+                result.TotalTime = (int)TimeSpan.FromSeconds(response.TotalTime.Seconds).TotalMinutes;
 
-            foreach (var item in response.PatternDetail)
-            {
-                PatternItem pattern = new PatternItem()
+                result.Airpump = new AirPumpSetting()
                 {
-                    Id = item.DetailId,
-                    Step = item.Step,
-                    Temp = item.Temp,
-                    StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
+                    StartTemp = response.AirPump.StartTemp,
+                    EndTemp = response.AirPump.EndTemp,
+                    DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
                 };
-                result.PatternItems.Add(pattern);
+
+                foreach (var item in response.PatternDetail)
+                {
+                    PatternItem pattern = new PatternItem()
+                    {
+                        Step = item.Step,
+                        Temp = item.Temp,
+                        StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
+                    };
+                    result.PatternItems.Add(pattern);
+                }
             }
 
-            await Task.CompletedTask;
             return result;
         }
     }
