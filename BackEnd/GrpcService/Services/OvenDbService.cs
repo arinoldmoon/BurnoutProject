@@ -125,7 +125,7 @@ namespace GrpcService.Services
         public async Task<bool> CreatePattern(Pattern pattern)
         {
             bool IsSuccess = false;
-            string createdDate = DateTime.Now.ToUniversalTime().ToString();
+            string createdDate = DateTime.Now.ToUniversalTime().ToString("dd/MM/yyyy HH:mm");
 
             try
             {
@@ -145,7 +145,7 @@ namespace GrpcService.Services
         public async Task<bool> UpdatePattern(Pattern newPattern)
         {
             bool IsSuccess = false;
-            string modidyDate = DateTime.Now.ToUniversalTime().ToString();
+            string modidyDate = DateTime.Now.ToUniversalTime().ToString("dd/MM/yyyy HH:mm");
 
             try
             {

@@ -61,16 +61,12 @@ namespace UI.Pages.Index
 
         private async Task MonitorDevice()
         {
-
             if (Globals.ServiceConnected && Globals.PlcConnected)
             {
                 using (var response = await OvenService.MonitorDevice())
                 {
                     while (await response.ResponseStream.MoveNext(CancellationToken.None))
                     {
-                        Globals.ServiceConnected = OvenService.GrpcConnect();
-                        Globals.PlcConnected = OvenService.PLCConnect();
-
                         MachineMonitor Monitor = new MachineMonitor();
 
                         Monitor.Temp = new Models.Temp()
@@ -86,7 +82,8 @@ namespace UI.Pages.Index
                             CoilOven = response.ResponseStream.Current.Coil.CoilOven,
                             CoilAFB = response.ResponseStream.Current.Coil.CoilAFB,
                             CoilFloor = response.ResponseStream.Current.Coil.CoilFloor,
-                            CoilTube = response.ResponseStream.Current.Coil.CoilTube
+                            CoilTube = response.ResponseStream.Current.Coil.CoilTube,
+                            CoilPump = response.ResponseStream.Current.Coil.CoilPump
                         };
 
                         Monitor.Status = new mcStatus()
@@ -106,13 +103,11 @@ namespace UI.Pages.Index
                             if (Monitor.Status.Operation)
                             {
                                 Globals.GlobalPattern.PatternNumber = Monitor.Status.PatternId;
-                                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Runing" });
-
+                                PercenValue = ProcressPercen(Monitor.Status.CurrentStep, Monitor.Status.TotalStep);
                             }
                             else
                             {
                                 Globals.GlobalPattern.PatternNumber = 0;
-                                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Stoped" });
                             }
                         }
 
@@ -127,6 +122,6 @@ namespace UI.Pages.Index
             }
         }
 
-        private int ProcressPercen(int current, int total) => (int)((current / total) * 100);
+        private int ProcressPercen(decimal current, decimal total) => (int)((current / total) * 100);
     }
 }

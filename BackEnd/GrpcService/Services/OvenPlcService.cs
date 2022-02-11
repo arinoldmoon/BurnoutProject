@@ -104,9 +104,9 @@ namespace GrpcService.Services
 
             CoilSensor.CoilOven = CoilResult[0];
             CoilSensor.CoilAFB = CoilResult[1];
-            CoilSensor.CoilFloor = CoilResult[2];
-            CoilSensor.CoilTube = CoilResult[3];
-            CoilSensor.CoilPump = CoilResult[4];
+            CoilSensor.CoilTube = CoilResult[2];
+            CoilSensor.CoilPump = CoilResult[3];
+            CoilSensor.CoilFloor = CoilResult[4];
 
             return CoilSensor;
         }
@@ -137,32 +137,33 @@ namespace GrpcService.Services
                         Status.RemainMins = TimeSpan.FromMinutes(StatusResult).ToDuration();
                         break;
                     case 574:
-                        Status.RemainHours = TimeSpan.FromMinutes(StatusResult).ToDuration();
+                        Status.RemainHours = TimeSpan.FromHours(StatusResult).ToDuration();
                         break;
                 }
             }
 
             ushort[] StatusList = { 601, 602, 603, 607 };
-            foreach (var item in StatusList)
+            Status.PatternStatus = PatternStatus.Standby;
+            
+            foreach (ushort item in StatusList)
             {
-                bool Result = (await _Device.ReadCoilsAsync(1, item, 1))[0];
-                switch (item)
+                if ((await _Device.ReadCoilsAsync(1, item, 1))[0])
                 {
-                    case 601:
-                        Status.PatternStatus = (Result) ? PatternStatus.Down : PatternStatus.Standby;
-                        break;
-                    case 602:
-                        Status.PatternStatus = (Result) ? PatternStatus.Up : PatternStatus.Standby;
-                        break;
-                    case 603:
-                        Status.PatternStatus = (Result) ? PatternStatus.Stable : PatternStatus.Standby;
-                        break;
-                    case 607:
-                        Status.PatternStatus = (Result) ? PatternStatus.End : PatternStatus.Standby;
-                        break;
-                    default:
-                        Status.PatternStatus = PatternStatus.Standby;
-                        break;
+                    switch (item)
+                    {
+                        case 601:
+                            Status.PatternStatus = PatternStatus.Down;
+                            break;
+                        case 602:
+                            Status.PatternStatus = PatternStatus.Up;
+                            break;
+                        case 603:
+                            Status.PatternStatus = PatternStatus.Stable;
+                            break;
+                        case 607:
+                            Status.PatternStatus = PatternStatus.End;
+                            break;
+                    }
                 }
             }
 
@@ -279,7 +280,8 @@ namespace GrpcService.Services
                             u += 3;
                         }
                     }
-                    else{
+                    else
+                    {
                         Console.WriteLine("result.StepCount == 0");
                     }
                 }

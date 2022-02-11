@@ -37,10 +37,9 @@ namespace UI.Pages.Index.Component.Controller
 
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-
             if (args.Name == "GlobalMonitor")
             {
-                CurrentPattern = SelectedPattern.PatternItems.Where(x => x.Step == Globals.GlobalMonitor.Status.CurrentStep).ToList();
+                CurrentPattern = SelectedPattern.PatternItems.Where(x => x.Step == Globals.GlobalMonitor.Status.CurrentStep).ToList();                
             }
 
             StateHasChanged();
@@ -89,19 +88,25 @@ namespace UI.Pages.Index.Component.Controller
 
         public async Task StartOperation(MouseEventArgs args)
         {
-            await OperationService.StartOpration(Globals.GlobalPattern);
+            bool response = await OperationService.StartOpration(Globals.GlobalPattern);
+            if(response)
+            {
+                 NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Runing" });
+            }
+
         }
 
         public async Task StopOperation(MouseEventArgs args)
         {
             if (await DialogServices.Confirm("Are you sure you want to cancel this operation?") == true)
             {
-                var Stop = await OperationService.StopOperation();
-                if (Stop)
+                var response = await OperationService.StopOperation();
+                if (response)
                 {
                     Globals.GlobalPattern = new Pattern();
                     Globals.GlobalPattern.Airpump = new AirPumpSetting();
                     Globals.GlobalPattern.PatternItems.Clear();
+                    NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Stoped" });
                 }
             }
 

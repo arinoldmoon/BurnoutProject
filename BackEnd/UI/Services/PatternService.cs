@@ -48,7 +48,7 @@ namespace UI.Services
             }
             catch (RpcException ex)
             {
-                Console.WriteLine($"GetMachineInfo Error {ex.StatusCode} : {ex.Message}");
+                Console.WriteLine($"GetPatternList Error {ex.StatusCode} : {ex.Message}");
                 return new List<Pattern>(); ;
             }
 

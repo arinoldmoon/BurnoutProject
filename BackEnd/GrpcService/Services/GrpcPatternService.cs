@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -33,8 +34,8 @@ namespace GrpcService.Services
                 res.PatternName = result.PatternName;
                 res.StepCount = result.StepCount;
                 res.TotalTime = TimeSpan.FromMinutes(result.TotalTime).ToDuration();
-                res.CreateDate = !String.IsNullOrEmpty(result.CreateDate) ? DateTime.Parse(result.CreateDate).ToUniversalTime().ToTimestamp() : null;
-                res.ModifyDate = !String.IsNullOrEmpty(result.ModifyDate) ? DateTime.Parse(result.ModifyDate).ToUniversalTime().ToTimestamp() : null;
+                res.CreateDate = !String.IsNullOrEmpty(result.CreateDate) ? DateTime.ParseExact(result.CreateDate, "dd/MM/yyyy HH:mm",CultureInfo.InvariantCulture).ToUniversalTime().ToTimestamp() : null;
+                res.ModifyDate = !String.IsNullOrEmpty(result.ModifyDate) ? DateTime.ParseExact(result.ModifyDate, "dd/MM/yyyy HH:mm",CultureInfo.InvariantCulture).ToUniversalTime().ToTimestamp() : null;
 
                 response.Pattern.Add(res);
             }
@@ -47,7 +48,7 @@ namespace GrpcService.Services
             _logger.LogInformation("Call GRPC -> GetPattern");
             ProtoPattern response = new ProtoPattern();
 
-            var resultFromDB = await _dbService.GetPattern(request.Value);
+            Pattern resultFromDB = await _dbService.GetPattern(request.Value);
             if (resultFromDB != null)
             {
                 response.PatternId = resultFromDB.PatternNumber;
@@ -72,8 +73,8 @@ namespace GrpcService.Services
 
                     response.PatternDetail.Add(detail);
                 }
-                response.CreateDate = !String.IsNullOrEmpty(resultFromDB.CreateDate) ? DateTime.Parse(resultFromDB.CreateDate).ToUniversalTime().ToTimestamp() : null;
-                response.ModifyDate = !String.IsNullOrEmpty(resultFromDB.ModifyDate) ? DateTime.Parse(resultFromDB.ModifyDate).ToUniversalTime().ToTimestamp() : null;
+                response.CreateDate = !String.IsNullOrEmpty(resultFromDB.CreateDate) ? DateTime.ParseExact(resultFromDB.CreateDate, "dd/MM/yyyy HH:mm",CultureInfo.InvariantCulture).ToUniversalTime().ToTimestamp() : null;
+                response.ModifyDate = !String.IsNullOrEmpty(resultFromDB.ModifyDate) ? DateTime.ParseExact(resultFromDB.ModifyDate, "dd/MM/yyyy HH:mm",CultureInfo.InvariantCulture).ToUniversalTime().ToTimestamp() : null;
             }
 
             return response;
@@ -122,7 +123,7 @@ namespace GrpcService.Services
             };
             foreach (var item in request.PatternDetail)
             {
-                var list = new PatternItem()
+                PatternItem list = new PatternItem()
                 {
                     Id = item.DetailId,
                     Step = item.Step,
