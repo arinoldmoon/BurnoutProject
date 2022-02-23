@@ -135,6 +135,8 @@ namespace UI.Services
             }
 
             var status =  client.UpdatePattern(request);
+            
+            await Task.CompletedTask;
 
             return status.Value;
         }
