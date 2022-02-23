@@ -57,13 +57,10 @@ message ProtoOvenSetting {
     int32 AfbStartTemp = 2;
     int32 AfbEndTemp  = 3;
     int32 AfbDelay  = 4;
-    int32 PumpStartTemp  = 5;
-    int32 PumpEndTemp = 6;
-    int32 PumpDelay  = 7;
-    int32 TubeStartTemp = 8;
-    int32 FloorStartTemp = 9;
-    int32 AlarmOven = 10;
-    int32 AlarmAfb = 11;
+    int32 TubeStartTemp = 5;
+    int32 FloorStartTemp = 6;
+    int32 AlarmOven = 7;
+    int32 AlarmAfb = 8;
 }
 
 message ProtoOvenResponse {

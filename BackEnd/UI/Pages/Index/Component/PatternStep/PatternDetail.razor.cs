@@ -25,6 +25,9 @@ namespace UI.Pages.Index.Component.PatternStep
         [Inject]
         protected GlobalService Globals { get; set; }
 
+        [Inject]
+        protected PatternService PatternService { get; set; }
+
         protected RadzenDataGrid<PatternItem> OvenStepGrid;
 
         public void Reload()
@@ -105,6 +108,33 @@ namespace UI.Pages.Index.Component.PatternStep
             PatternData.StepCount = PatternData.PatternItems.Count();
 
             Globals.GlobalPattern = PatternData;
+            DialogService.Close(null);
+        }
+
+        protected async Task Save(MouseEventArgs args)
+        {
+            bool status = false;            
+
+            // if (PatternData.PatternNumber != 0)
+            // {
+                status = await PatternService.UpdatePatternToDB(PatternData);
+            // }
+            // else
+            // {
+            //     status = await PatternService.CreatePattern(PatternData);
+            // }
+
+            if (status)
+            {
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Update Pattern", Detail = $"Success" });
+                Globals.GlobalPattern = PatternData;
+            }
+            else
+            {
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Update Pattern", Detail = $"Not Success" });
+                Dispose();
+            }
+
             DialogService.Close(null);
         }
     }

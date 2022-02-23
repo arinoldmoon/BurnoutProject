@@ -22,21 +22,28 @@ namespace UI.Shared
 
         public MachineInfo Info { get; set; } = new MachineInfo();
         public string MachineModel { get; set; } = "GrpcService NotConnection";
-        private bool IsConnected = false;
 
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
         }
 
-        protected override void OnInitialized()
+        public void Reload()
+        {
+            InvokeAsync(StateHasChanged);
+        }
+
+        protected override async Task OnInitializedAsync()
         {
             Globals.PropertyChanged += OnPropertyChanged;
-            IsConnected = service.GrpcConnect();
 
-            if (IsConnected)
+            if (service.GrpcConnect())
             {
                 MachineModel = "S6 Eco (Fixed)";
                 Globals.ServiceConnected = true;
+                Globals.PlcConnected = service.PLCConnect();
+
+                Info = await service.GetMachineInfo();
+                Reload();
             }
         }
 
@@ -45,14 +52,6 @@ namespace UI.Shared
             if (firstRender)
             {
                 await SidebarToggleClick();
-
-                if (IsConnected)
-                {
-                    Globals.PlcConnected = service.PLCConnect();
-                    Info = await service.GetMachineInfo();
-
-                    StateHasChanged();
-                }
             }
         }
 

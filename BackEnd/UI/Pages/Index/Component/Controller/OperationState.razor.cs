@@ -24,22 +24,28 @@ namespace UI.Pages.Index.Component.Controller
         protected PatternService PatternServices { get; set; }
 
         [Inject]
+        protected OvenService OvenService { get; set; }
+
+        [Inject]
         protected OperationService OperationService { get; set; }
 
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
+        public RadzenDataGrid<PatternItem> OvenStepGrid;
+
         public Pattern SelectedPattern { get; set; }
 
-        public IList<PatternItem> CurrentPattern;
+        public MachineSetting Setting { get; set; }
 
-        public RadzenDataGrid<PatternItem> OvenStepGrid;
+        public IList<PatternItem> CurrentPattern { get; set; }
+
 
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             if (args.Name == "GlobalMonitor")
             {
-                CurrentPattern = SelectedPattern.PatternItems.Where(x => x.Step == Globals.GlobalMonitor.Status.CurrentStep).ToList();                
+                CurrentPattern = SelectedPattern.PatternItems.Where(x => x.Step == Globals.GlobalMonitor.Status.CurrentStep).ToList();
             }
 
             StateHasChanged();
@@ -49,6 +55,8 @@ namespace UI.Pages.Index.Component.Controller
         protected override async Task OnInitializedAsync()
         {
             SelectedPattern = new Pattern();
+            Setting = await OvenService.GetMachineSetting();
+
             Globals.PropertyChanged += OnPropertyChanged;
 
             await base.OnInitializedAsync();
@@ -61,6 +69,7 @@ namespace UI.Pages.Index.Component.Controller
                 if (Globals.GlobalMonitor.Status.Operation)
                 {
                     SelectedPattern = await OperationService.CurrentPattern();
+                    Globals.GlobalPattern.Airpump = SelectedPattern.Airpump;
                     Globals.GlobalPattern.PatternItems = SelectedPattern.PatternItems;
 
                     await CheckName(SelectedPattern);
@@ -89,9 +98,9 @@ namespace UI.Pages.Index.Component.Controller
         public async Task StartOperation(MouseEventArgs args)
         {
             bool response = await OperationService.StartOpration(Globals.GlobalPattern);
-            if(response)
+            if (response)
             {
-                 NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Runing" });
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Runing" });
             }
 
         }

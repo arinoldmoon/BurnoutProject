@@ -19,15 +19,6 @@ namespace UI.Models
         public int AfbDelay { get; set; }
 
         [Required]
-        public int PumpStartTemp { get; set; }
-
-        [Required]
-        public int PumpEndTemp { get; set; }
-
-        [Required]
-        public int PumpDelay { get; set; }
-
-        [Required]
         public int TubeStartTemp { get; set; }
 
         [Required]

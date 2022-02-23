@@ -75,9 +75,6 @@ namespace GrpcService.Services
             response.AfbStartTemp = result.AfbStartTemp;
             response.AfbEndTemp = result.AfbEndTemp;
             response.AfbDelay = result.AfbDelay;
-            response.PumpStartTemp = result.PumpStartTemp;
-            response.PumpEndTemp = result.PumpEndTemp;
-            response.PumpDelay = result.PumpDelay;
             response.TubeStartTemp = result.TubeStartTemp;
             response.FloorStartTemp = result.FloorStartTemp;
             response.AlarmOven = result.AlarmOven;
@@ -94,9 +91,6 @@ namespace GrpcService.Services
             setting.AfbStartTemp = request.AfbStartTemp;
             setting.AfbEndTemp = request.AfbEndTemp;
             setting.AfbDelay = request.AfbDelay;
-            setting.PumpStartTemp = request.PumpStartTemp;
-            setting.PumpEndTemp = request.PumpEndTemp;
-            setting.PumpDelay = request.PumpDelay;
             setting.TubeStartTemp = request.TubeStartTemp;
             setting.FloorStartTemp = request.FloorStartTemp;
             setting.AlarmOven = request.AlarmOven;

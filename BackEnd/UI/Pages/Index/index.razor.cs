@@ -33,7 +33,10 @@ namespace UI.Pages.Index
 
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-
+            if(args.Name == "GlobalPattern")
+            {
+                Reload();
+            }
         }
 
         protected override void OnInitialized()

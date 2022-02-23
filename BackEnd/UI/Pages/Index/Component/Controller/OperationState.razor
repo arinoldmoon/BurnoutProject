@@ -3,48 +3,86 @@
 <RadzenCard>
     <div class="row">
         <div class="col-md-12">
-            <RadzenLabel Text=@($"Program : [{SelectedPattern.PatternNumber}] {SelectedPattern.PatternName}")></RadzenLabel>     
+            <RadzenLabel Text=@($"Program : [{SelectedPattern.PatternNumber}] {SelectedPattern.PatternName}")>
+            </RadzenLabel>
         </div>
     </div>
-     <div class="row" style="margin-top: 15px;">
+    <div class="row" style="margin-top: 15px;">
         <div class="col-md-12">
-            <RadzenTabs>
+            <RadzenTabs style="min-height:400px;">
                 <Tabs>
-                        <RadzenTabsItem Text="Step">
-                            <RadzenDataGrid @ref="OvenStepGrid" AllowVirtualization="true" AllowRowSelectOnRowClick="false" AllowFiltering="false"  AllowPaging="false" AllowSorting="false" 
-                                            Data="@(SelectedPattern.PatternItems)" TItem="PatternItem" Style="max-height:140px;"
-                                            SelectionMode="DataGridSelectionMode.Single" @bind-Value=@CurrentPattern>                                 
-                                <Columns>
-                                    <RadzenDataGridColumn TItem="PatternItem" Property="Step" Title="Step No" TextAlign="TextAlign.Center" Width="70px"/>
-                                    <RadzenDataGridColumn TItem="PatternItem" Property="Temp" Title="Temp" TextAlign="TextAlign.Center" />
-                                    <RadzenDataGridColumn TItem="PatternItem" Title="Duration" TextAlign="TextAlign.Center">
-                                        <Template Context="data">
-                                            @TimeSpan.FromMinutes(data.StepDuration).ToString(@"hh\:mm") Hrs.
-                                        </Template>
-                                    </RadzenDataGridColumn>
-                                </Columns>
-                            </RadzenDataGrid>                         
-                        </RadzenTabsItem>
-                        <RadzenTabsItem Text="Other"></RadzenTabsItem>
-                    </Tabs>
+                    <RadzenTabsItem Text="Step">
+                        <RadzenDataGrid @ref="OvenStepGrid" AllowVirtualization="true" AllowRowSelectOnRowClick="false"
+                            AllowFiltering="false" AllowPaging="false" AllowSorting="false"
+                            Data="@(SelectedPattern.PatternItems)" TItem="PatternItem" Style="max-height:465px;"
+                            SelectionMode="DataGridSelectionMode.Single" @bind-Value=@CurrentPattern>
+                            <Columns>
+                                <RadzenDataGridColumn TItem="PatternItem" Property="Step" Title="Step"
+                                    TextAlign="TextAlign.Center" Width="80px">
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="PatternItem" Property="Temp" Title="Temp"
+                                    TextAlign="TextAlign.Center" Width="80px">
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="PatternItem" Title="Duration" TextAlign="TextAlign.Center">
+                                    <Template Context="data">
+                                        @TimeSpan.FromMinutes(data.StepDuration).ToString(@"hh\:mm") Hrs.
+                                    </Template>
+                                </RadzenDataGridColumn>
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenTabsItem>
+                    <RadzenTabsItem Text="Heating">
+                        <RadzenHeading Text="Tube Heater" Size="H4" style="margin-bottom: -5px;"></RadzenHeading>
+                        <RadzenLabel Text="On when temperature reach"></RadzenLabel>
+                        <RadzenLabel Text=@($"{Setting.TubeStartTemp} °C") style="font-weight: bold;"></RadzenLabel>
+                        <hr>
+                        <RadzenHeading Text="Floor Heater" Size="H4" style="margin-bottom: -5px;"></RadzenHeading>
+                        <RadzenLabel Text="On when temperature reach"></RadzenLabel>
+                        <RadzenLabel Text=@($"{Setting.FloorStartTemp} °C") style="font-weight: bold;"></RadzenLabel>
+                        <hr>
+                        <RadzenHeading Text="After Burner" Size="H4" style="margin-bottom: -5px;"></RadzenHeading>
+                        <RadzenLabel Text="On when temperature reach"></RadzenLabel>
+                        <RadzenLabel Text=@($"{Setting.AfbStartTemp} °C") style="font-weight: bold;"></RadzenLabel>
+                        <br />
+                        <RadzenLabel Text="Off when temperature reach"></RadzenLabel>
+                        <RadzenLabel Text=@($"{Setting.AfbEndTemp} °C") style="font-weight: bold;"></RadzenLabel> <br />
+                        <RadzenLabel Text="Turn off delay"></RadzenLabel>
+                        <RadzenLabel Text=@($"{Setting.AfbDelay} Min") style="font-weight: bold;"></RadzenLabel>
+                        <hr>
+                        <RadzenHeading Text="Overheat Alarm" Size="H4" style="margin-bottom: -5px;"></RadzenHeading>
+                        <RadzenLabel Text="Oven temperature limit at" ></RadzenLabel>
+                        <RadzenLabel Text=@($"{Setting.AlarmOven} °C") style="font-weight: bold;"></RadzenLabel> <br />
+                        <RadzenLabel Text="After burner temperature limit at "></RadzenLabel>
+                        <RadzenLabel Text=@($"{Setting.AlarmAfb} °C") style="font-weight: bold;"></RadzenLabel>
+                    </RadzenTabsItem>
+                    <RadzenTabsItem Text="Setting">
+                        <RadzenHeading Text="Air Flow Settings" Size="H4" style="margin-bottom: -5px;"></RadzenHeading>
+                        <RadzenLabel Text="On when temperature reach"></RadzenLabel><RadzenLabel Text=@($"{Globals.GlobalPattern.Airpump.StartTemp} °C") style="font-weight: bold;"></RadzenLabel><br />
+                        <RadzenLabel Text="Off when temperature reach"></RadzenLabel><RadzenLabel Text=@($"{Globals.GlobalPattern.Airpump.EndTemp} °C") style="font-weight: bold;"></RadzenLabel><br />
+                        <RadzenLabel Text="Turn off delay"></RadzenLabel><RadzenLabel Text=@($"{Globals.GlobalPattern.Airpump.DelayDuration} Min") style="font-weight: bold;"></RadzenLabel>
+                        <hr>
+                    </RadzenTabsItem>
+                </Tabs>
             </RadzenTabs>
+        </div>
+    </div>
+    @if (!Globals.GlobalMonitor.Status.Operation)
+    {
+        <div class="row" style="margin-top:15px;">
+            <div class="col-md-12">
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Text="Edit" Style="width:100%;"
+                Click="@(args => EditProgramClick(args))"></RadzenButton>
             </div>
-        </div>  
-        @if(!Globals.GlobalMonitor.Status.Operation)
-        {
-             <div class="row" style="margin-top:15px;">
-                <div class="col-md-12">
-                    <RadzenButton ButtonStyle="ButtonStyle.Warning" Text="Edit" Style="width:100%;" Click="@(args => EditProgramClick(args))"></RadzenButton>
-                </div>
-            </div>
-        }     
-</RadzenCard>
-<RadzenCard style="margin-top: 15px;">
-    @if (Globals.GlobalMonitor.Status.Operation)
+        </div>
+    }
+    </RadzenCard>
+    <RadzenCard style="margin-top: 15px;">
+        @if (Globals.GlobalMonitor.Status.Operation)
     {
         <div class="row">
             <div class="col">
-                <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Stop Operation" Style="width:100%;" Click="@(args => StopOperation(args))"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Stop Operation" Style="width:100%;"
+                Click="@(args => StopOperation(args))"></RadzenButton>
             </div>
         </div>
     }
@@ -52,13 +90,12 @@
     {
         <div class="row">
             <div class="col">
-                <RadzenButton Click="@(args => StartOperation(args))" Text="Start Operation"  Style="width:235px;" ButtonStyle="ButtonStyle.Success">                                  
+                <RadzenButton Click="@(args => StartOperation(args))" Text="Start Operation" Style="width:235px;"
+                ButtonStyle="ButtonStyle.Success">
                 </RadzenButton>
-                <RadzenButton Click="@(args => CancelProgram(args))" Icon="close" ButtonStyle="ButtonStyle.Danger">                 
-                </RadzenButton>                
+                <RadzenButton Click="@(args => CancelProgram(args))" Icon="close" ButtonStyle="ButtonStyle.Danger">
+                </RadzenButton>
             </div>
-        </div>        
+        </div>
     }
-</RadzenCard>
-
-
+    </RadzenCard>

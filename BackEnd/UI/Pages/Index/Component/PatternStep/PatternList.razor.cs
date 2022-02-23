@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +20,10 @@ namespace UI.Pages.Index.Component.PatternStep
         protected PatternService Service { get; set; }
 
         [Inject]
-        protected GlobalService Globals { get; set; }
+        protected NotificationService NotificationService { get; set; }
 
         [Inject]
-        protected NotificationService NotificationService { get; set; }
+        protected GlobalService Globals { get; set; }
 
         public IEnumerable<Pattern> PatternList { get; set; }
 
@@ -51,13 +52,18 @@ namespace UI.Pages.Index.Component.PatternStep
 
         public async Task GetPatternList(LoadDataArgs args)
         {
-            IEnumerable<Pattern> Result = new List<Pattern>();
+            List<Pattern> Result = new List<Pattern>();
             if (Globals.ServiceConnected)
             {
-                Result = await Service.GetPatternListAsync();
+                Result = (await Service.GetPatternListAsync()).ToList();
+
                 if (Result.Any())
                 {
                     PatternList = Result;
+                }
+                else
+                {
+                    NotificationService.Notify(NotificationSeverity.Error, "GetPatternList", "Empty List");
                 }
             }
         }

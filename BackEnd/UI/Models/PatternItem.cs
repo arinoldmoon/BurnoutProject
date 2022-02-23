@@ -6,16 +6,14 @@ namespace UI.Models
 {
     public class PatternItem
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int DetailId { get; set; }
 
-        [Required]
+        public int PatternId { get; set; }
+
         public int Step { get; set; }
 
-        [Required]
         public int Temp { get; set; }
 
-        [Required]
         public int StepDuration { get; set; }
     }
 }

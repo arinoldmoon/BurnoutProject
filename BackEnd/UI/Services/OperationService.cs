@@ -84,6 +84,13 @@ namespace UI.Services
                     result.PatternNumber = response.PatternId;
                     result.StepCount = response.StepCount;
 
+                    result.Airpump = new AirPumpSetting()
+                    {
+                        StartTemp = response.AirPump.StartTemp,
+                        EndTemp = response.AirPump.EndTemp,
+                        DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
+                    };
+
                     foreach (var item in response.PatternDetail)
                     {
                         result.PatternItems.Add(new PatternItem()

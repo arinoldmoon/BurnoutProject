@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.AspNetCore.Components;
 using UI.Models;
 using UI.Protos;
 using static UI.Protos.PatternProto;
@@ -15,7 +18,8 @@ namespace UI.Services
         private GrpcChannel channel { get; set; }
         private PatternProtoClient client { get; set; }
 
-        private bool GrpcIsConnected { get { return OvenService.GrpcIsConnected; } }
+        [Inject]
+        protected GlobalService Globals { get; set; }
 
         public PatternService(string IP)
         {
@@ -25,14 +29,14 @@ namespace UI.Services
             client = new PatternProtoClient(channel);
         }
 
-        public async Task<IEnumerable<Pattern>> GetPatternListAsync()
+        public async Task<List<Pattern>> GetPatternListAsync()
         {
             List<Pattern> PatternList = new List<Pattern>();
             try
             {
-                if (GrpcIsConnected)
+                ProtoPatternList response = (await client.GetPatternListAsync(new Empty()));
+                if (response.Pattern.Any())
                 {
-                    var response = (await client.GetPatternListAsync(new Empty()));
                     foreach (var item in response.Pattern)
                     {
                         Pattern pattern = new Pattern()
@@ -69,6 +73,7 @@ namespace UI.Services
 
                 result.Airpump = new AirPumpSetting()
                 {
+                    Id = response.AirPump.Id,
                     StartTemp = response.AirPump.StartTemp,
                     EndTemp = response.AirPump.EndTemp,
                     DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
@@ -78,6 +83,8 @@ namespace UI.Services
                 {
                     PatternItem pattern = new PatternItem()
                     {
+                        DetailId = item.DetailId,
+                        PatternId = item.PatternId,
                         Step = item.Step,
                         Temp = item.Temp,
                         StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
@@ -87,6 +94,78 @@ namespace UI.Services
             }
 
             return result;
+        }
+
+        public async Task<bool> UpdatePatternToDB(Pattern pattern)
+        {
+            ProtoPattern request = new ProtoPattern();
+            // ProtoAirpump air = new ProtoAirpump();
+
+            // request.PatternId = pattern.PatternNumber;
+            // request.PatternName = pattern.PatternName;
+            // request.StepCount = pattern.StepCount;
+            // request.TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration();
+            // // request.AirPump = new ProtoAirpump()      
+            // // {
+            // //     Id = pattern.Airpump.Id,
+            // //     StartTemp = pattern.Airpump.StartTemp,
+            // //     EndTemp = pattern.Airpump.EndTemp,
+            // //     DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
+            // // }; 
+
+            // air.Id = pattern.Airpump.Id;
+            // air.StartTemp = pattern.Airpump.StartTemp;
+            // air.EndTemp = pattern.Airpump.EndTemp;
+            // air.DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration();
+
+            // request.AirPump = air;
+
+
+
+            foreach (var item in pattern.PatternItems)
+            {
+                request.PatternDetail.Add(new ProtoPatternDetail()
+                {
+                    DetailId = item.DetailId,
+                    PatternId = item.PatternId,
+                    Step = item.Step,
+                    Temp = item.Temp,
+                    StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration()
+                });
+            }
+
+            var status =  client.UpdatePattern(request);
+
+            return status.Value;
+        }
+
+        public async Task<bool> CreatePattern(Pattern pattern)  
+        {
+            ProtoPattern request = new ProtoPattern()
+            {
+                PatternName = pattern.PatternName,
+                StepCount = pattern.StepCount,
+                TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration(),
+                AirPump = new ProtoAirpump()
+                {
+                    Id = pattern.Airpump.Id,
+                    StartTemp = pattern.Airpump.StartTemp,
+                    EndTemp = pattern.Airpump.EndTemp,
+                    DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
+                }
+            };
+
+            foreach (var item in pattern.PatternItems)
+            {
+                request.PatternDetail.Add(new ProtoPatternDetail()
+                {
+                    Step = item.Step,
+                    Temp = item.Temp,
+                    StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration()
+                });
+            }
+
+            return (await client.CreatePatternAsync(request)).Value;
         }
     }
 }

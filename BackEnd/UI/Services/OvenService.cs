@@ -101,5 +101,26 @@ namespace UI.Services
             return null;
         }
 
+        public async Task<MachineSetting> GetMachineSetting()
+        {
+            MachineSetting Setting = new MachineSetting();
+
+            if (PLCIsConnected)
+            {
+                ProtoOvenSetting response = await OvenProto.GetOvenSettingAsync(new Empty());
+                if (response != null)
+                {
+                    Setting.TubeStartTemp = response.TubeStartTemp;
+                    Setting.FloorStartTemp = response.FloorStartTemp;
+                    Setting.AfbStartTemp = response.AfbStartTemp;
+                    Setting.AfbEndTemp = response.AfbEndTemp;
+                    Setting.AfbDelay = response.AfbDelay;
+                    Setting.AlarmOven = response.AlarmOven;
+                    Setting.AlarmAfb = response.AlarmAfb;
+                }
+            }
+
+            return Setting;
+        }
     }
 }

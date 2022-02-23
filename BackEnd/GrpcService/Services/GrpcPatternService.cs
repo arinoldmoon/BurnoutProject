@@ -128,12 +128,10 @@ namespace GrpcService.Services
                     Id = item.DetailId,
                     Step = item.Step,
                     Temp = item.Temp,
-                    StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes,
-
+                    StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
                 };
                 pattern.PatternItems.Add(list);
-            }
-            pattern.CreateDate = request.CreateDate.ToDateTime().ToString();
+            }            
 
             return new BoolValue() { Value = await _dbService.UpdatePattern(pattern) };
         }
