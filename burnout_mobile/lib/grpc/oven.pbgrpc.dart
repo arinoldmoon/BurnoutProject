@@ -20,6 +20,10 @@ class OvenProtoClient extends $grpc.Client {
       '/Oven.OvenProto/GrpcConnect',
       ($0.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.BoolValue.fromBuffer(value));
+  static final _$pLCConnect = $grpc.ClientMethod<$0.Empty, $1.BoolValue>(
+      '/Oven.OvenProto/PLCConnect',
+      ($0.Empty value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.BoolValue.fromBuffer(value));
   static final _$getOvenInfo = $grpc.ClientMethod<$0.Empty, $2.ProtoOvenInfo>(
       '/Oven.OvenProto/GetOvenInfo',
       ($0.Empty value) => value.writeToBuffer(),
@@ -55,6 +59,11 @@ class OvenProtoClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.BoolValue> grpcConnect($0.Empty request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$grpcConnect, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.BoolValue> pLCConnect($0.Empty request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$pLCConnect, request, options: options);
   }
 
   $grpc.ResponseFuture<$2.ProtoOvenInfo> getOvenInfo($0.Empty request,
@@ -93,6 +102,13 @@ abstract class OvenProtoServiceBase extends $grpc.Service {
     $addMethod($grpc.ServiceMethod<$0.Empty, $1.BoolValue>(
         'GrpcConnect',
         grpcConnect_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.BoolValue value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.BoolValue>(
+        'PLCConnect',
+        pLCConnect_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
@@ -139,6 +155,11 @@ abstract class OvenProtoServiceBase extends $grpc.Service {
     return grpcConnect(call, await request);
   }
 
+  $async.Future<$1.BoolValue> pLCConnect_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return pLCConnect(call, await request);
+  }
+
   $async.Future<$2.ProtoOvenInfo> getOvenInfo_Pre(
       $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
     return getOvenInfo(call, await request);
@@ -165,6 +186,8 @@ abstract class OvenProtoServiceBase extends $grpc.Service {
   }
 
   $async.Future<$1.BoolValue> grpcConnect(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.BoolValue> pLCConnect(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$2.ProtoOvenInfo> getOvenInfo(
       $grpc.ServiceCall call, $0.Empty request);
@@ -316,21 +339,26 @@ abstract class PatternProtoServiceBase extends $grpc.Service {
 }
 
 class OperationProtoClient extends $grpc.Client {
-  static final _$startOperation = $grpc.ClientMethod<$0.Empty, $1.BoolValue>(
-      '/Oven.OperationProto/StartOperation',
-      ($0.Empty value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.BoolValue.fromBuffer(value));
+  static final _$startOperation =
+      $grpc.ClientMethod<$2.ProtoPattern, $1.BoolValue>(
+          '/Oven.OperationProto/StartOperation',
+          ($2.ProtoPattern value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.BoolValue.fromBuffer(value));
   static final _$stopOperation = $grpc.ClientMethod<$0.Empty, $1.BoolValue>(
       '/Oven.OperationProto/StopOperation',
       ($0.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.BoolValue.fromBuffer(value));
+  static final _$currentPattern = $grpc.ClientMethod<$0.Empty, $2.ProtoPattern>(
+      '/Oven.OperationProto/CurrentPattern',
+      ($0.Empty value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $2.ProtoPattern.fromBuffer(value));
 
   OperationProtoClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$1.BoolValue> startOperation($0.Empty request,
+  $grpc.ResponseFuture<$1.BoolValue> startOperation($2.ProtoPattern request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$startOperation, request, options: options);
   }
@@ -339,18 +367,23 @@ class OperationProtoClient extends $grpc.Client {
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$stopOperation, request, options: options);
   }
+
+  $grpc.ResponseFuture<$2.ProtoPattern> currentPattern($0.Empty request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$currentPattern, request, options: options);
+  }
 }
 
 abstract class OperationProtoServiceBase extends $grpc.Service {
   $core.String get $name => 'Oven.OperationProto';
 
   OperationProtoServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.Empty, $1.BoolValue>(
+    $addMethod($grpc.ServiceMethod<$2.ProtoPattern, $1.BoolValue>(
         'StartOperation',
         startOperation_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($core.List<$core.int> value) => $2.ProtoPattern.fromBuffer(value),
         ($1.BoolValue value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.Empty, $1.BoolValue>(
         'StopOperation',
@@ -359,10 +392,17 @@ abstract class OperationProtoServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.BoolValue value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $2.ProtoPattern>(
+        'CurrentPattern',
+        currentPattern_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($2.ProtoPattern value) => value.writeToBuffer()));
   }
 
   $async.Future<$1.BoolValue> startOperation_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+      $grpc.ServiceCall call, $async.Future<$2.ProtoPattern> request) async {
     return startOperation(call, await request);
   }
 
@@ -371,9 +411,16 @@ abstract class OperationProtoServiceBase extends $grpc.Service {
     return stopOperation(call, await request);
   }
 
+  $async.Future<$2.ProtoPattern> currentPattern_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return currentPattern(call, await request);
+  }
+
   $async.Future<$1.BoolValue> startOperation(
-      $grpc.ServiceCall call, $0.Empty request);
+      $grpc.ServiceCall call, $2.ProtoPattern request);
   $async.Future<$1.BoolValue> stopOperation(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$2.ProtoPattern> currentPattern(
       $grpc.ServiceCall call, $0.Empty request);
 }
 

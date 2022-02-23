@@ -129,13 +129,10 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
     ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbStartTemp', $pb.PbFieldType.O3, protoName: 'AfbStartTemp')
     ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbEndTemp', $pb.PbFieldType.O3, protoName: 'AfbEndTemp')
     ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbDelay', $pb.PbFieldType.O3, protoName: 'AfbDelay')
-    ..a<$core.int>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PumpStartTemp', $pb.PbFieldType.O3, protoName: 'PumpStartTemp')
-    ..a<$core.int>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PumpEndTemp', $pb.PbFieldType.O3, protoName: 'PumpEndTemp')
-    ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PumpDelay', $pb.PbFieldType.O3, protoName: 'PumpDelay')
-    ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TubeStartTemp', $pb.PbFieldType.O3, protoName: 'TubeStartTemp')
-    ..a<$core.int>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'FloorStartTemp', $pb.PbFieldType.O3, protoName: 'FloorStartTemp')
-    ..a<$core.int>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmOven', $pb.PbFieldType.O3, protoName: 'AlarmOven')
-    ..a<$core.int>(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmAfb', $pb.PbFieldType.O3, protoName: 'AlarmAfb')
+    ..a<$core.int>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TubeStartTemp', $pb.PbFieldType.O3, protoName: 'TubeStartTemp')
+    ..a<$core.int>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'FloorStartTemp', $pb.PbFieldType.O3, protoName: 'FloorStartTemp')
+    ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmOven', $pb.PbFieldType.O3, protoName: 'AlarmOven')
+    ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmAfb', $pb.PbFieldType.O3, protoName: 'AlarmAfb')
     ..hasRequiredFields = false
   ;
 
@@ -145,9 +142,6 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
     $core.int? afbStartTemp,
     $core.int? afbEndTemp,
     $core.int? afbDelay,
-    $core.int? pumpStartTemp,
-    $core.int? pumpEndTemp,
-    $core.int? pumpDelay,
     $core.int? tubeStartTemp,
     $core.int? floorStartTemp,
     $core.int? alarmOven,
@@ -165,15 +159,6 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
     }
     if (afbDelay != null) {
       _result.afbDelay = afbDelay;
-    }
-    if (pumpStartTemp != null) {
-      _result.pumpStartTemp = pumpStartTemp;
-    }
-    if (pumpEndTemp != null) {
-      _result.pumpEndTemp = pumpEndTemp;
-    }
-    if (pumpDelay != null) {
-      _result.pumpDelay = pumpDelay;
     }
     if (tubeStartTemp != null) {
       _result.tubeStartTemp = tubeStartTemp;
@@ -247,67 +232,40 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
   void clearAfbDelay() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.int get pumpStartTemp => $_getIZ(4);
+  $core.int get tubeStartTemp => $_getIZ(4);
   @$pb.TagNumber(5)
-  set pumpStartTemp($core.int v) { $_setSignedInt32(4, v); }
+  set tubeStartTemp($core.int v) { $_setSignedInt32(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPumpStartTemp() => $_has(4);
+  $core.bool hasTubeStartTemp() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPumpStartTemp() => clearField(5);
+  void clearTubeStartTemp() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.int get pumpEndTemp => $_getIZ(5);
+  $core.int get floorStartTemp => $_getIZ(5);
   @$pb.TagNumber(6)
-  set pumpEndTemp($core.int v) { $_setSignedInt32(5, v); }
+  set floorStartTemp($core.int v) { $_setSignedInt32(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasPumpEndTemp() => $_has(5);
+  $core.bool hasFloorStartTemp() => $_has(5);
   @$pb.TagNumber(6)
-  void clearPumpEndTemp() => clearField(6);
+  void clearFloorStartTemp() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.int get pumpDelay => $_getIZ(6);
+  $core.int get alarmOven => $_getIZ(6);
   @$pb.TagNumber(7)
-  set pumpDelay($core.int v) { $_setSignedInt32(6, v); }
+  set alarmOven($core.int v) { $_setSignedInt32(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasPumpDelay() => $_has(6);
+  $core.bool hasAlarmOven() => $_has(6);
   @$pb.TagNumber(7)
-  void clearPumpDelay() => clearField(7);
+  void clearAlarmOven() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.int get tubeStartTemp => $_getIZ(7);
+  $core.int get alarmAfb => $_getIZ(7);
   @$pb.TagNumber(8)
-  set tubeStartTemp($core.int v) { $_setSignedInt32(7, v); }
+  set alarmAfb($core.int v) { $_setSignedInt32(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasTubeStartTemp() => $_has(7);
+  $core.bool hasAlarmAfb() => $_has(7);
   @$pb.TagNumber(8)
-  void clearTubeStartTemp() => clearField(8);
-
-  @$pb.TagNumber(9)
-  $core.int get floorStartTemp => $_getIZ(8);
-  @$pb.TagNumber(9)
-  set floorStartTemp($core.int v) { $_setSignedInt32(8, v); }
-  @$pb.TagNumber(9)
-  $core.bool hasFloorStartTemp() => $_has(8);
-  @$pb.TagNumber(9)
-  void clearFloorStartTemp() => clearField(9);
-
-  @$pb.TagNumber(10)
-  $core.int get alarmOven => $_getIZ(9);
-  @$pb.TagNumber(10)
-  set alarmOven($core.int v) { $_setSignedInt32(9, v); }
-  @$pb.TagNumber(10)
-  $core.bool hasAlarmOven() => $_has(9);
-  @$pb.TagNumber(10)
-  void clearAlarmOven() => clearField(10);
-
-  @$pb.TagNumber(11)
-  $core.int get alarmAfb => $_getIZ(10);
-  @$pb.TagNumber(11)
-  set alarmAfb($core.int v) { $_setSignedInt32(10, v); }
-  @$pb.TagNumber(11)
-  $core.bool hasAlarmAfb() => $_has(10);
-  @$pb.TagNumber(11)
-  void clearAlarmAfb() => clearField(11);
+  void clearAlarmAfb() => clearField(8);
 }
 
 class ProtoOvenResponse extends $pb.GeneratedMessage {

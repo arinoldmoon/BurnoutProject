@@ -3,7 +3,7 @@
 //  source: oven.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package, constant_identifier_names
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
 
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
@@ -44,18 +44,15 @@ const ProtoOvenSetting$json = const {
     const {'1': 'AfbStartTemp', '3': 2, '4': 1, '5': 5, '10': 'AfbStartTemp'},
     const {'1': 'AfbEndTemp', '3': 3, '4': 1, '5': 5, '10': 'AfbEndTemp'},
     const {'1': 'AfbDelay', '3': 4, '4': 1, '5': 5, '10': 'AfbDelay'},
-    const {'1': 'PumpStartTemp', '3': 5, '4': 1, '5': 5, '10': 'PumpStartTemp'},
-    const {'1': 'PumpEndTemp', '3': 6, '4': 1, '5': 5, '10': 'PumpEndTemp'},
-    const {'1': 'PumpDelay', '3': 7, '4': 1, '5': 5, '10': 'PumpDelay'},
-    const {'1': 'TubeStartTemp', '3': 8, '4': 1, '5': 5, '10': 'TubeStartTemp'},
-    const {'1': 'FloorStartTemp', '3': 9, '4': 1, '5': 5, '10': 'FloorStartTemp'},
-    const {'1': 'AlarmOven', '3': 10, '4': 1, '5': 5, '10': 'AlarmOven'},
-    const {'1': 'AlarmAfb', '3': 11, '4': 1, '5': 5, '10': 'AlarmAfb'},
+    const {'1': 'TubeStartTemp', '3': 5, '4': 1, '5': 5, '10': 'TubeStartTemp'},
+    const {'1': 'FloorStartTemp', '3': 6, '4': 1, '5': 5, '10': 'FloorStartTemp'},
+    const {'1': 'AlarmOven', '3': 7, '4': 1, '5': 5, '10': 'AlarmOven'},
+    const {'1': 'AlarmAfb', '3': 8, '4': 1, '5': 5, '10': 'AlarmAfb'},
   ],
 };
 
 /// Descriptor for `ProtoOvenSetting`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoOvenSettingDescriptor = $convert.base64Decode('ChBQcm90b092ZW5TZXR0aW5nEhwKCVNldHRpbmdJZBgBIAEoBVIJU2V0dGluZ0lkEiIKDEFmYlN0YXJ0VGVtcBgCIAEoBVIMQWZiU3RhcnRUZW1wEh4KCkFmYkVuZFRlbXAYAyABKAVSCkFmYkVuZFRlbXASGgoIQWZiRGVsYXkYBCABKAVSCEFmYkRlbGF5EiQKDVB1bXBTdGFydFRlbXAYBSABKAVSDVB1bXBTdGFydFRlbXASIAoLUHVtcEVuZFRlbXAYBiABKAVSC1B1bXBFbmRUZW1wEhwKCVB1bXBEZWxheRgHIAEoBVIJUHVtcERlbGF5EiQKDVR1YmVTdGFydFRlbXAYCCABKAVSDVR1YmVTdGFydFRlbXASJgoORmxvb3JTdGFydFRlbXAYCSABKAVSDkZsb29yU3RhcnRUZW1wEhwKCUFsYXJtT3ZlbhgKIAEoBVIJQWxhcm1PdmVuEhoKCEFsYXJtQWZiGAsgASgFUghBbGFybUFmYg==');
+final $typed_data.Uint8List protoOvenSettingDescriptor = $convert.base64Decode('ChBQcm90b092ZW5TZXR0aW5nEhwKCVNldHRpbmdJZBgBIAEoBVIJU2V0dGluZ0lkEiIKDEFmYlN0YXJ0VGVtcBgCIAEoBVIMQWZiU3RhcnRUZW1wEh4KCkFmYkVuZFRlbXAYAyABKAVSCkFmYkVuZFRlbXASGgoIQWZiRGVsYXkYBCABKAVSCEFmYkRlbGF5EiQKDVR1YmVTdGFydFRlbXAYBSABKAVSDVR1YmVTdGFydFRlbXASJgoORmxvb3JTdGFydFRlbXAYBiABKAVSDkZsb29yU3RhcnRUZW1wEhwKCUFsYXJtT3ZlbhgHIAEoBVIJQWxhcm1PdmVuEhoKCEFsYXJtQWZiGAggASgFUghBbGFybUFmYg==');
 @$core.Deprecated('Use protoOvenResponseDescriptor instead')
 const ProtoOvenResponse$json = const {
   '1': 'ProtoOvenResponse',
