@@ -99,19 +99,19 @@ namespace UI.Services
         public async Task<bool> UpdatePatternToDB(Pattern pattern)
         {
             ProtoPattern request = new ProtoPattern();
-            // ProtoAirpump air = new ProtoAirpump();
+            ProtoAirpump air = new ProtoAirpump();
 
-            // request.PatternId = pattern.PatternNumber;
-            // request.PatternName = pattern.PatternName;
-            // request.StepCount = pattern.StepCount;
-            // request.TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration();
-            // // request.AirPump = new ProtoAirpump()      
-            // // {
-            // //     Id = pattern.Airpump.Id,
-            // //     StartTemp = pattern.Airpump.StartTemp,
-            // //     EndTemp = pattern.Airpump.EndTemp,
-            // //     DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
-            // // }; 
+            request.PatternId = pattern.PatternNumber;
+            request.PatternName = pattern.PatternName;
+            request.StepCount = pattern.StepCount;
+            request.TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration();
+            request.AirPump = new ProtoAirpump()      
+            {
+                Id = pattern.Airpump.Id,
+                StartTemp = pattern.Airpump.StartTemp,
+                EndTemp = pattern.Airpump.EndTemp,
+                DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
+            }; 
 
             // air.Id = pattern.Airpump.Id;
             // air.StartTemp = pattern.Airpump.StartTemp;

@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   static late BoolValue isConnected = BoolValue();
   static late ProtoOvenInfo info = ProtoOvenInfo();
 
@@ -67,6 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     connect();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    channel.shutdown();
+    WidgetsBinding.instance!.removeObserver(this);
   }
 
   @override
@@ -113,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }
                 return Text(
-                  'TempOven : 0',
+                  'TempOven : null',
                   style: Theme.of(context).textTheme.headline6,
                 );
               },
