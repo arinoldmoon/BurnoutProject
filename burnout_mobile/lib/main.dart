@@ -34,9 +34,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static late BoolValue IsConnected = BoolValue();
-  static late ProtoOvenInfo Info = ProtoOvenInfo();
-  // static late ProtoOvenResponse MonitorStream = ProtoOvenResponse();
+  static late BoolValue isConnected = BoolValue();
+  static late ProtoOvenInfo info = ProtoOvenInfo();
 
   static final channel = ClientChannel(
     'localhost',
@@ -46,30 +45,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static final OvenProtoClient ovenStub = OvenProtoClient(channel);
 
-  void _grpcConnect() async {
-    debugPrint('Call GrpcConnect');
-    BoolValue connect = await ovenStub.grpcConnect(Empty());
+  Stream<ProtoOvenResponse> monitorDevice() async* {
+    await for (ProtoOvenResponse monitor in ovenStub.monitorDevice(Empty())) {
+      yield monitor;
+    }
+  }
 
-    if (connect.value == true) {
+  Future connect() async {
+    debugPrint('Call GrpcConnect');
+    if ((await ovenStub.grpcConnect(Empty())).value == true) {
       debugPrint('Call GetOvenInfo');
       ProtoOvenInfo ovenResponse = await ovenStub.getOvenInfo(Empty());
 
       setState(() {
-        IsConnected.value = connect.value;
-
-        Info.serialNumber = ovenResponse.serialNumber;
-        Info.machineModel = ovenResponse.machineModel;
-        Info.machineName = ovenResponse.machineName;
-        Info.warrantyStart = ovenResponse.warrantyStart;
-        Info.warrantyEnd = ovenResponse.warrantyEnd;
+        isConnected.value = true;
+        info = ovenResponse;
       });
     }
   }
 
-  Stream<ProtoOvenResponse> MonitorDevice() async* {
-    await for (ProtoOvenResponse monitor in ovenStub.monitorDevice(Empty())) {
-      yield monitor;
-    }
+  @override
+  void initState() {
+    super.initState();
+    connect();
   }
 
   @override
@@ -83,15 +81,15 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Grpc Connect : ${IsConnected.value}',
+              'Grpc Connect : ${isConnected.value}',
               style: Theme.of(context).textTheme.headline4,
             ),
             Text(
-              'MachineName : ${Info.machineName}',
+              'MachineName : ${info.machineName}',
               style: Theme.of(context).textTheme.headline6,
             ),
             StreamBuilder<ProtoOvenResponse>(
-              stream: MonitorDevice(),
+              stream: monitorDevice(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Column(
@@ -123,11 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _grpcConnect,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
