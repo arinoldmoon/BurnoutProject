@@ -11,17 +11,24 @@
             SelectionMode="DataGridSelectionMode.Single" @bind-Value=@Selected>
             <Columns>
                 <RadzenDataGridColumn TItem="Pattern" Property="PatternNumber" Title="ID" Width="40px"
-                    TextAlign="TextAlign.Center"/>
+                    TextAlign="TextAlign.Center" />
                 <RadzenDataGridColumn TItem="Pattern" Property="PatternName" Title="PatternName"
                     TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="Pattern" Title="StepCount" TextAlign="TextAlign.Center" >
+                <RadzenDataGridColumn TItem="Pattern" Title="StepCount" TextAlign="TextAlign.Center">
                     <Template Context="data">
-                       @data.StepCount Steps.
+                        @data.StepCount Steps.
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Pattern" Title="TotalTime" TextAlign="TextAlign.Center" >
+                <RadzenDataGridColumn TItem="Pattern" Title="TotalTime" TextAlign="TextAlign.Center">
                     <Template Context="data">
                         @TimeSpan.FromMinutes(data.TotalTime).ToString(@"hh\:mm") Hrs.
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Pattern" Title="TotalTime" TextAlign="TextAlign.Center">
+                    <Template Context="data">
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1"
+                            Click="@(args => DeleteRow(data))">
+                        </RadzenButton>
                     </Template>
                 </RadzenDataGridColumn>
             </Columns>

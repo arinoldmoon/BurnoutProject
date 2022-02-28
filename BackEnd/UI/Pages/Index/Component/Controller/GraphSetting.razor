@@ -1,12 +1,6 @@
-<RadzenCard style="min-height:400px;">
-    <ChildContent>
+<RadzenCard style="height: 330px;">
+    <ChildContent>       
         <div class="row">
-            <div class="col-md-12">
-                <RadzenLabel style="font-size: 2vh; padding-left: 15px" Text="Graph Setting">
-                </RadzenLabel>
-            </div>
-        </div>
-        <div class="row" style="margin-top:5px;">
             <div class="col-md-12">
                 <RadzenLabel style="font-size: 1.5vh;" Text="From">
                 </RadzenLabel>
@@ -29,18 +23,18 @@
                 <RadzenCheckBox Style="color:#FFCC00" Name="Actual Temperature" TValue="bool" TriState="false"></RadzenCheckBox>
                 <RadzenLabel Text="Actual Temperature"></RadzenLabel>
             </div>
-            <div class="col-md-12" style="margin-top:5px;">
+            <div class="col-md-12" >
                 <RadzenCheckBox Name="SetPoint Temperature" TValue="bool?" TriState="false"></RadzenCheckBox>
                 <RadzenLabel Text="SetPoint Temperature"></RadzenLabel>
             </div>
-            <div class="col-md-12" style="margin-top:5px;">
+            <div class="col-md-12" >
                 <RadzenCheckBox Name="AirFlow" TValue="bool?" TriState="false"></RadzenCheckBox>
                 <RadzenLabel Text="AirFlow"></RadzenLabel>
             </div>
         </div>
-        <div class="row" style="position: absolute; bottom: 20px; left: 40%;">
+        <div class="row" style="margin-top:40px;">
             <div class="col-md-12">
-                <RadzenButton ButtonStyle="ButtonStyle.Warning" Text="Plot" Size="ButtonSize.Medium"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Text="Plot" Size="ButtonSize.Medium" style="width: 100%" ></RadzenButton>
             </div>
         </div>
     </ChildContent>

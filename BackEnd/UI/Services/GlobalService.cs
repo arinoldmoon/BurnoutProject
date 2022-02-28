@@ -78,6 +78,22 @@ namespace UI.Services
                 }
             }
         }
+
+        private MachineInfo _MachineInfo;
+        public MachineInfo GlobalMachineInfo
+        {
+            get { return _MachineInfo; }
+            set
+            {
+                if(!object.Equals(_MachineInfo,value))
+                {
+                    var args = new PropertyChangedEventArgs() { Name = "GlobalMachineInfo", NewValue = value, OldValue = _MachineInfo, IsGlobal = true };
+                    _MachineInfo = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
+        }
+
     }
 
     public class PropertyChangedEventArgs

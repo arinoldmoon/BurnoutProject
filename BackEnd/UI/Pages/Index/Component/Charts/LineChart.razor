@@ -1,0 +1,29 @@
+﻿@inherits LineChartComponent
+
+<RadzenCard style="height: 330px;">
+    <ChildContent>
+        <RadzenChart ColorScheme="ColorScheme.Pastel">
+            <RadzenLineSeries Data="@SetPoint" CategoryProperty="Time" Title="SetPoint" LineType="LineType.Solid"
+                ValueProperty="TempValue">
+                <RadzenMarkers MarkerType="MarkerType.Square" />
+            </RadzenLineSeries>
+
+            <RadzenLineSeries Data="@Actual" CategoryProperty="Time" Title="Actual" LineType="LineType.Dashed"
+                ValueProperty="TempValue">
+                <RadzenMarkers MarkerType="MarkerType.Square" />
+            </RadzenLineSeries>
+
+            <RadzenLineSeries Data="@AirFlow" CategoryProperty="Time" Title="AirFlow" ValueProperty="TempValue">
+                <RadzenMarkers MarkerType="MarkerType.Circle" />
+            </RadzenLineSeries>
+            <RadzenLegend Position="LegendPosition.Top">
+            </RadzenLegend>
+            
+            <RadzenValueAxis>
+                <RadzenGridLines Visible="true" />
+                <RadzenAxisTitle Text="Tempurature" />
+            </RadzenValueAxis>
+            <RadzenCategoryAxis Padding="20" FormatString="{0:HH:mm}" />
+        </RadzenChart>
+    </ChildContent>
+</RadzenCard>

@@ -14,7 +14,7 @@ namespace UI.Pages.Index.Component.PatternStep
     public partial class PatternListComponent : ComponentBase
     {
         [Inject]
-        protected DialogService DialogService { get; set; }
+        protected DialogService DialogServices { get; set; }
 
         [Inject]
         protected PatternService Service { get; set; }
@@ -47,7 +47,7 @@ namespace UI.Pages.Index.Component.PatternStep
                 NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"PatternList", Detail = $"Load Failed" });
             }
 
-            DialogService.Close(null);
+            DialogServices.Close(null);
         }
 
         public async Task GetPatternList(LoadDataArgs args)
@@ -64,6 +64,26 @@ namespace UI.Pages.Index.Component.PatternStep
                 else
                 {
                     NotificationService.Notify(NotificationSeverity.Error, "GetPatternList", "Empty List");
+                }
+            }
+        }
+
+        public async Task DeleteRow(Pattern pattern)
+        {
+            if (await DialogServices.Confirm("Are you sure you want to delete this pattern?") == true)
+            {
+                if (Globals.ServiceConnected)
+                {                  
+                    if (await Service.DeletePattern(pattern.PatternNumber))
+                    {
+                        NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Delete Pattern", Detail = $"Success" });
+                        PatternList = (await Service.GetPatternListAsync()).ToList();
+                    }
+                    else
+                    {
+                        NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Delete Pattern", Detail = $"Not Success" });
+                        DialogServices.Dispose();
+                    }
                 }
             }
         }

@@ -100,8 +100,9 @@ namespace UI.Services
                             StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
                         });
                     }
-                    return result;
                 }
+                
+                return result;
             }
             catch (RpcException ex)
             {

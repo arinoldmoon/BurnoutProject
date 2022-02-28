@@ -9,7 +9,7 @@
             <div class="col-6 d-flex align-items-center">
                 <RadzenSidebarToggle Click="@SidebarToggleClick">
                 </RadzenSidebarToggle>
-                <RadzenLabel style="font-size: 3vh; font-weight: 700" Text=@Info.MachineName>
+                <RadzenLabel style="font-size: 3vh; font-weight: 700" Text=@MachineName>
                 </RadzenLabel>
                 <RadzenLabel style="font-size: 2vh; padding-left: 15px" Text=@MachineModel>
                 </RadzenLabel>
@@ -17,7 +17,7 @@
             <div class="col-6 text-right">
                 <div class="align-items-center d-flex col-xl-2 offset-md-5 col-md-2 justify-content-end offset-xl-6 col-6"
                     style="float: right">
-                    <RadzenButton Icon="notifications" style="background-color: #e6ecef; color: #414141">
+                    <RadzenButton Icon="notifications" style="background-color: #e6ecef; color: #414141" Click="@Notifications">
                     </RadzenButton>
                 </div>
             </div>

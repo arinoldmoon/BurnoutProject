@@ -96,31 +96,19 @@ namespace UI.Services
             return result;
         }
 
-        public async Task<bool> UpdatePatternToDB(Pattern pattern)
+        public async Task<bool> UpdatePattern(Pattern pattern)
         {
             ProtoPattern request = new ProtoPattern();
-            ProtoAirpump air = new ProtoAirpump();
 
             request.PatternId = pattern.PatternNumber;
             request.PatternName = pattern.PatternName;
-            request.StepCount = pattern.StepCount;
-            request.TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration();
-            request.AirPump = new ProtoAirpump()      
+            request.AirPump = new ProtoAirpump()
             {
                 Id = pattern.Airpump.Id,
                 StartTemp = pattern.Airpump.StartTemp,
                 EndTemp = pattern.Airpump.EndTemp,
                 DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
-            }; 
-
-            // air.Id = pattern.Airpump.Id;
-            // air.StartTemp = pattern.Airpump.StartTemp;
-            // air.EndTemp = pattern.Airpump.EndTemp;
-            // air.DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration();
-
-            // request.AirPump = air;
-
-
+            };
 
             foreach (var item in pattern.PatternItems)
             {
@@ -134,40 +122,50 @@ namespace UI.Services
                 });
             }
 
-            var status =  client.UpdatePattern(request);
-            
+            request.StepCount = request.PatternDetail.Count;
+            request.TotalTime = TimeSpan.FromSeconds(request.PatternDetail.Sum(x => x.StepDuration.Seconds)).ToDuration();
+
+            var status = client.UpdatePattern(request);
+
             await Task.CompletedTask;
 
             return status.Value;
         }
 
-        public async Task<bool> CreatePattern(Pattern pattern)  
+        public async Task<bool> CreatePattern(Pattern pattern)
         {
-            ProtoPattern request = new ProtoPattern()
+            ProtoPattern request = new ProtoPattern();
+            request.PatternId = pattern.PatternNumber;
+            request.PatternName = pattern.PatternName;
+            request.AirPump = new ProtoAirpump()
             {
-                PatternName = pattern.PatternName,
-                StepCount = pattern.StepCount,
-                TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration(),
-                AirPump = new ProtoAirpump()
-                {
-                    Id = pattern.Airpump.Id,
-                    StartTemp = pattern.Airpump.StartTemp,
-                    EndTemp = pattern.Airpump.EndTemp,
-                    DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
-                }
+                StartTemp = pattern.Airpump.StartTemp,
+                EndTemp = pattern.Airpump.EndTemp,
+                DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
             };
 
             foreach (var item in pattern.PatternItems)
             {
                 request.PatternDetail.Add(new ProtoPatternDetail()
                 {
+                    PatternId = item.PatternId,
                     Step = item.Step,
                     Temp = item.Temp,
                     StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration()
                 });
             }
 
-            return (await client.CreatePatternAsync(request)).Value;
+            request.StepCount = request.PatternDetail.Count;
+            request.TotalTime = TimeSpan.FromSeconds(request.PatternDetail.Sum(x => x.StepDuration.Seconds)).ToDuration();
+
+            var status = client.CreatePattern(request);
+
+            await Task.CompletedTask;
+
+            return status.Value;
         }
+        
+        public async Task<bool> DeletePattern(int PatternNumber) => (await client.DeletePatternAsync(new Int32Value() { Value = PatternNumber})).Value;
+
     }
 }

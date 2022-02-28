@@ -25,7 +25,11 @@ namespace UI.Pages.Index.Component.PatternStep
         {
             Pattern = new PatternItem();
             Pattern.Step = RowIndex;
+            Pattern.Temp = 30;
+            Pattern.StepDuration = 30;
         }
+
+       
 
         protected void FormSubmit(PatternItem args)
         {

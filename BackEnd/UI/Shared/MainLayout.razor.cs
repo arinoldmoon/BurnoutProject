@@ -12,6 +12,8 @@ namespace UI.Shared
     {
         [Inject]
         protected OvenService service { get; set; }
+        [Inject]
+        protected OperationService operation { get; set; }
 
         [Inject]
         protected GlobalService Globals { get; set; }
@@ -20,11 +22,16 @@ namespace UI.Shared
         protected RadzenBody body0;
         protected RadzenSidebar sidebar0;
 
-        public MachineInfo Info { get; set; } = new MachineInfo();
+        public string MachineName { get; set; } = string.Empty;
         public string MachineModel { get; set; } = "GrpcService NotConnection";
 
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
+            if(args.Name == "GlobalMachineInfo")
+            {
+                MachineName = Globals.GlobalMachineInfo.MachineName;
+                Reload();
+            }
         }
 
         public void Reload()
@@ -42,9 +49,11 @@ namespace UI.Shared
                 Globals.ServiceConnected = true;
                 Globals.PlcConnected = service.PLCConnect();
 
-                Info = await service.GetMachineInfo();
+                // Info = await service.GetMachineInfo();
                 Reload();
             }
+
+            await Task.CompletedTask;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -60,6 +69,17 @@ namespace UI.Shared
             await InvokeAsync(() => { sidebar0.Toggle(); });
 
             await InvokeAsync(() => { body0.Toggle(); });
+        }
+
+        protected async Task Notifications()
+        {
+            var response = await operation.StopOperation();
+            if (response)
+            {
+                Globals.GlobalPattern = new Pattern();
+                Globals.GlobalPattern.Airpump = new AirPumpSetting();
+                Globals.GlobalPattern.PatternItems.Clear();
+            }
         }
     }
 }

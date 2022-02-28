@@ -69,10 +69,11 @@ namespace UI.Pages.Index.Component.Controller
                 if (Globals.GlobalMonitor.Status.Operation)
                 {
                     SelectedPattern = await OperationService.CurrentPattern();
+                    await CheckName(SelectedPattern);
+
+                    Globals.GlobalPattern = SelectedPattern;
                     Globals.GlobalPattern.Airpump = SelectedPattern.Airpump;
                     Globals.GlobalPattern.PatternItems = SelectedPattern.PatternItems;
-
-                    await CheckName(SelectedPattern);
                 }
                 else
                 {
@@ -92,6 +93,8 @@ namespace UI.Pages.Index.Component.Controller
         public async Task CancelProgram(MouseEventArgs args)
         {
             Globals.GlobalPattern = new Pattern();
+            Globals.GlobalPattern.PatternItems.Clear();
+            
             await Task.CompletedTask;
         }
 
@@ -100,7 +103,11 @@ namespace UI.Pages.Index.Component.Controller
             bool response = await OperationService.StartOpration(Globals.GlobalPattern);
             if (response)
             {
-                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Runing" });
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation : ", Detail = $"Started" });
+            }
+            else
+            {
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error,Summary = "PLC : ",Detail = "Not Connection"});
             }
 
         }

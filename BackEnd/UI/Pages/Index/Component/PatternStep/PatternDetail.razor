@@ -2,7 +2,8 @@
 
 <div class="row" style="margin-bottom: 10px">
     <div class="col-md-12">
-        <RadzenTextBox Placeholder="Program Name" style="width: 100%" Name="txtProgramName" @bind-Value="@PatternData.PatternName">
+        <RadzenTextBox Placeholder="Program Name" style="width: 100%" Name="txtProgramName"
+            @bind-Value="@PatternData.PatternName" Change="@TextBoxChanged">
         </RadzenTextBox>
     </div>
 </div>
@@ -20,7 +21,8 @@
                     <div class="col-md-12">
                         <RadzenLabel Text="On when tempurature reach">
                         </RadzenLabel>
-                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false" @bind-Value="@PatternData.Airpump.StartTemp">
+                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false"
+                            @bind-Value="@PatternData.Airpump.StartTemp">
                         </RadzenNumeric>
                         <RadzenLabel Text="°C">
                         </RadzenLabel>
@@ -30,7 +32,8 @@
                     <div class="col-md-12">
                         <RadzenLabel Text="Off when tempurature reach">
                         </RadzenLabel>
-                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false" @bind-Value="@PatternData.Airpump.EndTemp">
+                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false"
+                            @bind-Value="@PatternData.Airpump.EndTemp">
                         </RadzenNumeric>
                         <RadzenLabel Text="°C">
                         </RadzenLabel>
@@ -40,7 +43,8 @@
                     <div class="col-md-12">
                         <RadzenLabel Text="Turn off delay">
                         </RadzenLabel>
-                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false" @bind-Value="@PatternData.Airpump.DelayDuration">
+                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false"
+                            @bind-Value="@PatternData.Airpump.DelayDuration">
                         </RadzenNumeric>
                         <RadzenLabel Text="min">
                         </RadzenLabel>
@@ -52,7 +56,8 @@
 </div>
 <div class="row" style="margin-bottom: 10px">
     <div class="col-md-12">
-        <RadzenDataGrid @ref="OvenStepGrid" AllowFiltering="false" AllowPaging="false" AllowSorting="false" Data="PatternData.PatternItems" TItem="PatternItem" LoadData="LoadDataGrid">
+        <RadzenDataGrid @ref="OvenStepGrid" AllowFiltering="false" AllowPaging="false" AllowSorting="false"
+            Data="PatternData.PatternItems" TItem="PatternItem" LoadData="LoadDataGrid">
             <Columns>
                 <RadzenDataGridColumn TItem="PatternItem" Property="Step" Title="Step No">
                 </RadzenDataGridColumn>
@@ -60,9 +65,11 @@
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="PatternItem" Property="StepDuration" Title="Duration">
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="PatternItem" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                <RadzenDataGridColumn TItem="PatternItem" Filterable="false" Sortable="false"
+                    TextAlign="TextAlign.Center" Width="70px">
                     <Template Context="OvenStep">
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, OvenStep))" @onclick:stopPropagation="true">
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small"
+                            Click="@((args) =>GridDeleteButtonClick(args, OvenStep))" @onclick:stopPropagation="true">
                         </RadzenButton>
                     </Template>
                 </RadzenDataGridColumn>
@@ -77,10 +84,12 @@
     </div>
 </div>
 <div class="row" style="margin-bottom: 10px">
-    <div class="col-md-12" style="text-align: center">
-        <RadzenButton style="background-color: #6d787d; margin-left: 5px; margin-right: 5px" Text="Save" Click="@((args) => Save(args))">
+    <div class="col-md-12" style="text-align: center">       
+        <RadzenButton style="background-color: #6d787d; margin-left: 5px; margin-right: 5px" Disabled=btnDisable Text="Save"
+            Click="@((args) => Save(args))">
         </RadzenButton>
-        <RadzenButton style="background-color: #e6c54f; margin-left: 5px; margin-right: 5px" Text="Next" Click="@((args) => Next(args))">
-        </RadzenButton>
+        <RadzenButton style="background-color: #e6c54f; margin-left: 5px; margin-right: 5px" Disabled=btnDisable Text="Next"
+            Click="@((args) => Next(args))">
+        </RadzenButton>        
     </div>
 </div>

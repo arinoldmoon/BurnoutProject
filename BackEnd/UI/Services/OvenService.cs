@@ -59,14 +59,14 @@ namespace UI.Services
             }
         }
 
-        public Task<MachineInfo> GetMachineInfo()
+        public async Task<MachineInfo> GetMachineInfo()
         {
             MachineInfo info = new MachineInfo();
             try
             {
                 if (GrpcIsConnected)
                 {
-                    ProtoOvenInfo response = (OvenProto.GetOvenInfo(new Empty()));
+                    ProtoOvenInfo response = await OvenProto.GetOvenInfoAsync(new Empty());
                     info.MachineModel = response.MachineModel;
                     info.MachineName = response.MachineName;
                     info.SerialNumber = response.SerialNumber;
@@ -77,10 +77,10 @@ namespace UI.Services
             catch (RpcException ex)
             {
                 Console.WriteLine($"GetMachineInfo Error {ex.StatusCode} : {ex.Message}");
-                return Task.FromResult(new MachineInfo());
+                return info;
             }
 
-            return Task.FromResult(info);
+            return info;
         }
 
         public async Task<AsyncServerStreamingCall<ProtoOvenResponse>> MonitorDevice()

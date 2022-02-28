@@ -91,6 +91,12 @@ message mcStatus {
     PatternStatus PatternStatus = 6;
     google.protobuf.Duration RemainHours = 7;
     google.protobuf.Duration RemainMins = 8;
+    repeated OperationLog TempLog = 9;
+}
+
+message OperationLog {
+    google.protobuf.Timestamp TempTime = 1;
+    Temp TempValue = 2;
 }
 
 message ProtoPattern {

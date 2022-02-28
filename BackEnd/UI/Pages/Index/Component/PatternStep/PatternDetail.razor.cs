@@ -28,6 +28,7 @@ namespace UI.Pages.Index.Component.PatternStep
         [Inject]
         protected PatternService PatternService { get; set; }
 
+        protected bool btnDisable { get; set; } = true;
         protected RadzenDataGrid<PatternItem> OvenStepGrid;
 
         public void Reload()
@@ -54,8 +55,12 @@ namespace UI.Pages.Index.Component.PatternStep
                 PatternData.PatternItems = new List<PatternItem>();
 
                 PatternData.PatternNumber = 99;
+                PatternData.Airpump.StartTemp = 150;
+                PatternData.Airpump.EndTemp = 700;
+                PatternData.Airpump.DelayDuration = 60;
             }
 
+            chk().GetAwaiter();
             Globals.PropertyChanged += OnPropertyChanged;
         }
 
@@ -71,6 +76,9 @@ namespace UI.Pages.Index.Component.PatternStep
                 if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
                 {
                     PatternData.PatternItems.Remove(data);
+                    PatternData.StepCount = PatternData.PatternItems.Count();
+
+                    await chk();
                     await OvenStepGrid.Reload();
                 }
             }
@@ -89,8 +97,10 @@ namespace UI.Pages.Index.Component.PatternStep
                 if (dialogResult != null)
                 {
                     PatternData.PatternItems.Add(dialogResult);
-                    await OvenStepGrid.InsertRow(dialogResult);
+                    PatternData.StepCount = PatternData.PatternItems.Count();
 
+                    await chk();
+                    await OvenStepGrid.InsertRow(dialogResult);
                     await OvenStepGrid.Reload();
                     await InvokeAsync(() => { StateHasChanged(); });
                 }
@@ -104,8 +114,9 @@ namespace UI.Pages.Index.Component.PatternStep
         protected void Next(MouseEventArgs args)
         {
             PatternData.PatternNumber = 99;
-            PatternData.PatternName = "New Program";
+            // PatternData.PatternName = "New Program";
             PatternData.StepCount = PatternData.PatternItems.Count();
+            PatternData.TotalTime = PatternData.PatternItems.Sum(x => x.StepDuration);
 
             Globals.GlobalPattern = PatternData;
             DialogService.Close(null);
@@ -113,16 +124,19 @@ namespace UI.Pages.Index.Component.PatternStep
 
         protected async Task Save(MouseEventArgs args)
         {
-            bool status = false;            
+            bool status = false;
 
-            // if (PatternData.PatternNumber != 0)
-            // {
-                status = await PatternService.UpdatePatternToDB(PatternData);
-            // }
-            // else
-            // {
-            //     status = await PatternService.CreatePattern(PatternData);
-            // }
+            if (PatternData.PatternNumber == 99)
+            {
+                status = await PatternService.CreatePattern(PatternData);
+                PatternData.PatternNumber = (await PatternService.GetPatternListAsync()).Max(x => x.PatternNumber);
+                PatternData.StepCount = PatternData.PatternItems.Count;
+                PatternData.TotalTime = PatternData.PatternItems.Sum(x => x.StepDuration);
+            }
+            else
+            {
+                status = await PatternService.UpdatePattern(PatternData);
+            }
 
             if (status)
             {
@@ -136,6 +150,26 @@ namespace UI.Pages.Index.Component.PatternStep
             }
 
             DialogService.Close(null);
+        }
+
+        protected async Task TextBoxChanged()
+        {
+            await chk();
+            await InvokeAsync(() => { StateHasChanged(); });
+        }
+
+        private async Task chk()
+        {
+            if (!string.IsNullOrEmpty(PatternData.PatternName) && PatternData.PatternItems.Count > 0)
+            {
+                btnDisable = false;
+            }
+            else
+            {
+                btnDisable = true;
+            }
+
+            await Task.CompletedTask;
         }
     }
 }

@@ -1,10 +1,13 @@
+using System;
+using System.Collections.Generic;
+
 namespace UI.Models
 {
     public class MachineMonitor
     {
         public Temp Temp { get; set; }
         public Coil Coil { get; set; }
-        public mcStatus Status { get; set; }
+        public McStatus Status { get; set; }
     }
     public class Temp
     {
@@ -23,7 +26,7 @@ namespace UI.Models
         public bool CoilFloor { get; set; }
     }
 
-    public class mcStatus
+    public class McStatus
     {
         public bool Door { get; set; }
         public bool Operation { get; set; }
@@ -33,6 +36,7 @@ namespace UI.Models
         public PatternStatus PatternStatus { get; set; }
         public int RemainHours { get; set; }
         public int RemainMins { get; set; }
+        public List<OperationLog> TempLog {get;set;}
     }
 
     public enum PatternStatus
@@ -42,5 +46,11 @@ namespace UI.Models
         Down = 2,
         Stable = 3,
         End = 4
+    }
+
+    public class OperationLog
+    {
+        public DateTime TempTime { get; set; }
+        public Temp TempValue { get; set; }
     }
 }

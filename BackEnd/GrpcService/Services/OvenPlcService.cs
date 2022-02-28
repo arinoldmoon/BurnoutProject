@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace GrpcService.Services
     {
         private readonly ILogger<OvenPlcService> _logger;
         private readonly IOptions<PLCConfig> _config;
+        private readonly IOvenDbService _dbService;
 
         private SerialPort _Port;
         private IModbusMaster _Device;
@@ -23,12 +25,16 @@ namespace GrpcService.Services
         private string _PortName = string.Empty;
         private int _BaudRate, Delay3 = 0;
 
+        private Temp TempValue = new Temp();
+        private List<Temp> TempList = new List<Temp>();
+
         public static bool _IsConnected = false;
 
-        public OvenPlcService(ILogger<OvenPlcService> logger, IOptions<PLCConfig> config)
+        public OvenPlcService(ILogger<OvenPlcService> logger, IOptions<PLCConfig> config, IOvenDbService dbService)
         {
             _logger = logger;
             _config = config;
+            _dbService = dbService;
 
             Delay3 = _config.Value.Delay3;
         }
@@ -70,7 +76,6 @@ namespace GrpcService.Services
 
         public async Task<Temp> GetTempSensorAsync()
         {
-            Temp TempSensor = new Temp();
             ushort[] SensorList = { 100, 120, 160, 140 };
 
             foreach (var item in SensorList)
@@ -80,21 +85,21 @@ namespace GrpcService.Services
                 switch (item)
                 {
                     case 100:
-                        TempSensor.TempOven = SensorResult;
+                        TempValue.TempOven = SensorResult;
                         break;
                     case 120:
-                        TempSensor.TempAFB = SensorResult;
+                        TempValue.TempAFB = SensorResult;
                         break;
                     case 160:
-                        TempSensor.TempFloor = SensorResult;
+                        TempValue.TempFloor = SensorResult;
                         break;
                     case 140:
-                        TempSensor.TempTube = SensorResult;
+                        TempValue.TempTube = SensorResult;
                         break;
                 }
             }
 
-            return TempSensor;
+            return TempValue;
         }
 
         public async Task<Coil> GetCoilSensorAsync()
@@ -144,7 +149,7 @@ namespace GrpcService.Services
 
             ushort[] StatusList = { 601, 602, 603, 607 };
             Status.PatternStatus = PatternStatus.Standby;
-            
+
             foreach (ushort item in StatusList)
             {
                 if ((await _Device.ReadCoilsAsync(1, item, 1))[0])
@@ -167,14 +172,28 @@ namespace GrpcService.Services
                 }
             }
 
+            if(WorkerService.TempLog.Any())
+            {
+                Status.TempLog.AddRange(WorkerService.TempLog);
+            }
+
             return Status;
         }
 
         public async Task<BoolValue> PushStopOperation()
         {
-            bool OperationRun = (await _Device.ReadCoilsAsync(1, 500, 1))[0];
+            // Test
+            // WorkerService.statusResponse.Operation = false;
+            // WorkerService.statusResponse.PatternId = 0;
+            // WorkerService.statusResponse.CurrentStep = 0;
+            // WorkerService.statusResponse.TotalStep = 0;
+            // WorkerService.statusResponse.PatternStatus = PatternStatus.Standby;  
+            // WorkerService.TempLog.Clear();
+            // WorkerService.statusResponse.TempLog.Clear();
+            // await Task.CompletedTask;
+            // return new BoolValue() { Value = true };
 
-            if (OperationRun)
+            if ((await _Device.ReadCoilsAsync(1, 500, 1))[0])
             {
                 await _Device.WriteSingleCoilAsync((byte)1, 39, true);
                 await Task.Delay(3000);
@@ -187,32 +206,38 @@ namespace GrpcService.Services
                 _Device.WriteSingleRegister((byte)1, 500, 0);
                 await Task.Delay(Delay3);
 
-                OperationRun = (await _Device.ReadCoilsAsync(1, 500, 1))[0];
-                await Task.CompletedTask;
-
-                if (!OperationRun)
+                if (!(await _Device.ReadCoilsAsync(1, 500, 1))[0])
                 {
                     _logger.LogInformation("Operation State : Stoped");
+
+                    _logger.LogInformation("OperationWriteLog Stop");
+                    WorkerService.TimerState = false;
+                    WorkerService.timer.Stop();
+                    WorkerService.TempLog.Clear();
+
                     return new BoolValue() { Value = true };
                 }
-                else
-                {
-                    return new BoolValue() { Value = false };
-                }
 
+                return new BoolValue() { Value = false };
             }
-
-            return new BoolValue() { Value = true };
+            return new BoolValue() { Value = false };
         }
 
         public async Task<BoolValue> PushStartOperation(ProtoPattern request)
         {
-            bool OperationRun = (await _Device.ReadCoilsAsync(1, 500, 1))[0];
+            // Test
+            // WorkerService.statusResponse.Operation = true;
+            // WorkerService.statusResponse.PatternId = 1;
+            // WorkerService.statusResponse.CurrentStep = 1;
+            // WorkerService.statusResponse.TotalStep = 7;
+            // WorkerService.statusResponse.PatternStatus = PatternStatus.Standby;
+            // WorkerService.timer.Start();
+            // await Task.CompletedTask;
+            // return new BoolValue() { Value = true };
 
-            if (!OperationRun)
+            if (!(await _Device.ReadCoilsAsync(1, 500, 1))[0])
             {
-                bool ready = await SendPatternToPLC(request);
-                if (ready)
+                if (await SendPatternToPLC(request))
                 {
                     _logger.LogInformation("SendPatternToPLC State : Success");
 
@@ -220,11 +245,15 @@ namespace GrpcService.Services
                     await Task.Delay(3000);
                     _Device.WriteSingleCoil((byte)1, 38, false);
 
-                    OperationRun = _Device.ReadCoils(1, 500, 1)[0];
-                    if (OperationRun)
+                    if (_Device.ReadCoils(1, 500, 1)[0])
                     {
                         _logger.LogInformation("Operation State : New Runing");
-                        return new BoolValue() { Value = OperationRun };
+
+                        _logger.LogInformation("OperationWriteLog Run");
+                        WorkerService.timer.Start();
+                        WorkerService.TimerState = true;
+
+                        return new BoolValue() { Value = true };
                     }
 
                     return new BoolValue() { Value = false };
@@ -241,27 +270,56 @@ namespace GrpcService.Services
 
         public async Task<ProtoPattern> GetCuerrentPattern()
         {
-            ProtoPattern result = new ProtoPattern();
-            result.AirPump = new ProtoAirpump();
-
-            if (_IsConnected)
+            ProtoPattern response = new ProtoPattern();
+            if (WorkerService.statusResponse.PatternId != 99)
             {
-                result.PatternId = (int)(await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)299, (ushort)1))[0];
-
-                if (result.PatternId != 0)
+                _logger.LogInformation("Get From DB");
+                Pattern resultFromDB = await _dbService.GetPattern(WorkerService.statusResponse.PatternId);
+                if (resultFromDB != null)
                 {
+                    response.PatternId = resultFromDB.PatternNumber;
+                    response.PatternName = resultFromDB.PatternName;
+                    response.StepCount = resultFromDB.StepCount;
+                    response.TotalTime = new Duration() { Seconds = resultFromDB.TotalTime };
+                    response.AirPump = new ProtoAirpump()
+                    {
+                        Id = resultFromDB.Airpump.Id,
+                        StartTemp = resultFromDB.Airpump.StartTemp,
+                        EndTemp = resultFromDB.Airpump.EndTemp,
+                        DelayMinuteDuration = TimeSpan.FromMinutes(resultFromDB.Airpump.DelayDuration).ToDuration()
+                    };
+                    foreach (var item in resultFromDB.PatternItems)
+                    {
+                        ProtoPatternDetail detail = new ProtoPatternDetail();
+                        detail.Step = item.Step;
+                        detail.Temp = item.Temp;
+                        detail.StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration();
+                        detail.DetailId = item.Id;
+                        detail.PatternId = resultFromDB.PatternNumber;
+
+                        response.PatternDetail.Add(detail);
+                    }
+                    response.CreateDate = !String.IsNullOrEmpty(resultFromDB.CreateDate) ? DateTime.ParseExact(resultFromDB.CreateDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToUniversalTime().ToTimestamp() : null;
+                    response.ModifyDate = !String.IsNullOrEmpty(resultFromDB.ModifyDate) ? DateTime.ParseExact(resultFromDB.ModifyDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToUniversalTime().ToTimestamp() : null;
+                }
+            }
+            else
+            {
+                if (_IsConnected)
+                {
+                    _logger.LogInformation("Get From PLC");
                     ushort addr = 201;
                     List<int> DetailList = new List<int>();
+                    response.PatternId = 99;
+                    response.StepCount = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)200, (ushort)1))[0];
 
-                    result.StepCount = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)200, (ushort)1))[0];
-
-                    if (result.StepCount != 0)
+                    if (response.StepCount != 0)
                     {
-                        result.AirPump.StartTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)553, (ushort)1))[0];
-                        result.AirPump.EndTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)554, (ushort)1))[0];
-                        result.AirPump.DelayMinuteDuration = TimeSpan.FromMinutes((await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)551, (ushort)1))[0]).ToDuration();
+                        response.AirPump.StartTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)553, (ushort)1))[0];
+                        response.AirPump.EndTemp = (await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)554, (ushort)1))[0];
+                        response.AirPump.DelayMinuteDuration = TimeSpan.FromMinutes((await _Device.ReadHoldingRegistersAsync((byte)1, (ushort)551, (ushort)1))[0]).ToDuration();
 
-                        for (int i = 0; i < result.StepCount * 3; i++)
+                        for (int i = 0; i < response.StepCount * 3; i++)
                         {
                             int item = Convert.ToInt32(_Device.ReadHoldingRegisters((byte)1, addr, 1)[0]);
                             DetailList.Add(item);
@@ -270,9 +328,9 @@ namespace GrpcService.Services
 
                         for (int u = 0; u < DetailList.Count;)
                         {
-                            result.PatternDetail.Add(new ProtoPatternDetail()
+                            response.PatternDetail.Add(new ProtoPatternDetail()
                             {
-                                Step = result.PatternDetail.Count + 1,
+                                Step = response.PatternDetail.Count + 1,
                                 Temp = DetailList[u],
                                 StepDuration = TimeSpan.Parse($"{DetailList[u + 1]}:{DetailList[u + 2]}").ToDuration()
                             });
@@ -285,10 +343,13 @@ namespace GrpcService.Services
                         Console.WriteLine("result.StepCount == 0");
                     }
                 }
-
+                else
+                {
+                    _logger.LogInformation("PLC Cannot Connect");
+                }
             }
 
-            return result;
+            return response;
         }
 
         private async Task<bool> SendPatternToPLC(ProtoPattern request)
@@ -328,5 +389,6 @@ namespace GrpcService.Services
 
             return (chk1 == request.PatternId && chk2 == request.StepCount && chk3 == request.AirPump.EndTemp) ? true : false;
         }
+
     }
 }

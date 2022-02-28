@@ -25,7 +25,7 @@ namespace GrpcService.Services
         }
 
         public override Task<BoolValue> StopOperation(Empty request, ServerCallContext context)
-        {
+        {           
             return _plcService.PushStopOperation();
         }
 
