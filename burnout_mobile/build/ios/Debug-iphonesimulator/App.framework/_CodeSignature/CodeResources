@@ -30,7 +30,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		JftykeVm72Cc7OPPpfixrQJnFpA=
+		9cWqhksre42pJEKZcyAmpLnPf9A=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -45,6 +45,10 @@
 	<dict>
 		<key>flutter_assets/AssetManifest.json</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			oG5/OGn+vw7vp/nu5DUDoZJ4nFc=
+			</data>
 			<key>hash2</key>
 			<data>
 			Sps95+7JukayebvM0TLjL1LW1VXXndpKp/O8tOm9ZR8=
@@ -52,6 +56,10 @@
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			vKJkVIcw+LGHFnKJGwrQwCREv68=
+			</data>
 			<key>hash2</key>
 			<data>
 			zX4DZFvESy3Ue3y2JvUcTsv1Whl6t3JBYotHrBZfviE=
@@ -59,6 +67,10 @@
 		</dict>
 		<key>flutter_assets/NOTICES.Z</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			X/FsqQUg/9wTebDwsUC12qaEbH8=
+			</data>
 			<key>hash2</key>
 			<data>
 			YezNbxgwuycJPBp7SheNdB5YRu/7kSkAZzAmoDwkkZ4=
@@ -66,6 +78,10 @@
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			33xe6rFwPlxRnZOgZWsODADpUI4=
+			</data>
 			<key>hash2</key>
 			<data>
 			0E0I/gLatnGI9y4elyWPSg2LWYJSPgLt6hMvgJD5+rQ=
@@ -73,6 +89,10 @@
 		</dict>
 		<key>flutter_assets/isolate_snapshot_data</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			7Jt1VzUkTmBMIqzT8+Exp0F3vXU=
+			</data>
 			<key>hash2</key>
 			<data>
 			ZFODmTeagWrvsG4zM70kE2pUuv9LC65LEG0iTLSZR8s=
@@ -80,13 +100,21 @@
 		</dict>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			9cWqhksre42pJEKZcyAmpLnPf9A=
+			</data>
 			<key>hash2</key>
 			<data>
-			QNcI879N8iUy/b29L0oS5JpZYjUaUO6oVgunAKC35T4=
+			yqnKoVFm/NHmbQD+spN9KIG6xyRkqnUIy/DkP57RdT0=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			P7bb/oR3EhwqCIH1M6LyTuBIWYU=
+			</data>
 			<key>hash2</key>
 			<data>
 			x6NX+tjyECiQtyzbbjyY8U2zoZ7GDbJtE+T+k/dzgI0=
@@ -94,6 +122,10 @@
 		</dict>
 		<key>flutter_assets/vm_snapshot_data</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			cuieaQ9j+9gCTKYPRhW1tc4y4co=
+			</data>
 			<key>hash2</key>
 			<data>
 			nc7zSGd5LPg51+X2B4gM/FLTg8moyL55+ErAW3mTHI0=
