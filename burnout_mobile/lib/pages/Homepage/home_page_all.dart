@@ -13,7 +13,7 @@ class _HomePageAllState extends State<HomePageAll> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("All"),
+      child: Text("APage"),
     );
   }
 }

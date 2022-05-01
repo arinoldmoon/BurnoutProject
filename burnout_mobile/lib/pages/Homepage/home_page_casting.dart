@@ -12,7 +12,7 @@ class _HomePageCastingState extends State<HomePageCasting> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("Casting"),
+      child: Text("CPage"),
     );
   }
 }

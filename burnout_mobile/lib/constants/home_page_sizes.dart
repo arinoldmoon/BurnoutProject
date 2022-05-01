@@ -8,4 +8,5 @@ class HomePageSizes {
   static const double homePageMenuHeight = 24;
   static const homePageMenuLenght = 4;
   static const double homePageIndicatorTabbarMenuWeight = 0;
+  static const homePageMenuBodySpacing = 15.0;
 }

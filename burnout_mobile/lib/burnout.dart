@@ -1,7 +1,6 @@
-import 'package:burnout_mobile/widgets/home_page_appbar.dart';
+import 'package:burnout_mobile/widgets/home_page_tabbar.dart';
 import 'package:flutter/material.dart';
-
-import 'constants/home_page_ui_strings.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 
 class Burnout extends StatefulWidget {
   const Burnout({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class _BurnoutState extends State<Burnout> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         elevation: 0,
       ),
-      body: HomePageAppbar(),
+      body: const HomePageTabbar(),
     );
   }
 }

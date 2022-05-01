@@ -12,7 +12,7 @@ class _HomePageBurnoutState extends State<HomePageBurnout> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("Burnout"),
+      child: Text("BPage"),
     );
   }
 }

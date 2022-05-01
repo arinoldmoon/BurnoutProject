@@ -13,7 +13,7 @@ class _HomePageWaxInjectionState extends State<HomePageWaxInjection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("Wax Injection"),
+      child: Text("DPage"),
     );
   }
 }
