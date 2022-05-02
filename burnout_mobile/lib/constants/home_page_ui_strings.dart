@@ -4,4 +4,6 @@ class HomePageUiStrings {
   static const homePageBurnoutTabbarTitle = "Burnout";
   static const homePageCastingTabbarTitle = "Casting";
   static const homePageWaxInjectionTabbarTitle = "Wax Injection";
+
+
 }
