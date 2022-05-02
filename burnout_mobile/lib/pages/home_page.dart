@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 0,
       ),
-      body: HomePageTabbar(),
+      body: const HomePageTabbar(),
     );
   }
 }
