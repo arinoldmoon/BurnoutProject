@@ -23,6 +23,7 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
+        key: const Key('machineCard'),
         padding: HomePageSizes.homePageMachineCardPadding,
         height: HomePageSizes.homePageMachineCardHieght,
         width: HomePageSizes.homePageMachineCardWidth,
