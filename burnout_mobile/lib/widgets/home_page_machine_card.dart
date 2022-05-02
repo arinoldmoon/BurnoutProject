@@ -7,9 +7,11 @@ class HomePageMachineCard extends StatefulWidget {
   const HomePageMachineCard({
     Key? key,
     required this.homePageMockMachineCard,
+    required this.onTap,
   }) : super(key: key);
 
   final HomePageMockMachineCard homePageMockMachineCard;
+  final VoidCallback onTap;
 
   @override
   State<HomePageMachineCard> createState() => _HomePageMachineCardState();
@@ -18,32 +20,34 @@ class HomePageMachineCard extends StatefulWidget {
 class _HomePageMachineCardState extends State<HomePageMachineCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //margin: HomePageSizes.homePageMachineCardMargin,
-      padding: HomePageSizes.homePageMachineCardPadding,
-      height: HomePageSizes.homePageMachineCardHieght,
-      width: HomePageSizes.homePageMachineCardWidth,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(
-            HomePageSizes.homePageMachineCardBorderRadius),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          // Column(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   children: [
-          //     _buildMachineImage(widget.homePageMockMachineCard.machinePic)
-          //   ],
-          // ),
-          Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            _buildMachineDetail(
-                widget.homePageMockMachineCard.machineStatus,
-                widget.homePageMockMachineCard.machineName,
-                widget.homePageMockMachineCard.machineModel)
-          ])
-        ],
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        padding: HomePageSizes.homePageMachineCardPadding,
+        height: HomePageSizes.homePageMachineCardHieght,
+        width: HomePageSizes.homePageMachineCardWidth,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+              HomePageSizes.homePageMachineCardBorderRadius),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     _buildMachineImage(widget.homePageMockMachineCard.machinePic)
+            //   ],
+            // ),
+            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              _buildMachineDetail(
+                  widget.homePageMockMachineCard.machineStatus,
+                  widget.homePageMockMachineCard.machineName,
+                  widget.homePageMockMachineCard.machineModel)
+            ])
+          ],
+        ),
       ),
     );
   }
@@ -65,6 +69,7 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
+          key: const Key('machineStatus'),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: machineStatus == true
@@ -82,17 +87,23 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
         const SizedBox(
           height: HomePageSizes.homePageMachineStatusNameSpacing,
         ),
-        Text(
-          machineName,
-          style: Theme.of(context)
-              .textTheme
-              .subtitle1
-              ?.copyWith(fontWeight: FontWeight.bold),
+        Container(
+          key: const Key('machineName'),
+          child: Text(
+            machineName,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
         ),
         const SizedBox(
           height: HomePageSizes.homePageMachineStatusNameSpacing,
         ),
-        Text(machineModel, style: Theme.of(context).textTheme.subtitle1),
+        Container(
+            key: const Key('machineModel'),
+            child: Text(machineModel,
+                style: Theme.of(context).textTheme.subtitle1)),
       ],
     );
   }
