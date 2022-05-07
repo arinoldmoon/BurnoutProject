@@ -26,4 +26,7 @@ class HomePageSizes {
   static const homePageAllPaddingPage = EdgeInsets.symmetric(horizontal: 8,vertical: 4);
   static const homePageAllGridViewSize = 2;
   static const homePageAllGridViewAxisSpacing = 15.0;
+
+  // Home Page App Bar
+  static const homePageAppBarTitleSpacing = 4.0;
 }
