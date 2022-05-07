@@ -1,4 +1,4 @@
-import 'package:burnout_mobile/constants/custom_color.dart';
+import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/constants/home_page_sizes.dart';
 import 'package:burnout_mobile/data_models/home_page_tabbar_menu.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class HomePageTabbar extends StatelessWidget {
         children: [
           TabBar(
             isScrollable: true,
-            labelColor: CustomColor.yellowPrimary,
+            labelColor: AppTheme.yellowPrimary,
             unselectedLabelColor: Colors.black,
             indicatorColor: Colors.transparent,
             labelPadding: HomePageSizes.homePageMenuSpacing,
