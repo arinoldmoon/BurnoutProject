@@ -32,8 +32,8 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
           borderRadius: BorderRadius.circular(
               HomePageSizes.homePageMachineCardBorderRadius),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -41,12 +41,18 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
                 _buildMachineImage(widget.homePageMockMachineCard.machinePic)
               ],
             ),
-            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              _buildMachineDetail(
-                  widget.homePageMockMachineCard.machineStatus,
-                  widget.homePageMockMachineCard.machineName,
-                  widget.homePageMockMachineCard.machineModel)
-            ])
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _buildMachineDetail(
+                      widget.homePageMockMachineCard.machineStatus,
+                      widget.homePageMockMachineCard.machineName,
+                      widget.homePageMockMachineCard.machineModel),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -74,15 +80,15 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: machineStatus == true
-                ? Border.all(color: AppTheme.machineStatusOnBorderColor)
-                : Border.all(color: AppTheme.machineStatusOffBorderColor),
+                ? Border.all(color: AppTheme.greenPrimary)
+                : Border.all(color: AppTheme.redPrimary),
           ),
           child: Icon(
             Icons.circle,
             size: HomePageSizes.homePageMachineStatusIconsize,
             color: machineStatus == true
-                ? AppTheme.machineStatusOnBorderColor.withOpacity(0.8)
-                : AppTheme.machineStatusOffBorderColor.withOpacity(0.8),
+                ? AppTheme.greenPrimary.withOpacity(0.8)
+                : AppTheme.redPrimary.withOpacity(0.8),
           ),
         ),
         const SizedBox(
@@ -94,7 +100,7 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
             machineName,
             style: Theme.of(context)
                 .textTheme
-                .subtitle1
+                .caption
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
@@ -102,9 +108,9 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
           height: HomePageSizes.homePageMachineStatusNameSpacing,
         ),
         Container(
-            key: const Key('machineModel'),
-            child: Text(machineModel,
-                style: Theme.of(context).textTheme.subtitle1)),
+          key: const Key('machineModel'),
+          child: Text(machineModel, style: Theme.of(context).textTheme.caption),
+        ),
       ],
     );
   }

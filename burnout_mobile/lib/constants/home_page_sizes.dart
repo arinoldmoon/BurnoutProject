@@ -15,15 +15,16 @@ class HomePageSizes {
   static const double homePageMachineCardWidth = 180.0;
   static const double homePageMachineCardBorderRadius = 10.0;
   static const homePageMachineCardPadding =
-      EdgeInsets.symmetric(vertical: 20, horizontal: 18);
+      EdgeInsets.symmetric(vertical: 20, horizontal: 12);
   static const double homePageMachineImgWidth = 50.0;
   static const double homePageMachineImgHeight = 80.0;
   static const double homePageMachineStatusIconsize = 20.0;
   static const double homePageMachineStatusNameSpacing = 8.0;
   static const homePageMachineCardMargin = EdgeInsets.all(8);
 
-  // Home Page All 
-  static const homePageAllPaddingPage = EdgeInsets.symmetric(horizontal: 8,vertical: 4);
+  // Home Page All
+  static const homePageAllPaddingPage =
+      EdgeInsets.symmetric(horizontal: 8, vertical: 4);
   static const homePageAllGridViewSize = 2;
   static const homePageAllGridViewAxisSpacing = 15.0;
 
