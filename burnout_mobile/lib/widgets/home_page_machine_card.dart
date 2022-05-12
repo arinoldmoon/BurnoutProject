@@ -35,12 +35,12 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     _buildMachineImage(widget.homePageMockMachineCard.machinePic)
-            //   ],
-            // ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _buildMachineImage(widget.homePageMockMachineCard.machinePic)
+              ],
+            ),
             Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               _buildMachineDetail(
                   widget.homePageMockMachineCard.machineStatus,
