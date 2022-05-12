@@ -32,8 +32,8 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
           borderRadius: BorderRadius.circular(
               HomePageSizes.homePageMachineCardBorderRadius),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -41,12 +41,18 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
                 _buildMachineImage(widget.homePageMockMachineCard.machinePic)
               ],
             ),
-            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              _buildMachineDetail(
-                  widget.homePageMockMachineCard.machineStatus,
-                  widget.homePageMockMachineCard.machineName,
-                  widget.homePageMockMachineCard.machineModel)
-            ])
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _buildMachineDetail(
+                      widget.homePageMockMachineCard.machineStatus,
+                      widget.homePageMockMachineCard.machineName,
+                      widget.homePageMockMachineCard.machineModel),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -94,7 +100,7 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
             machineName,
             style: Theme.of(context)
                 .textTheme
-                .subtitle1
+                .caption
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
@@ -102,9 +108,9 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
           height: HomePageSizes.homePageMachineStatusNameSpacing,
         ),
         Container(
-            key: const Key('machineModel'),
-            child: Text(machineModel,
-                style: Theme.of(context).textTheme.subtitle1)),
+          key: const Key('machineModel'),
+          child: Text(machineModel, style: Theme.of(context).textTheme.caption),
+        ),
       ],
     );
   }
