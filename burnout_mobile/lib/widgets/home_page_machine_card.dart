@@ -7,11 +7,9 @@ class HomePageMachineCard extends StatefulWidget {
   const HomePageMachineCard({
     Key? key,
     required this.homePageMockMachineCard,
-    required this.onTap,
   }) : super(key: key);
 
   final HomePageMockMachineCard homePageMockMachineCard;
-  final VoidCallback onTap;
 
   @override
   State<HomePageMachineCard> createState() => _HomePageMachineCardState();
@@ -21,7 +19,7 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: widget.homePageMockMachineCard.onTap,
       child: Container(
         key: const Key('machineCard'),
         padding: HomePageSizes.homePageMachineCardPadding,
@@ -35,12 +33,12 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _buildMachineImage(widget.homePageMockMachineCard.machinePic)
-              ],
-            ),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     _buildMachineImage(widget.homePageMockMachineCard.machinePic)
+            //   ],
+            // ),
             Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               _buildMachineDetail(
                   widget.homePageMockMachineCard.machineStatus,

@@ -10,7 +10,7 @@ class MockMachinePayload {
       required this.machineStatus,
       this.machineProgram});
 
-  static MockMachinePayload mockMachinePayload = const MockMachinePayload(
+  static MockMachinePayload mockMachinePayloadIdle = const MockMachinePayload(
     machineName: 'machine1',
     machineStatus: MachineStatus.IDLE,
   );

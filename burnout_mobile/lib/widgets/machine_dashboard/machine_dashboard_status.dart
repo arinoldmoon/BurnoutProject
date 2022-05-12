@@ -37,8 +37,27 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
     );
   }
 
-  GestureDetector _buildMachineIdleButton(String buttonText, IconData icon) {
-    return GestureDetector();
+  GestureDetector _buildMachineIdleButton(
+      String buttonText, IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(
+              icon,
+              color: AppTheme.yellowPrimary,
+            ),
+            Text(
+              buttonText,
+              style: Theme.of(context).textTheme.button,
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildMachineStatus(MachineStatus machineStatus) {
@@ -72,7 +91,21 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
         Flexible(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [],
+            children: [
+              _buildMachineIdleButton(
+                MachineDashboardUiStrings.machineDashboardNewProgram,
+                Icons.add_circle_outline,
+                () {},
+              ),
+              const VerticalDivider(
+                color: Colors.black,
+                thickness: 2,
+              ),
+              _buildMachineIdleButton(
+                  MachineDashboardUiStrings.machineDashboardLoadProgram,
+                  Icons.drive_folder_upload_outlined,
+                  () {})
+            ],
           ),
         ),
       ],

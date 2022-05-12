@@ -19,10 +19,9 @@ class _HomePageAllState extends State<HomePageAll> {
           crossAxisCount: HomePageSizes.homePageAllGridViewSize,
           crossAxisSpacing: HomePageSizes.homePageAllGridViewAxisSpacing,
           mainAxisSpacing: HomePageSizes.homePageAllGridViewAxisSpacing,
-          children: HomePageMockMachineCard.homePageMockMachineCardList
+          children: HomePageMockMachineCard.homePageMockMachineCardList(context)
               .map((e) => HomePageMachineCard(
                     homePageMockMachineCard: e,
-                    onTap: e.onTap,
                   ))
               .toList()),
     );
