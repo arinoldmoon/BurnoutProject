@@ -1,8 +1,9 @@
-import 'package:burnout_mobile/constants/home_page_sizes.dart';
-import 'package:burnout_mobile/constants/home_page_ui_strings.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/home_page_tabbar.dart';
 import 'package:flutter/material.dart';
+
+import 'constants/homepage/home_page_sizes.dart';
+import 'constants/homepage/home_page_ui_strings.dart';
 
 class Burnout extends StatefulWidget {
   const Burnout({Key? key}) : super(key: key);

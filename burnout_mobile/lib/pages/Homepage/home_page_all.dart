@@ -1,4 +1,4 @@
-import 'package:burnout_mobile/constants/home_page_sizes.dart';
+import 'package:burnout_mobile/constants/homepage/home_page_sizes.dart';
 import 'package:burnout_mobile/data_models/home_page_mock_machine_card.dart';
 import 'package:burnout_mobile/widgets/home_page_machine_card.dart';
 import 'package:flutter/material.dart';

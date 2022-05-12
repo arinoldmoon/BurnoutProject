@@ -1,5 +1,4 @@
-import 'package:burnout_mobile/constants/home_page_constants.dart';
-import 'package:burnout_mobile/constants/home_page_ui_strings.dart';
+import 'package:burnout_mobile/constants/homepage/home_page_constants.dart';
 import 'package:flutter/material.dart';
 
 class HomePageMockMachineCard {

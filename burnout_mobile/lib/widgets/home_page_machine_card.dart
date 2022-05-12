@@ -1,5 +1,5 @@
+import 'package:burnout_mobile/constants/homepage/home_page_sizes.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
-import 'package:burnout_mobile/constants/home_page_sizes.dart';
 import 'package:burnout_mobile/data_models/home_page_mock_machine_card.dart';
 import 'package:flutter/material.dart';
 
@@ -74,15 +74,15 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: machineStatus == true
-                ? Border.all(color: AppTheme.machineStatusOnBorderColor)
-                : Border.all(color: AppTheme.machineStatusOffBorderColor),
+                ? Border.all(color: AppTheme.greenPrimary)
+                : Border.all(color: AppTheme.redPrimary),
           ),
           child: Icon(
             Icons.circle,
             size: HomePageSizes.homePageMachineStatusIconsize,
             color: machineStatus == true
-                ? AppTheme.machineStatusOnBorderColor.withOpacity(0.8)
-                : AppTheme.machineStatusOffBorderColor.withOpacity(0.8),
+                ? AppTheme.greenPrimary.withOpacity(0.8)
+                : AppTheme.redPrimary.withOpacity(0.8),
           ),
         ),
         const SizedBox(
