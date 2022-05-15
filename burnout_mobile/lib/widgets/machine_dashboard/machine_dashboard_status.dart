@@ -155,9 +155,6 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
             ],
           ),
         ),
-        const SizedBox(
-          height: MachineDashboardSizes.machineDashboardSpaceBetween,
-        ),
       ],
     );
   }
@@ -181,9 +178,6 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
           ],
         ),
         _buildMachineStatusWaitingStatus(),
-        const SizedBox(
-          height: MachineDashboardSizes.machineDashboardSpaceBetween,
-        ),
       ],
     );
   }

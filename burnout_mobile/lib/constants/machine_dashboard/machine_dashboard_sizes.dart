@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class MachineDashboardSizes {
   // Machine Dashboard Status Widget
   static const machineDashboardPagePadding = EdgeInsets.all(10);
-  static const machineDashboardStatusPadding = EdgeInsets.all(10);
+  static const machineDashboardStatusPadding =
+      EdgeInsets.symmetric(vertical: 18, horizontal: 10);
   static const machineDashboardBorderRadius = 10.0;
   static const machineDashboardSpaceBetween = 8.0;
   static const machineDashboardIdleProgramPadding =
