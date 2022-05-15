@@ -6,4 +6,6 @@ class MachineDashboardUiStrings {
   static const machineDashboardOnProgram = "Operating Program 1";
   static const machineDashboardLoadProgram = "Load Program";
   static const machineDashboardNewProgram = "New Program";
+  static const machineDashboardProgramName = "Program Name :";
+  static const machineDashboardNumberOfSteps = "Number of Step :";
 }

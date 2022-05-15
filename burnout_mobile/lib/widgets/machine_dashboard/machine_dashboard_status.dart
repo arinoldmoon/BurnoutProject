@@ -19,21 +19,21 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: MachineDashboardSizes.machineDashboardStatusMargin,
+        padding: MachineDashboardSizes.machineDashboardStatusPadding,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(
-                MachineDashboardSizes.machineDashBoardBorderRadius),
+                MachineDashboardSizes.machineDashboardBorderRadius),
             color: Colors.white),
         child: _buildMachineStatus(widget.mockMachinePayload.machineStatus));
   }
 
-  Text _buildTitleText() {
+  Text _buildTitleText(String text) {
     return Text(
-      MachineDashboardUiStrings.machineDashboardStatus,
+      text,
       style: Theme.of(context)
           .textTheme
-          .headline6
-          ?.copyWith(fontWeight: FontWeight.bold),
+          .headline6!
+          .copyWith(fontWeight: FontWeight.normal),
     );
   }
 
@@ -60,6 +60,48 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
     );
   }
 
+  Widget _buildMachineStatusWaitingStatus() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(
+          height: MachineDashboardSizes.machineDashboardSpaceBetween,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTitleText(
+                MachineDashboardUiStrings.machineDashboardProgramName),
+            Text(
+              widget.mockMachinePayload.machineProgram!,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: MachineDashboardSizes.machineDashboardSpaceBetween,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTitleText(
+                MachineDashboardUiStrings.machineDashboardNumberOfSteps),
+            Text(
+              "${widget.mockMachinePayload.machineProgramSteps!}",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
   Widget _buildMachineStatus(MachineStatus machineStatus) {
     switch (machineStatus) {
       case MachineStatus.IDLE:
@@ -78,7 +120,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildTitleText(),
+            _buildTitleText(MachineDashboardUiStrings.machineDashboardStatus),
             Text(
               MachineDashboardUiStrings.machineDashboardIdle,
               style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -88,7 +130,12 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
             )
           ],
         ),
-        Flexible(
+        const SizedBox(
+          height: MachineDashboardSizes.machineDashboardSpaceBetween,
+        ),
+        Container(
+          height: MachineDashboardSizes.machineDashboardIdleProgramHeight,
+          padding: MachineDashboardSizes.machineDashboardIdleProgramPadding,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -108,22 +155,35 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
             ],
           ),
         ),
+        const SizedBox(
+          height: MachineDashboardSizes.machineDashboardSpaceBetween,
+        ),
       ],
     );
   }
 
   Widget _buildMachineStatusWaiting() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        _buildTitleText(),
-        Text(
-          MachineDashboardUiStrings.machineDashboardIdle,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppTheme.yellowPrimary,
-              ),
-        )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTitleText(
+              MachineDashboardUiStrings.machineDashboardStatus,
+            ),
+            Text(
+              MachineDashboardUiStrings.machineDashboardIdle,
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.yellowPrimary,
+                  ),
+            )
+          ],
+        ),
+        _buildMachineStatusWaitingStatus(),
+        const SizedBox(
+          height: MachineDashboardSizes.machineDashboardSpaceBetween,
+        ),
       ],
     );
   }
@@ -132,7 +192,9 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildTitleText(),
+        _buildTitleText(
+          MachineDashboardUiStrings.machineDashboardStatus,
+        ),
         Text(
           MachineDashboardUiStrings.machineDashboardIdle,
           style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -144,3 +206,5 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
     );
   }
 }
+
+class $ {}
