@@ -3,6 +3,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
+import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_status_idle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -38,31 +39,9 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
     );
   }
 
-  GestureDetector _buildMachineIdleButton(
-      String buttonText, IconData icon, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(
-              icon,
-              color: AppTheme.yellowPrimary,
-            ),
-            Text(
-              buttonText,
-              style: Theme.of(context).textTheme.button,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildMachineStatusWaitingStatus() {
     return Column(
+      key: const Key('MachineDashboardStatusWaitingStatus'),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(
@@ -105,6 +84,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
 
   Widget _buildOnProgramPercentLinear() {
     return Column(
+      key: const Key('machineDashboardStatusOnProgramPercentage'),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         LinearPercentIndicator(
@@ -147,6 +127,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
+          key: const Key('machineDashboardTitle'),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildTitleText(MachineDashboardUiStrings.machineDashboardStatus),
@@ -163,24 +144,28 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
           height: MachineDashboardSizes.machineDashboardSpaceBetween,
         ),
         Container(
+          key: const Key('machineDashboardStatusIdleButton'),
           height: MachineDashboardSizes.machineDashboardIdleProgramHeight,
           padding: MachineDashboardSizes.machineDashboardIdleProgramPadding,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildMachineIdleButton(
-                MachineDashboardUiStrings.machineDashboardNewProgram,
-                Icons.add_circle_outline,
-                () {},
+              MachineDashboardStatusIdleButton(
+                buttonText:
+                    MachineDashboardUiStrings.machineDashboardNewProgram,
+                icon: Icons.add_circle_outline,
+                onTap: () {},
               ),
               const VerticalDivider(
                 color: Colors.black,
                 thickness: 2,
               ),
-              _buildMachineIdleButton(
-                  MachineDashboardUiStrings.machineDashboardLoadProgram,
-                  Icons.drive_folder_upload_outlined,
-                  () {})
+              MachineDashboardStatusIdleButton(
+                buttonText:
+                    MachineDashboardUiStrings.machineDashboardLoadProgram,
+                icon: Icons.drive_folder_upload_outlined,
+                onTap: () {},
+              ),
             ],
           ),
         ),
@@ -193,6 +178,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
+          key: const Key('machineDashboardTitle'),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildTitleText(
@@ -217,6 +203,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
+          key: const Key('machineDashboardTitle'),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildTitleText(
@@ -233,6 +220,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
         ),
         _buildOnProgramPercentLinear(),
         Row(
+          key: const Key('machineDashboardStatusOnProgramTimeRemaing'),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
