@@ -104,29 +104,30 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
   }
 
   Widget _buildOnProgramPercentLinear() {
-    return Container(
-      padding: MachineDashboardSizes.machineDashboardStatusPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          LinearPercentIndicator(
-            percent: widget.mockMachinePayload.machineOnProgramPercent!,
-            progressColor: AppTheme.yellowPrimary,
-            lineHeight:
-                MachineDashboardSizes.machineDashboardLinearindicatorHeight,
-          ),
-          const SizedBox(
-            height: MachineDashboardSizes.machineDashboardSpaceBetween,
-          ),
-          Text(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        LinearPercentIndicator(
+          padding: MachineDashboardSizes.machineDashboardLinearindicatorPadding,
+          percent: widget.mockMachinePayload.machineOnProgramPercent!,
+          progressColor: AppTheme.yellowPrimary,
+          lineHeight:
+              MachineDashboardSizes.machineDashboardLinearindicatorHeight,
+        ),
+        const SizedBox(
+          height: MachineDashboardSizes.machineDashboardSpaceBetween,
+        ),
+        Padding(
+          padding: MachineDashboardSizes.machineDashboardPercentPadding,
+          child: Text(
             '${widget.mockMachinePayload.machineOnProgramPercent! * 100}%',
             style: Theme.of(context)
                 .textTheme
                 .headline6!
                 .copyWith(fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 
