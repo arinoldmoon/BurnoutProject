@@ -1,4 +1,4 @@
-import 'package:burnout_mobile/constants/home_page_ui_strings.dart';
+import 'package:burnout_mobile/constants/homepage/home_page_ui_strings.dart';
 import 'package:burnout_mobile/pages/Homepage/home_page_all.dart';
 import 'package:burnout_mobile/pages/Homepage/home_page_burnout.dart';
 import 'package:burnout_mobile/pages/Homepage/home_page_casting.dart';

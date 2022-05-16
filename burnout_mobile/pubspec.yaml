@@ -36,6 +36,7 @@ dependencies:
   grpc: ^3.0.2
   protobuf: ^2.0.1
   golden_toolkit: ^0.13.0
+  percent_indicator: ^3.4.0
   
 
 dev_dependencies:

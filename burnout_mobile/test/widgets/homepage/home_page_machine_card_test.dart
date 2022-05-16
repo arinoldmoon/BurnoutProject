@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:burnout_mobile/constants/homepage/home_page_constants.dart';
 import 'package:burnout_mobile/data_models/home_page_mock_machine_card.dart';
 import 'package:burnout_mobile/widgets/home_page_machine_card.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,12 @@ void main() {
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(
           body: HomePageMachineCard(
-        homePageMockMachineCard:
-            HomePageMockMachineCard.homePageMockMachineCardList.first,
-        onTap: () {},
+        homePageMockMachineCard: HomePageMockMachineCard(
+            machineStatus: true,
+            machineName: 'machineName1',
+            machineModel: 'machineModel1',
+            machinePic: HomePageConstants.homePageMachineCardMachinePic,
+            onTap: () {}),
       )),
     ));
     expect(find.byKey(const Key('machineName')), findsOneWidget);
@@ -26,9 +30,12 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: HomePageMachineCard(
-            homePageMockMachineCard:
-                HomePageMockMachineCard.homePageMockMachineCardList.first,
-            onTap: completer.complete,
+            homePageMockMachineCard: HomePageMockMachineCard(
+                machineStatus: true,
+                machineName: 'machineName1',
+                machineModel: 'machineModel1',
+                machinePic: HomePageConstants.homePageMachineCardMachinePic,
+                onTap: completer.complete),
           ),
         ),
       ),
@@ -44,9 +51,12 @@ void main() {
       home: Scaffold(
         backgroundColor: Colors.transparent,
         body: HomePageMachineCard(
-          homePageMockMachineCard:
-              HomePageMockMachineCard.homePageMockMachineCardList.first,
-          onTap: () {},
+          homePageMockMachineCard: HomePageMockMachineCard(
+              machineStatus: true,
+              machineName: 'machineName1',
+              machineModel: 'machineModel1',
+              machinePic: HomePageConstants.homePageMachineCardMachinePic,
+              onTap: () {}),
         ),
       ),
     ));
@@ -61,9 +71,12 @@ void main() {
       home: Scaffold(
         backgroundColor: Colors.transparent,
         body: HomePageMachineCard(
-          homePageMockMachineCard:
-              HomePageMockMachineCard.homePageMockMachineCardList.last,
-          onTap: () {},
+          homePageMockMachineCard: HomePageMockMachineCard(
+              machineStatus: false,
+              machineName: 'machineName3',
+              machineModel: 'machineModel3',
+              machinePic: HomePageConstants.homePageMachineCardMachinePic,
+              onTap: () {}),
         ),
       ),
     ));

@@ -1,5 +1,5 @@
+import 'package:burnout_mobile/constants/homepage/home_page_sizes.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
-import 'package:burnout_mobile/constants/home_page_sizes.dart';
 import 'package:burnout_mobile/data_models/home_page_mock_machine_card.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +7,9 @@ class HomePageMachineCard extends StatefulWidget {
   const HomePageMachineCard({
     Key? key,
     required this.homePageMockMachineCard,
-    required this.onTap,
   }) : super(key: key);
 
   final HomePageMockMachineCard homePageMockMachineCard;
-  final VoidCallback onTap;
 
   @override
   State<HomePageMachineCard> createState() => _HomePageMachineCardState();
@@ -21,7 +19,7 @@ class _HomePageMachineCardState extends State<HomePageMachineCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: widget.homePageMockMachineCard.onTap,
       child: Container(
         key: const Key('machineCard'),
         padding: HomePageSizes.homePageMachineCardPadding,

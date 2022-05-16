@@ -7,14 +7,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
+  final BuildContext context;
   testWidgets('Home page All should render correctly', (tester) async {
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(body: HomePageAll()),
     ));
-    expect(
-        find.byKey(const Key('machineCard')),
-        findsNWidgets(
-            HomePageMockMachineCard.homePageMockMachineCardList.length));
+    expect(find.byKey(const Key('machineCard')), findsNWidgets(3));
   });
 
   testWidgets('Home page All should have right screenshot ', (tester) async {

@@ -1,4 +1,4 @@
-import 'package:burnout_mobile/constants/home_page_ui_strings.dart';
+import 'package:burnout_mobile/constants/homepage/home_page_ui_strings.dart';
 import 'package:burnout_mobile/widgets/home_page_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -53,40 +53,41 @@ void main() {
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(body: HomePageTabbar()),
     ));
-    expect(
-        find.byType(HomePageTabbar), matchesGoldenFile('Home_Page_Tabbar_A.png'));
+    expect(find.byType(HomePageTabbar),
+        matchesGoldenFile('Home_Page_Tabbar_A.png'));
   });
 
-    testWidgets('should have the right screenshot B Page', (tester) async {
+  testWidgets('should have the right screenshot B Page', (tester) async {
     await loadAppFonts();
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(body: HomePageTabbar()),
     ));
     await tester.tap(find.text(HomePageUiStrings.homePageBurnoutTabbarTitle));
     await tester.pumpAndSettle();
-    expect(
-        find.byType(HomePageTabbar), matchesGoldenFile('Home_Page_Tabbar_B.png'));
+    expect(find.byType(HomePageTabbar),
+        matchesGoldenFile('Home_Page_Tabbar_B.png'));
   });
 
-   testWidgets('should have the right screenshot C Page', (tester) async {
+  testWidgets('should have the right screenshot C Page', (tester) async {
     await loadAppFonts();
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(body: HomePageTabbar()),
     ));
     await tester.tap(find.text(HomePageUiStrings.homePageCastingTabbarTitle));
     await tester.pumpAndSettle();
-    expect(
-        find.byType(HomePageTabbar), matchesGoldenFile('Home_Page_Tabbar_C.png'));
+    expect(find.byType(HomePageTabbar),
+        matchesGoldenFile('Home_Page_Tabbar_C.png'));
   });
 
-   testWidgets('should have the right screenshot D Page', (tester) async {
+  testWidgets('should have the right screenshot D Page', (tester) async {
     await loadAppFonts();
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(body: HomePageTabbar()),
     ));
-    await tester.tap(find.text(HomePageUiStrings.homePageWaxInjectionTabbarTitle));
+    await tester
+        .tap(find.text(HomePageUiStrings.homePageWaxInjectionTabbarTitle));
     await tester.pumpAndSettle();
-    expect(
-        find.byType(HomePageTabbar), matchesGoldenFile('Home_Page_Tabbar_D.png'));
+    expect(find.byType(HomePageTabbar),
+        matchesGoldenFile('Home_Page_Tabbar_D.png'));
   });
 }

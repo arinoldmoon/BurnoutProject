@@ -1,5 +1,5 @@
+import 'package:burnout_mobile/constants/homepage/home_page_sizes.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
-import 'package:burnout_mobile/constants/home_page_sizes.dart';
 import 'package:burnout_mobile/data_models/home_page_tabbar_menu.dart';
 import 'package:flutter/material.dart';
 
