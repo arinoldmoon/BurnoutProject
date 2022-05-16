@@ -4,6 +4,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class MachineDashboardStatus extends StatefulWidget {
   const MachineDashboardStatus({Key? key, required this.mockMachinePayload})
@@ -102,6 +103,33 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
     );
   }
 
+  Widget _buildOnProgramPercentLinear() {
+    return Container(
+      padding: MachineDashboardSizes.machineDashboardStatusPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          LinearPercentIndicator(
+            percent: widget.mockMachinePayload.machineOnProgramPercent!,
+            progressColor: AppTheme.yellowPrimary,
+            lineHeight:
+                MachineDashboardSizes.machineDashboardLinearindicatorHeight,
+          ),
+          const SizedBox(
+            height: MachineDashboardSizes.machineDashboardSpaceBetween,
+          ),
+          Text(
+            '${widget.mockMachinePayload.machineOnProgramPercent! * 100}%',
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _buildMachineStatus(MachineStatus machineStatus) {
     switch (machineStatus) {
       case MachineStatus.IDLE:
@@ -161,6 +189,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
 
   Widget _buildMachineStatusWaiting() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +198,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
               MachineDashboardUiStrings.machineDashboardStatus,
             ),
             Text(
-              MachineDashboardUiStrings.machineDashboardIdle,
+              MachineDashboardUiStrings.machineDashboardWaiting,
               style: Theme.of(context).textTheme.headline6?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppTheme.yellowPrimary,
@@ -183,22 +212,45 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
   }
 
   Widget _buildMachineStatusOnProgram() {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildTitleText(
-          MachineDashboardUiStrings.machineDashboardStatus,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTitleText(
+              MachineDashboardUiStrings.machineDashboardStatus,
+            ),
+            Text(
+              MachineDashboardUiStrings.machineDashboardOnProgram,
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.greenPrimary,
+                  ),
+            )
+          ],
         ),
-        Text(
-          MachineDashboardUiStrings.machineDashboardIdle,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppTheme.greenPrimary,
-              ),
-        )
+        _buildOnProgramPercentLinear(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${widget.mockMachinePayload.machineTimeRemaing! / 60} hr ',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(fontWeight: FontWeight.normal),
+            ),
+            Text(
+              '${widget.mockMachinePayload.machineTimeRemaing! % 60} min remaining ',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(fontWeight: FontWeight.normal),
+            ),
+          ],
+        ),
       ],
     );
   }
 }
-
-class $ {}

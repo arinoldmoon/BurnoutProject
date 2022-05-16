@@ -31,7 +31,8 @@ class HomePageMockMachineCard {
             context,
             MaterialPageRoute(
               builder: (_) => MachineDashboardPage(
-                  machinePayload: MockMachinePayload.mockMachinePayloadWaiting),
+                  machinePayload:
+                      MockMachinePayload.mockMachinePayloadOnProgram),
             ),
           );
 

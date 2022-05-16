@@ -10,4 +10,5 @@ class MachineDashboardSizes {
   static const machineDashboardIdleProgramPadding =
       EdgeInsets.symmetric(horizontal: 50);
   static const machineDashboardIdleProgramHeight = 50.0;
+  static const machineDashboardLinearindicatorHeight = 5.0;
 }
