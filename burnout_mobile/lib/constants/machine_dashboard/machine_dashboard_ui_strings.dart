@@ -8,4 +8,7 @@ class MachineDashboardUiStrings {
   static const machineDashboardNewProgram = "New Program";
   static const machineDashboardProgramName = "Program Name :";
   static const machineDashboardNumberOfSteps = "Number of Step :";
+  static String machineDashboardStatusHourRemaining(int timeRemaining) {
+    return '${timeRemaining / 60} hr ${timeRemaining % 60} min remaing';
+  }
 }
