@@ -224,14 +224,8 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${widget.mockMachinePayload.machineTimeRemaing! / 60} hr ',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .copyWith(fontWeight: FontWeight.normal),
-            ),
-            Text(
-              '${widget.mockMachinePayload.machineTimeRemaing! % 60} min remaining ',
+              MachineDashboardUiStrings.machineDashboardStatusHourRemaining(
+                  widget.mockMachinePayload.machineTimeRemaing!),
               style: Theme.of(context)
                   .textTheme
                   .headline6!
