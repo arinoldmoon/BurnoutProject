@@ -1,3 +1,6 @@
+import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
+import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
+
 class MachineDashboardUiStrings {
   // Machine Dashboard Status
   static const machineDashboardStatus = "Status :";
@@ -10,5 +13,29 @@ class MachineDashboardUiStrings {
   static const machineDashboardNumberOfSteps = "Number of Step :";
   static String machineDashboardStatusHourRemaining(int timeRemaining) {
     return '${timeRemaining / 60} hr ${timeRemaining % 60} min remaing';
+  }
+
+  // Machine Dashboard Temperature
+  static const machineDashboardTemperatureOven = 'Oven';
+  static const machineDashboardTemperatureAfb = 'AFB';
+  static const machineDashboardTemperatureTube = 'Tube';
+  static const machineDashboardTemperatureFloor = 'Floor';
+  static const machineDashboardTemperatureCelciusSymbol = '°C';
+  static String machineDashboardTemperatureTempDigit(double temp) {
+    return temp.toInt().toString();
+  }
+
+  static String machineDashboardTemperatureName(
+      MachineTemperature machineTemperature) {
+    switch (machineTemperature.machineTempName!) {
+      case MachineHeater.FLOOR:
+        return machineDashboardTemperatureFloor;
+      case MachineHeater.AFB:
+        return machineDashboardTemperatureAfb;
+      case MachineHeater.OVEN:
+        return machineDashboardTemperatureOven;
+      case MachineHeater.TUBE:
+        return machineDashboardTemperatureTube;
+    }
   }
 }
