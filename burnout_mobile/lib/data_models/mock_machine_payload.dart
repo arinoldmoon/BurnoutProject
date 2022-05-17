@@ -7,6 +7,7 @@ class MockMachinePayload {
   final int? machineProgramSteps;
   final int? machineTimeRemaing;
   final double? machineOnProgramPercent;
+  final String machineModel;
 
   const MockMachinePayload(
       {required this.machineName,
@@ -14,16 +15,19 @@ class MockMachinePayload {
       this.machineProgram,
       this.machineProgramSteps,
       this.machineOnProgramPercent,
-      this.machineTimeRemaing});
+      this.machineTimeRemaing,
+      required this.machineModel});
 
   static MockMachinePayload mockMachinePayloadIdle = const MockMachinePayload(
     machineName: 'machine1',
+    machineModel: 'S6 Eco',
     machineStatus: MachineStatus.IDLE,
   );
 
   static MockMachinePayload mockMachinePayloadWaiting =
       const MockMachinePayload(
     machineName: 'machine2',
+    machineModel: 'S6 Eco',
     machineStatus: MachineStatus.WAITING,
     machineProgram: 'Program1',
     machineProgramSteps: 8,
@@ -32,6 +36,7 @@ class MockMachinePayload {
   static MockMachinePayload mockMachinePayloadOnProgram =
       const MockMachinePayload(
     machineName: 'machine3',
+    machineModel: 'S6 Eco',
     machineStatus: MachineStatus.ONPROGRAM,
     machineProgram: 'Operating Program1',
     machineOnProgramPercent: 0.65,

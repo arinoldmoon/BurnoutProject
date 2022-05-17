@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MachineDashboardSizes {
+  // Machine Dashboard Page
+  static const machineDashboardPageTitleSpacing = 17.0;
+
   // Machine Dashboard Status Widget
   static const machineDashboardPagePadding = EdgeInsets.all(10);
   static const machineDashboardStatusPadding =

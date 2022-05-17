@@ -1,4 +1,6 @@
 class MachineDashboardUiStrings {
+  // Machine Dasboard Page
+
   // Machine Dashboard Status
   static const machineDashboardStatus = "Status :";
   static const machineDashboardIdle = "Idle";

@@ -1,7 +1,7 @@
 import 'package:burnout_mobile/constants/homepage/home_page_constants.dart';
 import 'package:burnout_mobile/constants/routes.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-import 'package:burnout_mobile/pages/machine_dashboard_page.dart';
+import 'package:burnout_mobile/pages/machine_dashboard/machine_dashboard_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePageMockMachineCard {
