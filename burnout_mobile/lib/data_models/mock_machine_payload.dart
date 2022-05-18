@@ -1,4 +1,3 @@
-import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 
 class MockMachinePayload {
@@ -71,7 +70,7 @@ class MachineTemperature {
     ),
     MachineTemperature(
       machineTemp: 95,
-      machineHeaterStatus: MachineHeaterStatus.ON,
+      machineHeaterStatus: MachineHeaterStatus.OFF,
       machineTempName: MachineHeater.FLOOR,
     )
   ];

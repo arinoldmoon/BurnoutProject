@@ -38,6 +38,7 @@ dependencies:
   golden_toolkit: ^0.13.0
   percent_indicator: ^3.4.0
   flutter_phosphor_icons: ^0.0.1+6
+  phosphor_flutter: ^1.4.0
   
 
 dev_dependencies:

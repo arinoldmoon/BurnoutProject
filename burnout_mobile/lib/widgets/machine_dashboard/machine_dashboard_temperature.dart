@@ -23,6 +23,7 @@ class _MachineDashboardTemperatureState
   @override
   Widget build(BuildContext context) {
     return Row(
+      key: const Key('machineTempWidget'),
       children: [
         Container(
           height: MachineDashboardSizes.machineDashboardTemperatureHeight,
@@ -33,11 +34,7 @@ class _MachineDashboardTemperatureState
                 MachineDashboardSizes.machineDashboardTemperatureBorderRadius),
             color: Colors.white,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [_buildTempState()],
-          ),
+          child: _buildTempState(),
         ),
         const SizedBox(
           width: MachineDashboardSizes.machineDashboardTemperatureItemSpacing,
@@ -55,6 +52,7 @@ class _MachineDashboardTemperatureState
           children: [
             const Icon(
               PhosphorIcons.thermometer_simple,
+              key: Key('machineTempIconOn'),
               color: AppTheme.greenPrimary,
               size: MachineDashboardSizes.machineDashboardTemperatureIconSize,
             ),
@@ -73,6 +71,7 @@ class _MachineDashboardTemperatureState
           children: [
             const Icon(
               PhosphorIcons.thermometer_simple,
+              key: Key('machineTempIconOff'),
               color: AppTheme.redPrimary,
               size: MachineDashboardSizes.machineDashboardTemperatureIconSize,
             ),
@@ -88,6 +87,7 @@ class _MachineDashboardTemperatureState
 
   Widget _buildTempText() {
     return Column(
+      key: const Key('machineTempText'),
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

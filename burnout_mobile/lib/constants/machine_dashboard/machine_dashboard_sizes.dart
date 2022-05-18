@@ -22,11 +22,11 @@ class MachineDashboardSizes {
 
   // Machine Dashboard Temperature
   static const machineDashboardTemperatureHeight = 120.0;
-  static const machineDashboardTemperatureWidth = 176.0;
+  static const machineDashboardTemperatureWidth = 180.0;
   static const machineDashboardTemperatureBorderRadius = 10.0;
   static const machineDashboardTemperaturePadding =
-      EdgeInsets.symmetric(vertical: 26, horizontal: 16);
+      EdgeInsets.symmetric(vertical: 26, horizontal: 8);
   static const machineDashboardTemperatureIconSize = 55.0;
-  static const machineDashboardTemperatureIconTempSpacing = 18.0;
-  static const machineDashboardTemperatureItemSpacing = 18.0;
+  static const machineDashboardTemperatureIconTempSpacing = 5.0;
+  static const machineDashboardTemperatureItemSpacing = 13.0;
 }
