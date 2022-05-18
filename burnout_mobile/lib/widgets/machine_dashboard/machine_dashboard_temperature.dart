@@ -22,25 +22,32 @@ class _MachineDashboardTemperatureState
     extends State<MachineDashboardTemperature> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-      width: MachineDashboardSizes.machineDashboardTemperatureWidth,
-      padding: MachineDashboardSizes.machineDashboardTemperaturePadding,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-            MachineDashboardSizes.machineDashboardTemperatureBorderRadius),
-        color: Colors.white,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [_buildTempState(widget.machineTemperature)],
-      ),
+    return Row(
+      children: [
+        Container(
+          height: MachineDashboardSizes.machineDashboardTemperatureHeight,
+          width: MachineDashboardSizes.machineDashboardTemperatureWidth,
+          padding: MachineDashboardSizes.machineDashboardTemperaturePadding,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+                MachineDashboardSizes.machineDashboardTemperatureBorderRadius),
+            color: Colors.white,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [_buildTempState()],
+          ),
+        ),
+        const SizedBox(
+          width: MachineDashboardSizes.machineDashboardTemperatureItemSpacing,
+        )
+      ],
     );
   }
 
-  Widget _buildTempState(MachineTemperature machineTemperature) {
-    switch (machineTemperature.machineHeaterStatus!) {
+  Widget _buildTempState() {
+    switch (widget.machineTemperature.machineHeaterStatus!) {
       case MachineHeaterStatus.ON:
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,55 +56,71 @@ class _MachineDashboardTemperatureState
             const Icon(
               PhosphorIcons.thermometer_simple,
               color: AppTheme.greenPrimary,
-              size: MachineDashboardSizes.machineDashboardIconSize,
+              size: MachineDashboardSizes.machineDashboardTemperatureIconSize,
             ),
             const SizedBox(
-              width: MachineDashboardSizes.machineDashboardIconTempSpacing,
+              width: MachineDashboardSizes
+                  .machineDashboardTemperatureIconTempSpacing,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      MachineDashboardUiStrings
-                          .machineDashboardTemperatureTempDigit(
-                              machineTemperature.machineTemp!),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      MachineDashboardUiStrings
-                          .machineDashboardTemperatureCelciusSymbol,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(fontWeight: FontWeight.normal),
-                    ),
-                  ],
-                ),
-                Text(
-                  MachineDashboardUiStrings.machineDashboardTemperatureName(
-                      machineTemperature),
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
+            _buildTempText()
           ],
         );
 
       case MachineHeaterStatus.OFF:
-        return const Icon(
-          PhosphorIcons.thermometer_simple,
-          color: AppTheme.redPrimary,
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Icon(
+              PhosphorIcons.thermometer_simple,
+              color: AppTheme.redPrimary,
+              size: MachineDashboardSizes.machineDashboardTemperatureIconSize,
+            ),
+            const SizedBox(
+              width: MachineDashboardSizes
+                  .machineDashboardTemperatureIconTempSpacing,
+            ),
+            _buildTempText()
+          ],
         );
     }
+  }
+
+  Widget _buildTempText() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(
+                  widget.machineTemperature.machineTemp!),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              MachineDashboardUiStrings
+                  .machineDashboardTemperatureCelciusSymbol,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1!
+                  .copyWith(fontWeight: FontWeight.normal),
+            ),
+          ],
+        ),
+        Text(
+          MachineDashboardUiStrings.machineDashboardTemperatureName(
+              widget.machineTemperature),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1!
+              .copyWith(fontWeight: FontWeight.normal),
+        ),
+      ],
+    );
   }
 }
