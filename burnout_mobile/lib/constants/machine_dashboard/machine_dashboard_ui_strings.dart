@@ -25,17 +25,7 @@ class MachineDashboardUiStrings {
     return temp.toInt().toString();
   }
 
-  static String machineDashboardTemperatureName(
-      MachineTemperature machineTemperature) {
-    switch (machineTemperature.machineTempName!) {
-      case MachineHeater.FLOOR:
-        return machineDashboardTemperatureFloor;
-      case MachineHeater.AFB:
-        return machineDashboardTemperatureAfb;
-      case MachineHeater.OVEN:
-        return machineDashboardTemperatureOven;
-      case MachineHeater.TUBE:
-        return machineDashboardTemperatureTube;
-    }
-  }
+  // Machine Dashboard Peripheral
+  static const machineDashboardPeripheraleDoor = 'Door';
+  static const machineDashboardPeripheralAirFlow = 'Air Flow';
 }

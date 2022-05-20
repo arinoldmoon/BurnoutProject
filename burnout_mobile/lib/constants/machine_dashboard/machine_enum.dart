@@ -1,3 +1,4 @@
 enum MachineStatus { IDLE, WAITING, ONPROGRAM }
-enum MachineHeaterStatus { ON, OFF }
+enum MachineOnOffStatus { ON, OFF }
 enum MachineHeater { OVEN, FLOOR, AFB, TUBE }
+enum MachinePeripheralType { DOOR, AIRFLOW }

@@ -8,6 +8,7 @@ class MockMachinePayload {
   final int? machineTimeRemaing;
   final double? machineOnProgramPercent;
   final List<MachineTemperature>? machineTemperature;
+  final List<MachinePeripheral>? machinePeripheral;
 
   const MockMachinePayload({
     required this.machineName,
@@ -17,6 +18,7 @@ class MockMachinePayload {
     this.machineOnProgramPercent,
     this.machineTimeRemaing,
     this.machineTemperature,
+    this.machinePeripheral,
   });
 
   static MockMachinePayload mockMachinePayloadIdle = const MockMachinePayload(
@@ -33,17 +35,19 @@ class MockMachinePayload {
   );
 
   static MockMachinePayload mockMachinePayloadOnProgram = MockMachinePayload(
-      machineName: 'machine3',
-      machineStatus: MachineStatus.ONPROGRAM,
-      machineProgram: 'Operating Program1',
-      machineOnProgramPercent: 0.65,
-      machineTimeRemaing: 225,
-      machineTemperature: MachineTemperature.mockMachineTemp);
+    machineName: 'machine3',
+    machineStatus: MachineStatus.ONPROGRAM,
+    machineProgram: 'Operating Program1',
+    machineOnProgramPercent: 0.65,
+    machineTimeRemaing: 225,
+    machineTemperature: MachineTemperature.mockMachineTemp,
+    machinePeripheral: MachinePeripheral.mockMachinePeripheral,
+  );
 }
 
 class MachineTemperature {
   final double? machineTemp;
-  final MachineHeaterStatus? machineHeaterStatus;
+  final MachineOnOffStatus? machineHeaterStatus;
   final MachineHeater? machineTempName;
 
   MachineTemperature({
@@ -55,23 +59,40 @@ class MachineTemperature {
   static List<MachineTemperature> mockMachineTemp = [
     MachineTemperature(
       machineTemp: 105,
-      machineHeaterStatus: MachineHeaterStatus.ON,
+      machineHeaterStatus: MachineOnOffStatus.ON,
       machineTempName: MachineHeater.OVEN,
     ),
     MachineTemperature(
       machineTemp: 110,
-      machineHeaterStatus: MachineHeaterStatus.OFF,
+      machineHeaterStatus: MachineOnOffStatus.OFF,
       machineTempName: MachineHeater.AFB,
     ),
     MachineTemperature(
       machineTemp: 125,
-      machineHeaterStatus: MachineHeaterStatus.ON,
+      machineHeaterStatus: MachineOnOffStatus.ON,
       machineTempName: MachineHeater.TUBE,
     ),
     MachineTemperature(
       machineTemp: 95,
-      machineHeaterStatus: MachineHeaterStatus.OFF,
+      machineHeaterStatus: MachineOnOffStatus.OFF,
       machineTempName: MachineHeater.FLOOR,
     )
+  ];
+}
+
+class MachinePeripheral {
+  final MachinePeripheralType machinePeripheralType;
+  final MachineOnOffStatus machineOnOffStatus;
+
+  MachinePeripheral(
+      {required this.machinePeripheralType, required this.machineOnOffStatus});
+
+  static List<MachinePeripheral> mockMachinePeripheral = [
+    MachinePeripheral(
+        machinePeripheralType: MachinePeripheralType.AIRFLOW,
+        machineOnOffStatus: MachineOnOffStatus.ON),
+    MachinePeripheral(
+        machinePeripheralType: MachinePeripheralType.DOOR,
+        machineOnOffStatus: MachineOnOffStatus.OFF),
   ];
 }

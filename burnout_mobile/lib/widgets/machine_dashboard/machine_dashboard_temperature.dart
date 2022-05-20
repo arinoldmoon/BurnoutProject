@@ -36,16 +36,13 @@ class _MachineDashboardTemperatureState
           ),
           child: _buildTempState(),
         ),
-        const SizedBox(
-          width: MachineDashboardSizes.machineDashboardTemperatureItemSpacing,
-        )
       ],
     );
   }
 
   Widget _buildTempState() {
     switch (widget.machineTemperature.machineHeaterStatus!) {
-      case MachineHeaterStatus.ON:
+      case MachineOnOffStatus.ON:
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,7 +61,7 @@ class _MachineDashboardTemperatureState
           ],
         );
 
-      case MachineHeaterStatus.OFF:
+      case MachineOnOffStatus.OFF:
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,8 +110,7 @@ class _MachineDashboardTemperatureState
           ],
         ),
         Text(
-          MachineDashboardUiStrings.machineDashboardTemperatureName(
-              widget.machineTemperature),
+          machineDashboardTemperatureName(widget.machineTemperature),
           style: Theme.of(context)
               .textTheme
               .subtitle1!
@@ -122,5 +118,19 @@ class _MachineDashboardTemperatureState
         ),
       ],
     );
+  }
+
+  static String machineDashboardTemperatureName(
+      MachineTemperature machineTemperature) {
+    switch (machineTemperature.machineTempName!) {
+      case MachineHeater.FLOOR:
+        return MachineDashboardUiStrings.machineDashboardTemperatureFloor;
+      case MachineHeater.AFB:
+        return MachineDashboardUiStrings.machineDashboardTemperatureAfb;
+      case MachineHeater.OVEN:
+        return MachineDashboardUiStrings.machineDashboardTemperatureOven;
+      case MachineHeater.TUBE:
+        return MachineDashboardUiStrings.machineDashboardTemperatureTube;
+    }
   }
 }

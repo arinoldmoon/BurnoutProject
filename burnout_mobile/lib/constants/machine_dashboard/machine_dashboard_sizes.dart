@@ -29,4 +29,14 @@ class MachineDashboardSizes {
   static const machineDashboardTemperatureIconSize = 55.0;
   static const machineDashboardTemperatureIconTempSpacing = 5.0;
   static const machineDashboardTemperatureItemSpacing = 13.0;
+
+  // Machine Peripheral Zone
+  static const double machineDashboardTemperaturePeripheralStatusIconsize =
+      28.0;
+  static const machineDashboardPeripheralItemSpacing = 13.0;
+  static const machineDashboardPeripheralPadding =
+      EdgeInsets.symmetric(vertical: 26, horizontal: 18);
+  static const machineDashboardPeripheralHeight = 120.0;
+  static const machineDashboardPeripheralWidth = 180.0;
+  static const machineDashboardPeripheralIconNameSpacing = 20.0;
 }
