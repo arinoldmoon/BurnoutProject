@@ -5,6 +5,7 @@ class MachineDashboardSizes {
   static const machineDashboardWidgetSpacing = 15.0;
   static const machineDashboardPagePadding =
       EdgeInsets.symmetric(horizontal: 10, vertical: 18);
+  static const machineDashboardPageTitleSpacing = 17.0;
 
   // Machine Dashboard Status Widget
   static const machineDashboardStatusPadding =

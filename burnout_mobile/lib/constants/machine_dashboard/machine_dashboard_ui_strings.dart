@@ -2,6 +2,8 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 
 class MachineDashboardUiStrings {
+  // Machine Dasboard Page
+
   // Machine Dashboard Status
   static const machineDashboardStatus = "Status :";
   static const machineDashboardIdle = "Idle";

@@ -6,4 +6,5 @@ class AppTheme {
   static const redPrimary = Color.fromRGBO(255, 112, 112, 1);
 
   static const primaryBackGroungColor = Color(0xFFF7F7f7);
+  static const titleAppbarIconColor = Color.fromRGBO(38, 38, 38, 0.8);
 }
