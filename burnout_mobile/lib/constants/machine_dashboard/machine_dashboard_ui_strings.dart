@@ -26,6 +26,6 @@ class MachineDashboardUiStrings {
   }
 
   // Machine Dashboard Peripheral
-  static const machineDashboardPeripheraleDoor = 'Door';
+  static const machineDashboardPeripheralDoor = 'Door';
   static const machineDashboardPeripheralAirFlow = 'Air Flow';
 }

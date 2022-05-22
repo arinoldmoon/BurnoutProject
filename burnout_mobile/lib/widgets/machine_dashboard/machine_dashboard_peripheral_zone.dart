@@ -22,6 +22,7 @@ class _MachineDashboardPeripheralZoneState
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key('machinePeripheralWidget'),
       height: MachineDashboardSizes.machineDashboardPeripheralHeight,
       width: MachineDashboardSizes.machineDashboardPeripheralWidth,
       padding: MachineDashboardSizes.machineDashboardPeripheralPadding,
@@ -36,10 +37,12 @@ class _MachineDashboardPeripheralZoneState
 
   Widget _buildPeripheralState() {
     return Row(
+      key: const Key('machinePeripheralState'),
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
+          key: const Key('machinePeripheralStatus'),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: widget.machinePeripheral.machineOnOffStatus ==
@@ -63,6 +66,7 @@ class _MachineDashboardPeripheralZoneState
         ),
         Text(
           machineDashboardPeripheralName(widget.machinePeripheral),
+          key: const Key('machinePeripheralName'),
           style: Theme.of(context)
               .textTheme
               .headline5!
@@ -76,7 +80,7 @@ class _MachineDashboardPeripheralZoneState
       MachinePeripheral machinePeripheral) {
     switch (machinePeripheral.machinePeripheralType) {
       case MachinePeripheralType.DOOR:
-        return MachineDashboardUiStrings.machineDashboardPeripheraleDoor;
+        return MachineDashboardUiStrings.machineDashboardPeripheralDoor;
       case MachinePeripheralType.AIRFLOW:
         return MachineDashboardUiStrings.machineDashboardPeripheralAirFlow;
     }
