@@ -12,11 +12,12 @@ class MachineDashboardPeripheralZoneProvider with ChangeNotifier {
         machineOnOffStatus: MachineOnOffStatus.OFF),
   ];
 
-  List<MachinePeripheral> getMachinePeripheralZone() {
-    return machinePeripheralZone;
-  }
+  List<MachinePeripheral> get peripheralZone => machinePeripheralZone;
+
+  int get count => machinePeripheralZone.length;
 
   void addMachinePeripheralZone(MachinePeripheral data) {
     machinePeripheralZone.add(data);
+    notifyListeners();
   }
 }

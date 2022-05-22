@@ -72,7 +72,9 @@ class MachineDashboardPage extends StatelessWidget {
                             .machineDashboardPeripheralItemSpacing,
                         color: Colors.transparent,
                       ),
-                  itemCount: machinePayload.machinePeripheral!.length),
+                  itemCount: context
+                      .watch<MachineDashboardPeripheralZoneProvider>()
+                      .count),
             ),
           ]),
         ),
