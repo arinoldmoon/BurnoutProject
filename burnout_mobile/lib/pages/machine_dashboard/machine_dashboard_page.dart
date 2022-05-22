@@ -1,4 +1,5 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
+import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
@@ -62,7 +63,17 @@ class MachineDashboardPage extends StatelessWidget {
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           padding: MachineDashboardSizes.machineDashboardPagePadding,
-          child: Column(children: [
+          child: _buildPage(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPage() {
+    switch (machinePayload.machineStatus) {
+      case MachineStatus.ONPROGRAM:
+        return Column(
+          children: [
             MachineDashboardStatus(
               mockMachinePayload: machinePayload,
             ),
@@ -90,30 +101,34 @@ class MachineDashboardPage extends StatelessWidget {
               height: MachineDashboardSizes.machineDashboardWidgetSpacing,
             ),
             SizedBox(
-                height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-                child: Consumer<MachineDashboardPeripheralZoneProvider>(
-                  builder: (context, value, child) {
-                    return ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (_, index) {
-                          return MachineDashboardPeripheralZone(
-                              machinePeripheral:
-                                  value.machinePeripheralZone[index]);
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const Divider(
-                              indent: MachineDashboardSizes
-                                  .machineDashboardPeripheralItemSpacing,
-                              color: Colors.transparent,
-                            ),
-                        itemCount: context
-                            .watch<MachineDashboardPeripheralZoneProvider>()
-                            .count);
-                  },
-                )),
-          ]),
-        ),
-      ),
-    );
+              height: MachineDashboardSizes.machineDashboardTemperatureHeight,
+              child: Consumer<MachineDashboardPeripheralZoneProvider>(
+                builder: (context, value, child) {
+                  return ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (_, index) {
+                        return MachineDashboardPeripheralZone(
+                            machinePeripheral:
+                                value.machinePeripheralZone[index]);
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(
+                            indent: MachineDashboardSizes
+                                .machineDashboardPeripheralItemSpacing,
+                            color: Colors.transparent,
+                          ),
+                      itemCount: context
+                          .watch<MachineDashboardPeripheralZoneProvider>()
+                          .count);
+                },
+              ),
+            ),
+          ],
+        );
+      case MachineStatus.IDLE:
+        return Container();
+      case MachineStatus.WAITING:
+        return Container();
+    }
   }
 }
