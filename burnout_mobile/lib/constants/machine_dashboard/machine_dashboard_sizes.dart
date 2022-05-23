@@ -40,4 +40,15 @@ class MachineDashboardSizes {
   static const machineDashboardPeripheralHeight = 120.0;
   static const machineDashboardPeripheralWidth = 180.0;
   static const machineDashboardPeripheralIconNameSpacing = 20.0;
+
+  // Machine Utility
+  static const machineDashboardUtilityContainerRadius = 10.0;
+  static const machineDashboardUtilityContainerHeight = 740.0;
+  static const machineDashboardUtilityContainerPadding =
+      EdgeInsets.symmetric(vertical: 30, horizontal: 40);
+  static const machineDashboardUtilityTabbarRadius = 40.0;
+  static const machineDashboardUtilityTabbarHeight = 40.0;
+  static const machineDashboardUtilityTabbarPadding =
+      EdgeInsets.symmetric(vertical: 6, horizontal: 10);
+  static const machineDashboardUtilityTabbarLabelSize = 16.0;
 }
