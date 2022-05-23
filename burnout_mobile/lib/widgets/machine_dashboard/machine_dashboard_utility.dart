@@ -21,10 +21,14 @@ class MachineDashboardUtility extends StatelessWidget {
         child: Column(
           children: [
             _buildCustomTabbar(),
-            Flexible(
-              child: TabBarView(
-                children: MachineDashboardUtilityMenu
-                    .machineDashboardUtilityMenuOnProgramTabbarView,
+            Padding(
+              padding:
+                  MachineDashboardSizes.machineDashboardUtilityContainerPadding,
+              child: Flexible(
+                child: TabBarView(
+                  children: MachineDashboardUtilityMenu
+                      .machineDashboardUtilityMenuOnProgramTabbarView,
+                ),
               ),
             ),
           ],
