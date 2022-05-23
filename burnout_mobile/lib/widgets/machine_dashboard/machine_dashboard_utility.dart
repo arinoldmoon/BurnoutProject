@@ -18,7 +18,6 @@ class MachineDashboardUtility extends StatelessWidget {
           color: Colors.white,
         ),
         height: MachineDashboardSizes.machineDashboardUtilityContainerHeight,
-        padding: MachineDashboardSizes.machineDashboardUtilityContainerPadding,
         child: Column(
           children: [
             _buildCustomTabbar(),
@@ -36,6 +35,7 @@ class MachineDashboardUtility extends StatelessWidget {
 
   Widget _buildCustomTabbar() {
     return Container(
+      margin: MachineDashboardSizes.machineDashboardUtilityContainerMargin,
       height: MachineDashboardSizes.machineDashboardUtilityTabbarHeight,
       decoration: BoxDecoration(
         color: AppTheme.yellowPrimary100,
