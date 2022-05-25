@@ -18,19 +18,19 @@ class MachineDashboardUtilityStepProvider extends ChangeNotifier {
         machineUtilityStepTimeRemaining: 120),
     MachineUtilityStep(
         machineUtilityStepTitle: 'Step 3',
-        machineUtilityStepProcess: MachineUtilityStepProcess.COOLING,
-        machineUtilityStepStatus: MachineUtilityStepStatus.UPCOMING,
+        machineUtilityStepProcess: MachineUtilityStepProcess.MAINTAIN,
+        machineUtilityStepStatus: MachineUtilityStepStatus.WORKINGON,
         machineUtilityStepTemp: 90,
         machineUtilityStepTimeRemaining: 120),
     MachineUtilityStep(
         machineUtilityStepTitle: 'Step 4',
-        machineUtilityStepProcess: MachineUtilityStepProcess.COOLING,
+        machineUtilityStepProcess: MachineUtilityStepProcess.HEATING,
         machineUtilityStepStatus: MachineUtilityStepStatus.UPCOMING,
         machineUtilityStepTemp: 90,
         machineUtilityStepTimeRemaining: 120),
     MachineUtilityStep(
         machineUtilityStepTitle: 'Step 5',
-        machineUtilityStepProcess: MachineUtilityStepProcess.COOLING,
+        machineUtilityStepProcess: MachineUtilityStepProcess.MAINTAIN,
         machineUtilityStepStatus: MachineUtilityStepStatus.UPCOMING,
         machineUtilityStepTemp: 90,
         machineUtilityStepTimeRemaining: 120),

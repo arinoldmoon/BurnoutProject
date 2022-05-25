@@ -19,14 +19,22 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
       create: (_) => MachineDashboardUtilityStepProvider(),
       child: Consumer<MachineDashboardUtilityStepProvider>(
           builder: (context, value, child) {
-        return ListView.builder(
-          shrinkWrap: true,
+        return ListView.separated(
+          padding:
+              MachineDashboardSizes.machineDashboardUtilityContainerPadding,
           scrollDirection: Axis.vertical,
           itemBuilder: (_, index) {
             return _buildStep(
                 value.machineDashboardUtilityStepList[index], context);
           },
           itemCount: context.watch<MachineDashboardUtilityStepProvider>().count,
+          separatorBuilder: (BuildContext context, int index) {
+            return const Divider(
+              indent:
+                  MachineDashboardSizes.machineDashboardPeripheralItemSpacing,
+              color: Colors.transparent,
+            );
+          },
         );
       }),
     );
@@ -48,56 +56,69 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
 
   Widget _buildListTileStep(Color listTileColor,
       MachineUtilityStep machineUtilityStep, BuildContext context) {
-    return ListTile(
-      contentPadding: MachineDashboardSizes
-          .machineDashboardUtilityStepListTileContentPadding,
-      tileColor: listTileColor,
-      leading: (() {
-        switch (machineUtilityStep.machineUtilityStepProcess) {
-          case MachineUtilityStepProcess.COOLING:
-            return const Icon(
-              PhosphorIcons.arrowDownRight,
-              size: 32.0,
-              color: AppTheme.bluePrimary,
-            );
-          case MachineUtilityStepProcess.HEATING:
-            return const Icon(
-              PhosphorIcons.arrowUpRight,
-              size: 32.0,
-              color: AppTheme.redPrimary100,
-            );
-          case MachineUtilityStepProcess.MAINTAIN:
-            return const Icon(
-              PhosphorIcons.arrowRight,
-              size: 32.0,
-              color: AppTheme.greenPrimary100,
-            );
-        }
-      }()),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            machineUtilityStep.machineUtilityStepTitle,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          Text(
-            MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(
-                machineUtilityStep.machineUtilityStepTemp),
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            MachineDashboardUiStrings.machineDashboardHourRemaining(
-                machineUtilityStep.machineUtilityStepTimeRemaining),
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
+    return Container(
+      alignment: Alignment.center,
+      height: MachineDashboardSizes.machineDashboardUtilityStepListTileHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          MachineDashboardSizes.machineDashboardUtilityStepListTileRadius,
+        ),
+        color: listTileColor,
+      ),
+      child: ListTile(
+        contentPadding: MachineDashboardSizes
+            .machineDashboardUtilityStepListTileContentPadding,
+        leading: (() {
+          switch (machineUtilityStep.machineUtilityStepProcess) {
+            case MachineUtilityStepProcess.COOLING:
+              return const Icon(
+                PhosphorIcons.arrowDownRight,
+                size: MachineDashboardSizes
+                    .machineDashboardUtilityStepListTileIconSize,
+                color: AppTheme.bluePrimary,
+              );
+            case MachineUtilityStepProcess.HEATING:
+              return const Icon(
+                PhosphorIcons.arrowUpRight,
+                size: MachineDashboardSizes
+                    .machineDashboardUtilityStepListTileIconSize,
+                color: AppTheme.redPrimary100,
+              );
+            case MachineUtilityStepProcess.MAINTAIN:
+              return const Icon(
+                PhosphorIcons.arrowRight,
+                size: MachineDashboardSizes
+                    .machineDashboardUtilityStepListTileIconSize,
+                color: AppTheme.greenPrimary100,
+              );
+          }
+        }()),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              machineUtilityStep.machineUtilityStepTitle,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Text(
+              MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(
+                      machineUtilityStep.machineUtilityStepTemp) +
+                  '°C',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              MachineDashboardUiStrings.machineDashboardHourRemaining(
+                  machineUtilityStep.machineUtilityStepTimeRemaining),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }
