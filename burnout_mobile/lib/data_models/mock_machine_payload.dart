@@ -1,4 +1,5 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
+import 'package:flutter/cupertino.dart';
 
 class MockMachinePayload {
   final String machineName;
@@ -100,4 +101,19 @@ class MachinePeripheral {
         machinePeripheralType: MachinePeripheralType.DOOR,
         machineOnOffStatus: MachineOnOffStatus.OFF),
   ];
+}
+
+class MachineUtilityStep {
+  final String machineUtilityStepTitle;
+  final double machineUtilityStepTemp;
+  final double machineUtilityStepTimeRemaining;
+  final MachineUtilityStepStatus machineUtilityStepStatus;
+  final MachineUtilityStepProcess machineUtilityStepProcess;
+
+  MachineUtilityStep(
+      {required this.machineUtilityStepTitle,
+      required this.machineUtilityStepTemp,
+      required this.machineUtilityStepTimeRemaining,
+      required this.machineUtilityStepStatus,
+      required this.machineUtilityStepProcess});
 }

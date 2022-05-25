@@ -53,4 +53,11 @@ class MachineDashboardSizes {
   static const machineDashboardUtilityTabbarPadding =
       EdgeInsets.symmetric(vertical: 6, horizontal: 10);
   static const machineDashboardUtilityTabbarLabelSize = 16.0;
+
+  // Machine Utility Step
+  static const machineDashboardUtilityStepListTileHeight = 70;
+  static const machineDashboardUtilityStepListTileWidth = 340;
+  static const machineDashboardUtilityStepListTileRadius = 10;
+  static const machineDashboardUtilityStepListTileContentPadding =
+      EdgeInsets.symmetric(horizontal: 10);
 }

@@ -32,4 +32,7 @@ class MachineDashboardUiStrings {
   static const machineDashboardUtilityMenuOnProgramGraph = 'Graph';
   static const machineDashboardUtilityMenuOnProgramStep = 'Step';
   static const machineDashboardUtilityMenuOnProgramSetting = 'Setting';
+  static String machineDashboardHourRemaining(double timeRemaining) {
+    return '${timeRemaining / 60} hr';
+  }
 }
