@@ -8,6 +8,7 @@ class MachineDashboardSizes {
   static const machineDashboardPageTitleSpacing = 17.0;
   static const machineDashboardPageCancelButtonRadius = 10.0;
   static const machineDashboardPageCancelButtonHeight = 50.0;
+  static const machineDashboardPageBottomNavItemIconSize = 24.0;
 
   // Machine Dashboard Status Widget
   static const machineDashboardStatusPadding =
