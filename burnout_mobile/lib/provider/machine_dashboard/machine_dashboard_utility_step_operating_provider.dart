@@ -2,7 +2,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:flutter/widgets.dart';
 
-class MachineDashboardUtilityStepProvider extends ChangeNotifier {
+class MachineDashboardUtilityStepOperatingProvider extends ChangeNotifier {
   List<MachineUtilityStep> machineDashboardUtilityStepList = [
     MachineUtilityStep(
         machineUtilityStepTitle: 'Step 1',

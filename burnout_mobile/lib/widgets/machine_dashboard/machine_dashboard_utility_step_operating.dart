@@ -2,7 +2,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_siz
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
+import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_operating_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -16,10 +16,11 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MachineDashboardUtilityStepProvider(),
-      child: Consumer<MachineDashboardUtilityStepProvider>(
+      create: (_) => MachineDashboardUtilityStepOperatingProvider(),
+      child: Consumer<MachineDashboardUtilityStepOperatingProvider>(
           builder: (context, value, child) {
         return ListView.separated(
+          key: const Key('ListViewStepOperating'),
           padding:
               MachineDashboardSizes.machineDashboardUtilityContainerPadding,
           scrollDirection: Axis.vertical,
@@ -27,7 +28,9 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
             return _buildStep(
                 value.machineDashboardUtilityStepList[index], context);
           },
-          itemCount: context.watch<MachineDashboardUtilityStepProvider>().count,
+          itemCount: context
+              .watch<MachineDashboardUtilityStepOperatingProvider>()
+              .count,
           separatorBuilder: (BuildContext context, int index) {
             return const Divider(
               indent:
@@ -66,6 +69,7 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
         color: listTileColor,
       ),
       child: ListTile(
+        key: const Key('ListTileStepOperating'),
         contentPadding: MachineDashboardSizes
             .machineDashboardUtilityStepListTileContentPadding,
         leading: (() {
@@ -73,6 +77,7 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
             case MachineUtilityStepProcess.COOLING:
               return const Icon(
                 PhosphorIcons.arrowDownRight,
+                key: Key('coolingStepIcon'),
                 size: MachineDashboardSizes
                     .machineDashboardUtilityStepListTileIconSize,
                 color: AppTheme.bluePrimary,
@@ -80,6 +85,7 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
             case MachineUtilityStepProcess.HEATING:
               return const Icon(
                 PhosphorIcons.arrowUpRight,
+                key: Key('heatingStepIcon'),
                 size: MachineDashboardSizes
                     .machineDashboardUtilityStepListTileIconSize,
                 color: AppTheme.redPrimary100,
@@ -87,6 +93,7 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
             case MachineUtilityStepProcess.MAINTAIN:
               return const Icon(
                 PhosphorIcons.arrowRight,
+                key: Key('maintainStepIcon'),
                 size: MachineDashboardSizes
                     .machineDashboardUtilityStepListTileIconSize,
                 color: AppTheme.greenPrimary100,
@@ -98,12 +105,14 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
           children: [
             Text(
               machineUtilityStep.machineUtilityStepTitle,
+              key: const Key('stepTitle'),
               style: Theme.of(context).textTheme.headline6,
             ),
             Text(
               MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(
                       machineUtilityStep.machineUtilityStepTemp) +
                   '°C',
+              key: const Key('stepTemp'),
               style: Theme.of(context)
                   .textTheme
                   .headline6!
@@ -112,6 +121,7 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
             Text(
               MachineDashboardUiStrings.machineDashboardHourRemaining(
                   machineUtilityStep.machineUtilityStepTimeRemaining),
+              key: const Key('stepTimeRemaining'),
               style: Theme.of(context)
                   .textTheme
                   .headline6!
