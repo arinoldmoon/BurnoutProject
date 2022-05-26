@@ -101,18 +101,21 @@ void main() {
             ),
           ],
           child: Scaffold(
-            body: SingleChildScrollView(
-              child: SizedBox(
-                height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-                child: ListView(
-                  children: [
-                    MachineDashboardPeripheralZone(
-                      machinePeripheral:
-                          MachineDashboardPeripheralZoneProvider()
-                              .machinePeripheralZone
-                              .first,
-                    ),
-                  ],
+            body: Center(
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  height:
+                      MachineDashboardSizes.machineDashboardTemperatureHeight,
+                  child: ListView(
+                    children: [
+                      MachineDashboardPeripheralZone(
+                        machinePeripheral:
+                            MachineDashboardPeripheralZoneProvider()
+                                .machinePeripheralZone
+                                .first,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -120,12 +123,13 @@ void main() {
         ),
       ),
     );
-    await multiScreenGolden(tester, 'machine_dashboard_peripheral', devices: [
-      const Device(
-        name: 'Phone',
-        size: Size(200, 130),
-      )
-    ]);
+    await multiScreenGolden(tester, 'machine_dashboard_peripheral_on',
+        devices: [
+          const Device(
+            name: 'Phone',
+            size: Size(200, 100),
+          )
+        ]);
   });
 
   testGoldens('should have the right screenshot Off', (tester) async {
@@ -141,18 +145,21 @@ void main() {
             ),
           ],
           child: Scaffold(
-            body: SingleChildScrollView(
-              child: SizedBox(
-                height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-                child: ListView(
-                  children: [
-                    MachineDashboardPeripheralZone(
-                      machinePeripheral:
-                          MachineDashboardPeripheralZoneProvider()
-                              .machinePeripheralZone
-                              .last,
-                    ),
-                  ],
+            body: Center(
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  height:
+                      MachineDashboardSizes.machineDashboardTemperatureHeight,
+                  child: ListView(
+                    children: [
+                      MachineDashboardPeripheralZone(
+                        machinePeripheral:
+                            MachineDashboardPeripheralZoneProvider()
+                                .machinePeripheralZone
+                                .last,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -164,7 +171,7 @@ void main() {
         devices: [
           const Device(
             name: 'Phone',
-            size: Size(200, 130),
+            size: Size(200, 100),
           )
         ]);
   });

@@ -62,15 +62,17 @@ void main() {
     await tester.pumpWidgetBuilder(MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-            child: ListView(
-              children: [
-                MachineDashboardTemperature(
-                    machineTemperature:
-                        MachineTemperature.mockMachineTemp.first),
-              ],
+        body: Center(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: MachineDashboardSizes.machineDashboardTemperatureHeight,
+              child: ListView(
+                children: [
+                  MachineDashboardTemperature(
+                      machineTemperature:
+                          MachineTemperature.mockMachineTemp.first),
+                ],
+              ),
             ),
           ),
         ),
@@ -80,7 +82,7 @@ void main() {
         devices: [
           const Device(
             name: 'Phone',
-            size: Size(200, 130),
+            size: Size(200, 100),
           )
         ]);
   });
@@ -91,15 +93,17 @@ void main() {
     await tester.pumpWidgetBuilder(MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-            child: ListView(
-              children: [
-                MachineDashboardTemperature(
-                    machineTemperature:
-                        MachineTemperature.mockMachineTemp.last),
-              ],
+        body: Center(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: MachineDashboardSizes.machineDashboardTemperatureHeight,
+              child: ListView(
+                children: [
+                  MachineDashboardTemperature(
+                      machineTemperature:
+                          MachineTemperature.mockMachineTemp.last),
+                ],
+              ),
             ),
           ),
         ),
@@ -109,7 +113,7 @@ void main() {
         devices: [
           const Device(
             name: 'Phone',
-            size: Size(200, 130),
+            size: Size(200, 100),
           )
         ]);
   });
