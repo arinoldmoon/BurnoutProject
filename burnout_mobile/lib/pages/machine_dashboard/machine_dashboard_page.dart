@@ -1,6 +1,8 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
+import 'package:burnout_mobile/constants/ui_strings.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
+import 'package:burnout_mobile/pages/machine_dashboard/machine_dashboard_page_operating.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_peripheral_zone.dart';
@@ -65,6 +67,7 @@ class MachineDashboardPage extends StatelessWidget {
           padding: MachineDashboardSizes.machineDashboardPagePadding,
           child: _buildPage(),
         ),
+        persistentFooterButtons: [_buildBottom(context)],
       ),
     );
   }
@@ -72,59 +75,35 @@ class MachineDashboardPage extends StatelessWidget {
   Widget _buildPage() {
     switch (machinePayload.machineStatus) {
       case MachineStatus.ONPROGRAM:
-        return Column(
-          children: [
-            MachineDashboardStatus(
-              mockMachinePayload: machinePayload,
-            ),
-            const SizedBox(
-              height: MachineDashboardSizes.machineDashboardWidgetSpacing,
-            ),
-            SizedBox(
-              height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (_, index) {
-                  return MachineDashboardTemperature(
-                      machineTemperature:
-                          machinePayload.machineTemperature![index]);
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(
-                  indent: MachineDashboardSizes.machineDashboardWidgetSpacing,
-                  color: Colors.transparent,
-                ),
-                itemCount: machinePayload.machineTemperature!.length,
-              ),
-            ),
-            const SizedBox(
-              height: MachineDashboardSizes.machineDashboardWidgetSpacing,
-            ),
-            SizedBox(
-              height: MachineDashboardSizes.machineDashboardTemperatureHeight,
-              child: Consumer<MachineDashboardPeripheralZoneProvider>(
-                builder: (context, value, child) {
-                  return ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        return MachineDashboardPeripheralZone(
-                            machinePeripheral:
-                                value.machinePeripheralZone[index]);
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(
-                            indent: MachineDashboardSizes
-                                .machineDashboardPeripheralItemSpacing,
-                            color: Colors.transparent,
-                          ),
-                      itemCount: context
-                          .watch<MachineDashboardPeripheralZoneProvider>()
-                          .count);
-                },
-              ),
-            ),
-          ],
+        return MachineDashboardPageOperating(
+          machinePayload: machinePayload,
         );
+      case MachineStatus.IDLE:
+        return Container();
+      case MachineStatus.WAITING:
+        return Container();
+    }
+  }
+
+  Widget _buildBottom(BuildContext context) {
+    switch (machinePayload.machineStatus) {
+      case MachineStatus.ONPROGRAM:
+        return ElevatedButton(
+            child: Text(
+              UiStrings.uiStrings_common_cancel,
+              style: Theme.of(context).textTheme.button,
+            ),
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                  side: BorderSide(color: Colors.red),
+                ),
+              ),
+            ),
+            onPressed: () => {});
       case MachineStatus.IDLE:
         return Container();
       case MachineStatus.WAITING:
