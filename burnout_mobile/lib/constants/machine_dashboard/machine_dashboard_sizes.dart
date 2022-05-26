@@ -6,6 +6,8 @@ class MachineDashboardSizes {
   static const machineDashboardPagePadding =
       EdgeInsets.symmetric(horizontal: 10, vertical: 18);
   static const machineDashboardPageTitleSpacing = 17.0;
+  static const machineDashboardPageCancelButtonRadius = 10.0;
+  static const machineDashboardPageCancelButtonHeight = 50.0;
 
   // Machine Dashboard Status Widget
   static const machineDashboardStatusPadding =
@@ -40,4 +42,24 @@ class MachineDashboardSizes {
   static const machineDashboardPeripheralHeight = 120.0;
   static const machineDashboardPeripheralWidth = 180.0;
   static const machineDashboardPeripheralIconNameSpacing = 20.0;
+
+  // Machine Utility
+  static const machineDashboardUtilityContainerRadius = 10.0;
+  static const machineDashboardUtilityContainerHeight = 740.0;
+  static const machineDashboardUtilityContainerMargin =
+      EdgeInsets.symmetric(vertical: 30, horizontal: 40);
+  static const machineDashboardUtilityContainerPadding =
+      EdgeInsets.symmetric(horizontal: 20);
+  static const machineDashboardUtilityTabbarRadius = 40.0;
+  static const machineDashboardUtilityTabbarHeight = 40.0;
+  static const machineDashboardUtilityTabbarPadding =
+      EdgeInsets.symmetric(vertical: 6, horizontal: 10);
+  static const machineDashboardUtilityTabbarLabelSize = 16.0;
+
+  // Machine Utility Step
+  static const machineDashboardUtilityStepListTileHeight = 70.0;
+  static const machineDashboardUtilityStepListTileRadius = 10.0;
+  static const machineDashboardUtilityStepListTileContentPadding =
+      EdgeInsets.symmetric(horizontal: 20);
+  static const machineDashboardUtilityStepListTileIconSize = 32.0;
 }

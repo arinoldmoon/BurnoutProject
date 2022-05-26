@@ -1,6 +1,3 @@
-import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
-import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-
 class MachineDashboardUiStrings {
   // Machine Dasboard Page
 
@@ -30,4 +27,12 @@ class MachineDashboardUiStrings {
   // Machine Dashboard Peripheral
   static const machineDashboardPeripheralDoor = 'Door';
   static const machineDashboardPeripheralAirFlow = 'Air Flow';
+
+  // Machine Dashboard Utility
+  static const machineDashboardUtilityMenuOnProgramGraph = 'Graph';
+  static const machineDashboardUtilityMenuOnProgramStep = 'Step';
+  static const machineDashboardUtilityMenuOnProgramSetting = 'Setting';
+  static String machineDashboardHourRemaining(double timeRemaining) {
+    return '${timeRemaining / 60} hr';
+  }
 }

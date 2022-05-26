@@ -8,6 +8,7 @@ import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_peripheral_zone.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_status.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_temperature.dart';
+import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,12 +63,21 @@ class MachineDashboardPage extends StatelessWidget {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          padding: MachineDashboardSizes.machineDashboardPagePadding,
-          child: _buildPage(),
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                padding: MachineDashboardSizes.machineDashboardPagePadding,
+                child: _buildPage(),
+              ),
+            ),
+            Padding(
+              padding: MachineDashboardSizes.machineDashboardPagePadding,
+              child: _buildBottom(context),
+            ),
+          ],
         ),
-        persistentFooterButtons: [_buildBottom(context)],
       ),
     );
   }
@@ -88,22 +98,29 @@ class MachineDashboardPage extends StatelessWidget {
   Widget _buildBottom(BuildContext context) {
     switch (machinePayload.machineStatus) {
       case MachineStatus.ONPROGRAM:
-        return ElevatedButton(
+        return SizedBox(
+          height: MachineDashboardSizes.machineDashboardPageCancelButtonHeight,
+          width: double.infinity,
+          child: ElevatedButton(
             child: Text(
               UiStrings.uiStrings_common_cancel,
-              style: Theme.of(context).textTheme.button,
+              style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
             ),
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.zero,
-                  side: BorderSide(color: Colors.red),
+            style: ElevatedButton.styleFrom(
+              primary: AppTheme.redPrimary100,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  MachineDashboardSizes.machineDashboardPageCancelButtonRadius,
                 ),
               ),
             ),
-            onPressed: () => {});
+            onPressed: () {},
+          ),
+        );
+
       case MachineStatus.IDLE:
         return Container();
       case MachineStatus.WAITING:
