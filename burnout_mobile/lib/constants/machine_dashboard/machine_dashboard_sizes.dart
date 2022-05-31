@@ -45,7 +45,7 @@ class MachineDashboardSizes {
 
   // Machine Utility
   static const machineDashboardUtilityContainerRadius = 10.0;
-  static const machineDashboardUtilityContainerHeight = 740.0;
+  static const machineDashboardUtilityContainerHeight = 760.0;
   static const machineDashboardUtilityContainerMargin =
       EdgeInsets.symmetric(vertical: 30, horizontal: 40);
   static const machineDashboardUtilityContainerPadding =
@@ -62,4 +62,13 @@ class MachineDashboardSizes {
   static const machineDashboardUtilityStepListTileContentPadding =
       EdgeInsets.symmetric(horizontal: 20);
   static const machineDashboardUtilityStepListTileIconSize = 32.0;
+
+  // Machine Utility Step Setting
+  static const machineDashboardUtilitySettingAdditionalCheckboxBorderRadius =
+      5.0;
+  static const machineDashboardUtilitySettingItemSpacing = 8.0;
+  static const machineDashboardUtilitySettingItemPadding =
+      EdgeInsets.symmetric(horizontal: 6);
+  static const machineDashboardUtilitySettingDividerThickness = 2.0;
+  static const machineDashboardUtilitySettingAdditionalCheckboxSpacing = 4.0;
 }

@@ -35,4 +35,27 @@ class MachineDashboardUiStrings {
   static String machineDashboardHourRemaining(double timeRemaining) {
     return '${timeRemaining / 60} hr';
   }
+
+  // Machine Dashboard Utility Setting
+  static const machineDashboardUtilitySettingTubeHeater = 'Tube Heater';
+  static const machineDashboardUtilitySettingHoldLastStep = 'Hold last step';
+  static const machineDashboardUtilitySettingFloorHeater = 'Floor Heater';
+  static const machineDashboardUtilitySettingOnCaption =
+      'On when temperature reach';
+  static const machineDashboardUtilitySettingAfterBurner = 'After Burner';
+  static const machineDashboardUtilitySettingOffCaption =
+      'Off when temperature reach';
+  static const machineDashboardUtilitySettingTurnOffDelayCaption =
+      'Turn off delay';
+  static const machineDashboardUtilitySettingOverHeatAlarm = 'Overheat Alarm';
+  static const machineDashboardUtilitySettingOvenTempLimitCaption =
+      'Oven temperature limit at';
+  static const machineDashboardUtilitySettingOvenAfterBurnerTempLimitCaption =
+      'After burner temperature limit at';
+  static const machineDashboardUtilitySettingAirFlowSetting = 'After Burner';
+  static const machineDashboardUtilitySettingAdditionalSetting =
+      'Additional Settings';
+  static const machineDashboardUtilitySettingScheduleOperation =
+      'Schedule operation';
+  static const machineDashboardUtilitySettingStartAt = 'start at';
 }
