@@ -13,21 +13,24 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilityContainerPadding,
-      child: Column(
-        children: [
-          _buildTubeHeater(context),
-          _buildDivider(),
-          _buildFloorHeater(context),
-          _buildDivider(),
-          _buildAfterBurner(context),
-          _buildDivider(),
-          _buildOverHeatAlarm(context),
-          _buildDivider(),
-          _buildAirFlowSetting(context),
-          _buildDivider(),
-          _buildAdditionalSetting(context),
-          _buildDivider(),
-        ],
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            _buildTubeHeater(context, const Key('TubeHeater')),
+            _buildDivider(),
+            _buildFloorHeater(context, const Key('FloorHeater')),
+            _buildDivider(),
+            _buildAfterBurner(context, const Key('AfterBurner')),
+            _buildDivider(),
+            _buildOverHeatAlarm(context, const Key('HeatAlarm')),
+            _buildDivider(),
+            _buildAirFlowSetting(context, const Key('AirflowSetting')),
+            _buildDivider(),
+            _buildAdditionalSetting(context, const Key('AdditionalSetting')),
+            _buildDivider(),
+          ],
+        ),
       ),
     );
   }
@@ -40,10 +43,11 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildTubeHeater(BuildContext context) {
+  Widget _buildTubeHeater(BuildContext context, Key key) {
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
+        key: key,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -71,10 +75,11 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildFloorHeater(BuildContext context) {
+  Widget _buildFloorHeater(BuildContext context, Key key) {
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
+        key: key,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -102,10 +107,11 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildAfterBurner(BuildContext context) {
+  Widget _buildAfterBurner(BuildContext context, Key key) {
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
+        key: key,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -157,10 +163,11 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildOverHeatAlarm(BuildContext context) {
+  Widget _buildOverHeatAlarm(BuildContext context, Key key) {
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
+        key: key,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -201,10 +208,12 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildAirFlowSetting(BuildContext context) {
+  Widget _buildAirFlowSetting(BuildContext context, Key key) {
     return Padding(
+      key: const Key('AirFLowSetting'),
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
+        key: key,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -257,13 +266,14 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildAdditionalSetting(BuildContext context) {
+  Widget _buildAdditionalSetting(BuildContext context, Key key) {
     return ChangeNotifierProvider(
       create: (context) => MachineDashboardUtilitySettingProvider(),
       child: Padding(
         padding:
             MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
         child: Column(
+          key: key,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -282,6 +292,7 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                 Consumer<MachineDashboardUtilitySettingProvider>(
                   builder: (context, value, child) {
                     return CommonCheckbox(
+                      key: const Key('HoldLastStepCheckbox'),
                       isCheck: value.machineUtilitySetting
                           .machineUtilitySettingAdditionalHoldLastStep,
                       onCheck: (isChecked) {
@@ -310,6 +321,7 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                 Consumer<MachineDashboardUtilitySettingProvider>(
                   builder: (context, value, child) {
                     return CommonCheckbox(
+                      key: const Key('ScheduleCheckbox'),
                       isCheck: value.machineUtilitySetting
                           .machineUtilitySettingAdditionalScheduleOperationStatus,
                       onCheck: (isChecked) {
