@@ -117,3 +117,35 @@ class MachineUtilityStep {
       required this.machineUtilityStepStatus,
       required this.machineUtilityStepProcess});
 }
+
+class MachineUtilitySetting {
+  final double machineUtilitySettingTubeOnTempReach;
+  final double machineUtilitySettingFloorOnTempReach;
+  final double machineUtilitySettingAfterBurnerOnTempReach;
+  final double machineUtilitySettingAfterBurnerOffTempReach;
+  final double machineUtilitySettingAfterBurnerTurnOffDelay;
+  final double machineUtilitySettingOverHeatAlarmOvenTempLimit;
+  final double machineUtilitySettingOverHeatAlarmAfterBurnerTempLimit;
+  final double machineUtilitySettingAirFlowOnTempReach;
+  final double machineUtilitySettingAirFlowOffTempReach;
+  final double machineUtilitySettingAirFlowTurnOffDelay;
+  late bool machineUtilitySettingAdditionalHoldLastStep;
+  late bool machineUtilitySettingAdditionalScheduleOperationStatus;
+  final String machineUtilitySettingAdditionalScheduleOperationDate;
+
+  MachineUtilitySetting({
+    required this.machineUtilitySettingTubeOnTempReach,
+    required this.machineUtilitySettingFloorOnTempReach,
+    required this.machineUtilitySettingAfterBurnerOnTempReach,
+    required this.machineUtilitySettingAfterBurnerOffTempReach,
+    required this.machineUtilitySettingAfterBurnerTurnOffDelay,
+    required this.machineUtilitySettingOverHeatAlarmOvenTempLimit,
+    required this.machineUtilitySettingOverHeatAlarmAfterBurnerTempLimit,
+    required this.machineUtilitySettingAirFlowOnTempReach,
+    required this.machineUtilitySettingAirFlowOffTempReach,
+    required this.machineUtilitySettingAirFlowTurnOffDelay,
+    required this.machineUtilitySettingAdditionalHoldLastStep,
+    required this.machineUtilitySettingAdditionalScheduleOperationStatus,
+    required this.machineUtilitySettingAdditionalScheduleOperationDate,
+  });
+}

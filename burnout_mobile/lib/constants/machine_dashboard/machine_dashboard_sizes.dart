@@ -25,12 +25,12 @@ class MachineDashboardSizes {
       EdgeInsets.symmetric(vertical: 15);
 
   // Machine Dashboard Temperature
-  static const machineDashboardTemperatureHeight = 120.0;
+  static const machineDashboardTemperatureHeight = 90.0;
   static const machineDashboardTemperatureWidth = 180.0;
   static const machineDashboardTemperatureBorderRadius = 10.0;
   static const machineDashboardTemperaturePadding =
-      EdgeInsets.symmetric(vertical: 26, horizontal: 8);
-  static const machineDashboardTemperatureIconSize = 55.0;
+      EdgeInsets.symmetric(vertical: 20, horizontal: 8);
+  static const machineDashboardTemperatureIconSize = 48.0;
   static const machineDashboardTemperatureIconTempSpacing = 5.0;
   static const machineDashboardTemperatureItemSpacing = 13.0;
 
@@ -40,13 +40,13 @@ class MachineDashboardSizes {
   static const machineDashboardPeripheralItemSpacing = 13.0;
   static const machineDashboardPeripheralPadding =
       EdgeInsets.symmetric(vertical: 26, horizontal: 18);
-  static const machineDashboardPeripheralHeight = 120.0;
+  static const machineDashboardPeripheralHeight = 90.0;
   static const machineDashboardPeripheralWidth = 180.0;
   static const machineDashboardPeripheralIconNameSpacing = 20.0;
 
   // Machine Utility
   static const machineDashboardUtilityContainerRadius = 10.0;
-  static const machineDashboardUtilityContainerHeight = 740.0;
+  static const machineDashboardUtilityContainerHeight = 720.0;
   static const machineDashboardUtilityContainerMargin =
       EdgeInsets.symmetric(vertical: 30, horizontal: 40);
   static const machineDashboardUtilityContainerPadding =
@@ -63,4 +63,13 @@ class MachineDashboardSizes {
   static const machineDashboardUtilityStepListTileContentPadding =
       EdgeInsets.symmetric(horizontal: 20);
   static const machineDashboardUtilityStepListTileIconSize = 32.0;
+
+  // Machine Utility Step Setting
+  static const machineDashboardUtilitySettingAdditionalCheckboxBorderRadius =
+      5.0;
+  static const machineDashboardUtilitySettingItemSpacing = 8.0;
+  static const machineDashboardUtilitySettingItemPadding =
+      EdgeInsets.symmetric(horizontal: 6);
+  static const machineDashboardUtilitySettingDividerThickness = 2.0;
+  static const machineDashboardUtilitySettingAdditionalCheckboxSpacing = 4.0;
 }

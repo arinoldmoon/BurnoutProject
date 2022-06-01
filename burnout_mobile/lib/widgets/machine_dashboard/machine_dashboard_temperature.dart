@@ -24,6 +24,8 @@ class _MachineDashboardTemperatureState
   Widget build(BuildContext context) {
     return Row(
       key: const Key('machineTempWidget'),
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           height: MachineDashboardSizes.machineDashboardTemperatureHeight,
@@ -109,12 +111,14 @@ class _MachineDashboardTemperatureState
             ),
           ],
         ),
-        Text(
-          machineDashboardTemperatureName(widget.machineTemperature),
-          style: Theme.of(context)
-              .textTheme
-              .subtitle1!
-              .copyWith(fontWeight: FontWeight.normal),
+        Expanded(
+          child: Text(
+            machineDashboardTemperatureName(widget.machineTemperature),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle2!
+                .copyWith(fontWeight: FontWeight.normal),
+          ),
         ),
       ],
     );
