@@ -10,6 +10,7 @@ import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_statu
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_temperature.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MachineDashboardPage extends StatelessWidget {
@@ -75,6 +76,39 @@ class MachineDashboardPage extends StatelessWidget {
             Padding(
               padding: MachineDashboardSizes.machineDashboardPagePadding,
               child: _buildBottom(context),
+            ),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: AppTheme.yellowPrimary,
+          unselectedItemColor: AppTheme.yellowPrimary.withOpacity(.50),
+          onTap: (value) {},
+          items: const [
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(
+                PhosphorIcons.activity,
+                size: MachineDashboardSizes
+                    .machineDashboardPageBottomNavItemIconSize,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(
+                PhosphorIcons.chartLine,
+                size: MachineDashboardSizes
+                    .machineDashboardPageBottomNavItemIconSize,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(
+                PhosphorIcons.gearSix,
+                size: MachineDashboardSizes
+                    .machineDashboardPageBottomNavItemIconSize,
+              ),
             ),
           ],
         ),
