@@ -56,6 +56,8 @@ class MachineDashboardSizes {
   static const machineDashboardUtilityTabbarPadding =
       EdgeInsets.symmetric(vertical: 6, horizontal: 10);
   static const machineDashboardUtilityTabbarLabelSize = 16.0;
+  static const machineDashboardUitlityCloseButtonWidth = 50.0;
+  static const machineDashboardUitlityStartCloseButtonSpacing = 10.0;
 
   // Machine Utility Step
   static const machineDashboardUtilityStepListTileHeight = 70.0;

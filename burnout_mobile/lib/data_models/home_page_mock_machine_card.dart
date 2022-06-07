@@ -42,7 +42,16 @@ class HomePageMockMachineCard {
           machineName: 'machineName2',
           machineModel: 'machineModel2',
           machinePic: HomePageConstants.homePageMachineCardMachinePic,
-          onTap: () {}),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              RouteNames.machineDashboardPage,
+              arguments: {
+                RouteParameters.machinePayload:
+                    MockMachinePayload.mockMachinePayloadWaiting
+              },
+            );
+          }),
       HomePageMockMachineCard(
           machineStatus: false,
           machineName: 'machineName3',

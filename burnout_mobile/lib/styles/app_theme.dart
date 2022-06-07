@@ -7,6 +7,7 @@ class AppTheme {
 
   static const greenPrimary = Color.fromRGBO(147, 207, 127, 1);
   static const greenPrimary100 = Color(0xFF46DF20);
+  static const greenPrimary200 = Color(0xFF93CF7F);
 
   static const redPrimary = Color.fromRGBO(255, 112, 112, 1);
   static const redPrimary100 = Color(0xFFFF7070);
