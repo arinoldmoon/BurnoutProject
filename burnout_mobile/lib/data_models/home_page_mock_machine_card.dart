@@ -27,23 +27,14 @@ class HomePageMockMachineCard {
         machineModel: 'machineModel1',
         machinePic: HomePageConstants.homePageMachineCardMachinePic,
         onTap: () {
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (_) => MachineDashboardPage(
-                  machinePayload:
-                      MockMachinePayload.mockMachinePayloadOnProgram),
-            ),
+            RouteNames.machineDashboardPage,
+            arguments: {
+              RouteParameters.machinePayload:
+                  MockMachinePayload.mockMachinePayloadOnProgram
+            },
           );
-
-          // Navigator.pushNamed(
-          //   context,
-          //   RouteNames.machineDashboardPage,
-          //   arguments: {
-          //     RouteParameters.machinePayload:
-          //         MockMachinePayload.mockMachinePayloadIdle
-          //   },
-          // );
         },
       ),
       HomePageMockMachineCard(
