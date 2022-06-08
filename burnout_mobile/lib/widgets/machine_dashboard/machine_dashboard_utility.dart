@@ -1,36 +1,110 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
+import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
+import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/machine_dashboard_utility_menu.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
+import 'package:burnout_mobile/widgets/utility/common_outline_button.dart';
 import 'package:flutter/material.dart';
 
 class MachineDashboardUtility extends StatelessWidget {
-  const MachineDashboardUtility({Key? key}) : super(key: key);
+  const MachineDashboardUtility({Key? key, required this.machineStatus})
+      : super(key: key);
+
+  final MachineStatus machineStatus;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: MachineDashboardUtilityMenu
           .machineDashboardUtilityMenuOnProgram.length,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              MachineDashboardSizes.machineDashboardUtilityContainerRadius),
-          color: Colors.white,
-        ),
-        height: MachineDashboardSizes.machineDashboardUtilityContainerHeight,
-        child: Column(
-          children: [
-            _buildCustomTabbar(),
-            Flexible(
-              child: TabBarView(
-                children: MachineDashboardUtilityMenu
-                    .machineDashboardUtilityMenuOnProgramTabbarView,
-              ),
-            ),
-          ],
-        ),
-      ),
+      child: _buildTabController(context),
     );
+  }
+
+  Widget _buildTabController(BuildContext context) {
+    switch (machineStatus) {
+      case MachineStatus.IDLE:
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+                MachineDashboardSizes.machineDashboardUtilityContainerRadius),
+            color: Colors.white,
+          ),
+          height:
+              MachineDashboardSizes.machineDashboardUtilityContainerHeightIdle,
+          child: Column(
+            children: [
+              _buildCustomTabbar(),
+              Flexible(
+                child: TabBarView(
+                  children: MachineDashboardUtilityMenu
+                      .machineDashboardUtilityMenuOnProgramTabbarView,
+                ),
+              ),
+            ],
+          ),
+        );
+      case MachineStatus.ONPROGRAM:
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+                MachineDashboardSizes.machineDashboardUtilityContainerRadius),
+            color: Colors.white,
+          ),
+          height: MachineDashboardSizes
+              .machineDashboardUtilityContainerHeightOperating,
+          child: Column(
+            children: [
+              _buildCustomTabbar(),
+              Flexible(
+                child: TabBarView(
+                  children: MachineDashboardUtilityMenu
+                      .machineDashboardUtilityMenuOnProgramTabbarView,
+                ),
+              ),
+            ],
+          ),
+        );
+      case MachineStatus.WAITING:
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+                MachineDashboardSizes.machineDashboardUtilityContainerRadius),
+            color: Colors.white,
+          ),
+          height: MachineDashboardSizes
+              .machineDashboardUtilityContainerHeightWaiting,
+          child: Column(
+            children: [
+              _buildCustomTabbar(),
+              Expanded(
+                child: Flexible(
+                  child: TabBarView(
+                    children: MachineDashboardUtilityMenu
+                        .machineDashboardUtilityMenuOnProgramTabbarView,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: MachineDashboardSizes
+                    .machineDashboardUtilityEditProgramProgramWidth,
+                height: MachineDashboardSizes
+                    .machineDashboardUtilityEditProgramProgramHeight,
+                child: CommonOutlineButton(
+                    titlieButton: Text(
+                      MachineDashboardUiStrings
+                          .machineDashboardUtilityEditProgramButton,
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            color: AppTheme.yellowPrimary,
+                          ),
+                    ),
+                    appthemeColor: AppTheme.yellowPrimary,
+                    onPress: () {}),
+              ),
+            ],
+          ),
+        );
+    }
   }
 
   Widget _buildCustomTabbar() {

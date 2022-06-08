@@ -36,6 +36,8 @@ class MachineDashboardUiStrings {
     return '${timeRemaining / 60} hr';
   }
 
+  static const machineDashboardUtilityEditProgramButton = 'Edit Program';
+
   // Machine Dashboard Utility Setting
   static const machineDashboardUtilitySettingTubeHeater = 'Tube Heater';
   static const machineDashboardUtilitySettingHoldLastStep = 'Hold last step';

@@ -84,7 +84,7 @@ void main() {
                     color: Colors.white,
                   ),
                   height: MachineDashboardSizes
-                      .machineDashboardUtilityContainerHeight,
+                      .machineDashboardUtilityContainerHeightOperating,
                   child: const MachineDashboardUtilityStepOperating()),
             ),
           ),

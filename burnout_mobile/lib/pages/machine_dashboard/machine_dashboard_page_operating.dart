@@ -1,4 +1,5 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
+import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/constants/ui_strings.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
@@ -80,7 +81,9 @@ class MachineDashboardPageOperating extends StatelessWidget {
           const SizedBox(
             height: MachineDashboardSizes.machineDashboardWidgetSpacing,
           ),
-          const MachineDashboardUtility(),
+          const MachineDashboardUtility(
+            machineStatus: MachineStatus.ONPROGRAM,
+          ),
         ],
       ),
     );
