@@ -26,7 +26,7 @@ class _CommonOutlineButtonState extends State<CommonOutlineButton> {
       onPressed: widget.onPress,
       child: widget.titlieButton,
       style: OutlinedButton.styleFrom(
-        primary: widget.appthemeColor,
+        side: BorderSide(color: widget.appthemeColor),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
               MachineDashboardSizes.machineDashboardUtilityEditProgramProgram),

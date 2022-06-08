@@ -47,7 +47,7 @@ class MachineDashboardSizes {
   // Machine Utility
   static const machineDashboardUtilityContainerRadius = 10.0;
   static const machineDashboardUtilityContainerHeightOperating = 720.0;
-  static const machineDashboardUtilityContainerHeightWaiting = 540.0;
+  static const machineDashboardUtilityContainerHeightWaiting = 600.0;
   static const machineDashboardUtilityContainerHeightIdle = 440.0;
   static const machineDashboardUtilityContainerMargin =
       EdgeInsets.symmetric(vertical: 30, horizontal: 40);
@@ -61,6 +61,10 @@ class MachineDashboardSizes {
   static const machineDashboardUtilityEditProgramProgram = 10.0;
   static const machineDashboardUtilityEditProgramProgramHeight = 35.0;
   static const machineDashboardUtilityEditProgramProgramWidth = 143.0;
+  static const machineDashboardUitlityCloseButtonWidth = 50.0;
+  static const machineDashboardUitlityStartCloseButtonSpacing = 10.0;
+  static const machineDashboardUtilityContianerPadding =
+      EdgeInsets.only(bottom: 30);
 
   // Machine Utility Step
   static const machineDashboardUtilityStepListTileHeight = 70.0;

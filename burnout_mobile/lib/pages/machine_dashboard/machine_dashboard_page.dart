@@ -5,13 +5,14 @@ import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/pages/machine_dashboard/machine_dashboard_page_operating.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
-import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_peripheral_zone.dart';
-import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_status.dart';
-import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_temperature.dart';
-import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility.dart';
+import 'package:burnout_mobile/widgets/utility/common_cancel_button.dart';
+import 'package:burnout_mobile/widgets/utility/common_close_button.dart';
+import 'package:burnout_mobile/widgets/utility/common_submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'machine_dashboard_page_waiting.dart';
 
 class MachineDashboardPage extends StatelessWidget {
   const MachineDashboardPage({Key? key, required this.machinePayload})
@@ -125,7 +126,9 @@ class MachineDashboardPage extends StatelessWidget {
       case MachineStatus.IDLE:
         return Container();
       case MachineStatus.WAITING:
-        return Container();
+        return MachineDashboardPageWaiting(
+          machinePayload: machinePayload,
+        );
     }
   }
 
@@ -135,30 +138,42 @@ class MachineDashboardPage extends StatelessWidget {
         return SizedBox(
           height: MachineDashboardSizes.machineDashboardPageCancelButtonHeight,
           width: double.infinity,
-          child: ElevatedButton(
-            child: Text(
-              UiStrings.uiStrings_common_cancel,
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-            ),
-            style: ElevatedButton.styleFrom(
-              primary: AppTheme.redPrimary100,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  MachineDashboardSizes.machineDashboardPageCancelButtonRadius,
-                ),
-              ),
-            ),
-            onPressed: () {},
+          child: CommonCancelButton(
+            buttonTitle: UiStrings.common_cancel,
+            onPress: () {},
           ),
         );
 
       case MachineStatus.IDLE:
         return Container();
+
       case MachineStatus.WAITING:
-        return Container();
+        return Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: MachineDashboardSizes
+                    .machineDashboardPageCancelButtonHeight,
+                child: CommonSubmitButton(
+                  buttonTitle: UiStrings.common_start,
+                  onPress: () {},
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: MachineDashboardSizes
+                  .machineDashboardUitlityStartCloseButtonSpacing,
+            ),
+            SizedBox(
+              height:
+                  MachineDashboardSizes.machineDashboardPageCancelButtonHeight,
+              width: 50,
+              child: CommonCloseButton(
+                onPress: () {},
+              ),
+            ),
+          ],
+        );
     }
   }
 }

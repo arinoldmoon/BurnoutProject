@@ -1,3 +1,4 @@
 class UiStrings {
-  static const uiStrings_common_cancel = 'cancel';
+  static const common_cancel = 'cancel';
+  static const common_start = 'start';
 }

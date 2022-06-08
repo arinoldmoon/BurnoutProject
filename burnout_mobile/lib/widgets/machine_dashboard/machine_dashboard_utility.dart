@@ -67,6 +67,8 @@ class MachineDashboardUtility extends StatelessWidget {
         );
       case MachineStatus.WAITING:
         return Container(
+          padding:
+              MachineDashboardSizes.machineDashboardUtilityContianerPadding,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(
                 MachineDashboardSizes.machineDashboardUtilityContainerRadius),
@@ -84,6 +86,9 @@ class MachineDashboardUtility extends StatelessWidget {
                         .machineDashboardUtilityMenuOnProgramTabbarView,
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: MachineDashboardSizes.machineDashboardWidgetSpacing,
               ),
               SizedBox(
                 width: MachineDashboardSizes
