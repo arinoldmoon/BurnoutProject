@@ -38,7 +38,7 @@ class MachineDashboardUtility extends StatelessWidget {
               Flexible(
                 child: TabBarView(
                   children: MachineDashboardUtilityMenu
-                      .machineDashboardUtilityMenuOnProgramTabbarView,
+                      .machineDashboardUtilityMenuOnProgramTabbarViewOperating,
                 ),
               ),
             ],
@@ -59,7 +59,7 @@ class MachineDashboardUtility extends StatelessWidget {
               Flexible(
                 child: TabBarView(
                   children: MachineDashboardUtilityMenu
-                      .machineDashboardUtilityMenuOnProgramTabbarView,
+                      .machineDashboardUtilityMenuOnProgramTabbarViewOperating,
                 ),
               ),
             ],
@@ -83,7 +83,7 @@ class MachineDashboardUtility extends StatelessWidget {
                 child: Flexible(
                   child: TabBarView(
                     children: MachineDashboardUtilityMenu
-                        .machineDashboardUtilityMenuOnProgramTabbarView,
+                        .machineDashboardUtilityMenuOnProgramTabbarViewWaiting,
                   ),
                 ),
               ),
