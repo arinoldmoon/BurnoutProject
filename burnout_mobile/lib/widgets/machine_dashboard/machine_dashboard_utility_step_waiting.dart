@@ -8,36 +8,56 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
-class MachineDashboardUtilityStepOperating extends StatelessWidget {
-  const MachineDashboardUtilityStepOperating({
-    Key? key,
-  }) : super(key: key);
+class MachineDashboardUtilityStepWaiting extends StatefulWidget {
+  const MachineDashboardUtilityStepWaiting({Key? key}) : super(key: key);
 
   @override
+  State<MachineDashboardUtilityStepWaiting> createState() =>
+      _MachineDashboardUtilityStepWaitingState();
+}
+
+class _MachineDashboardUtilityStepWaitingState
+    extends State<MachineDashboardUtilityStepWaiting> {
+  @override
   Widget build(BuildContext context) {
+    final List<int> _items = List<int>.generate(50, (int index) => index);
     return ChangeNotifierProvider(
       create: (_) => MachineDashboardUtilityStepOperatingProvider(),
       child: Consumer<MachineDashboardUtilityStepOperatingProvider>(
           builder: (context, value, child) {
-        return ListView.separated(
-          key: const Key('ListViewStepOperating'),
-          padding:
-              MachineDashboardSizes.machineDashboardUtilityContainerPadding,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (_, index) {
-            return _buildStep(
-                value.machineDashboardUtilityStepList[index], context);
+        return ReorderableListView(
+          onReorder: (int oldIndex, int newIndex) {
+            setState(() {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              final int item = _items.removeAt(oldIndex);
+              _items.insert(newIndex, item);
+            });
+            print(newIndex);
           },
-          itemCount: context
-              .watch<MachineDashboardUtilityStepOperatingProvider>()
-              .count,
-          separatorBuilder: (BuildContext context, int index) {
-            return const Divider(
-              indent:
-                  MachineDashboardSizes.machineDashboardPeripheralItemSpacing,
-              color: Colors.transparent,
-            );
-          },
+          children: [
+            ListView.separated(
+              key: const Key('ListViewStepOperating'),
+              padding:
+                  MachineDashboardSizes.machineDashboardUtilityContainerPadding,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (_, index) {
+                return _buildStep(
+                    value.machineDashboardUtilityStepList[index], context);
+              },
+              itemCount: context
+                  .watch<MachineDashboardUtilityStepOperatingProvider>()
+                  .count,
+              separatorBuilder: (BuildContext context, int index) {
+                return const Divider(
+                  indent: MachineDashboardSizes
+                      .machineDashboardPeripheralItemSpacing,
+                  color: Colors.transparent,
+                );
+              },
+            ),
+          ],
         );
       }),
     );
