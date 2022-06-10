@@ -2,7 +2,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:flutter/widgets.dart';
 
-class MachineDashboardUtilityStepOperatingProvider extends ChangeNotifier {
+class MachineDashboardUtilityStepProvider extends ChangeNotifier {
   List<MachineUtilityStep> machineDashboardUtilityStepList = [
     MachineUtilityStep(
         machineUtilityStepTitle: 'Step 1',
@@ -43,4 +43,14 @@ class MachineDashboardUtilityStepOperatingProvider extends ChangeNotifier {
   ];
 
   int get count => machineDashboardUtilityStepList.length;
+
+  void reOrder(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final MachineUtilityStep item =
+        machineDashboardUtilityStepList.removeAt(oldIndex);
+    machineDashboardUtilityStepList.insert(newIndex, item);
+    notifyListeners();
+  }
 }

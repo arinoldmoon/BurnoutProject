@@ -2,7 +2,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_siz
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_operating_provider.dart';
+import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -20,76 +20,50 @@ class _MachineDashboardUtilityStepWaitingState
     extends State<MachineDashboardUtilityStepWaiting> {
   @override
   Widget build(BuildContext context) {
-    final List<int> _items = List<int>.generate(50, (int index) => index);
     return ChangeNotifierProvider(
-      create: (_) => MachineDashboardUtilityStepOperatingProvider(),
-      child: Consumer<MachineDashboardUtilityStepOperatingProvider>(
-          builder: (context, value, child) {
-        return ReorderableListView(
-          onReorder: (int oldIndex, int newIndex) {
-            setState(() {
-              if (oldIndex < newIndex) {
-                newIndex -= 1;
-              }
-              final int item = _items.removeAt(oldIndex);
-              _items.insert(newIndex, item);
-            });
-            print(newIndex);
-          },
-          children: [
-            ListView.separated(
-              key: const Key('ListViewStepOperating'),
-              padding:
-                  MachineDashboardSizes.machineDashboardUtilityContainerPadding,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (_, index) {
-                return _buildStep(
-                    value.machineDashboardUtilityStepList[index], context);
-              },
-              itemCount: context
-                  .watch<MachineDashboardUtilityStepOperatingProvider>()
-                  .count,
-              separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  indent: MachineDashboardSizes
-                      .machineDashboardPeripheralItemSpacing,
-                  color: Colors.transparent,
-                );
-              },
-            ),
-          ],
-        );
-      }),
+      create: (_) => MachineDashboardUtilityStepProvider(),
+      child: Consumer<MachineDashboardUtilityStepProvider>(
+        builder: (context, value, child) {
+          return ReorderableListView.builder(
+            key: const Key('ListViewStepWaiting'),
+            onReorder: (oldIndex, newIndex) {
+              value.reOrder(oldIndex, newIndex);
+            },
+            padding:
+                MachineDashboardSizes.machineDashboardUtilityContainerPadding,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (_, index) {
+              return _buildListTileStep(
+                  value.machineDashboardUtilityStepList[index], context, index);
+            },
+            itemCount:
+                context.watch<MachineDashboardUtilityStepProvider>().count,
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildStep(
-      MachineUtilityStep machineUtilityStep, BuildContext context) {
-    switch (machineUtilityStep.machineUtilityStepStatus) {
-      case MachineUtilityStepStatus.DONE:
-        return _buildListTileStep(
-            AppTheme.greyPrimary100, machineUtilityStep, context);
-      case MachineUtilityStepStatus.WORKINGON:
-        return _buildListTileStep(
-            AppTheme.yellowPrimary200, machineUtilityStep, context);
-      case MachineUtilityStepStatus.UPCOMING:
-        return _buildListTileStep(Colors.white, machineUtilityStep, context);
-    }
-  }
-
-  Widget _buildListTileStep(Color listTileColor,
-      MachineUtilityStep machineUtilityStep, BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      height: MachineDashboardSizes.machineDashboardUtilityStepListTileHeight,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          MachineDashboardSizes.machineDashboardUtilityStepListTileRadius,
-        ),
-        color: listTileColor,
-      ),
+  Widget _buildListTileStep(
+      MachineUtilityStep machineUtilityStep, BuildContext context, int index) {
+    return Card(
+      shadowColor: Colors.transparent,
+      elevation: MachineDashboardSizes.machineDashboardUtilityStepCardElevation,
+      key: Key('$index'),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+              MachineDashboardSizes.machineDashboardUtilityStepListTileRadius)),
+      color: (() {
+        switch (machineUtilityStep.machineUtilityStepStatus) {
+          case MachineUtilityStepStatus.DONE:
+            return AppTheme.greyPrimary100;
+          case MachineUtilityStepStatus.WORKINGON:
+            return AppTheme.yellowPrimary200;
+          case MachineUtilityStepStatus.UPCOMING:
+            return Colors.white;
+        }
+      }()),
       child: ListTile(
-        key: const Key('ListTileStepOperating'),
         contentPadding: MachineDashboardSizes
             .machineDashboardUtilityStepListTileContentPadding,
         leading: (() {

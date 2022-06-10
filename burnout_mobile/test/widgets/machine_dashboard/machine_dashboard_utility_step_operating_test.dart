@@ -1,5 +1,5 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_operating_provider.dart';
+import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility_step_operating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +28,7 @@ void main() {
           providers: [
             ChangeNotifierProvider(
               create: (_) {
-                MachineDashboardUtilityStepOperatingProvider();
+                MachineDashboardUtilityStepProvider();
               },
             ),
           ],
@@ -46,7 +46,7 @@ void main() {
           providers: [
             ChangeNotifierProvider(
               create: (_) {
-                MachineDashboardUtilityStepOperatingProvider();
+                MachineDashboardUtilityStepProvider();
               },
             ),
           ],
@@ -70,7 +70,7 @@ void main() {
           providers: [
             ChangeNotifierProvider(
               create: (_) {
-                MachineDashboardUtilityStepOperatingProvider();
+                MachineDashboardUtilityStepProvider();
               },
             ),
           ],

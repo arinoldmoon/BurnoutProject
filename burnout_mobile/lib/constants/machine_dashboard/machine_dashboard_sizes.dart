@@ -72,6 +72,7 @@ class MachineDashboardSizes {
   static const machineDashboardUtilityStepListTileContentPadding =
       EdgeInsets.symmetric(horizontal: 20);
   static const machineDashboardUtilityStepListTileIconSize = 32.0;
+  static const machineDashboardUtilityStepCardElevation = 0.0;
 
   // Machine Utility Step Setting
   static const machineDashboardUtilitySettingAdditionalCheckboxBorderRadius =
