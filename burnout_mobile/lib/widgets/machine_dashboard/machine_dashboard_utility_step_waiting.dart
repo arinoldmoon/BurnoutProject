@@ -64,6 +64,7 @@ class _MachineDashboardUtilityStepWaitingState
         }
       }()),
       child: ListTile(
+        key: const Key('listTileStepWaiting'),
         contentPadding: MachineDashboardSizes
             .machineDashboardUtilityStepListTileContentPadding,
         leading: (() {
