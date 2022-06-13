@@ -18,6 +18,7 @@ class AppTheme {
 
   static const greyPrimary = Color(0xff262626);
   static const greyPrimary100 = Color(0xFFE8E8E8);
+  static const greyPrimary200 = Color(0xFFAAAAAA);
 
   static const bluePrimary = Color(0xFF47A0FF);
 }

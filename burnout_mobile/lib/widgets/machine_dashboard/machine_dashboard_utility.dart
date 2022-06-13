@@ -3,6 +3,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/machine_dashboard_utility_menu.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
+import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_dialog.dart';
 import 'package:burnout_mobile/widgets/utility/common_outline_button.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +105,14 @@ class MachineDashboardUtility extends StatelessWidget {
                           ),
                     ),
                     appthemeColor: AppTheme.yellowPrimary,
-                    onPress: () {}),
+                    onPress: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const MachineDashboardDialog();
+                        },
+                      );
+                    }),
               ),
             ],
           ),

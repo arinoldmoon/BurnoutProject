@@ -82,4 +82,12 @@ class MachineDashboardSizes {
       EdgeInsets.symmetric(horizontal: 6);
   static const machineDashboardUtilitySettingDividerThickness = 2.0;
   static const machineDashboardUtilitySettingAdditionalCheckboxSpacing = 4.0;
+
+  // Machine Dashboard Dialog
+  static const machineDashboardDialogWidth = 390.0;
+  static const machineDashboardDialogHeight = 745.0;
+  static const machineDashboardDialogPadding = EdgeInsets.all(15);
+  static const machineDashboardDialogBorderRadius = 10.0;
+  static const machineDashboardDialogIconButtonSize = 25.0;
+  static const machineDashboardDialogContentSpacing = 10.0;
 }

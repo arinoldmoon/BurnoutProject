@@ -60,4 +60,10 @@ class MachineDashboardUiStrings {
   static const machineDashboardUtilitySettingScheduleOperation =
       'Schedule operation';
   static const machineDashboardUtilitySettingStartAt = 'start at';
+
+  //Machine Dashboard Textformfield
+  static const machineDashboardTextFormFieldEditProgramLabelText =
+      'Program name...';
+  static const machineDashboardTextFormFieldEditProgramStepMenu = 'Step';
+  static const machineDashboardTextFormFieldEditProgramSettingMenu = 'Setting';
 }
