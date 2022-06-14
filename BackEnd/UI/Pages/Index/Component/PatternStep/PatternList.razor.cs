@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GrpcService.Protos;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
-using UI.Models;
 using UI.Services;
 
 namespace UI.Pages.Index.Component.PatternStep
@@ -14,78 +10,88 @@ namespace UI.Pages.Index.Component.PatternStep
     public partial class PatternListComponent : ComponentBase
     {
         [Inject]
-        protected DialogService DialogServices { get; set; }
+        protected DialogService? _dialogServices { get; set; }
 
         [Inject]
-        protected PatternService Service { get; set; }
+        protected PatternService? _patternService { get; set; }
 
         [Inject]
-        protected NotificationService NotificationService { get; set; }
+        protected NotificationService? _notificationService { get; set; }
 
         [Inject]
-        protected GlobalService Globals { get; set; }
+        protected GlobalService? _globals { get; set; }
 
-        public IEnumerable<Pattern> PatternList { get; set; }
+        protected RadzenDataGrid<ProtoPattern>? _dataGrid;
+        protected IEnumerable<ProtoPattern>? _patternList { get; set; }
+        protected IList<ProtoPattern> Selected { get; set; } = new List<ProtoPattern>();
 
-        protected RadzenDataGrid<Pattern> grid;
-
-        public bool isLoading = false;
-
-        public IList<Pattern> Selected { get; set; }
-
-        protected async Task btnLoadClick(MouseEventArgs args)
+        protected Task btnLoadClick(MouseEventArgs args)
         {
-            int PatternNumber = Selected[0].PatternNumber;
-            Pattern response = await Service.GetPatternByID(PatternNumber);
-
-            if (response != null)
+            return Task.Run(async () => await _patternService!.GetPatternByID(Selected.First().PatternId)).ContinueWith(res =>
             {
-                Globals.GlobalPattern = response;
-            }
-            else
-            {
-                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"PatternList", Detail = $"Load Failed" });
-            }
-
-            DialogServices.Close(null);
-        }
-
-        public async Task GetPatternList(LoadDataArgs args)
-        {
-            List<Pattern> Result = new List<Pattern>();
-            if (Globals.ServiceConnected)
-            {
-                Result = (await Service.GetPatternListAsync()).ToList();
-
-                if (Result.Any())
+                if (res.Result != null)
                 {
-                    PatternList = Result;
+                    _globals!.GlobalPattern = res.Result;
+                    _globals.SetPoint = res.Result.PatternDetail.ToList();
                 }
                 else
                 {
-                    NotificationService.Notify(NotificationSeverity.Error, "GetPatternList", "Empty List");
+                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"PatternList", Detail = $"Load Failed" });
                 }
-            }
+
+                _dialogServices!.Close(null);
+            });
         }
 
-        public async Task DeleteRow(Pattern pattern)
+        protected Task LoadData(LoadDataArgs args)
         {
-            if (await DialogServices.Confirm("Are you sure you want to delete this pattern?") == true)
+            if (_globals!.ServiceConnected)
             {
-                if (Globals.ServiceConnected)
-                {                  
-                    if (await Service.DeletePattern(pattern.PatternNumber))
+                return Task.Run(async () => await _patternService!.GetPatternListAsync()).ContinueWith(res =>
+                {
+                    if (res.Result.Any())
                     {
-                        NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Delete Pattern", Detail = $"Success" });
-                        PatternList = (await Service.GetPatternListAsync()).ToList();
+                        _patternList = res.Result.ToList();
+                        Selected = _patternList.Take(1).ToList();
                     }
                     else
                     {
-                        NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Delete Pattern", Detail = $"Not Success" });
-                        DialogServices.Dispose();
+                        _notificationService!.Notify(NotificationSeverity.Error, "GetPatternList", "Empty List");
+                    }
+                });
+            }
+
+            return Task.CompletedTask;
+        }
+
+        protected Task DeleteRow(ProtoPattern pattern)
+        {
+            return Task.Run(async () => await _dialogServices!.Confirm("Are you sure you want to delete this pattern?")).ContinueWith(res =>
+            {
+                if (res.Result!.Value)
+                {
+                    if (_globals!.ServiceConnected)
+                    {
+                        Task.Run(async () => await _patternService!.DeletePattern(pattern.PatternId)).ContinueWith(res =>
+                        {
+                            if (res.Result.Value)
+                            {
+                                Task.Run(async () => await _patternService!.GetPatternListAsync()).ContinueWith(res =>
+                                 {
+                                     _patternList = res.Result.ToList();                                     
+                                     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Delete Pattern", Detail = $"Success" });
+                                     InvokeAsync(StateHasChanged);
+                                 });
+                            }
+                            else
+                            {
+                                _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Delete Pattern", Detail = $"Not Success" });
+                                _dialogServices!.Dispose();
+                            }
+                        });
                     }
                 }
-            }
+            });           
         }
     }
 }

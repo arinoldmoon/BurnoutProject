@@ -1,0 +1,4 @@
+dotnet ef dbcontext scaffold name=SQLiteConnection Microsoft.EntityFrameworkCore.Sqlite -o Models/SQLite --context-dir Database -c SQLiteContext -f
+
+dotnet publish -r linux-arm --no-self-contained -c Release
+dotnet publish -r linux-arm --self-contained -c Release
