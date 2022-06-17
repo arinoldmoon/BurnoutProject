@@ -21,8 +21,8 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
           builder: (context, value, child) {
         return ListView.separated(
           key: const Key('ListViewStepOperating'),
-          padding:
-              MachineDashboardSizes.machineDashboardUtilityContainerPadding,
+          padding: EdgeInsets.zero,
+          physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           itemBuilder: (_, index) {
             return _buildStep(
