@@ -30,6 +30,8 @@ class MachineDashboardUtility extends StatelessWidget {
                 MachineDashboardSizes.machineDashboardUtilityContainerRadius),
             color: Colors.white,
           ),
+          padding:
+              MachineDashboardSizes.machineDashboardUtilityContianerPadding,
           height:
               MachineDashboardSizes.machineDashboardUtilityContainerHeightIdle,
           child: Column(
@@ -51,8 +53,9 @@ class MachineDashboardUtility extends StatelessWidget {
                 MachineDashboardSizes.machineDashboardUtilityContainerRadius),
             color: Colors.white,
           ),
-          height: MachineDashboardSizes
-              .machineDashboardUtilityContainerHeightOperating,
+          padding:
+              MachineDashboardSizes.machineDashboardUtilityContianerPadding,
+          height: MachineDashboardSizes.machineDashboardUtilityContainerHeight,
           child: Column(
             children: [
               _buildCustomTabbar(),
@@ -74,8 +77,7 @@ class MachineDashboardUtility extends StatelessWidget {
                 MachineDashboardSizes.machineDashboardUtilityContainerRadius),
             color: Colors.white,
           ),
-          height: MachineDashboardSizes
-              .machineDashboardUtilityContainerHeightWaiting,
+          height: MachineDashboardSizes.machineDashboardUtilityContainerHeight,
           child: Column(
             children: [
               _buildCustomTabbar(),

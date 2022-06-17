@@ -84,7 +84,7 @@ void main() {
                     color: Colors.white,
                   ),
                   height: MachineDashboardSizes
-                      .machineDashboardUtilityContainerHeightOperating,
+                      .machineDashboardUtilityContainerHeight,
                   child: const MachineDashboardUtilityStepOperating()),
             ),
           ),
@@ -95,7 +95,7 @@ void main() {
         devices: [
           const Device(
             name: 'Phone',
-            size: Size(800, 700),
+            size: Size(400, 700),
           )
         ]);
   });

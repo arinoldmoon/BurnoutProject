@@ -14,7 +14,7 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilityContainerPadding,
       child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             _buildTubeHeater(context, const Key('TubeHeater')),
