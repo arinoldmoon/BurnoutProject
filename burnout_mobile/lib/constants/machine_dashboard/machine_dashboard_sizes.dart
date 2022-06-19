@@ -83,11 +83,26 @@ class MachineDashboardSizes {
   static const machineDashboardUtilitySettingDividerThickness = 2.0;
   static const machineDashboardUtilitySettingAdditionalCheckboxSpacing = 4.0;
 
-  // Machine Dashboard Dialog
-  static const machineDashboardDialogWidth = 390.0;
-  static const machineDashboardDialogHeight = 745.0;
-  static const machineDashboardDialogPadding = EdgeInsets.all(15);
-  static const machineDashboardDialogBorderRadius = 10.0;
-  static const machineDashboardDialogIconButtonSize = 25.0;
-  static const machineDashboardDialogContentSpacing = 10.0;
+  // Machine Dashboard Edit Program Dialog
+  static const machineDashboardEditProgramDialogWidth = 650.0;
+  static const machineDashboardEditProgramDialogHeight = 745.0;
+  static const machineDashboardEditProgramDialogPadding =
+      EdgeInsets.symmetric(horizontal: 10, vertical: 10);
+  static const machineDashboardEditProgramDialogBorderRadius = 10.0;
+  static const machineDashboardEditProgramDialogIconButtonSize = 25.0;
+  static const machineDashboardEditProgramDialogContentSpacing = 10.0;
+  static const machineDashboardEditProgramDialogInsetPadding =
+      EdgeInsets.symmetric(horizontal: 10);
+
+  // Machine Dashboard Edit Step
+  static const machineDashboardEditStepTitleIconSpacing = 2.0;
+  static const machineDashboardEditStepTileSpacing = 8.0;
+  static const machineDashboardEditStepLabelTextFontSize = 12.0;
+  static const machineDashboardEditStepTextFieldWidth = 55.0;
+  static const machineDashboardEditStepDurationTextFieldWidth = 70.0;
+  static const machineDashboardEditStepTextFieldHeight = 25.0;
+  static const machineDashboardEditStepTileHeight = 35.0;
+  static const machineDashboardEditStepHorizontalGap = 0.0;
+  static const machineDashboardEditStepMinWidthLeading = 0.0;
+  static const machineDashboardEditStepTrailingIconSize = 18.0;
 }

@@ -61,9 +61,11 @@ class MachineDashboardUiStrings {
       'Schedule operation';
   static const machineDashboardUtilitySettingStartAt = 'start at';
 
-  //Machine Dashboard Textformfield
-  static const machineDashboardTextFormFieldEditProgramLabelText =
-      'Program name...';
-  static const machineDashboardTextFormFieldEditProgramStepMenu = 'Step';
-  static const machineDashboardTextFormFieldEditProgramSettingMenu = 'Setting';
+  //Machine Dashboard Edit Program Dialog
+  static const machineDashboardEditProgramDialogLabelText = 'Program name...';
+  static const machineDashboardEditProgramDialogStepMenu = 'Step';
+  static const machineDashboardEditProgramDialogSettingMenu = 'Setting';
+  static const machineDashboardEditProgramDialogTemperature = 'Temp';
+  static const machineDashboardEditProgramDialogDuration = 'Duration';
+  static const machineDashboardEditProgramDialogHr = 'hr';
 }
