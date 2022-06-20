@@ -65,7 +65,9 @@ class MachineDashboardUiStrings {
   static const machineDashboardEditProgramDialogLabelText = 'Program name...';
   static const machineDashboardEditProgramDialogStepMenu = 'Step';
   static const machineDashboardEditProgramDialogSettingMenu = 'Setting';
-  static const machineDashboardEditProgramDialogTemperature = 'Temp';
+  static const machineDashboardEditProgramDialogTemperature = 'Temperature';
   static const machineDashboardEditProgramDialogDuration = 'Duration';
   static const machineDashboardEditProgramDialogHr = 'hr';
+  static const machineDashboardEditProgramDialogSaveTitle = 'Save';
+  static const machineDashboardEditProgramDialogNextTitle = 'Next';
 }

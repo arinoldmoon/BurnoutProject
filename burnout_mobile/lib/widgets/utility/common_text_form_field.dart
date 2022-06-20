@@ -9,7 +9,9 @@ class CommonTextFormField extends StatefulWidget {
       required this.fillColor,
       required this.borderFocusColorBorder,
       required this.controller,
-      this.labelTextFontSize})
+      this.labelTextFontSize,
+      required this.keyboardType,
+      this.contentPadding})
       : super(key: key);
 
   final String labelText;
@@ -17,6 +19,8 @@ class CommonTextFormField extends StatefulWidget {
   final Color borderFocusColorBorder;
   final double? labelTextFontSize;
   final TextEditingController controller;
+  final TextInputType keyboardType;
+  final EdgeInsets? contentPadding;
 
   @override
   State<CommonTextFormField> createState() => _CommonTextFormFieldState();
@@ -28,11 +32,15 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: _focusNode,
-      textAlign: TextAlign.left,
+      textAlign: TextAlign.center,
+      maxLines: Sizes.textFormFieldMaxLine,
       textAlignVertical: TextAlignVertical.center,
       controller: widget.controller,
       cursorColor: Colors.black,
+      keyboardType: widget.keyboardType,
       decoration: InputDecoration(
+        contentPadding: widget.contentPadding,
+        isDense: true,
         labelText: widget.labelText,
         labelStyle: TextStyle(
           color: AppTheme.greyPrimary200,

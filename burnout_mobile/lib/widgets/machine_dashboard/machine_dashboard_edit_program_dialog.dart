@@ -4,6 +4,7 @@ import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_edit_program_tab.dart';
 import 'package:burnout_mobile/widgets/utility/common_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MachineDashboardEditProgramDialog extends StatefulWidget {
@@ -29,6 +30,9 @@ class _MachineDashboardEditProgramDialogState
     return Dialog(
       insetPadding:
           MachineDashboardSizes.machineDashboardEditProgramDialogInsetPadding,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(MachineDashboardSizes
+              .machineDashboardEditProgramDialogBorderRadius))),
       child: Container(
         padding: MachineDashboardSizes.machineDashboardEditProgramDialogPadding,
         height: MachineDashboardSizes.machineDashboardEditProgramDialogHeight,
@@ -52,6 +56,7 @@ class _MachineDashboardEditProgramDialogState
                       fillColor: AppTheme.primaryBackGroungColor,
                       borderFocusColorBorder: AppTheme.yellowPrimary,
                       controller: programNameController,
+                      keyboardType: TextInputType.text,
                     ),
                   ),
                   IconButton(
@@ -74,6 +79,59 @@ class _MachineDashboardEditProgramDialogState
                     .machineDashboardEditProgramDialogContentSpacing,
               ),
               const MachineDashboardEditProgramTab(),
+              const SizedBox(
+                height: MachineDashboardSizes
+                    .machineDashboardEditProgramDialogContentSpacing,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      MachineDashboardUiStrings
+                          .machineDashboardEditProgramDialogSaveTitle,
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: AppTheme.greyPrimary300,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          MachineDashboardSizes
+                              .machineDashboardPageCancelButtonRadius,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: MachineDashboardSizes
+                        .machineDashboardEditProgramButtonSpacing,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      MachineDashboardUiStrings
+                          .machineDashboardEditProgramDialogNextTitle,
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: AppTheme.yellowPrimary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          MachineDashboardSizes
+                              .machineDashboardPageCancelButtonRadius,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

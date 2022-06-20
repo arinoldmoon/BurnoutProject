@@ -22,7 +22,8 @@ class MachineDashboardEditProgramTab extends StatelessWidget {
             MachineDashboardSizes.machineDashboardUtilityContainerRadius),
         color: Colors.white,
       ),
-      height: MachineDashboardSizes.machineDashboardUtilityContainerHeightIdle,
+      height:
+          MachineDashboardSizes.machineDashboardEditProgramContainerWhiteHeight,
       child: Column(
         children: [
           _buildCustomTabbar(),

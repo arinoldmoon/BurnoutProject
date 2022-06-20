@@ -25,15 +25,39 @@ class _MachineDashboardEditProgramStepState
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(child: _buildListViewEditStep(context)),
+        const SizedBox(
+          height: MachineDashboardSizes
+              .machineDashboardEditStepListViewButtonSpacing,
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            PhosphorIcons.plusCircle,
+            size: MachineDashboardSizes.machineDashboardEditStepButtonSize,
+            color: AppTheme.yellowPrimary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildListViewEditStep(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => MachineDashboardUtilityStepProvider(),
       child: Consumer<MachineDashboardUtilityStepProvider>(
         builder: (context, value, child) {
           return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
               itemBuilder: (_, index) {
                 _tempTextController.add(TextEditingController());
                 _durationTextController.add(TextEditingController());
-                return SizedBox(
+                return Container(
+                  alignment: Alignment.center,
                   height:
                       MachineDashboardSizes.machineDashboardEditStepTileHeight,
                   child: ListTile(
@@ -72,7 +96,11 @@ class _MachineDashboardEditProgramStepState
                             ),
                           ],
                         ),
-                        Expanded(
+                        const SizedBox(
+                          width: MachineDashboardSizes
+                              .machineDashboardEditStepTextFieldTitleSpacing,
+                        ),
+                        Flexible(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -90,6 +118,8 @@ class _MachineDashboardEditProgramStepState
                                   labelTextFontSize: MachineDashboardSizes
                                       .machineDashboardEditStepLabelTextFontSize,
                                   controller: _tempTextController[index],
+                                  keyboardType: TextInputType.number,
+                                  contentPadding: EdgeInsets.zero,
                                 ),
                               ),
                               Text(
@@ -103,36 +133,39 @@ class _MachineDashboardEditProgramStepState
                             ],
                           ),
                         ),
-                        Expanded(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: MachineDashboardSizes
-                                    .machineDashboardEditStepDurationTextFieldWidth,
-                                height: MachineDashboardSizes
-                                    .machineDashboardEditStepTextFieldHeight,
-                                child: CommonTextFormField(
-                                  labelText: MachineDashboardUiStrings
-                                      .machineDashboardEditProgramDialogDuration,
-                                  fillColor: Colors.white,
-                                  borderFocusColorBorder:
-                                      AppTheme.greyPrimary100,
-                                  labelTextFontSize: MachineDashboardSizes
-                                      .machineDashboardEditStepLabelTextFontSize,
-                                  controller: _durationTextController[index],
-                                ),
+                        const SizedBox(
+                          width: MachineDashboardSizes
+                              .machineDashboardEditStepTextFieldSpacing,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: MachineDashboardSizes
+                                  .machineDashboardEditStepDurationTextFieldWidth,
+                              height: MachineDashboardSizes
+                                  .machineDashboardEditStepTextFieldHeight,
+                              child: CommonTextFormField(
+                                labelText: MachineDashboardUiStrings
+                                    .machineDashboardEditProgramDialogDuration,
+                                fillColor: Colors.white,
+                                borderFocusColorBorder: AppTheme.greyPrimary100,
+                                labelTextFontSize: MachineDashboardSizes
+                                    .machineDashboardEditStepLabelTextFontSize,
+                                controller: _durationTextController[index],
+                                keyboardType: TextInputType.number,
+                                contentPadding: EdgeInsets.zero,
                               ),
-                              Text(
-                                MachineDashboardUiStrings
-                                    .machineDashboardEditProgramDialogHr,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
+                            ),
+                            Text(
+                              MachineDashboardUiStrings
+                                  .machineDashboardEditProgramDialogHr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            )
+                          ],
                         ),
                       ],
                     ),
