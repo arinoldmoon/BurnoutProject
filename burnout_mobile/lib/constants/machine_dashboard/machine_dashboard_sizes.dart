@@ -102,7 +102,7 @@ class MachineDashboardSizes {
   static const machineDashboardEditStepTextFieldWidth = 70.0;
   static const machineDashboardEditStepDurationTextFieldWidth = 50.0;
   static const machineDashboardEditStepTextFieldHeight = 25.0;
-  static const machineDashboardEditStepTileHeight = 35.0;
+  static const machineDashboardEditStepTileHeight = 55.0;
   static const machineDashboardEditStepHorizontalGap = 0.0;
   static const machineDashboardEditStepMinWidthLeading = 0.0;
   static const machineDashboardEditStepTrailingIconSize = 18.0;

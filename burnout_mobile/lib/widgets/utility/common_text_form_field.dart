@@ -60,6 +60,18 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
           borderSide: BorderSide(color: widget.borderFocusColorBorder),
           borderRadius: BorderRadius.circular(Sizes.textFormFieldBorderRadius),
         ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: widget.borderFocusColorBorder),
+          borderRadius: BorderRadius.circular(Sizes.textFormFieldBorderRadius),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppTheme.redPrimary100),
+          borderRadius: BorderRadius.circular(Sizes.textFormFieldBorderRadius),
+          gapPadding: 0,
+        ),
+        errorStyle: const TextStyle(
+            fontSize: Sizes.textFormFieldErrorFontSize,
+            height: Sizes.textFormFieldErrorHeihgt),
       ),
     );
   }
