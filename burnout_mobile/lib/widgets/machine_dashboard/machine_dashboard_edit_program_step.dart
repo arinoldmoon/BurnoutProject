@@ -54,7 +54,7 @@ class _MachineDashboardEditProgramStepState
       child: Consumer<MachineDashboardUtilityStepProvider>(
         builder: (context, value, child) {
           return Form(
-            key: FormKey.formTempDur,
+            key: FormKey.formStepTempAndDurEditStep,
             child: ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
@@ -112,8 +112,6 @@ class _MachineDashboardEditProgramStepState
                                 SizedBox(
                                   width: MachineDashboardSizes
                                       .machineDashboardEditStepTextFieldWidth,
-                                  // height: MachineDashboardSizes
-                                  //     .machineDashboardEditStepTextFieldHeight,
                                   child: CommonTextFormField(
                                     labelText: MachineDashboardUiStrings
                                         .machineDashboardEditProgramDialogTemperature,
@@ -150,8 +148,6 @@ class _MachineDashboardEditProgramStepState
                               SizedBox(
                                 width: MachineDashboardSizes
                                     .machineDashboardEditStepDurationTextFieldWidth,
-                                // height: MachineDashboardSizes
-                                //     .machineDashboardEditStepTextFieldHeight,
                                 child: CommonTextFormField(
                                   labelText: MachineDashboardUiStrings
                                       .machineDashboardEditProgramDialogDuration,

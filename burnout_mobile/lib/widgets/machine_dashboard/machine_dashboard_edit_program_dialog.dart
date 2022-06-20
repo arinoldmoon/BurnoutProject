@@ -98,7 +98,7 @@ class _MachineDashboardEditProgramDialogState
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (tempDurFormValidate(FormKey.formTempDur)) {
+                      if (tempDurFormValidate(FormKey.formStepTempAndDurEditStep)) {
                         print('Valid');
                       } else {
                         print('Invalid');

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
 class FormKey {
-  static final formTempDur = GlobalKey<FormState>();
+  static final formStepTempAndDurEditStep = GlobalKey<FormState>();
 }
