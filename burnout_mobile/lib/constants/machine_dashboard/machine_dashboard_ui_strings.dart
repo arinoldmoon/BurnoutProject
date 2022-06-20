@@ -60,4 +60,14 @@ class MachineDashboardUiStrings {
   static const machineDashboardUtilitySettingScheduleOperation =
       'Schedule operation';
   static const machineDashboardUtilitySettingStartAt = 'start at';
+
+  //Machine Dashboard Edit Program Dialog
+  static const machineDashboardEditProgramDialogLabelText = 'Program name...';
+  static const machineDashboardEditProgramDialogStepMenu = 'Step';
+  static const machineDashboardEditProgramDialogSettingMenu = 'Setting';
+  static const machineDashboardEditProgramDialogTemperature = 'Temperature';
+  static const machineDashboardEditProgramDialogDuration = 'Duration';
+  static const machineDashboardEditProgramDialogHr = 'hr';
+  static const machineDashboardEditProgramDialogSaveTitle = 'Save';
+  static const machineDashboardEditProgramDialogNextTitle = 'Next';
 }
