@@ -3,24 +3,26 @@ import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CommonTextFormField extends StatefulWidget {
-  const CommonTextFormField(
-      {Key? key,
-      required this.labelText,
-      required this.fillColor,
-      required this.borderFocusColorBorder,
-      required this.controller,
-      this.labelTextFontSize,
-      required this.keyboardType,
-      this.contentPadding})
-      : super(key: key);
+  const CommonTextFormField({
+    Key? key,
+    this.labelText,
+    required this.fillColor,
+    required this.borderFocusColorBorder,
+    required this.controller,
+    this.labelTextFontSize,
+    this.keyboardType,
+    this.contentPadding,
+    this.validator,
+  }) : super(key: key);
 
-  final String labelText;
+  final String? labelText;
   final Color fillColor;
   final Color borderFocusColorBorder;
   final double? labelTextFontSize;
   final TextEditingController controller;
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
   final EdgeInsets? contentPadding;
+  final String? Function(String?)? validator;
 
   @override
   State<CommonTextFormField> createState() => _CommonTextFormFieldState();
@@ -38,6 +40,7 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
       controller: widget.controller,
       cursorColor: Colors.black,
       keyboardType: widget.keyboardType,
+      validator: widget.validator,
       decoration: InputDecoration(
         contentPadding: widget.contentPadding,
         isDense: true,

@@ -1,6 +1,8 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
+import 'package:burnout_mobile/grpc/oven.pbjson.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
+import 'package:burnout_mobile/utility/form_key.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_edit_program_tab.dart';
 import 'package:burnout_mobile/widgets/utility/common_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,14 @@ class _MachineDashboardEditProgramDialogState
   void dispose() {
     programNameController.dispose();
     super.dispose();
+  }
+
+  bool tempDurFormValidate(GlobalKey<FormState> formKey) {
+    if (formKey.currentState!.validate()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -87,7 +97,13 @@ class _MachineDashboardEditProgramDialogState
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (tempDurFormValidate(FormKey.formTempDur)) {
+                        print('Valid');
+                      } else {
+                        print('Invalid');
+                      }
+                    },
                     child: Text(
                       MachineDashboardUiStrings
                           .machineDashboardEditProgramDialogSaveTitle,
