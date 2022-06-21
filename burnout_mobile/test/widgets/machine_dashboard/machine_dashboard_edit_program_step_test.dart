@@ -203,6 +203,34 @@ void main() {
         ),
       ),
     );
+    await tester.tap(find.byKey(const Key('addMoreStepButton')));
+    await tester.pumpAndSettle();
+    await multiScreenGolden(
+        tester, 'machine_dashboard_edit_program_step_add_more',
+        devices: [
+          const Device(
+            name: 'Phone',
+            size: Size(400, 650),
+          )
+        ]);
+  });
+
+  testGoldens('Add more step should have the right screenshot', (tester) async {
+    await loadAppFonts();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ChangeNotifierProvider(
+          create: (_) {
+            MachineDashboardUtilityStepProvider();
+          },
+          child: const Scaffold(
+            body: Center(
+              child: MachineDashboardEditProgramStep(),
+            ),
+          ),
+        ),
+      ),
+    );
     await multiScreenGolden(tester, 'machine_dashboard_edit_program_step',
         devices: [
           const Device(
