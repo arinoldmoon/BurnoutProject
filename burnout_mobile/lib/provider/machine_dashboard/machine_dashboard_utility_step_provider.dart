@@ -53,4 +53,12 @@ class MachineDashboardUtilityStepProvider extends ChangeNotifier {
     machineDashboardUtilityStepList.insert(newIndex, item);
     notifyListeners();
   }
+
+  addMoreStep(MachineUtilityStep machineUtilityStep) {
+    machineDashboardUtilityStepList.add(machineUtilityStep);
+    notifyListeners();
+  }
+
+  List<MachineUtilityStep> get machineUtiltilityStepList =>
+      machineDashboardUtilityStepList;
 }
