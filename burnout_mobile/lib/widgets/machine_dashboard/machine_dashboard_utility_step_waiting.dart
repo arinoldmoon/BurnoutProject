@@ -29,8 +29,8 @@ class _MachineDashboardUtilityStepWaitingState
             onReorder: (oldIndex, newIndex) {
               value.reOrder(oldIndex, newIndex);
             },
-            padding:
-                MachineDashboardSizes.machineDashboardUtilityContainerPadding,
+            padding: EdgeInsets.zero,
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemBuilder: (_, index) {
               return _buildListTileStep(

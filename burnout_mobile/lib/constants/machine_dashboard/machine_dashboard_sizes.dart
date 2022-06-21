@@ -63,7 +63,7 @@ class MachineDashboardSizes {
   static const machineDashboardUitlityCloseButtonWidth = 50.0;
   static const machineDashboardUitlityStartCloseButtonSpacing = 10.0;
   static const machineDashboardUtilityContianerPadding =
-      EdgeInsets.symmetric(horizontal: 25);
+      EdgeInsets.symmetric(horizontal: 25, vertical: 8);
 
   // Machine Utility Step
   static const machineDashboardUtilityStepListTileHeight = 70.0;
