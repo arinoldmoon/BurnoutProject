@@ -77,6 +77,7 @@ class _MachineDashboardEditProgramStepState
                     .machineDashboardEditStepListViewButtonSpacing,
               ),
               IconButton(
+                key: const Key('addMoreStepButton'),
                 onPressed: () {
                   value.addMoreStep(
                     MachineUtilityStep(
