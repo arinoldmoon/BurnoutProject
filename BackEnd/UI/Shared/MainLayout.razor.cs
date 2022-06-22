@@ -1,50 +1,43 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using GrpcService.Protos;
 using Microsoft.AspNetCore.Components;
+using Radzen;
 using Radzen.Blazor;
-using UI.Models;
 using UI.Services;
+// using UI.Models;
 
 namespace UI.Shared
 {
     public partial class MainLayoutComponent : LayoutComponentBase
     {
         [Inject]
-        protected OvenService service { get; set; }
+        protected GlobalService? _globals { get; set; }
 
         [Inject]
-        protected GlobalService Globals { get; set; }
+        protected OvenService? _service { get; set; }
 
+        protected RadzenBody? body0;
+        protected RadzenSidebar? sidebar0;
 
-        protected RadzenBody body0;
-        protected RadzenSidebar sidebar0;
+        protected string MachineName { get; set; } = string.Empty;
+        protected string MachineModel { get; set; } = "GrpcService NotConnection";
 
-        public MachineInfo Info { get; set; } = new MachineInfo();
-        public string MachineModel { get; set; } = "GrpcService NotConnection";
-
-        public void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-        }
-
-        public void Reload()
-        {
-            InvokeAsync(StateHasChanged);
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            Globals.PropertyChanged += OnPropertyChanged;
-
-            if (service.GrpcConnect())
+            if (args.Name == "GlobalMachineInfo")
             {
+                MachineName = _globals!.GlobalMachineInfo.MachineName;
                 MachineModel = "S6 Eco (Fixed)";
-                Globals.ServiceConnected = true;
-                Globals.PlcConnected = service.PLCConnect();
 
-                Info = await service.GetMachineInfo();
-                Reload();
+                InvokeAsync(StateHasChanged);
             }
+        }
+
+        protected override void OnInitialized()
+        {
+            _globals!.PropertyChanged += OnPropertyChanged;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -57,9 +50,9 @@ namespace UI.Shared
 
         protected async Task SidebarToggleClick()
         {
-            await InvokeAsync(() => { sidebar0.Toggle(); });
+            await InvokeAsync(() => { sidebar0!.Toggle(); });
 
-            await InvokeAsync(() => { body0.Toggle(); });
+            await InvokeAsync(() => { body0!.Toggle(); });
         }
     }
 }

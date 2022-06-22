@@ -6,7 +6,7 @@ class MachineDashboardPeripheralZoneProvider with ChangeNotifier {
   List<MachinePeripheral> machinePeripheralZone = [
     MachinePeripheral(
         machinePeripheralType: MachinePeripheralType.AIRFLOW,
-        machineOnOffStatus: MachineOnOffStatus.ON),
+        machineOnOffStatus: MachineOnOffStatus.OFF),
     MachinePeripheral(
         machinePeripheralType: MachinePeripheralType.DOOR,
         machineOnOffStatus: MachineOnOffStatus.OFF),
@@ -18,6 +18,8 @@ class MachineDashboardPeripheralZoneProvider with ChangeNotifier {
 
   void addMachinePeripheralZone(MachinePeripheral data) {
     machinePeripheralZone.add(data);
+    debugPrint(count.toString());
+
     notifyListeners();
   }
 }

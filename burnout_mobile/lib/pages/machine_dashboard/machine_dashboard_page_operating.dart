@@ -82,7 +82,7 @@ class MachineDashboardPageOperating extends StatelessWidget {
             height: MachineDashboardSizes.machineDashboardWidgetSpacing,
           ),
           const MachineDashboardUtility(
-            machineStatus: MachineStatus.ONPROGRAM,
+            machineStatus: MachineStatusRun.ONPROGRAM,
           ),
         ],
       ),

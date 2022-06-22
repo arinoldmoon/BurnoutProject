@@ -1,13 +1,14 @@
-using System;
+
+using GrpcService.Protos;
 using UI.Models;
 
 namespace UI.Services
 {
     public partial class GlobalService
     {
-        public event Action<PropertyChangedEventArgs> PropertyChanged;
+        public event Action<PropertyChangedEventArgs>? PropertyChanged;  
 
-        bool _ServiceConnected;
+        private bool _ServiceConnected;
         public bool ServiceConnected
         {
             get
@@ -25,7 +26,7 @@ namespace UI.Services
             }
         }
 
-        bool _PlcConnected;
+        private bool _PlcConnected;
         public bool PlcConnected
         {
             get
@@ -41,14 +42,29 @@ namespace UI.Services
                     PropertyChanged?.Invoke(args);
                 }
             }
+        }      
+    
+        private ProtoOvenInfo? _MachineInfo;
+        public ProtoOvenInfo GlobalMachineInfo
+        {
+            get { return _MachineInfo!; }
+            set
+            {
+                if (!object.Equals(_MachineInfo, value))
+                {
+                    var args = new PropertyChangedEventArgs() { Name = "GlobalMachineInfo", NewValue = value, OldValue = _MachineInfo, IsGlobal = true };
+                    _MachineInfo = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
         }
 
-        MachineMonitor _GlobalMonitor;
-        public MachineMonitor GlobalMonitor
+        private ProtoOvenResponse? _GlobalMonitor;
+        public ProtoOvenResponse GlobalMonitor
         {
             get
             {
-                return _GlobalMonitor;
+                return _GlobalMonitor!;
             }
             set
             {
@@ -61,30 +77,82 @@ namespace UI.Services
             }
         }
 
-        Pattern _GlobalPattern;
-        public Pattern GlobalPattern
+        private ProtoPattern? _GlobalPattern;
+        public ProtoPattern GlobalPattern
         {
             get
             {
-                return _GlobalPattern;
+                return _GlobalPattern!;
             }
             set
             {
-                if (!object.Equals(_GlobalMonitor, value))
+                if (!object.Equals(_GlobalPattern, value))
                 {
-                    var args = new PropertyChangedEventArgs() { Name = "GlobalPattern", NewValue = value, OldValue = _GlobalPattern, IsGlobal = true };
+                    var args = new PropertyChangedEventArgs() { Name = "GlobalPattern", NewValue = value, OldValue = _GlobalMonitor, IsGlobal = false };
                     _GlobalPattern = value;
                     PropertyChanged?.Invoke(args);
                 }
             }
         }
+        
+        private List<ProtoPatternDetail>? _SetPoint;
+        public List<ProtoPatternDetail> SetPoint
+        {
+            get { return _SetPoint!; }
+            set
+            {
+                if (!object.Equals(_SetPoint, value))
+                {
+
+                    var args = new PropertyChangedEventArgs() { Name = "SetPoint", NewValue = value, OldValue = _SetPoint, IsGlobal = true };
+
+                    _SetPoint = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
+        }
+    
+        private List<OperationLog>? _ActualPoint;
+        public List<OperationLog> ActualPoint
+        {
+            get { return _ActualPoint!; }
+            set
+            {
+                if (!object.Equals(_ActualPoint, value))
+                {
+
+                    var args = new PropertyChangedEventArgs() { Name = "ActualPoint", NewValue = value, OldValue = _ActualPoint, IsGlobal = true };
+
+                    _ActualPoint = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
+        }
+    
+        private double _CpuTemp;
+        public double CpuTemp
+        {
+            get { return _CpuTemp; }
+            set
+            {
+                if (!object.Equals(_CpuTemp, value))
+                {
+
+                    var args = new PropertyChangedEventArgs() { Name = "CpuTemp", NewValue = value, OldValue = _CpuTemp, IsGlobal = true };
+
+                    _CpuTemp = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
+        }
+        
     }
 
-    public class PropertyChangedEventArgs
+    public partial class PropertyChangedEventArgs
     {
-        public string Name { get; set; }
-        public object NewValue { get; set; }
-        public object OldValue { get; set; }
+        public string? Name { get; set; }
+        public object? NewValue { get; set; }
+        public object? OldValue { get; set; }
         public bool IsGlobal { get; set; }
     }
 }

@@ -454,3 +454,4 @@ app.*.map.json
 
 #MyIgnore
 Note.txt
+/build/

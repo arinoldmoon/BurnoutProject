@@ -1,173 +1,53 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
-using Microsoft.AspNetCore.Components;
-using UI.Models;
-using UI.Protos;
-using static UI.Protos.PatternProto;
+using GrpcService.Protos;
+using static GrpcService.Protos.PatternProtoService;
 
 namespace UI.Services
 {
-    public class PatternService
+    public partial class PatternService
     {
         private GrpcChannel channel { get; set; }
-        private PatternProtoClient client { get; set; }
-
-        [Inject]
-        protected GlobalService Globals { get; set; }
+        private PatternProtoServiceClient client { get; set; }
 
         public PatternService(string IP)
         {
             var addr = new Uri($"http://{IP}:5000");
 
             channel = GrpcChannel.ForAddress(addr);
-            client = new PatternProtoClient(channel);
+            client = new PatternProtoServiceClient(channel);
         }
 
-        public async Task<List<Pattern>> GetPatternListAsync()
+        public async Task<List<ProtoPattern>> GetPatternListAsync()
         {
-            List<Pattern> PatternList = new List<Pattern>();
+            List<ProtoPattern> PatternList = new List<ProtoPattern>();
+
             try
             {
-                ProtoPatternList response = (await client.GetPatternListAsync(new Empty()));
-                if (response.Pattern.Any())
+                await Task.Run(async () => await client.GetPatternListAsync(new Empty())).ContinueWith(res =>
                 {
-                    foreach (var item in response.Pattern)
+                    if (res.Result.Pattern.Any())
                     {
-                        Pattern pattern = new Pattern()
-                        {
-                            PatternNumber = item.PatternId,
-                            PatternName = item.PatternName,
-                            StepCount = item.StepCount,
-                            TotalTime = (int)TimeSpan.FromSeconds(item.TotalTime.Seconds).TotalMinutes
-                        };
-                        PatternList.Add(pattern);
+                        PatternList.AddRange(res.Result.Pattern);
                     }
-                }
+                });
             }
             catch (RpcException ex)
             {
                 Console.WriteLine($"GetPatternList Error {ex.StatusCode} : {ex.Message}");
-                return new List<Pattern>(); ;
+                return new List<ProtoPattern>(); ;
             }
 
             return PatternList;
-        }
+        }      
 
-        public async Task<Pattern> GetPatternByID(int PatternNumber)
-        {
-            Pattern result = new Pattern();
-            ProtoPattern response = await client.GetPatternAsync(new Int32Value() { Value = PatternNumber });
+        public async Task<ProtoPattern> GetPatternByID(int PatternId) => (await client.GetPatternAsync(new Int32Value(){Value = PatternId}));
+    
+        public async Task<BoolValue> DeletePattern(int PatternId) => (await client.DeletePatternAsync(new Int32Value(){Value = PatternId}));
+        
+        public async Task<BoolValue> CreatePattern(ProtoPattern patternData) => (await client.CreatePatternAsync(patternData));
 
-            if (response != null)
-            {
-                result.PatternNumber = response.PatternId;
-                result.PatternName = response.PatternName;
-                result.StepCount = response.StepCount;
-                result.TotalTime = (int)TimeSpan.FromSeconds(response.TotalTime.Seconds).TotalMinutes;
-
-                result.Airpump = new AirPumpSetting()
-                {
-                    Id = response.AirPump.Id,
-                    StartTemp = response.AirPump.StartTemp,
-                    EndTemp = response.AirPump.EndTemp,
-                    DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
-                };
-
-                foreach (var item in response.PatternDetail)
-                {
-                    PatternItem pattern = new PatternItem()
-                    {
-                        DetailId = item.DetailId,
-                        PatternId = item.PatternId,
-                        Step = item.Step,
-                        Temp = item.Temp,
-                        StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
-                    };
-                    result.PatternItems.Add(pattern);
-                }
-            }
-
-            return result;
-        }
-
-        public async Task<bool> UpdatePatternToDB(Pattern pattern)
-        {
-            ProtoPattern request = new ProtoPattern();
-            ProtoAirpump air = new ProtoAirpump();
-
-            request.PatternId = pattern.PatternNumber;
-            request.PatternName = pattern.PatternName;
-            request.StepCount = pattern.StepCount;
-            request.TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration();
-            request.AirPump = new ProtoAirpump()      
-            {
-                Id = pattern.Airpump.Id,
-                StartTemp = pattern.Airpump.StartTemp,
-                EndTemp = pattern.Airpump.EndTemp,
-                DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
-            }; 
-
-            // air.Id = pattern.Airpump.Id;
-            // air.StartTemp = pattern.Airpump.StartTemp;
-            // air.EndTemp = pattern.Airpump.EndTemp;
-            // air.DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration();
-
-            // request.AirPump = air;
-
-
-
-            foreach (var item in pattern.PatternItems)
-            {
-                request.PatternDetail.Add(new ProtoPatternDetail()
-                {
-                    DetailId = item.DetailId,
-                    PatternId = item.PatternId,
-                    Step = item.Step,
-                    Temp = item.Temp,
-                    StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration()
-                });
-            }
-
-            var status =  client.UpdatePattern(request);
-            
-            await Task.CompletedTask;
-
-            return status.Value;
-        }
-
-        public async Task<bool> CreatePattern(Pattern pattern)  
-        {
-            ProtoPattern request = new ProtoPattern()
-            {
-                PatternName = pattern.PatternName,
-                StepCount = pattern.StepCount,
-                TotalTime = TimeSpan.FromMinutes(pattern.PatternItems.Sum(x => x.StepDuration)).ToDuration(),
-                AirPump = new ProtoAirpump()
-                {
-                    Id = pattern.Airpump.Id,
-                    StartTemp = pattern.Airpump.StartTemp,
-                    EndTemp = pattern.Airpump.EndTemp,
-                    DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
-                }
-            };
-
-            foreach (var item in pattern.PatternItems)
-            {
-                request.PatternDetail.Add(new ProtoPatternDetail()
-                {
-                    Step = item.Step,
-                    Temp = item.Temp,
-                    StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration()
-                });
-            }
-
-            return (await client.CreatePatternAsync(request)).Value;
-        }
+        public async Task<BoolValue> UpdatePattern(ProtoPattern patternData) => (await client.UpdatePatternAsync(patternData));
     }
 }

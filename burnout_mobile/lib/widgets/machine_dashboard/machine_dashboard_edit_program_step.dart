@@ -38,70 +38,55 @@ class _MachineDashboardEditProgramStepState
     return ChangeNotifierProvider(
       create: (_) => MachineDashboardUtilityStepProvider(),
       child: Consumer<MachineDashboardUtilityStepProvider>(
-        builder: (context, value, child) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Form(
-                  key: FormKey.formStepTempAndDurEditStep,
-                  child: ListView.separated(
-                      key: const Key('editStepListView'),
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (_, index) {
-                        _tempTextController.add(TextEditingController());
-                        _durationTextController.add(TextEditingController());
-                        return _buildListTileEditStep(
-                          context,
-                          value.machineDashboardUtilityStepList[index],
-                          _tempTextController[index],
-                          _durationTextController[index],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          key: Key('dividerListTile'),
-                          indent: MachineDashboardSizes
-                              .machineDashboardPeripheralItemSpacing,
-                          color: AppTheme.greyPrimary100,
-                        );
-                      },
-                      itemCount: context
-                          .watch<MachineDashboardUtilityStepProvider>()
-                          .count),
-                ),
+          builder: (context, value, child) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Form(
+                key: FormKey.formStepTempAndDurEditStep,
+                child: ListView.separated(
+                    key: const Key('editStepListView'),
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (_, index) {
+                      _tempTextController.add(TextEditingController());
+                      _durationTextController.add(TextEditingController());
+                      return _buildListTileEditStep(
+                        context,
+                        value.machineDashboardUtilityStepList[index],
+                        _tempTextController[index],
+                        _durationTextController[index],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        key: Key('dividerListTile'),
+                        indent: MachineDashboardSizes
+                            .machineDashboardPeripheralItemSpacing,
+                        color: AppTheme.greyPrimary100,
+                      );
+                    },
+                    itemCount: context
+                        .watch<MachineDashboardUtilityStepProvider>()
+                        .count),
               ),
-              const SizedBox(
-                height: MachineDashboardSizes
-                    .machineDashboardEditStepListViewButtonSpacing,
+            ),
+            const SizedBox(
+              height: MachineDashboardSizes
+                  .machineDashboardEditStepListViewButtonSpacing,
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                PhosphorIcons.plusCircle,
+                size: MachineDashboardSizes.machineDashboardEditStepButtonSize,
+                color: AppTheme.yellowPrimary,
               ),
-              IconButton(
-                key: const Key('addMoreStepButton'),
-                onPressed: () {
-                  value.addMoreStep(
-                    MachineUtilityStep(
-                        machineUtilityStepTitle:
-                            'Step ${value.machineDashboardUtilityStepList.length + 1}',
-                        machineUtilityStepTemp: 80,
-                        machineUtilityStepTimeRemaining: 80,
-                        machineUtilityStepStatus:
-                            MachineUtilityStepStatus.UPCOMING,
-                        machineUtilityStepProcess:
-                            MachineUtilityStepProcess.HEATING),
-                  );
-                },
-                icon: const Icon(
-                  PhosphorIcons.plusCircle,
-                  size:
-                      MachineDashboardSizes.machineDashboardEditStepButtonSize,
-                  color: AppTheme.yellowPrimary,
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      }),
     );
   }
 

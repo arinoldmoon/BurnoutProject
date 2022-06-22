@@ -69,7 +69,7 @@ class _MachineDashboardPeripheralZoneState
           key: const Key('machinePeripheralName'),
           style: Theme.of(context)
               .textTheme
-              .headline5!
+              .headline6!
               .copyWith(fontWeight: FontWeight.bold),
         )
       ],

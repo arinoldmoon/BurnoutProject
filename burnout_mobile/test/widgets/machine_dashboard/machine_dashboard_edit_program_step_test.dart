@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
-import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
 import 'package:burnout_mobile/utility/form_key.dart';
@@ -15,8 +13,6 @@ void main() {
   void findCommon() {
     expect(find.byKey(FormKey.formStepTempAndDurEditStep), findsOneWidget);
     expect(find.byKey(const Key('editStepListView')), findsOneWidget);
-    expect(find.byKey(const Key('addMoreStepButton')), findsOneWidget);
-
     for (int i = 0;
         i <
             MachineDashboardUtilityStepProvider()
@@ -84,25 +80,6 @@ void main() {
       ),
     );
     findCommon();
-  });
-
-  testWidgets('Edit Step Should be able to add more step', (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
-            body: Center(
-              child: MachineDashboardEditProgramStep(),
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.tap(find.byKey(const Key('addMoreStepButton')));
-    await tester.pumpAndSettle();
   });
 
   testWidgets('Edit Step button should be able to callback', (tester) async {

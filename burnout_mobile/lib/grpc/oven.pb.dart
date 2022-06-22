@@ -16,6 +16,146 @@ import 'oven.pbenum.dart';
 
 export 'oven.pbenum.dart';
 
+class OperationLogWithFilter extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'OperationLogWithFilter', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'YearSelect', $pb.PbFieldType.O3, protoName: 'YearSelect')
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MonthSelect', $pb.PbFieldType.O3, protoName: 'MonthSelect')
+    ..hasRequiredFields = false
+  ;
+
+  OperationLogWithFilter._() : super();
+  factory OperationLogWithFilter({
+    $core.int? yearSelect,
+    $core.int? monthSelect,
+  }) {
+    final _result = create();
+    if (yearSelect != null) {
+      _result.yearSelect = yearSelect;
+    }
+    if (monthSelect != null) {
+      _result.monthSelect = monthSelect;
+    }
+    return _result;
+  }
+  factory OperationLogWithFilter.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory OperationLogWithFilter.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  OperationLogWithFilter clone() => OperationLogWithFilter()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  OperationLogWithFilter copyWith(void Function(OperationLogWithFilter) updates) => super.copyWith((message) => updates(message as OperationLogWithFilter)) as OperationLogWithFilter; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static OperationLogWithFilter create() => OperationLogWithFilter._();
+  OperationLogWithFilter createEmptyInstance() => create();
+  static $pb.PbList<OperationLogWithFilter> createRepeated() => $pb.PbList<OperationLogWithFilter>();
+  @$core.pragma('dart2js:noInline')
+  static OperationLogWithFilter getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OperationLogWithFilter>(create);
+  static OperationLogWithFilter? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get yearSelect => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set yearSelect($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasYearSelect() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearYearSelect() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get monthSelect => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set monthSelect($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasMonthSelect() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMonthSelect() => clearField(2);
+}
+
+class ProtoServiceConnection extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoServiceConnection', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PlcConnected', protoName: 'PlcConnected')
+    ..aOM<ProtoOvenInfo>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'OvenInfo', protoName: 'OvenInfo', subBuilder: ProtoOvenInfo.create)
+    ..aOM<ProtoOperationLogInfo>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'OperationLogInfo', protoName: 'OperationLogInfo', subBuilder: ProtoOperationLogInfo.create)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoServiceConnection._() : super();
+  factory ProtoServiceConnection({
+    $core.bool? plcConnected,
+    ProtoOvenInfo? ovenInfo,
+    ProtoOperationLogInfo? operationLogInfo,
+  }) {
+    final _result = create();
+    if (plcConnected != null) {
+      _result.plcConnected = plcConnected;
+    }
+    if (ovenInfo != null) {
+      _result.ovenInfo = ovenInfo;
+    }
+    if (operationLogInfo != null) {
+      _result.operationLogInfo = operationLogInfo;
+    }
+    return _result;
+  }
+  factory ProtoServiceConnection.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoServiceConnection.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoServiceConnection clone() => ProtoServiceConnection()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoServiceConnection copyWith(void Function(ProtoServiceConnection) updates) => super.copyWith((message) => updates(message as ProtoServiceConnection)) as ProtoServiceConnection; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoServiceConnection create() => ProtoServiceConnection._();
+  ProtoServiceConnection createEmptyInstance() => create();
+  static $pb.PbList<ProtoServiceConnection> createRepeated() => $pb.PbList<ProtoServiceConnection>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoServiceConnection getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoServiceConnection>(create);
+  static ProtoServiceConnection? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get plcConnected => $_getBF(0);
+  @$pb.TagNumber(1)
+  set plcConnected($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPlcConnected() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPlcConnected() => clearField(1);
+
+  @$pb.TagNumber(2)
+  ProtoOvenInfo get ovenInfo => $_getN(1);
+  @$pb.TagNumber(2)
+  set ovenInfo(ProtoOvenInfo v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasOvenInfo() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearOvenInfo() => clearField(2);
+  @$pb.TagNumber(2)
+  ProtoOvenInfo ensureOvenInfo() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  ProtoOperationLogInfo get operationLogInfo => $_getN(2);
+  @$pb.TagNumber(3)
+  set operationLogInfo(ProtoOperationLogInfo v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasOperationLogInfo() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOperationLogInfo() => clearField(3);
+  @$pb.TagNumber(3)
+  ProtoOperationLogInfo ensureOperationLogInfo() => $_ensure(2);
+}
+
 class ProtoOvenInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOvenInfo', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
     ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'SerialNumber', $pb.PbFieldType.O3, protoName: 'SerialNumber')
@@ -123,156 +263,161 @@ class ProtoOvenInfo extends $pb.GeneratedMessage {
   void clearMachineName() => clearField(5);
 }
 
-class ProtoOvenSetting extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOvenSetting', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
-    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'SettingId', $pb.PbFieldType.O3, protoName: 'SettingId')
-    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbStartTemp', $pb.PbFieldType.O3, protoName: 'AfbStartTemp')
-    ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbEndTemp', $pb.PbFieldType.O3, protoName: 'AfbEndTemp')
-    ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbDelay', $pb.PbFieldType.O3, protoName: 'AfbDelay')
-    ..a<$core.int>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TubeStartTemp', $pb.PbFieldType.O3, protoName: 'TubeStartTemp')
-    ..a<$core.int>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'FloorStartTemp', $pb.PbFieldType.O3, protoName: 'FloorStartTemp')
-    ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmOven', $pb.PbFieldType.O3, protoName: 'AlarmOven')
-    ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmAfb', $pb.PbFieldType.O3, protoName: 'AlarmAfb')
+class ProtoOperationLogInfo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOperationLogInfo', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..p<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'YearList', $pb.PbFieldType.P3, protoName: 'YearList')
+    ..p<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MonthList', $pb.PbFieldType.P3, protoName: 'MonthList')
+    ..pc<ProtoOvenLogList>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'LogList', $pb.PbFieldType.PM, protoName: 'LogList', subBuilder: ProtoOvenLogList.create)
     ..hasRequiredFields = false
   ;
 
-  ProtoOvenSetting._() : super();
-  factory ProtoOvenSetting({
-    $core.int? settingId,
-    $core.int? afbStartTemp,
-    $core.int? afbEndTemp,
-    $core.int? afbDelay,
-    $core.int? tubeStartTemp,
-    $core.int? floorStartTemp,
-    $core.int? alarmOven,
-    $core.int? alarmAfb,
+  ProtoOperationLogInfo._() : super();
+  factory ProtoOperationLogInfo({
+    $core.Iterable<$core.int>? yearList,
+    $core.Iterable<$core.int>? monthList,
+    $core.Iterable<ProtoOvenLogList>? logList,
   }) {
     final _result = create();
-    if (settingId != null) {
-      _result.settingId = settingId;
+    if (yearList != null) {
+      _result.yearList.addAll(yearList);
     }
-    if (afbStartTemp != null) {
-      _result.afbStartTemp = afbStartTemp;
+    if (monthList != null) {
+      _result.monthList.addAll(monthList);
     }
-    if (afbEndTemp != null) {
-      _result.afbEndTemp = afbEndTemp;
-    }
-    if (afbDelay != null) {
-      _result.afbDelay = afbDelay;
-    }
-    if (tubeStartTemp != null) {
-      _result.tubeStartTemp = tubeStartTemp;
-    }
-    if (floorStartTemp != null) {
-      _result.floorStartTemp = floorStartTemp;
-    }
-    if (alarmOven != null) {
-      _result.alarmOven = alarmOven;
-    }
-    if (alarmAfb != null) {
-      _result.alarmAfb = alarmAfb;
+    if (logList != null) {
+      _result.logList.addAll(logList);
     }
     return _result;
   }
-  factory ProtoOvenSetting.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ProtoOvenSetting.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory ProtoOperationLogInfo.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoOperationLogInfo.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  ProtoOvenSetting clone() => ProtoOvenSetting()..mergeFromMessage(this);
+  ProtoOperationLogInfo clone() => ProtoOperationLogInfo()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoOvenSetting copyWith(void Function(ProtoOvenSetting) updates) => super.copyWith((message) => updates(message as ProtoOvenSetting)) as ProtoOvenSetting; // ignore: deprecated_member_use
+  ProtoOperationLogInfo copyWith(void Function(ProtoOperationLogInfo) updates) => super.copyWith((message) => updates(message as ProtoOperationLogInfo)) as ProtoOperationLogInfo; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static ProtoOvenSetting create() => ProtoOvenSetting._();
-  ProtoOvenSetting createEmptyInstance() => create();
-  static $pb.PbList<ProtoOvenSetting> createRepeated() => $pb.PbList<ProtoOvenSetting>();
+  static ProtoOperationLogInfo create() => ProtoOperationLogInfo._();
+  ProtoOperationLogInfo createEmptyInstance() => create();
+  static $pb.PbList<ProtoOperationLogInfo> createRepeated() => $pb.PbList<ProtoOperationLogInfo>();
   @$core.pragma('dart2js:noInline')
-  static ProtoOvenSetting getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoOvenSetting>(create);
-  static ProtoOvenSetting? _defaultInstance;
+  static ProtoOperationLogInfo getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoOperationLogInfo>(create);
+  static ProtoOperationLogInfo? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get settingId => $_getIZ(0);
+  $core.List<$core.int> get yearList => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $core.List<$core.int> get monthList => $_getList(1);
+
+  @$pb.TagNumber(3)
+  $core.List<ProtoOvenLogList> get logList => $_getList(2);
+}
+
+class ProtoOvenLogList extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOvenLogList', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'LogID', $pb.PbFieldType.O3, protoName: 'LogID')
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PatternID', $pb.PbFieldType.O3, protoName: 'PatternID')
+    ..aOM<$3.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'StartLog', protoName: 'StartLog', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'EndLog', protoName: 'EndLog', subBuilder: $3.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoOvenLogList._() : super();
+  factory ProtoOvenLogList({
+    $core.int? logID,
+    $core.int? patternID,
+    $3.Timestamp? startLog,
+    $3.Timestamp? endLog,
+  }) {
+    final _result = create();
+    if (logID != null) {
+      _result.logID = logID;
+    }
+    if (patternID != null) {
+      _result.patternID = patternID;
+    }
+    if (startLog != null) {
+      _result.startLog = startLog;
+    }
+    if (endLog != null) {
+      _result.endLog = endLog;
+    }
+    return _result;
+  }
+  factory ProtoOvenLogList.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoOvenLogList.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoOvenLogList clone() => ProtoOvenLogList()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoOvenLogList copyWith(void Function(ProtoOvenLogList) updates) => super.copyWith((message) => updates(message as ProtoOvenLogList)) as ProtoOvenLogList; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoOvenLogList create() => ProtoOvenLogList._();
+  ProtoOvenLogList createEmptyInstance() => create();
+  static $pb.PbList<ProtoOvenLogList> createRepeated() => $pb.PbList<ProtoOvenLogList>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoOvenLogList getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoOvenLogList>(create);
+  static ProtoOvenLogList? _defaultInstance;
+
   @$pb.TagNumber(1)
-  set settingId($core.int v) { $_setSignedInt32(0, v); }
+  $core.int get logID => $_getIZ(0);
   @$pb.TagNumber(1)
-  $core.bool hasSettingId() => $_has(0);
+  set logID($core.int v) { $_setSignedInt32(0, v); }
   @$pb.TagNumber(1)
-  void clearSettingId() => clearField(1);
+  $core.bool hasLogID() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearLogID() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.int get afbStartTemp => $_getIZ(1);
+  $core.int get patternID => $_getIZ(1);
   @$pb.TagNumber(2)
-  set afbStartTemp($core.int v) { $_setSignedInt32(1, v); }
+  set patternID($core.int v) { $_setSignedInt32(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasAfbStartTemp() => $_has(1);
+  $core.bool hasPatternID() => $_has(1);
   @$pb.TagNumber(2)
-  void clearAfbStartTemp() => clearField(2);
+  void clearPatternID() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.int get afbEndTemp => $_getIZ(2);
+  $3.Timestamp get startLog => $_getN(2);
   @$pb.TagNumber(3)
-  set afbEndTemp($core.int v) { $_setSignedInt32(2, v); }
+  set startLog($3.Timestamp v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasAfbEndTemp() => $_has(2);
+  $core.bool hasStartLog() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAfbEndTemp() => clearField(3);
+  void clearStartLog() => clearField(3);
+  @$pb.TagNumber(3)
+  $3.Timestamp ensureStartLog() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  $core.int get afbDelay => $_getIZ(3);
+  $3.Timestamp get endLog => $_getN(3);
   @$pb.TagNumber(4)
-  set afbDelay($core.int v) { $_setSignedInt32(3, v); }
+  set endLog($3.Timestamp v) { setField(4, v); }
   @$pb.TagNumber(4)
-  $core.bool hasAfbDelay() => $_has(3);
+  $core.bool hasEndLog() => $_has(3);
   @$pb.TagNumber(4)
-  void clearAfbDelay() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.int get tubeStartTemp => $_getIZ(4);
-  @$pb.TagNumber(5)
-  set tubeStartTemp($core.int v) { $_setSignedInt32(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasTubeStartTemp() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearTubeStartTemp() => clearField(5);
-
-  @$pb.TagNumber(6)
-  $core.int get floorStartTemp => $_getIZ(5);
-  @$pb.TagNumber(6)
-  set floorStartTemp($core.int v) { $_setSignedInt32(5, v); }
-  @$pb.TagNumber(6)
-  $core.bool hasFloorStartTemp() => $_has(5);
-  @$pb.TagNumber(6)
-  void clearFloorStartTemp() => clearField(6);
-
-  @$pb.TagNumber(7)
-  $core.int get alarmOven => $_getIZ(6);
-  @$pb.TagNumber(7)
-  set alarmOven($core.int v) { $_setSignedInt32(6, v); }
-  @$pb.TagNumber(7)
-  $core.bool hasAlarmOven() => $_has(6);
-  @$pb.TagNumber(7)
-  void clearAlarmOven() => clearField(7);
-
-  @$pb.TagNumber(8)
-  $core.int get alarmAfb => $_getIZ(7);
-  @$pb.TagNumber(8)
-  set alarmAfb($core.int v) { $_setSignedInt32(7, v); }
-  @$pb.TagNumber(8)
-  $core.bool hasAlarmAfb() => $_has(7);
-  @$pb.TagNumber(8)
-  void clearAlarmAfb() => clearField(8);
+  void clearEndLog() => clearField(4);
+  @$pb.TagNumber(4)
+  $3.Timestamp ensureEndLog() => $_ensure(3);
 }
 
 class ProtoOvenResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOvenResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
     ..aOM<Temp>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Temp', protoName: 'Temp', subBuilder: Temp.create)
     ..aOM<Coil>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Coil', protoName: 'Coil', subBuilder: Coil.create)
-    ..aOM<mcStatus>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Status', protoName: 'Status', subBuilder: mcStatus.create)
+    ..aOM<MachineStatus>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Status', protoName: 'Status', subBuilder: MachineStatus.create)
     ..hasRequiredFields = false
   ;
 
@@ -280,7 +425,7 @@ class ProtoOvenResponse extends $pb.GeneratedMessage {
   factory ProtoOvenResponse({
     Temp? temp,
     Coil? coil,
-    mcStatus? status,
+    MachineStatus? status,
   }) {
     final _result = create();
     if (temp != null) {
@@ -338,15 +483,15 @@ class ProtoOvenResponse extends $pb.GeneratedMessage {
   Coil ensureCoil() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  mcStatus get status => $_getN(2);
+  MachineStatus get status => $_getN(2);
   @$pb.TagNumber(3)
-  set status(mcStatus v) { setField(3, v); }
+  set status(MachineStatus v) { setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasStatus() => $_has(2);
   @$pb.TagNumber(3)
   void clearStatus() => clearField(3);
   @$pb.TagNumber(3)
-  mcStatus ensureStatus() => $_ensure(2);
+  MachineStatus ensureStatus() => $_ensure(2);
 }
 
 class Temp extends $pb.GeneratedMessage {
@@ -541,8 +686,8 @@ class Coil extends $pb.GeneratedMessage {
   void clearCoilFloor() => clearField(5);
 }
 
-class mcStatus extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'mcStatus', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+class MachineStatus extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MachineStatus', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
     ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Door', protoName: 'Door')
     ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Operation', protoName: 'Operation')
     ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PatternId', $pb.PbFieldType.O3, protoName: 'PatternId')
@@ -551,11 +696,12 @@ class mcStatus extends $pb.GeneratedMessage {
     ..e<PatternStatus>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PatternStatus', $pb.PbFieldType.OE, protoName: 'PatternStatus', defaultOrMaker: PatternStatus.Standby, valueOf: PatternStatus.valueOf, enumValues: PatternStatus.values)
     ..aOM<$4.Duration>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'RemainHours', protoName: 'RemainHours', subBuilder: $4.Duration.create)
     ..aOM<$4.Duration>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'RemainMins', protoName: 'RemainMins', subBuilder: $4.Duration.create)
+    ..aOM<ActualLogList>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TempLogList', protoName: 'TempLogList', subBuilder: ActualLogList.create)
     ..hasRequiredFields = false
   ;
 
-  mcStatus._() : super();
-  factory mcStatus({
+  MachineStatus._() : super();
+  factory MachineStatus({
     $core.bool? door,
     $core.bool? operation,
     $core.int? patternId,
@@ -564,6 +710,7 @@ class mcStatus extends $pb.GeneratedMessage {
     PatternStatus? patternStatus,
     $4.Duration? remainHours,
     $4.Duration? remainMins,
+    ActualLogList? tempLogList,
   }) {
     final _result = create();
     if (door != null) {
@@ -590,28 +737,31 @@ class mcStatus extends $pb.GeneratedMessage {
     if (remainMins != null) {
       _result.remainMins = remainMins;
     }
+    if (tempLogList != null) {
+      _result.tempLogList = tempLogList;
+    }
     return _result;
   }
-  factory mcStatus.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory mcStatus.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory MachineStatus.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory MachineStatus.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  mcStatus clone() => mcStatus()..mergeFromMessage(this);
+  MachineStatus clone() => MachineStatus()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  mcStatus copyWith(void Function(mcStatus) updates) => super.copyWith((message) => updates(message as mcStatus)) as mcStatus; // ignore: deprecated_member_use
+  MachineStatus copyWith(void Function(MachineStatus) updates) => super.copyWith((message) => updates(message as MachineStatus)) as MachineStatus; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static mcStatus create() => mcStatus._();
-  mcStatus createEmptyInstance() => create();
-  static $pb.PbList<mcStatus> createRepeated() => $pb.PbList<mcStatus>();
+  static MachineStatus create() => MachineStatus._();
+  MachineStatus createEmptyInstance() => create();
+  static $pb.PbList<MachineStatus> createRepeated() => $pb.PbList<MachineStatus>();
   @$core.pragma('dart2js:noInline')
-  static mcStatus getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<mcStatus>(create);
-  static mcStatus? _defaultInstance;
+  static MachineStatus getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MachineStatus>(create);
+  static MachineStatus? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.bool get door => $_getBF(0);
@@ -688,6 +838,327 @@ class mcStatus extends $pb.GeneratedMessage {
   void clearRemainMins() => clearField(8);
   @$pb.TagNumber(8)
   $4.Duration ensureRemainMins() => $_ensure(7);
+
+  @$pb.TagNumber(9)
+  ActualLogList get tempLogList => $_getN(8);
+  @$pb.TagNumber(9)
+  set tempLogList(ActualLogList v) { setField(9, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasTempLogList() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearTempLogList() => clearField(9);
+  @$pb.TagNumber(9)
+  ActualLogList ensureTempLogList() => $_ensure(8);
+}
+
+class ActualLogList extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ActualLogList', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..pc<ActualLog>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TempLog', $pb.PbFieldType.PM, protoName: 'TempLog', subBuilder: ActualLog.create)
+    ..hasRequiredFields = false
+  ;
+
+  ActualLogList._() : super();
+  factory ActualLogList({
+    $core.Iterable<ActualLog>? tempLog,
+  }) {
+    final _result = create();
+    if (tempLog != null) {
+      _result.tempLog.addAll(tempLog);
+    }
+    return _result;
+  }
+  factory ActualLogList.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ActualLogList.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ActualLogList clone() => ActualLogList()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ActualLogList copyWith(void Function(ActualLogList) updates) => super.copyWith((message) => updates(message as ActualLogList)) as ActualLogList; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ActualLogList create() => ActualLogList._();
+  ActualLogList createEmptyInstance() => create();
+  static $pb.PbList<ActualLogList> createRepeated() => $pb.PbList<ActualLogList>();
+  @$core.pragma('dart2js:noInline')
+  static ActualLogList getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ActualLogList>(create);
+  static ActualLogList? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<ActualLog> get tempLog => $_getList(0);
+}
+
+class ActualLog extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ActualLog', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..aOM<$3.Timestamp>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TempTime', protoName: 'TempTime', subBuilder: $3.Timestamp.create)
+    ..aOM<Temp>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TempValue', protoName: 'TempValue', subBuilder: Temp.create)
+    ..hasRequiredFields = false
+  ;
+
+  ActualLog._() : super();
+  factory ActualLog({
+    $3.Timestamp? tempTime,
+    Temp? tempValue,
+  }) {
+    final _result = create();
+    if (tempTime != null) {
+      _result.tempTime = tempTime;
+    }
+    if (tempValue != null) {
+      _result.tempValue = tempValue;
+    }
+    return _result;
+  }
+  factory ActualLog.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ActualLog.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ActualLog clone() => ActualLog()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ActualLog copyWith(void Function(ActualLog) updates) => super.copyWith((message) => updates(message as ActualLog)) as ActualLog; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ActualLog create() => ActualLog._();
+  ActualLog createEmptyInstance() => create();
+  static $pb.PbList<ActualLog> createRepeated() => $pb.PbList<ActualLog>();
+  @$core.pragma('dart2js:noInline')
+  static ActualLog getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ActualLog>(create);
+  static ActualLog? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $3.Timestamp get tempTime => $_getN(0);
+  @$pb.TagNumber(1)
+  set tempTime($3.Timestamp v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasTempTime() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTempTime() => clearField(1);
+  @$pb.TagNumber(1)
+  $3.Timestamp ensureTempTime() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  Temp get tempValue => $_getN(1);
+  @$pb.TagNumber(2)
+  set tempValue(Temp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTempValue() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTempValue() => clearField(2);
+  @$pb.TagNumber(2)
+  Temp ensureTempValue() => $_ensure(1);
+}
+
+class ProtoOvenSetting extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOvenSetting', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbStartTemp', $pb.PbFieldType.O3, protoName: 'AfbStartTemp')
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbEndTemp', $pb.PbFieldType.O3, protoName: 'AfbEndTemp')
+    ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AfbDelay', $pb.PbFieldType.O3, protoName: 'AfbDelay')
+    ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TubeStartTemp', $pb.PbFieldType.O3, protoName: 'TubeStartTemp')
+    ..a<$core.int>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'FloorStartTemp', $pb.PbFieldType.O3, protoName: 'FloorStartTemp')
+    ..a<$core.int>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmOven', $pb.PbFieldType.O3, protoName: 'AlarmOven')
+    ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmAfb', $pb.PbFieldType.O3, protoName: 'AlarmAfb')
+    ..aOM<Temp>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'SetpointTemp', protoName: 'SetpointTemp', subBuilder: Temp.create)
+    ..aOM<Coil>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'CoilSetting', protoName: 'CoilSetting', subBuilder: Coil.create)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoOvenSetting._() : super();
+  factory ProtoOvenSetting({
+    $core.int? afbStartTemp,
+    $core.int? afbEndTemp,
+    $core.int? afbDelay,
+    $core.int? tubeStartTemp,
+    $core.int? floorStartTemp,
+    $core.int? alarmOven,
+    $core.int? alarmAfb,
+    Temp? setpointTemp,
+    Coil? coilSetting,
+  }) {
+    final _result = create();
+    if (afbStartTemp != null) {
+      _result.afbStartTemp = afbStartTemp;
+    }
+    if (afbEndTemp != null) {
+      _result.afbEndTemp = afbEndTemp;
+    }
+    if (afbDelay != null) {
+      _result.afbDelay = afbDelay;
+    }
+    if (tubeStartTemp != null) {
+      _result.tubeStartTemp = tubeStartTemp;
+    }
+    if (floorStartTemp != null) {
+      _result.floorStartTemp = floorStartTemp;
+    }
+    if (alarmOven != null) {
+      _result.alarmOven = alarmOven;
+    }
+    if (alarmAfb != null) {
+      _result.alarmAfb = alarmAfb;
+    }
+    if (setpointTemp != null) {
+      _result.setpointTemp = setpointTemp;
+    }
+    if (coilSetting != null) {
+      _result.coilSetting = coilSetting;
+    }
+    return _result;
+  }
+  factory ProtoOvenSetting.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoOvenSetting.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoOvenSetting clone() => ProtoOvenSetting()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoOvenSetting copyWith(void Function(ProtoOvenSetting) updates) => super.copyWith((message) => updates(message as ProtoOvenSetting)) as ProtoOvenSetting; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoOvenSetting create() => ProtoOvenSetting._();
+  ProtoOvenSetting createEmptyInstance() => create();
+  static $pb.PbList<ProtoOvenSetting> createRepeated() => $pb.PbList<ProtoOvenSetting>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoOvenSetting getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoOvenSetting>(create);
+  static ProtoOvenSetting? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get afbStartTemp => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set afbStartTemp($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAfbStartTemp() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAfbStartTemp() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get afbEndTemp => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set afbEndTemp($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAfbEndTemp() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAfbEndTemp() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get afbDelay => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set afbDelay($core.int v) { $_setSignedInt32(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAfbDelay() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAfbDelay() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.int get tubeStartTemp => $_getIZ(3);
+  @$pb.TagNumber(4)
+  set tubeStartTemp($core.int v) { $_setSignedInt32(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasTubeStartTemp() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearTubeStartTemp() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.int get floorStartTemp => $_getIZ(4);
+  @$pb.TagNumber(5)
+  set floorStartTemp($core.int v) { $_setSignedInt32(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasFloorStartTemp() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearFloorStartTemp() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.int get alarmOven => $_getIZ(5);
+  @$pb.TagNumber(6)
+  set alarmOven($core.int v) { $_setSignedInt32(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasAlarmOven() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearAlarmOven() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.int get alarmAfb => $_getIZ(6);
+  @$pb.TagNumber(7)
+  set alarmAfb($core.int v) { $_setSignedInt32(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasAlarmAfb() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearAlarmAfb() => clearField(7);
+
+  @$pb.TagNumber(8)
+  Temp get setpointTemp => $_getN(7);
+  @$pb.TagNumber(8)
+  set setpointTemp(Temp v) { setField(8, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasSetpointTemp() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearSetpointTemp() => clearField(8);
+  @$pb.TagNumber(8)
+  Temp ensureSetpointTemp() => $_ensure(7);
+
+  @$pb.TagNumber(9)
+  Coil get coilSetting => $_getN(8);
+  @$pb.TagNumber(9)
+  set coilSetting(Coil v) { setField(9, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasCoilSetting() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearCoilSetting() => clearField(9);
+  @$pb.TagNumber(9)
+  Coil ensureCoilSetting() => $_ensure(8);
+}
+
+class ProtoPatternList extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoPatternList', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..pc<ProtoPattern>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Pattern', $pb.PbFieldType.PM, protoName: 'Pattern', subBuilder: ProtoPattern.create)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoPatternList._() : super();
+  factory ProtoPatternList({
+    $core.Iterable<ProtoPattern>? pattern,
+  }) {
+    final _result = create();
+    if (pattern != null) {
+      _result.pattern.addAll(pattern);
+    }
+    return _result;
+  }
+  factory ProtoPatternList.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoPatternList.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoPatternList clone() => ProtoPatternList()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoPatternList copyWith(void Function(ProtoPatternList) updates) => super.copyWith((message) => updates(message as ProtoPatternList)) as ProtoPatternList; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoPatternList create() => ProtoPatternList._();
+  ProtoPatternList createEmptyInstance() => create();
+  static $pb.PbList<ProtoPatternList> createRepeated() => $pb.PbList<ProtoPatternList>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoPatternList getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoPatternList>(create);
+  static ProtoPatternList? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<ProtoPattern> get pattern => $_getList(0);
 }
 
 class ProtoPattern extends $pb.GeneratedMessage {
@@ -698,8 +1169,9 @@ class ProtoPattern extends $pb.GeneratedMessage {
     ..aOM<$4.Duration>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'TotalTime', protoName: 'TotalTime', subBuilder: $4.Duration.create)
     ..aOM<ProtoAirpump>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AirPump', protoName: 'AirPump', subBuilder: ProtoAirpump.create)
     ..pc<ProtoPatternDetail>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'PatternDetail', $pb.PbFieldType.PM, protoName: 'PatternDetail', subBuilder: ProtoPatternDetail.create)
-    ..aOM<$3.Timestamp>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'CreateDate', protoName: 'CreateDate', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'ModifyDate', protoName: 'ModifyDate', subBuilder: $3.Timestamp.create)
+    ..aOB(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'UseAfb', protoName: 'UseAfb')
+    ..aOM<$3.Timestamp>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'CreateDate', protoName: 'CreateDate', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'ModifyDate', protoName: 'ModifyDate', subBuilder: $3.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -711,6 +1183,7 @@ class ProtoPattern extends $pb.GeneratedMessage {
     $4.Duration? totalTime,
     ProtoAirpump? airPump,
     $core.Iterable<ProtoPatternDetail>? patternDetail,
+    $core.bool? useAfb,
     $3.Timestamp? createDate,
     $3.Timestamp? modifyDate,
   }) {
@@ -732,6 +1205,9 @@ class ProtoPattern extends $pb.GeneratedMessage {
     }
     if (patternDetail != null) {
       _result.patternDetail.addAll(patternDetail);
+    }
+    if (useAfb != null) {
+      _result.useAfb = useAfb;
     }
     if (createDate != null) {
       _result.createDate = createDate;
@@ -815,34 +1291,44 @@ class ProtoPattern extends $pb.GeneratedMessage {
   $core.List<ProtoPatternDetail> get patternDetail => $_getList(5);
 
   @$pb.TagNumber(7)
-  $3.Timestamp get createDate => $_getN(6);
+  $core.bool get useAfb => $_getBF(6);
   @$pb.TagNumber(7)
-  set createDate($3.Timestamp v) { setField(7, v); }
+  set useAfb($core.bool v) { $_setBool(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasCreateDate() => $_has(6);
+  $core.bool hasUseAfb() => $_has(6);
   @$pb.TagNumber(7)
-  void clearCreateDate() => clearField(7);
-  @$pb.TagNumber(7)
-  $3.Timestamp ensureCreateDate() => $_ensure(6);
+  void clearUseAfb() => clearField(7);
 
   @$pb.TagNumber(8)
-  $3.Timestamp get modifyDate => $_getN(7);
+  $3.Timestamp get createDate => $_getN(7);
   @$pb.TagNumber(8)
-  set modifyDate($3.Timestamp v) { setField(8, v); }
+  set createDate($3.Timestamp v) { setField(8, v); }
   @$pb.TagNumber(8)
-  $core.bool hasModifyDate() => $_has(7);
+  $core.bool hasCreateDate() => $_has(7);
   @$pb.TagNumber(8)
-  void clearModifyDate() => clearField(8);
+  void clearCreateDate() => clearField(8);
   @$pb.TagNumber(8)
-  $3.Timestamp ensureModifyDate() => $_ensure(7);
+  $3.Timestamp ensureCreateDate() => $_ensure(7);
+
+  @$pb.TagNumber(9)
+  $3.Timestamp get modifyDate => $_getN(8);
+  @$pb.TagNumber(9)
+  set modifyDate($3.Timestamp v) { setField(9, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasModifyDate() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearModifyDate() => clearField(9);
+  @$pb.TagNumber(9)
+  $3.Timestamp ensureModifyDate() => $_ensure(8);
 }
 
 class ProtoAirpump extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoAirpump', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
     ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Id', $pb.PbFieldType.O3, protoName: 'Id')
-    ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'StartTemp', $pb.PbFieldType.O3, protoName: 'StartTemp')
-    ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'EndTemp', $pb.PbFieldType.O3, protoName: 'EndTemp')
-    ..aOM<$4.Duration>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'DelayMinuteDuration', protoName: 'DelayMinuteDuration', subBuilder: $4.Duration.create)
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'StartTemp', $pb.PbFieldType.O3, protoName: 'StartTemp')
+    ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'EndTemp', $pb.PbFieldType.O3, protoName: 'EndTemp')
+    ..aOM<$4.Duration>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'DelayMinuteDuration', protoName: 'DelayMinuteDuration', subBuilder: $4.Duration.create)
+    ..aOB(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'UseAirpump', protoName: 'UseAirpump')
     ..hasRequiredFields = false
   ;
 
@@ -852,6 +1338,7 @@ class ProtoAirpump extends $pb.GeneratedMessage {
     $core.int? startTemp,
     $core.int? endTemp,
     $4.Duration? delayMinuteDuration,
+    $core.bool? useAirpump,
   }) {
     final _result = create();
     if (id != null) {
@@ -865,6 +1352,9 @@ class ProtoAirpump extends $pb.GeneratedMessage {
     }
     if (delayMinuteDuration != null) {
       _result.delayMinuteDuration = delayMinuteDuration;
+    }
+    if (useAirpump != null) {
+      _result.useAirpump = useAirpump;
     }
     return _result;
   }
@@ -898,34 +1388,43 @@ class ProtoAirpump extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
 
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(2)
   $core.int get startTemp => $_getIZ(1);
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(2)
   set startTemp($core.int v) { $_setSignedInt32(1, v); }
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(2)
   $core.bool hasStartTemp() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearStartTemp() => clearField(2);
+
   @$pb.TagNumber(3)
-  void clearStartTemp() => clearField(3);
-
-  @$pb.TagNumber(4)
   $core.int get endTemp => $_getIZ(2);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
   set endTemp($core.int v) { $_setSignedInt32(2, v); }
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
   $core.bool hasEndTemp() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearEndTemp() => clearField(3);
+
   @$pb.TagNumber(4)
-  void clearEndTemp() => clearField(4);
+  $4.Duration get delayMinuteDuration => $_getN(3);
+  @$pb.TagNumber(4)
+  set delayMinuteDuration($4.Duration v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasDelayMinuteDuration() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDelayMinuteDuration() => clearField(4);
+  @$pb.TagNumber(4)
+  $4.Duration ensureDelayMinuteDuration() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $4.Duration get delayMinuteDuration => $_getN(3);
+  $core.bool get useAirpump => $_getBF(4);
   @$pb.TagNumber(5)
-  set delayMinuteDuration($4.Duration v) { setField(5, v); }
+  set useAirpump($core.bool v) { $_setBool(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasDelayMinuteDuration() => $_has(3);
+  $core.bool hasUseAirpump() => $_has(4);
   @$pb.TagNumber(5)
-  void clearDelayMinuteDuration() => clearField(5);
-  @$pb.TagNumber(5)
-  $4.Duration ensureDelayMinuteDuration() => $_ensure(3);
+  void clearUseAirpump() => clearField(5);
 }
 
 class ProtoPatternDetail extends $pb.GeneratedMessage {
@@ -1031,46 +1530,5 @@ class ProtoPatternDetail extends $pb.GeneratedMessage {
   void clearStepDuration() => clearField(5);
   @$pb.TagNumber(5)
   $4.Duration ensureStepDuration() => $_ensure(4);
-}
-
-class ProtoPatternList extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoPatternList', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
-    ..pc<ProtoPattern>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Pattern', $pb.PbFieldType.PM, protoName: 'Pattern', subBuilder: ProtoPattern.create)
-    ..hasRequiredFields = false
-  ;
-
-  ProtoPatternList._() : super();
-  factory ProtoPatternList({
-    $core.Iterable<ProtoPattern>? pattern,
-  }) {
-    final _result = create();
-    if (pattern != null) {
-      _result.pattern.addAll(pattern);
-    }
-    return _result;
-  }
-  factory ProtoPatternList.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ProtoPatternList.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  ProtoPatternList clone() => ProtoPatternList()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  ProtoPatternList copyWith(void Function(ProtoPatternList) updates) => super.copyWith((message) => updates(message as ProtoPatternList)) as ProtoPatternList; // ignore: deprecated_member_use
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static ProtoPatternList create() => ProtoPatternList._();
-  ProtoPatternList createEmptyInstance() => create();
-  static $pb.PbList<ProtoPatternList> createRepeated() => $pb.PbList<ProtoPatternList>();
-  @$core.pragma('dart2js:noInline')
-  static ProtoPatternList getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoPatternList>(create);
-  static ProtoPatternList? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<ProtoPattern> get pattern => $_getList(0);
 }
 

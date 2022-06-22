@@ -10,6 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
+<<<<<<< HEAD
 		VzhAe+kO+R5uxghsFNTdObLpzso=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
@@ -19,6 +20,17 @@
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
 		o5GV6DKvKoXGwQqzuTC6IYXRIeQ=
+=======
+		176LHv7Mx4IUrpt/6usZnOmqoH4=
+		</data>
+		<key>flutter_assets/FontManifest.json</key>
+		<data>
+		oGcf1/k/UQkSp0rHDLaF1M0WIRA=
+		</data>
+		<key>flutter_assets/NOTICES.Z</key>
+		<data>
+		Fk1plMPxyOygTSNkSuops1Gz9hU=
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 		</data>
 		<key>flutter_assets/assets/images/machine-removebg-preview-2.png</key>
 		<data>
@@ -34,16 +46,34 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
+<<<<<<< HEAD
 		KYAf74ppotLz0RVl6qbko0tIdrY=
+=======
+		WrprAGiA3dqDoF0o62kwSU5uSRw=
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
 		P7bb/oR3EhwqCIH1M6LyTuBIWYU=
 		</data>
+<<<<<<< HEAD
+=======
+		<key>flutter_assets/packages/flutter_phosphor_icons/fonts/Phosphor.ttf</key>
+		<data>
+		TUBhxcioKlUdq790fQFeQIAlZVU=
+		</data>
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 		<key>flutter_assets/packages/golden_toolkit/fonts/Roboto-Regular.ttf</key>
 		<data>
 		ywy5GjH0MpO9cELdq5Rc4WHCnT0=
 		</data>
+<<<<<<< HEAD
+=======
+		<key>flutter_assets/packages/phosphor_flutter/lib/fonts/phosphor.ttf</key>
+		<data>
+		TUBhxcioKlUdq790fQFeQIAlZVU=
+		</data>
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 		<key>flutter_assets/vm_snapshot_data</key>
 		<data>
 		cuieaQ9j+9gCTKYPRhW1tc4y4co=
@@ -59,7 +89,11 @@
 			</data>
 			<key>hash2</key>
 			<data>
+<<<<<<< HEAD
 			1Y7mkSus83D7U+QiGOng3UERvBd1kJ0ASKjJWjVk0qw=
+=======
+			Ug0+uehJp0yrsxtmyxJOPoA+c/vFWNEdAmvhmRxYcE8=
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -70,7 +104,11 @@
 			</data>
 			<key>hash2</key>
 			<data>
+<<<<<<< HEAD
 			dCndK547C3Ye768gEfGclDSjn+I8AxtJxkyu1bMtl04=
+=======
+			txnIGv5Fe7hmG+c+aPr3Qr5fk/7dG2zqdr1J3IipRXc=
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 			</data>
 		</dict>
 		<key>flutter_assets/NOTICES.Z</key>
@@ -81,15 +119,22 @@
 			</data>
 			<key>hash2</key>
 			<data>
+<<<<<<< HEAD
 			LEXU1PmS0GayUaiTsB8FmlZ5fLHnV4gpzjrW4rQ1hrA=
+=======
+			xvdDUX1Ig9JegVI+xsdKmEipm7aL69nR+6Wd9fJXB4Y=
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 			</data>
 		</dict>
 		<key>flutter_assets/assets/images/machine-removebg-preview-2.png</key>
 		<dict>
+<<<<<<< HEAD
 			<key>hash</key>
 			<data>
 			nTMF0xF4S9qGwoL62W+syfNU6b0=
 			</data>
+=======
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 			<key>hash2</key>
 			<data>
 			TQMXcYEqlEpDIglmE+aUIjUIWl0urAPJjF/0bUIl9fA=
@@ -125,7 +170,11 @@
 			</data>
 			<key>hash2</key>
 			<data>
+<<<<<<< HEAD
 			HHYveWuh+LYJHuZ7JUfpfcfXOXDvz1eTS9HEIBdMZLw=
+=======
+			I07oFDxtsLUec+bADG93oZ3Pvs6JY/GqfpeN+wGMVR0=
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -139,17 +188,39 @@
 			x6NX+tjyECiQtyzbbjyY8U2zoZ7GDbJtE+T+k/dzgI0=
 			</data>
 		</dict>
+<<<<<<< HEAD
 		<key>flutter_assets/packages/golden_toolkit/fonts/Roboto-Regular.ttf</key>
 		<dict>
 			<key>hash</key>
 			<data>
 			ywy5GjH0MpO9cELdq5Rc4WHCnT0=
 			</data>
+=======
+		<key>flutter_assets/packages/flutter_phosphor_icons/fonts/Phosphor.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oHQgRJWLms2t2358HiG0NIl1vLDFJqybnCTZfxfeszs=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/golden_toolkit/fonts/Roboto-Regular.ttf</key>
+		<dict>
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 			<key>hash2</key>
 			<data>
 			8OWiG/XJXkwbzivpijZW68xtQqIfQcTj6/ad2BVwLlQ=
 			</data>
 		</dict>
+<<<<<<< HEAD
+=======
+		<key>flutter_assets/packages/phosphor_flutter/lib/fonts/phosphor.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oHQgRJWLms2t2358HiG0NIl1vLDFJqybnCTZfxfeszs=
+			</data>
+		</dict>
+>>>>>>> dfcd02483b51c776d863fbcec5d095e40ca2fc05
 		<key>flutter_assets/vm_snapshot_data</key>
 		<dict>
 			<key>hash</key>

@@ -4,7 +4,6 @@ import 'package:burnout_mobile/grpc/oven.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 
-
 class TestGrpc extends StatelessWidget {
   const TestGrpc({Key? key}) : super(key: key);
 
@@ -34,12 +33,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   static late ProtoOvenInfo info = ProtoOvenInfo();
 
   static final channel = ClientChannel(
-    'localhost',
+    '192.168.15.135',
     port: 5000,
     options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
   );
 
-  static final OvenProtoClient ovenStub = OvenProtoClient(channel);
+  static final OvenProtoServiceClient ovenStub = OvenProtoServiceClient(channel);
 
   Stream<ProtoOvenResponse> monitorDevice() async* {
     await for (ProtoOvenResponse monitor in ovenStub.monitorDevice(Empty())) {
@@ -49,9 +48,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   Future connect() async {
     debugPrint('Call GrpcConnect');
-    if ((await ovenStub.grpcConnect(Empty())).value == true) {
+    if ((await ovenStub.deviceConnect(Empty())).plcConnected == true) {
       debugPrint('Call GetOvenInfo');
-      ProtoOvenInfo ovenResponse = await ovenStub.getOvenInfo(Empty());
+      ProtoOvenInfo ovenResponse =
+          (await ovenStub.deviceConnect(Empty())).ovenInfo;
 
       setState(() {
         isConnected.value = true;
