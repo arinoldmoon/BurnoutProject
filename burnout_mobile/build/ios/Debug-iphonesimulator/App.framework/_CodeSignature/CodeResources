@@ -10,15 +10,19 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		oG5/OGn+vw7vp/nu5DUDoZJ4nFc=
+		176LHv7Mx4IUrpt/6usZnOmqoH4=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
-		vKJkVIcw+LGHFnKJGwrQwCREv68=
+		oGcf1/k/UQkSp0rHDLaF1M0WIRA=
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		X/FsqQUg/9wTebDwsUC12qaEbH8=
+		Fk1plMPxyOygTSNkSuops1Gz9hU=
+		</data>
+		<key>flutter_assets/assets/images/machine-removebg-preview-2.png</key>
+		<data>
+		nTMF0xF4S9qGwoL62W+syfNU6b0=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -30,11 +34,23 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		JftykeVm72Cc7OPPpfixrQJnFpA=
+		WrprAGiA3dqDoF0o62kwSU5uSRw=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
 		P7bb/oR3EhwqCIH1M6LyTuBIWYU=
+		</data>
+		<key>flutter_assets/packages/flutter_phosphor_icons/fonts/Phosphor.ttf</key>
+		<data>
+		TUBhxcioKlUdq790fQFeQIAlZVU=
+		</data>
+		<key>flutter_assets/packages/golden_toolkit/fonts/Roboto-Regular.ttf</key>
+		<data>
+		ywy5GjH0MpO9cELdq5Rc4WHCnT0=
+		</data>
+		<key>flutter_assets/packages/phosphor_flutter/lib/fonts/phosphor.ttf</key>
+		<data>
+		TUBhxcioKlUdq790fQFeQIAlZVU=
 		</data>
 		<key>flutter_assets/vm_snapshot_data</key>
 		<data>
@@ -47,21 +63,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Sps95+7JukayebvM0TLjL1LW1VXXndpKp/O8tOm9ZR8=
+			Ug0+uehJp0yrsxtmyxJOPoA+c/vFWNEdAmvhmRxYcE8=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zX4DZFvESy3Ue3y2JvUcTsv1Whl6t3JBYotHrBZfviE=
+			txnIGv5Fe7hmG+c+aPr3Qr5fk/7dG2zqdr1J3IipRXc=
 			</data>
 		</dict>
 		<key>flutter_assets/NOTICES.Z</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YezNbxgwuycJPBp7SheNdB5YRu/7kSkAZzAmoDwkkZ4=
+			xvdDUX1Ig9JegVI+xsdKmEipm7aL69nR+6Wd9fJXB4Y=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/machine-removebg-preview-2.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			TQMXcYEqlEpDIglmE+aUIjUIWl0urAPJjF/0bUIl9fA=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -82,7 +105,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			QNcI879N8iUy/b29L0oS5JpZYjUaUO6oVgunAKC35T4=
+			I07oFDxtsLUec+bADG93oZ3Pvs6JY/GqfpeN+wGMVR0=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -90,6 +113,27 @@
 			<key>hash2</key>
 			<data>
 			x6NX+tjyECiQtyzbbjyY8U2zoZ7GDbJtE+T+k/dzgI0=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/flutter_phosphor_icons/fonts/Phosphor.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oHQgRJWLms2t2358HiG0NIl1vLDFJqybnCTZfxfeszs=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/golden_toolkit/fonts/Roboto-Regular.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			8OWiG/XJXkwbzivpijZW68xtQqIfQcTj6/ad2BVwLlQ=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/phosphor_flutter/lib/fonts/phosphor.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oHQgRJWLms2t2358HiG0NIl1vLDFJqybnCTZfxfeszs=
 			</data>
 		</dict>
 		<key>flutter_assets/vm_snapshot_data</key>
