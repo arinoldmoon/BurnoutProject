@@ -77,7 +77,20 @@ class _MachineDashboardEditProgramStepState
                   .machineDashboardEditStepListViewButtonSpacing,
             ),
             IconButton(
-              onPressed: () {},
+              key: const Key('addMoreStepButton'),
+              onPressed: () {
+                value.addMoreStep(
+                  MachineUtilityStep(
+                      machineUtilityStepTitle:
+                          'Step ${value.machineDashboardUtilityStepList.length + 1}',
+                      machineUtilityStepTemp: 80,
+                      machineUtilityStepTimeRemaining: 80,
+                      machineUtilityStepStatus:
+                          MachineUtilityStepStatus.UPCOMING,
+                      machineUtilityStepProcess:
+                          MachineUtilityStepProcess.HEATING),
+                );
+              },
               icon: const Icon(
                 PhosphorIcons.plusCircle,
                 size: MachineDashboardSizes.machineDashboardEditStepButtonSize,
