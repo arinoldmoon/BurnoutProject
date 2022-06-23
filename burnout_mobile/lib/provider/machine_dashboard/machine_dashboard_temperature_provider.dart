@@ -14,17 +14,40 @@ class MachineDashboardTemperatureProvider extends ChangeNotifier {
   void fetchMonitorDevice() async {
     ResponseStream<ProtoOvenResponse> response =
         await _services.fetchMonitorDevice();
-    response.listen((value) {
-      machineTemperatureList.add(
-        MachineTemperature(
-          machineTempName: MachineHeater.OVEN,
-          machineTemp: value.temp.tempOven.toDouble(),
-          machineHeaterStatus: value.coil.coilOven
-              ? MachineOnOffStatus.ON
-              : MachineOnOffStatus.OFF,
-        ),
-      );
-    });
-    print('${machineTemperatureList.length}');
+    response.listen(
+      (value) {
+        machineTemperatureList = [
+          MachineTemperature(
+            machineTempName: MachineHeater.OVEN,
+            machineTemp: value.temp.tempOven.toDouble(),
+            machineHeaterStatus: value.coil.coilOven
+                ? MachineOnOffStatus.ON
+                : MachineOnOffStatus.OFF,
+          ),
+          MachineTemperature(
+            machineTempName: MachineHeater.FLOOR,
+            machineTemp: value.temp.tempFloor.toDouble(),
+            machineHeaterStatus: value.coil.coilFloor
+                ? MachineOnOffStatus.ON
+                : MachineOnOffStatus.OFF,
+          ),
+          MachineTemperature(
+            machineTempName: MachineHeater.AFB,
+            machineTemp: value.temp.tempAFB.toDouble(),
+            machineHeaterStatus: value.coil.coilAFB
+                ? MachineOnOffStatus.ON
+                : MachineOnOffStatus.OFF,
+          ),
+          MachineTemperature(
+            machineTempName: MachineHeater.TUBE,
+            machineTemp: value.temp.tempTube.toDouble(),
+            machineHeaterStatus: value.coil.coilTube
+                ? MachineOnOffStatus.ON
+                : MachineOnOffStatus.OFF,
+          ),
+        ];
+      },
+    );
+    notifyListeners();
   }
 }

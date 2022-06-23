@@ -57,14 +57,14 @@ class _MachineDashboardPageOperatingState
                 itemBuilder: (_, index) {
                   return MachineDashboardTemperature(
                       machineTemperature:
-                          widget.machinePayload!.machineTemperature![index]);
+                          value.machineTemperatureList[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) =>
                     const Divider(
                   indent: MachineDashboardSizes.machineDashboardWidgetSpacing,
                   color: Colors.transparent,
                 ),
-                itemCount: widget.machinePayload!.machineTemperature!.length,
+                itemCount: value.machineTemperatureList.length,
               );
             }),
           ),
