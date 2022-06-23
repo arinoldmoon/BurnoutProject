@@ -43,18 +43,22 @@ namespace GrpcService.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 Console.WriteLine("GrpcService Started");
-                _sysConfig.LastLogID = (int)(_dbService.GetLastLogID());
                 _response.statusResponse!.TempLogList = new ActualLogList();
 
-                if (await _plcService.ConnectPLCDevice())
+                _sysConfig.LastLogID = (int)(_dbService.GetLastLogID().Result);
+                _sysConfig.MachineInfo = _dbService.GetMachineInfo().Result;
+                _sysConfig.OperationLogInfo = _dbService.GetOperationLogInfo().Result;                
+
+                if (_plcService.ConnectPLCDevice())
                 {
-                    WorkerMonitor.RunWorkerAsync();
+                    WorkerMonitor.RunWorkerAsync();                    
                 }
                 else
                 {
+                    Console.WriteLine("PlcConnected NotConnect");
                     _sysConfig.WriteLogFile($"PlcConnected NotConnect");
                 }
             });
@@ -70,7 +74,7 @@ namespace GrpcService.Services
                 _plcService.GetMachineStatus();
 
                 if (_response.statusResponse.Operation && !WorkerGetActual!.IsBusy)
-                {                    
+                {
                     if (_response.statusResponse.TempLogList.TempLog.Count == 0)
                     {
                         Console.WriteLine($"GetOperationLogByID : {_sysConfig.LastLogID}");
@@ -116,7 +120,7 @@ namespace GrpcService.Services
                 };
                 _response.statusResponse.TempLogList.TempLog.Add(data);
                 _dbService.OperationWriteLog(_sysConfig.LastLogID);
-                
+
                 Console.WriteLine($"Temp : {data.TempValue.TempOven} | {data.TempTime}");
                 Thread.Sleep(_plcConfig.Value.OperationWriteLogDelay);
             }

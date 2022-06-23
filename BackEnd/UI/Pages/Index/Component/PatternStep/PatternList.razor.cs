@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
+using UI.Models;
 using UI.Services;
 
 namespace UI.Pages.Index.Component.PatternStep
@@ -25,12 +26,15 @@ namespace UI.Pages.Index.Component.PatternStep
         protected IEnumerable<ProtoPattern>? _patternList { get; set; }
         protected IList<ProtoPattern> Selected { get; set; } = new List<ProtoPattern>();
 
-        protected Task btnLoadClick(MouseEventArgs args)
+        protected async Task btnLoadClick(MouseEventArgs args)
         {
-            return Task.Run(async () => await _patternService!.GetPatternByID(Selected.First().PatternId)).ContinueWith(res =>
+            await Task.Run(async () => await _patternService!.GetPatternByID(Selected.First().PatternId)).ContinueWith(res =>
             {
                 if (res.Result != null)
                 {
+                    _globals!.ActualPoint = new List<OperationLog>();
+                    _globals.SetPoint = new List<ProtoPatternDetail>();
+
                     _globals!.GlobalPattern = res.Result;
                     _globals.SetPoint = res.Result.PatternDetail.ToList();
                 }
@@ -68,7 +72,7 @@ namespace UI.Pages.Index.Component.PatternStep
         {
             return Task.Run(async () => await _dialogServices!.Confirm("Are you sure you want to delete this pattern?")).ContinueWith(res =>
             {
-                if (res.Result!.Value)
+                if (res.Result != null && res.Result!.Value)
                 {
                     if (_globals!.ServiceConnected)
                     {

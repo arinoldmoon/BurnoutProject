@@ -12,7 +12,7 @@ namespace UI.Pages.Index.Component.PatternStep
     public partial class PatternDetailComponent : ComponentBase
     {
         [Parameter]
-        public ProtoPattern? _patternParam { get; set; }
+        public PatternModel? _patternModel { get; set; }
 
         [Inject]
         protected DialogService? _dialogService { get; set; }
@@ -26,87 +26,71 @@ namespace UI.Pages.Index.Component.PatternStep
         [Inject]
         protected PatternService? _patternService { get; set; }
 
+        [Inject]
+        protected ModelConvertor? _convert { get; set; }
+
         protected RadzenDataGrid<PatternDetailModel>? patternGrid { get; set; }
         protected PatternDetailModel? orderToInsert { get; set; }
-        protected PatternModel _patternModel { get; set; } = new PatternModel();
+
         protected bool btnDisable { get; set; } = true;
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            if (_patternParam != null)
-            {
-                _patternModel = new PatternModel()
-                {
-                    PatternId = _patternParam.PatternId,
-                    PatternName = _patternParam.PatternName,
-                    AirPump = new AirpumpModel()
-                    {
-                        StartTemp = _patternParam.AirPump.StartTemp,
-                        EndTemp = _patternParam.AirPump.EndTemp,
-                        DelayMinuteDuration = _patternParam.AirPump.DelayMinuteDuration.ToTimeSpan().TotalMinutes,
-                        UseAirpump = _patternParam.AirPump.UseAirpump
-                    }
-                };
-
-                foreach (var item in _patternParam.PatternDetail)
-                {
-                    _patternModel.PatternDetail.Add(new PatternDetailModel()
-                    {
-                        DetailId = item.DetailId,
-                        PatternId = item.PatternId,
-                        Step = item.Step,
-                        Temp = item.Temp,
-                        StepDuration = item.StepDuration.ToTimeSpan().TotalMinutes
-                    });
-                }
-            }
-            else
+            if (_patternModel == null)
             {
                 _patternModel = new PatternModel();
                 _patternModel.PatternId = 99;
-                _patternModel.AirPump.StartTemp = 150;
-                _patternModel.AirPump.EndTemp = 700;
-                _patternModel.AirPump.DelayMinuteDuration = 30;
-                _patternModel.AirPump.UseAirpump = true;
-                _patternModel.PatternDetail = new List<PatternDetailModel>();
-
-                _patternParam = new ProtoPattern();
+                _patternModel.AirPump = new AirpumpModel()
+                {
+                    StartTemp = 150,
+                    EndTemp = 700,
+                    DelayMinuteDuration = 30,
+                    UseAirpump = true
+                };
             }
+            await btnCheck();
         }
 
-        protected async Task TextBoxChanged() => btnDisable = await Task.FromResult(!(!string.IsNullOrEmpty(_patternModel.PatternName) && _patternModel.PatternDetail.Any()));
+        private async Task btnCheck() => btnDisable = await Task.FromResult(!(!string.IsNullOrEmpty(_patternModel!.PatternName) && _patternModel.PatternDetail.Any()));
 
-        protected void OnSubmit(PatternModel model)
+        protected async Task TextBoxChanged() => await btnCheck();
+
+        protected async void OnSubmit(PatternModel model)
         {
             if (!string.IsNullOrEmpty(model.PatternName) && model.PatternDetail.Any())
             {
-                
-                // if (_patternParam.PatternId == 99)
-                // {
-                //     status = (await _patternService.CreatePattern(_patternParam)).Value;
-                //     _patternParam.PatternId = (await _patternService.GetPatternListAsync()).Max(x => x.PatternId);
-                //     _patternParam.StepCount = _patternParam.PatternDetail.Count;
-                //     _patternParam.TotalTime = TimeSpan.FromSeconds(_patternParam.PatternDetail.Sum(x => x.StepDuration.Seconds)).ToDuration();
-                // }
-                // else
-                // {
-                //     status = (await _patternService.UpdatePattern(_patternParam)).Value;
-                // }
+                Console.WriteLine(model.AirPump.Id);
 
-                // if (status)
-                // {
-                //     _globals.GlobalPattern = new ProtoPattern();
-                //     _globals.GlobalPattern.PatternDetail.Clear();
+                ProtoPattern _protoPattern = _convert!.ConvertPatternModelToProtoPattern(model);
 
-                //     _globals.GlobalPattern = await _patternService.GetPatternByID(_patternParam.PatternId);
-                //     _notificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Update Pattern", Detail = $"Success" });
-                // }
-                // else
-                // {
-                //     _notificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Update Pattern", Detail = $"Not Success" });
-                // }
+                BoolValue result = new BoolValue() { Value = false };
 
-                // _globals.SetPoint = _patternParam.PatternDetail.ToList();
+                if (_protoPattern.PatternId == 99)
+                {
+                    result = await _patternService!.CreatePattern(_protoPattern);
+
+                    _protoPattern.PatternId = (await _patternService!.GetPatternListAsync()).Max(x => x.PatternId);
+                    _protoPattern.StepCount = _protoPattern.PatternDetail.Count;
+                    _protoPattern.TotalTime = TimeSpan.FromSeconds(_protoPattern.PatternDetail.Sum(x => x.StepDuration.Seconds)).ToDuration();
+                }
+                else
+                {
+
+                    result = await _patternService!.UpdatePattern(_protoPattern);
+                }
+
+                if (result.Value)
+                {
+                    _globals!.GlobalPattern = await _patternService.GetPatternByID(_protoPattern.PatternId);
+                    _globals.SetPoint = _protoPattern!.PatternDetail.ToList();
+
+                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Update Pattern", Detail = $"Success" });
+                }
+                else
+                {
+                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Update Pattern", Detail = $"Not Success" });
+                }
+
                 _dialogService!.Close(null);
             }
             else
@@ -117,24 +101,10 @@ namespace UI.Pages.Index.Component.PatternStep
 
         protected void Next(MouseEventArgs args)
         {
-            _patternParam!.PatternId = 99;
-            _patternParam.StepCount = _patternModel.PatternDetail.Count;
-            _patternParam.TotalTime = TimeSpan.FromMinutes(_patternModel.PatternDetail.Sum(x => x.StepDuration)).ToDuration();
-            _globals!.GlobalPattern = _patternParam;
+            ProtoPattern _protoPattern = _convert!.ConvertPatternModelToProtoPattern(_patternModel!);
 
-            foreach (var item in _patternModel.PatternDetail)
-            {
-                _patternParam.PatternDetail.Add(new ProtoPatternDetail()
-                {
-                    DetailId = item.DetailId,
-                    PatternId = item.PatternId,
-                    Step = item.Step,
-                    Temp = item.Temp,
-                    StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration()
-                });
-            }           
-            
-            _globals.SetPoint = _patternParam.PatternDetail.ToList();
+            _globals!.GlobalPattern = _protoPattern;
+            _globals.SetPoint = _protoPattern.PatternDetail.ToList();
             _dialogService!.Close(null);
         }
 
@@ -145,7 +115,7 @@ namespace UI.Pages.Index.Component.PatternStep
                 orderToInsert = null;
             }
 
-            if (_patternModel.PatternDetail.Contains(order))
+            if (_patternModel!.PatternDetail.Contains(order))
             {
                 _patternModel.PatternDetail.Remove(order);
 
@@ -162,7 +132,7 @@ namespace UI.Pages.Index.Component.PatternStep
         protected async Task InsertRow()
         {
             orderToInsert = new PatternDetailModel();
-            orderToInsert.Step = _patternModel.PatternDetail.Count() + 1;
+            orderToInsert.Step = _patternModel!.PatternDetail.Count() + 1;
 
             await patternGrid!.InsertRow(orderToInsert);
         }
@@ -177,7 +147,7 @@ namespace UI.Pages.Index.Component.PatternStep
 
         protected void OnCreateRow(PatternDetailModel order)
         {
-            _patternModel.PatternDetail.Add(order);
+            _patternModel!.PatternDetail.Add(order);
             _patternModel.PatternDetail = _patternModel.PatternDetail.OrderBy(x => x.Step).ToList();
 
             btnDisable = !(!string.IsNullOrEmpty(_patternModel.PatternName) && _patternModel.PatternDetail.Any());
@@ -207,9 +177,8 @@ namespace UI.Pages.Index.Component.PatternStep
 
         protected void LoadData(LoadDataArgs args)
         {
-            var oData = _patternModel.PatternDetail.AsQueryable();
+            var oData = _patternModel!.PatternDetail.AsQueryable();
             _patternModel.PatternDetail = oData.OrderBy(x => x.Step).ToList();
         }
-
     }
 }

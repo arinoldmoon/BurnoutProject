@@ -42,12 +42,12 @@ namespace UI.Services
             return PatternList;
         }      
 
-        public async Task<ProtoPattern> GetPatternByID(int PatternId) => (await client.GetPatternAsync(new Int32Value(){Value = PatternId}));
+        public async Task<ProtoPattern> GetPatternByID(int PatternId) => await client.GetPatternAsync(new Int32Value(){Value = PatternId});
     
-        public async Task<BoolValue> DeletePattern(int PatternId) => (await client.DeletePatternAsync(new Int32Value(){Value = PatternId}));
+        public async Task<BoolValue> DeletePattern(int PatternId) => await client.DeletePatternAsync(new Int32Value(){Value = PatternId});
         
-        public async Task<BoolValue> CreatePattern(ProtoPattern patternData) => (await client.CreatePatternAsync(patternData));
+        public async Task<BoolValue> CreatePattern(ProtoPattern patternData) => await client.CreatePatternAsync(patternData);
 
-        public async Task<BoolValue> UpdatePattern(ProtoPattern patternData) => (await client.UpdatePatternAsync(patternData));
+        public async Task<BoolValue> UpdatePattern(ProtoPattern patternData) => await client.UpdatePatternAsync(patternData);
     }
 }

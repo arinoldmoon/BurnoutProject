@@ -1,6 +1,7 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcService.Models;
+using GrpcService.Models.SQLite;
 using GrpcService.Protos;
 
 namespace GrpcService.Services.gRPC
@@ -24,9 +25,9 @@ namespace GrpcService.Services.gRPC
 
             try
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    var result = _dbService.GetOperationLogByID(request.Value).Result;
+                    List<OperationLog> result = await _dbService.GetOperationLogByID(request.Value);
                     if (result.Any())
                     {
                         foreach (var item in result)

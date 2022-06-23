@@ -10,6 +10,8 @@ namespace GrpcService.Models
     {
         public string DATE_FORMAT_STRING { get { return "dd/MM/yyyy HH:mm"; } }
         public bool plcDeviceConnected { get; set; }
+        public ProtoOvenInfo? MachineInfo { get; set; }
+        public ProtoOperationLogInfo? OperationLogInfo { get; set; }
         public int LastLogID { get; set; }        
 
         public void WriteLogFile(string logMessage)

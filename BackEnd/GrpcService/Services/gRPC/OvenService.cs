@@ -29,12 +29,12 @@ namespace GrpcService.Services.gRPC
         {
             ProtoServiceConnection response = new ProtoServiceConnection();
 
-            await Task.Run(async () =>
-            {
-                await _plcService.CheckConnection();
+            await Task.Run(() =>
+            {                
                 response.PlcConnected = _sysConfig.plcDeviceConnected;
-                response.OvenInfo = await _dbService.GetMachineInfo();
-                response.OperationLogInfo = await _dbService.GetOperationLogInfo();
+                response.OvenInfo = _sysConfig.MachineInfo;
+                response.OvenInfo!.Operation = _response.statusResponse.Operation;
+                response.OperationLogInfo = _sysConfig.OperationLogInfo;
             });
 
             return response;

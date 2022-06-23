@@ -95,6 +95,24 @@ namespace UI.Services
             }
         }
         
+        private ProtoOperationLogInfo? _OperationLogInfo;
+        public ProtoOperationLogInfo OperationLogInfo
+        {
+            get
+            {
+                return _OperationLogInfo!;
+            }
+            set
+            {
+                if (!object.Equals(_OperationLogInfo, value))
+                {
+                    var args = new PropertyChangedEventArgs() { Name = "OperationLogInfo", NewValue = value, OldValue = _OperationLogInfo, IsGlobal = false };
+                    _OperationLogInfo = value;
+                    PropertyChanged?.Invoke(args);
+                }
+            }
+        }
+
         private List<ProtoPatternDetail>? _SetPoint;
         public List<ProtoPatternDetail> SetPoint
         {
@@ -124,23 +142,6 @@ namespace UI.Services
                     var args = new PropertyChangedEventArgs() { Name = "ActualPoint", NewValue = value, OldValue = _ActualPoint, IsGlobal = true };
 
                     _ActualPoint = value;
-                    PropertyChanged?.Invoke(args);
-                }
-            }
-        }
-    
-        private double _CpuTemp;
-        public double CpuTemp
-        {
-            get { return _CpuTemp; }
-            set
-            {
-                if (!object.Equals(_CpuTemp, value))
-                {
-
-                    var args = new PropertyChangedEventArgs() { Name = "CpuTemp", NewValue = value, OldValue = _CpuTemp, IsGlobal = true };
-
-                    _CpuTemp = value;
                     PropertyChanged?.Invoke(args);
                 }
             }

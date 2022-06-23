@@ -8,10 +8,10 @@ namespace UI.Pages.Index.Component.OperationState
         public int processPercen { get; set; }
 
         [Parameter]
-        public int hTime { get; set; }
+        public double hTime { get; set; }
 
         [Parameter]
-        public int mTime { get; set; }
+        public double mTime { get; set; }
 
         [Parameter]
         public int program { get; set; }

@@ -1,0 +1,38 @@
+@using GrpcService.Protos
+@inherits GraphSettingComponent
+
+<RadzenCard style="min-height: 390px; margin-bottom:10px;">
+    <ChildContent>
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="mb-4">Select Year</h6>
+                <RadzenDropDown TValue="int" Data=@(YearList) @bind-Value="SelectYear" Class="w-100" Change=@(args
+                    =>OnChange(args)) />
+            </div>
+            <div class="col-md-6">
+                <h6 class="mb-4">Select Month</h6>
+                <RadzenDropDown TValue="int" Data=@(MonthList) @bind-Value="SelectMonth" Class="w-100" Change=@(args =>
+                    OnChange(args)) />
+            </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+            <div class="col-md-12">
+                <RadzenListBox @bind-Value=@Selected Data=@LogList TextProperty="LogList" Style="height:200px;"
+                    Class="w-100">
+                    <Template>
+                        <RadzenLabel Style="font-size:0.8vw;"
+                            Text="@($"LogID : {(context as ProtoOvenLogList)!.LogID} | ")" />
+                        <RadzenLabel Style="font-size:0.8vw;"
+                            Text="@($"PatternID : {(context as ProtoOvenLogList)!.PatternID} | ")" />
+                        <RadzenLabel Style="font-size:0.8vw;"
+                            Text="@($"Start : {(context as ProtoOvenLogList)!.StartLog.ToDateTime().ToLocalTime().ToString(_sysConfig!.DATE_FORMAT_STRING)} | ")" />
+                        <RadzenLabel Style="font-size:0.8vw;"
+                            Text="@($"End : {(context as ProtoOvenLogList)!.EndLog.ToDateTime().ToLocalTime().ToString(_sysConfig!.DATE_FORMAT_STRING)}")" />
+                    </Template>
+                </RadzenListBox>
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Text="Plot" Size="ButtonSize.Medium"
+                    style="margin-top :15px;" Class="w-100" Click="@(args => PlotChart(args))" />
+            </div>
+        </div>
+    </ChildContent>
+</RadzenCard>

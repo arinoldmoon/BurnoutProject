@@ -25,7 +25,7 @@ namespace UI.Services
             ProtoServiceConnection response = new ProtoServiceConnection();
             try
             {
-                response = await OvenProto.DeviceConnectAsync(new Empty());
+                response = await OvenProto.DeviceConnectAsync(new Empty());                
                 return response;
             }
             catch (RpcException ex)
@@ -35,6 +35,20 @@ namespace UI.Services
             }
         }
 
-        public Task<AsyncServerStreamingCall<ProtoOvenResponse>> MonitorDevice() => Task.Run(() => OvenProto.MonitorDevice(new Empty()));        
+        public Task<AsyncServerStreamingCall<ProtoOvenResponse>> MonitorDevice() => Task.Run(() => OvenProto.MonitorDevice(new Empty()));
+
+        public async Task<ProtoOvenSetting> GetSetting()
+        {
+            ProtoOvenSetting response = new ProtoOvenSetting();
+
+            await Task.Run(async () =>
+            {
+                response = await OvenProto.GetOvenSettingAsync(new Empty());
+                response.AfbDelay = response.AfbDelay / 60;
+            });
+
+            return response;
+        }
+
     }
 }

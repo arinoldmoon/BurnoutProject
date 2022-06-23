@@ -10,8 +10,8 @@ namespace GrpcService.Services
 {
     public interface IPlcService
     {
-        Task<bool> ConnectPLCDevice();
-        Task<bool> CheckConnection();
+        bool ConnectPLCDevice();
+        bool CheckConnection();
         Task GetTempSensor();
         Task GetCoilSensor();
         Task GetMachineStatus();
@@ -45,31 +45,28 @@ namespace GrpcService.Services
             _convert = convert;
         }
 
-        private async Task<bool> SerialPortInit()
+        private bool SerialPortInit()
         {
             bool status = false;
 
             try
             {
-                await Task.Run(() =>
+                Console.WriteLine($"SerialPort Create | Portname: {_plcConfig.Value.PortName}, BuadRate : {_plcConfig.Value.BaudRate}");
+                serialPort = new SerialPort()
                 {
-                    Console.WriteLine($"SerialPort Create | Portname: {_plcConfig.Value.PortName}, BuadRate : {_plcConfig.Value.BaudRate}");
-                    serialPort = new SerialPort()
-                    {
-                        PortName = _plcConfig.Value.PortName,
-                        BaudRate = _plcConfig.Value.BaudRate,
-                        Parity = Parity.None,
-                        DataBits = 8,
-                        StopBits = StopBits.One
-                    };
-                    serialPort.Open();
+                    PortName = _plcConfig.Value.PortName,
+                    BaudRate = _plcConfig.Value.BaudRate,
+                    Parity = Parity.None,
+                    DataBits = 8,
+                    StopBits = StopBits.One
+                };
+                serialPort.Open();
 
-                    if (serialPort.IsOpen)
-                    {
-                        Device = ModbusSerialMaster.CreateRtu(serialPort);
-                        status = true;
-                    }
-                });
+                if (serialPort.IsOpen)
+                {
+                    Device = ModbusSerialMaster.CreateRtu(serialPort);
+                    status = true;
+                }
             }
             catch (Exception ex)
             {
@@ -82,28 +79,25 @@ namespace GrpcService.Services
             return status;
         }
 
-        public async Task<bool> ConnectPLCDevice()
+        public bool ConnectPLCDevice()
         {
             bool response = false;
             _sysConfig.plcDeviceConnected = false;
 
             try
             {
-                await Task.Run(() =>
+                if (SerialPortInit())
                 {
-                    Device.Dispose();
-                    serialPort.Dispose();
-
-                    if (SerialPortInit().Result)
-                    {
-                        response = CheckConnection().Result;
-                        _sysConfig.plcDeviceConnected = true;
-                    }
-                });
+                    response = CheckConnection();
+                }
+                else
+                {
+                    Console.WriteLine("SerialPortInit Failed");
+                }
             }
             catch (Exception ex)
             {
-                string message = $"{ex.Message.ToString()}";
+                string message = $"ConnectPLCDevice Error : {ex.Message.ToString()}";
                 _sysConfig.WriteLogFile(message);
 
                 _sysConfig.plcDeviceConnected = false;
@@ -113,22 +107,20 @@ namespace GrpcService.Services
             return response;
         }
 
-        public async Task<bool> CheckConnection()
+        public bool CheckConnection()
         {
             bool result = false;
 
             try
             {
-                await Task.Run(() =>
+                if (Device.ReadCoilsAsync(1, 500, 1).Result.Any())
                 {
-                    if (Device.ReadCoils(1, 500, 1).Any())
-                    {
-                        result = true;
-                    }
-                    _sysConfig.plcDeviceConnected = result;
+                    result = true;
+                }
+                _sysConfig.plcDeviceConnected = result;
 
-                    Console.WriteLine($"CheckConnection : {result}");
-                });
+                Console.WriteLine($"CheckConnection : {result}");
+
             }
             catch (Exception ex)
             {
@@ -144,29 +136,27 @@ namespace GrpcService.Services
         {
             try
             {
-                await Task.Run(() =>
-                {
-                    ushort[] SensorList = { 100, 120, 160, 140 };
-                    foreach (var item in SensorList)
+                ushort[] SensorList = { 100, 120, 160, 140 };
+                foreach (var item in SensorList)
+                {                    
+                    ushort result = (await Device.ReadHoldingRegistersAsync((byte)1, (ushort)item, (ushort)1))[0];
+                    switch (item)
                     {
-                        ushort result = Device.ReadHoldingRegistersAsync((byte)1, (ushort)item, (ushort)1).Result[0];
-                        switch (item)
-                        {
-                            case 100:
-                                _response.tempResponse.TempOven = (int)result;
-                                break;
-                            case 120:
-                                _response.tempResponse.TempAFB = (int)result;
-                                break;
-                            case 160:
-                                _response.tempResponse.TempFloor = (int)result;
-                                break;
-                            case 140:
-                                _response.tempResponse.TempTube = (int)result;
-                                break;
-                        }
+                        case 100:
+                            _response.tempResponse.TempOven = (int)result;
+                            break;
+                        case 120:
+                            _response.tempResponse.TempAFB = (int)result;
+                            break;
+                        case 160:
+                            _response.tempResponse.TempFloor = (int)result;
+                            break;
+                        case 140:
+                            _response.tempResponse.TempTube = (int)result;
+                            break;
                     }
-                });
+                }
+
             }
             catch (Exception ex)
             {
@@ -180,15 +170,14 @@ namespace GrpcService.Services
         {
             try
             {
-                await Task.Run(() =>
-                {
-                    bool[] result = Device.ReadCoilsAsync((byte)1, (ushort)70, (ushort)5).Result;
-                    _response.coilResponse.CoilOven = result[0];
-                    _response.coilResponse.CoilAFB = result[1];
-                    _response.coilResponse.CoilTube = result[2];
-                    _response.coilResponse.CoilPump = result[3];
-                    _response.coilResponse.CoilFloor = result[4];
-                });
+
+                bool[] result = await Device.ReadCoilsAsync((byte)1, (ushort)70, (ushort)5);
+                _response.coilResponse.CoilOven = result[0];
+                _response.coilResponse.CoilAFB = result[1];
+                _response.coilResponse.CoilTube = result[2];
+                _response.coilResponse.CoilPump = result[3];
+                _response.coilResponse.CoilFloor = result[4];
+
             }
             catch (Exception ex)
             {
@@ -202,66 +191,64 @@ namespace GrpcService.Services
         {
             try
             {
-                await Task.Run(() =>
-                {
-                    if (_sysConfig.plcDeviceConnected)
-                    {
-                        _response.statusResponse.Operation = Device.ReadCoilsAsync(1, 500, 1).Result[0];
-                        _response.statusResponse.Door = Device.ReadCoilsAsync(1, 85, 1).Result[0];
 
-                        // Read OperationInfo From PLC
-                        ushort[] HeaderList = { 200, 299, 500, 572, 574 };
-                        foreach (var item in HeaderList)
+                if (_sysConfig.plcDeviceConnected)
+                {
+                    _response.statusResponse.Operation = (await Device.ReadCoilsAsync(1, 500, 1))[0];
+                    _response.statusResponse.Door = (await Device.ReadCoilsAsync(1, 85, 1))[0];
+
+                    // Read OperationInfo From PLC
+                    ushort[] HeaderList = { 200, 299, 500, 572, 574 };
+                    foreach (var item in HeaderList)
+                    {
+                        ushort StatusResult = (await Device.ReadHoldingRegistersAsync(1, item, 1))[0];
+                        switch (item)
                         {
-                            ushort StatusResult = Device.ReadHoldingRegistersAsync(1, item, 1).Result[0];
+                            case 200:
+                                _response.statusResponse.TotalStep = (int)StatusResult;
+                                break;
+                            case 299:
+                                _response.statusResponse.PatternId = (int)StatusResult;
+                                break;
+                            case 500:
+                                _response.statusResponse.CurrentStep = (int)StatusResult;
+                                break;
+                            case 572:
+                                _response.statusResponse.RemainMins = TimeSpan.FromMinutes((int)StatusResult).ToDuration();
+                                break;
+                            case 574:
+                                _response.statusResponse.RemainHours = TimeSpan.FromHours((int)StatusResult).ToDuration();
+                                break;
+                        }
+                    }
+
+                    // Read PatternStatus From PLC
+                    ushort[] StatusList = { 601, 602, 603, 607 };
+                    foreach (ushort item in StatusList)
+                    {
+                        if ((await Device.ReadCoilsAsync(1, item, 1))[0])
+                        {
                             switch (item)
                             {
-                                case 200:
-                                    _response.statusResponse.TotalStep = (int)StatusResult;
+                                case 601:
+                                    _response.statusResponse.PatternStatus = PatternStatus.Down;
                                     break;
-                                case 299:
-                                    _response.statusResponse.PatternId = (int)StatusResult;
+                                case 602:
+                                    _response.statusResponse.PatternStatus = PatternStatus.Up;
                                     break;
-                                case 500:
-                                    _response.statusResponse.CurrentStep = (int)StatusResult;
+                                case 603:
+                                    _response.statusResponse.PatternStatus = PatternStatus.Stable;
                                     break;
-                                case 572:
-                                    _response.statusResponse.RemainMins = TimeSpan.FromMinutes((int)StatusResult).ToDuration();
+                                case 607:
+                                    _response.statusResponse.PatternStatus = PatternStatus.End;
                                     break;
-                                case 574:
-                                    _response.statusResponse.RemainHours = TimeSpan.FromHours((int)StatusResult).ToDuration();
+                                default:
+                                    _response.statusResponse.PatternStatus = PatternStatus.Standby;
                                     break;
-                            }
-                        }
-
-                        // Read PatternStatus From PLC
-                        ushort[] StatusList = { 601, 602, 603, 607 };
-                        foreach (ushort item in StatusList)
-                        {
-                            if (Device.ReadCoilsAsync(1, item, 1).Result[0])
-                            {
-                                switch (item)
-                                {
-                                    case 601:
-                                        _response.statusResponse.PatternStatus = PatternStatus.Down;
-                                        break;
-                                    case 602:
-                                        _response.statusResponse.PatternStatus = PatternStatus.Up;
-                                        break;
-                                    case 603:
-                                        _response.statusResponse.PatternStatus = PatternStatus.Stable;
-                                        break;
-                                    case 607:
-                                        _response.statusResponse.PatternStatus = PatternStatus.End;
-                                        break;
-                                    default:
-                                        _response.statusResponse.PatternStatus = PatternStatus.Standby;
-                                        break;
-                                }
                             }
                         }
                     }
-                });
+                }
             }
             catch (Exception ex)
             {
@@ -338,7 +325,7 @@ namespace GrpcService.Services
                         {
                             if (await SendPatternToPLC(request))
                             {
-                                if (_dbService.OperationWriteLog(++_sysConfig.LastLogID).Result)
+                                if (_dbService.OperationWriteLog(++_sysConfig.LastLogID))
                                 {
                                     await Device.WriteSingleCoilAsync((byte)1, 38, true);
                                     await Task.Delay(3000);
@@ -375,30 +362,31 @@ namespace GrpcService.Services
 
             try
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     if (_sysConfig.plcDeviceConnected)
                     {
                         if (_response.statusResponse!.Operation)
                         {
-                            Device.WriteSingleCoilAsync((byte)1, 39, true);
-                            Task.Delay(3000);
-                            Device.WriteSingleCoilAsync((byte)1, 39, false);
+                            await Device.WriteSingleCoilAsync((byte)1, 39, true);
+                            await Task.Delay(3000);
+                            await Device.WriteSingleCoilAsync((byte)1, 39, false);
 
-                            Device.WriteSingleRegisterAsync((byte)1, 200, (ushort)0);
-                            Task.Delay(10);
-                            Device.WriteSingleRegisterAsync((byte)1, 299, (ushort)0);
-                            Task.Delay(10);
-                            Device.WriteSingleRegisterAsync((byte)1, 500, 0);
-                            Task.Delay(10);
+                            await Device.WriteSingleRegisterAsync((byte)1, 200, (ushort)0);
+                            await Task.Delay(10);
+                            await Device.WriteSingleRegisterAsync((byte)1, 299, (ushort)0);
+                            await Task.Delay(10);
+                            await Device.WriteSingleRegisterAsync((byte)1, 500, 0);
+                            await Task.Delay(10);
 
                             WorkerService.WorkerGetActual!.CancelAsync();
                             Console.WriteLine("StopWorkerGetActual From StopOperation");
 
                             _response.statusResponse.TempLogList.TempLog.Clear();
 
-                            response.Value = !Device.ReadCoilsAsync(1, 500, 1).Result[0];
+                            response.Value = !(await Device.ReadCoilsAsync(1, 500, 1))[0];
                             _sysConfig.WriteLogFile("StopOperation");
+                            _sysConfig.OperationLogInfo = _dbService.GetOperationLogInfo().Result;
                         }
                         else
                         {
