@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class MachineDashboardStatus extends StatefulWidget {
-  const MachineDashboardStatus({Key? key, required this.mockMachinePayload})
+  const MachineDashboardStatus({Key? key, this.mockMachinePayload})
       : super(key: key);
 
-  final MockMachinePayload mockMachinePayload;
+  final MockMachinePayload? mockMachinePayload;
 
   @override
   State<MachineDashboardStatus> createState() => _MachineDashboardStatusState();
@@ -26,7 +26,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
             borderRadius: BorderRadius.circular(
                 MachineDashboardSizes.machineDashboardBorderRadius),
             color: Colors.white),
-        child: _buildMachineStatus(widget.mockMachinePayload.machineStatus));
+        child: _buildMachineStatus(widget.mockMachinePayload!.machineStatus));
   }
 
   Text _buildTitleText(String text) {
@@ -53,7 +53,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
             _buildTitleText(
                 MachineDashboardUiStrings.machineDashboardProgramName),
             Text(
-              widget.mockMachinePayload.machineProgram!,
+              widget.mockMachinePayload!.machineProgram!,
               style: Theme.of(context)
                   .textTheme
                   .headline6!
@@ -70,7 +70,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
             _buildTitleText(
                 MachineDashboardUiStrings.machineDashboardNumberOfSteps),
             Text(
-              "${widget.mockMachinePayload.machineProgramSteps!}",
+              "${widget.mockMachinePayload!.machineProgramSteps!}",
               style: Theme.of(context)
                   .textTheme
                   .headline6!
@@ -89,7 +89,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
       children: [
         LinearPercentIndicator(
           padding: MachineDashboardSizes.machineDashboardLinearindicatorPadding,
-          percent: widget.mockMachinePayload.machineOnProgramPercent!,
+          percent: widget.mockMachinePayload!.machineOnProgramPercent!,
           progressColor: AppTheme.yellowPrimary,
           lineHeight:
               MachineDashboardSizes.machineDashboardLinearindicatorHeight,
@@ -100,7 +100,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
         Padding(
           padding: MachineDashboardSizes.machineDashboardPercentPadding,
           child: Text(
-            '${widget.mockMachinePayload.machineOnProgramPercent! * 100}%',
+            '${widget.mockMachinePayload!.machineOnProgramPercent! * 100}%',
             style: Theme.of(context)
                 .textTheme
                 .headline6!
@@ -225,7 +225,7 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
           children: [
             Text(
               MachineDashboardUiStrings.machineDashboardStatusHourRemaining(
-                  widget.mockMachinePayload.machineTimeRemaing!),
+                  widget.mockMachinePayload!.machineTimeRemaing!),
               style: Theme.of(context)
                   .textTheme
                   .headline6!
