@@ -1,18 +1,17 @@
 import 'package:burnout_mobile/grpc/google/protobuf/empty.pb.dart';
 import 'package:burnout_mobile/grpc/oven.pbgrpc.dart';
-import 'package:burnout_mobile/services/clinet_chanel.dart';
+import 'package:burnout_mobile/services/grpc_client.dart';
 import 'package:grpc/grpc.dart';
 
 class OvenServices {
   late ProtoServiceConnection ovenInfo;
-  final OvenProtoServiceClient ovenStub =
-      OvenProtoServiceClient(ClinetChanel.channel);
+  static late OvenProtoServiceClient ovenStub;
   final PatternProtoServiceClient patternStub =
-      PatternProtoServiceClient(ClinetChanel.channel);
+      PatternProtoServiceClient(GrpcClient().client);
   late ResponseStream<ProtoOvenResponse> monitorDeviceResponse;
 
-  Future<ResponseStream<ProtoOvenResponse>> fetchMonitorDevice() async {
-    monitorDeviceResponse = ovenStub.monitorDevice(Empty());
-    return monitorDeviceResponse;
+  static Future<ResponseStream<ProtoOvenResponse>> fetchMonitorDevice() async {
+    ovenStub = OvenProtoServiceClient(GrpcClient().client);
+    return ovenStub.monitorDevice(Empty());
   }
 }

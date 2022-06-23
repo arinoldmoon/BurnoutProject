@@ -35,94 +35,94 @@ class _MachineDashboardPageState extends State<MachineDashboardPage> {
   late List<MachinePeripheral> machinePeripheral =
       widget.machinePayload.machinePeripheral!;
 
-  static final channel = ClientChannel(
-    '192.168.15.134', // Use your IP address where the server is running
-    port: 5000,
-    options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-  );
+  // static final channel = ClientChannel(
+  //   '192.168.15.134', // Use your IP address where the server is running
+  //   port: 5000,
+  //   options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+  // );
 
-  final OvenProtoServiceClient ovenStub = OvenProtoServiceClient(channel);
-  final PatternProtoServiceClient patternStub =
-      PatternProtoServiceClient(channel);
+  // final OvenProtoServiceClient ovenStub = OvenProtoServiceClient(channel);
+  // final PatternProtoServiceClient patternStub =
+  //     PatternProtoServiceClient(channel);
 
-  void callGrpc() async {
-    ovenInfo = await ovenStub.deviceConnect(Empty());
-    var patternListCount = await patternStub.getPatternList(Empty());
-    callMonitor();
-  }
+  // void callGrpc() async {
+  //   ovenInfo = await ovenStub.deviceConnect(Empty());
+  //   var patternListCount = await patternStub.getPatternList(Empty());
+  //   callMonitor();
+  // }
 
-  void callMonitor() async {
-    var response = ovenStub.monitorDevice(Empty());
-    response.listen((value) {
-      machineTemperature = [
-        MachineTemperature(
-          machineTemp: value.temp.tempOven.toDouble(),
-          machineHeaterStatus: value.coil.coilOven
-              ? MachineOnOffStatus.ON
-              : MachineOnOffStatus.OFF,
-          machineTempName: MachineHeater.OVEN,
-        ),
-        MachineTemperature(
-          machineTemp: value.temp.tempAFB.toDouble(),
-          machineHeaterStatus: value.coil.coilAFB
-              ? MachineOnOffStatus.ON
-              : MachineOnOffStatus.OFF,
-          machineTempName: MachineHeater.AFB,
-        ),
-        MachineTemperature(
-          machineTemp: value.temp.tempTube.toDouble(),
-          machineHeaterStatus: value.coil.coilTube
-              ? MachineOnOffStatus.ON
-              : MachineOnOffStatus.OFF,
-          machineTempName: MachineHeater.TUBE,
-        ),
-        MachineTemperature(
-          machineTemp: value.temp.tempFloor.toDouble(),
-          machineHeaterStatus: value.coil.coilFloor
-              ? MachineOnOffStatus.ON
-              : MachineOnOffStatus.OFF,
-          machineTempName: MachineHeater.FLOOR,
-        )
-      ];
+  // void callMonitor() async {
+  //   var response = ovenStub.monitorDevice(Empty());
+  //   response.listen((value) {
+  //     machineTemperature = [
+  //       MachineTemperature(
+  //         machineTemp: value.temp.tempOven.toDouble(),
+  //         machineHeaterStatus: value.coil.coilOven
+  //             ? MachineOnOffStatus.ON
+  //             : MachineOnOffStatus.OFF,
+  //         machineTempName: MachineHeater.OVEN,
+  //       ),
+  //       MachineTemperature(
+  //         machineTemp: value.temp.tempAFB.toDouble(),
+  //         machineHeaterStatus: value.coil.coilAFB
+  //             ? MachineOnOffStatus.ON
+  //             : MachineOnOffStatus.OFF,
+  //         machineTempName: MachineHeater.AFB,
+  //       ),
+  //       MachineTemperature(
+  //         machineTemp: value.temp.tempTube.toDouble(),
+  //         machineHeaterStatus: value.coil.coilTube
+  //             ? MachineOnOffStatus.ON
+  //             : MachineOnOffStatus.OFF,
+  //         machineTempName: MachineHeater.TUBE,
+  //       ),
+  //       MachineTemperature(
+  //         machineTemp: value.temp.tempFloor.toDouble(),
+  //         machineHeaterStatus: value.coil.coilFloor
+  //             ? MachineOnOffStatus.ON
+  //             : MachineOnOffStatus.OFF,
+  //         machineTempName: MachineHeater.FLOOR,
+  //       )
+  //     ];
 
-      machinePeripheral = [
-        MachinePeripheral(
-            machinePeripheralType: MachinePeripheralType.AIRFLOW,
-            machineOnOffStatus: value.coil.coilPump
-                ? MachineOnOffStatus.ON
-                : MachineOnOffStatus.OFF),
-        MachinePeripheral(
-            machinePeripheralType: MachinePeripheralType.DOOR,
-            machineOnOffStatus: value.status.door
-                ? MachineOnOffStatus.ON
-                : MachineOnOffStatus.OFF),
-      ];
-      _buildValue();
-    });
-  }
+  //     machinePeripheral = [
+  //       MachinePeripheral(
+  //           machinePeripheralType: MachinePeripheralType.AIRFLOW,
+  //           machineOnOffStatus: value.coil.coilPump
+  //               ? MachineOnOffStatus.ON
+  //               : MachineOnOffStatus.OFF),
+  //       MachinePeripheral(
+  //           machinePeripheralType: MachinePeripheralType.DOOR,
+  //           machineOnOffStatus: value.status.door
+  //               ? MachineOnOffStatus.ON
+  //               : MachineOnOffStatus.OFF),
+  //     ];
+  //     _buildValue();
+  //   });
+  // }
 
-  void _buildValue() {
-    if (mounted) {
-      setState(() {
-        machineData = MockMachinePayload(
-          machineName: ovenInfo.ovenInfo.machineName,
-          machineStatus: widget.machinePayload.machineStatus,
-          machineModel: widget.machinePayload.machineModel,
-          machineProgram: 'Operating Program1',
-          machineOnProgramPercent: 0.65,
-          machineTimeRemaing: 225,
-          machineTemperature: machineTemperature,
-          machinePeripheral: machinePeripheral,
-        );
-      });
-    }
-  }
+  // void _buildValue() {
+  //   if (mounted) {
+  //     setState(() {
+  //       machineData = MockMachinePayload(
+  //         machineName: ovenInfo.ovenInfo.machineName,
+  //         machineStatus: widget.machinePayload.machineStatus,
+  //         machineModel: widget.machinePayload.machineModel,
+  //         machineProgram: 'Operating Program1',
+  //         machineOnProgramPercent: 0.65,
+  //         machineTimeRemaing: 225,
+  //         machineTemperature: machineTemperature,
+  //         machinePeripheral: machinePeripheral,
+  //       );
+  //     });
+  //   }
+  // }
 
-  @override
-  void initState() {
-    callGrpc();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   callGrpc();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
