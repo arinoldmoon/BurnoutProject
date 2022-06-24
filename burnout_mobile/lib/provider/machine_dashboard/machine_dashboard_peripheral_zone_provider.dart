@@ -1,16 +1,36 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
+import 'package:burnout_mobile/grpc/oven.pbgrpc.dart';
+import 'package:burnout_mobile/services/oven_services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:grpc/grpc.dart';
 
 class MachineDashboardPeripheralZoneProvider with ChangeNotifier {
-  List<MachinePeripheral> machinePeripheralZone = [
-    MachinePeripheral(
-        machinePeripheralType: MachinePeripheralType.AIRFLOW,
-        machineOnOffStatus: MachineOnOffStatus.OFF),
-    MachinePeripheral(
-        machinePeripheralType: MachinePeripheralType.DOOR,
-        machineOnOffStatus: MachineOnOffStatus.OFF),
-  ];
+  List<MachinePeripheral> machinePeripheralZone = [];
+
+  Future<void> fetchMonitorDevice() async {
+    ResponseStream<ProtoOvenResponse> response =
+        await OvenServices.fetchMonitorDevice();
+    response.listen(
+      (value) {
+        machinePeripheralZone = [
+          MachinePeripheral(
+            machinePeripheralType: MachinePeripheralType.DOOR,
+            machineOnOffStatus: value.status.door
+                ? MachineOnOffStatus.ON
+                : MachineOnOffStatus.OFF,
+          ),
+          MachinePeripheral(
+            machinePeripheralType: MachinePeripheralType.AIRFLOW,
+            machineOnOffStatus: value.coil.coilPump
+                ? MachineOnOffStatus.ON
+                : MachineOnOffStatus.OFF,
+          ),
+        ];
+      },
+    );
+    notifyListeners();
+  }
 
   List<MachinePeripheral> get peripheralZone => machinePeripheralZone;
 

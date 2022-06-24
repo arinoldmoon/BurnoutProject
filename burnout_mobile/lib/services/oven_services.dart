@@ -5,13 +5,13 @@ import 'package:grpc/grpc.dart';
 
 class OvenServices {
   late ProtoServiceConnection ovenInfo;
-  static late OvenProtoServiceClient ovenStub;
   final PatternProtoServiceClient patternStub =
       PatternProtoServiceClient(GrpcClient().client);
   late ResponseStream<ProtoOvenResponse> monitorDeviceResponse;
 
   static Future<ResponseStream<ProtoOvenResponse>> fetchMonitorDevice() async {
-    ovenStub = OvenProtoServiceClient(GrpcClient().client);
+    OvenProtoServiceClient ovenStub =
+        OvenProtoServiceClient(GrpcClient().client);
     return ovenStub.monitorDevice(Empty());
   }
 }

@@ -8,8 +8,8 @@ class GrpcClient {
 
   GrpcClient._internal() {
     client = ClientChannel(
-        "192.168.1.124", // Your IP here, localhost might not work.
-        port: 3000,
+      "localhost",
+        port: 5000,
         options: const ChannelOptions(
           credentials: ChannelCredentials.insecure(),
           idleTimeout: Duration(minutes: 3),

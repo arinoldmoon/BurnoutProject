@@ -75,6 +75,7 @@ class _MachineDashboardPageOperatingState
             height: MachineDashboardSizes.machineDashboardTemperatureHeight,
             child: Consumer<MachineDashboardPeripheralZoneProvider>(
               builder: (context, value, child) {
+                value.fetchMonitorDevice();
                 return ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (_, index) {
