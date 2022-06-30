@@ -50,11 +50,11 @@ namespace GrpcService.Services
 
                 _sysConfig.LastLogID = (int)(_dbService.GetLastLogID().Result);
                 _sysConfig.MachineInfo = _dbService.GetMachineInfo().Result;
-                _sysConfig.OperationLogInfo = _dbService.GetOperationLogInfo().Result;                
+                _sysConfig.OperationLogInfo = _dbService.GetOperationLogInfo().Result;
 
                 if (_plcService.ConnectPLCDevice())
                 {
-                    WorkerMonitor.RunWorkerAsync();                    
+                    WorkerMonitor.RunWorkerAsync(stoppingToken);
                 }
                 else
                 {
@@ -68,7 +68,7 @@ namespace GrpcService.Services
         {
             BackgroundWorker worker = (BackgroundWorker)sender;
             while (!worker.CancellationPending)
-            {
+            {               
                 _plcService.GetTempSensor();
                 _plcService.GetCoilSensor();
                 _plcService.GetMachineStatus();
@@ -95,9 +95,9 @@ namespace GrpcService.Services
                         }
                     }
 
-                    Console.WriteLine("Worker2 Run");
-                    WorkerGetActual.RunWorkerAsync();
-                }
+                    WorkerGetActual.RunWorkerAsync(sender);
+                    Console.WriteLine("WorkerGetActual Run");
+                }                
 
                 Thread.Sleep(_plcConfig.Value.WorkerMonitorDelay);
             }
@@ -121,7 +121,7 @@ namespace GrpcService.Services
                 _response.statusResponse.TempLogList.TempLog.Add(data);
                 _dbService.OperationWriteLog(_sysConfig.LastLogID);
 
-                Console.WriteLine($"Temp : {data.TempValue.TempOven} | {data.TempTime}");
+                Console.WriteLine($"Temp : {data.TempValue.TempOven} | {data.TempTime}");                
                 Thread.Sleep(_plcConfig.Value.OperationWriteLogDelay);
             }
         }

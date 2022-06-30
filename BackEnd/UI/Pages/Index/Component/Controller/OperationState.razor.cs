@@ -38,17 +38,11 @@ namespace UI.Pages.Index.Component.Controller
 
         public ProtoOvenSetting? Setting;
 
-        private void Reload()
-        {
-            InvokeAsync(StateHasChanged);
-        }
-
         protected void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             if (args.Name == "GlobalMonitor")
             {
-                Reload();
-                Console.WriteLine("GlobalMonitor Update");
+                CurrentPattern = SelectedPattern!.PatternDetail.Where(x => x.Step == _globals!.GlobalMonitor.Status.CurrentStep).ToList();
             }
         }
 
@@ -56,7 +50,8 @@ namespace UI.Pages.Index.Component.Controller
         {
             _globals!.PropertyChanged += OnPropertyChanged;
             SelectedPattern = _convert!.ConvertProtoPatternToPatternModel(_globals!.GlobalPattern);
-            Setting = await _ovenService!.GetSetting();
+            CurrentPattern = SelectedPattern!.PatternDetail.Where(x => x.Step == _globals!.GlobalMonitor.Status.CurrentStep).ToList();
+            Setting = await _ovenService!.GetSetting();            
         }
 
         public async Task EditProgramClick(MouseEventArgs args) => await _dialogServices!.OpenAsync<PatternDetail>("Edit Program", new Dictionary<string, object> { { "_patternModel", SelectedPattern! } });
@@ -74,11 +69,10 @@ namespace UI.Pages.Index.Component.Controller
 
         public async Task StartOperation(MouseEventArgs args)
         {
-            await Task.Run(async () => await _operationService!.StartOpration(_globals!.GlobalPattern)).ContinueWith((res) =>
+            await Task.Run(async () =>
             {
-                if (res.Result.Value)
+                if ((await _operationService!.StartOpration(_globals!.GlobalPattern)).Value)
                 {
-                    Reload();
                     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation : ", Detail = $"Started" });
                 }
                 else
@@ -102,7 +96,6 @@ namespace UI.Pages.Index.Component.Controller
                         AirPump = new ProtoAirpump()
                     };
 
-                    Reload();
                     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Stoped" });
                 }
                 else

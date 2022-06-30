@@ -28,9 +28,8 @@ namespace GrpcService.Services.gRPC
         public override async Task<ProtoServiceConnection> DeviceConnect(Empty request, ServerCallContext context)
         {
             ProtoServiceConnection response = new ProtoServiceConnection();
-
             await Task.Run(() =>
-            {                
+            {
                 response.PlcConnected = _sysConfig.plcDeviceConnected;
                 response.OvenInfo = _sysConfig.MachineInfo;
                 response.OvenInfo!.Operation = _response.statusResponse.Operation;
@@ -42,24 +41,31 @@ namespace GrpcService.Services.gRPC
 
         public override async Task MonitorDevice(Empty request, IServerStreamWriter<ProtoOvenResponse> responseStream, ServerCallContext context)
         {
-            while (!context.CancellationToken.IsCancellationRequested)
+            try
             {
-                ProtoOvenResponse Response = new ProtoOvenResponse()
+                while (!context.CancellationToken.IsCancellationRequested)
                 {
-                    Temp = _response.tempResponse,
-                    Coil = _response.coilResponse,
-                    Status = _response.statusResponse
-                };
+                    ProtoOvenResponse Response = new ProtoOvenResponse()
+                    {
+                        Temp = _response.tempResponse,
+                        Coil = _response.coilResponse,
+                        Status = _response.statusResponse
+                    };
 
-                await responseStream.WriteAsync(Response);
-                Thread.Sleep(TimeSpan.FromMilliseconds(_config.Value.GrpcMonitorDelay));
+                    await responseStream.WriteAsync(Response, context.CancellationToken);
+                    await Task.Delay(_config.Value.GrpcMonitorDelay);
+                }
+            }
+            catch (Exception ex)
+            {
+                _sysConfig.WriteLogFile($"MonitorDevice Catch : {ex.Message}");
             }
         }
 
         public override async Task<ProtoOvenSetting> GetOvenSetting(Empty request, ServerCallContext context) => await _plcService.GetOvenSetting();
 
         public override async Task<BoolValue> UpdateOvenSetting(ProtoOvenSetting request, ServerCallContext context) => await _plcService.SetOvenSetting(request);
-        
+
 
     }
 }
