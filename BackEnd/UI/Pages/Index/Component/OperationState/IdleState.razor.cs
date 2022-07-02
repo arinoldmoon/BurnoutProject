@@ -24,7 +24,9 @@ namespace UI.Pages.Index.Component.OperationState
         {
             if (args.Name == "GlobalPattern")
             {
-                IsDisable = _globals!.GlobalPattern.PatternId == 0 ? false : true;
+                PatternID = _globals!.GlobalPattern.PatternId;
+                IsDisable = (PatternID == 0) ? false : true;
+                
                 InvokeAsync(StateHasChanged);
             }           
         }

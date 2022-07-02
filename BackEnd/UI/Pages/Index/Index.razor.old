@@ -1,13 +1,13 @@
-@page "/"
+﻿@page "/"
 @page "/index"
+
+@using UI.Pages.Index.Component.Cards
+@using UI.Pages.Index.Component.Controller
+@using UI.Pages.Index.Component.OperationState
+@using UI.Pages.Index.Component.Charts
 
 @layout MainLayout
 @inherits IndexComponent
-
-@using UI.Pages.Index.Component.OperationState
-@using UI.Pages.Index.Component.Cards
-@using UI.Pages.Index.Component.Charts
-@using UI.Pages.Index.Component.Controller
 
 <RadzenContent Container="main">
     <ChildContent>
@@ -26,42 +26,33 @@
                     <IdleState PatternID="_globals.GlobalPattern.PatternId"></IdleState>
                 }
             </div>
-            <div class="col-6 col-sm-1 col-md-1" style="margin-bottom: 10px;">
+            <div class="col-6 col-sm-3 col-md-3">
                 <SensorCard State="_globals.GlobalMonitor.Status.Door" CardName="Door"></SensorCard>
             </div>
-            <div class="col-6 col-sm-1 col-md-1" style="margin-bottom: 10px;">
-                <SensorCard State="_globals.GlobalMonitor.Coil.CoilPump" CardName="Air"></SensorCard>
-            </div>
-
-            <div class="col-6 col-sm-3 col-md-2" style="margin-bottom: 10px;">
-                <TempCard CardName="Oven" State="_globals.GlobalMonitor.Coil.CoilOven"
-                    Value="_globals.GlobalMonitor.Temp.TempOven"></TempCard>
-            </div>
-            <div class="col-6 col-sm-3 col-md-2" style="margin-bottom: 10px;">
-                <TempCard CardName="AFB" State="_globals.GlobalMonitor.Coil.CoilAFB"
-                    Value="_globals.GlobalMonitor.Temp.TempAFB"></TempCard>
+            <div class="col-6 col-sm-3 col-md-3">
+                <SensorCard State="_globals.GlobalMonitor.Coil.CoilPump" CardName="Air Flow"></SensorCard>
             </div>
         </div>
 
         @* Row 2 TempCard *@
-        @* <div class="row" style="margin-top: 10px;">
+        <div class="row" style="margin-top: 10px;">
             <div class="col-6 col-sm-3 col-md-3" style="margin-bottom: 10px;">
-            <TempCard CardName="Oven" State="_globals.GlobalMonitor.Coil.CoilOven"
-            Value="_globals.GlobalMonitor.Temp.TempOven"></TempCard>
+                <TempCard CardName="Oven" State="_globals.GlobalMonitor.Coil.CoilOven"
+                    Value="_globals.GlobalMonitor.Temp.TempOven"></TempCard>
             </div>
             <div class="col-6 col-sm-3 col-md-3" style="margin-bottom: 10px;">
-            <TempCard CardName="AFB" State="_globals.GlobalMonitor.Coil.CoilAFB"
-            Value="_globals.GlobalMonitor.Temp.TempAFB"></TempCard>
+                <TempCard CardName="AFB" State="_globals.GlobalMonitor.Coil.CoilAFB"
+                    Value="_globals.GlobalMonitor.Temp.TempAFB"></TempCard>
             </div>
             <div class="col-6 col-sm-3 col-md-3" style="margin-bottom: 10px;">
-            <TempCard CardName="Floor" State="_globals.GlobalMonitor.Coil.CoilFloor"
-            Value="_globals.GlobalMonitor.Temp.TempFloor"></TempCard>
+                <TempCard CardName="Floor" State="_globals.GlobalMonitor.Coil.CoilFloor"
+                    Value="_globals.GlobalMonitor.Temp.TempFloor"></TempCard>
             </div>
             <div class="col-6 col-sm-3 col-md-3" style="margin-bottom: 10px;">
-            <TempCard CardName="Tube" State="_globals.GlobalMonitor.Coil.CoilTube"
-            Value="_globals.GlobalMonitor.Temp.TempTube"></TempCard>
+                <TempCard CardName="Tube" State="_globals.GlobalMonitor.Coil.CoilTube"
+                    Value="_globals.GlobalMonitor.Temp.TempTube"></TempCard>
             </div>
-            </div> *@
+        </div>
 
         @* Row 3 Chart & Program *@
         <div class="row" style="margin-top:10px;">

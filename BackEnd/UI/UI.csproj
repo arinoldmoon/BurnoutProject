@@ -4,20 +4,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
   </PropertyGroup>
 
 
 
   <ItemGroup>
-    <PackageReference Include="google.protobuf" Version="3.19.4" />
-    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.44.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.44.0">
+    <PackageReference Include="google.protobuf" Version="3.20.1" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.46.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.46.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Iot.Device.Bindings" Version="2.1.0" />
-    <PackageReference Include="Radzen.Blazor" Version="3.16.6" />
-    <PackageReference Include="System.Device.Gpio" Version="2.1.0" />
+    <PackageReference Include="Radzen.Blazor" Version="3.18.9" />    
   </ItemGroup>
 
     <ItemGroup>

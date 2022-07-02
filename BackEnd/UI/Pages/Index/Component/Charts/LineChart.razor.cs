@@ -1,4 +1,4 @@
-﻿using GrpcService.Protos;
+﻿
 using Microsoft.AspNetCore.Components;
 using UI.Models;
 using UI.Services;
@@ -24,10 +24,9 @@ namespace UI.Pages.Index.Component.Charts
         {
             if (args.Name == "SetPoint")
             {
-                Console.WriteLine("Chart Detect SetPoint Change");
                 if (_globals!.SetPoint.Any())
                 {
-                    DrawChart().GetAwaiter();
+                    DrawSetpoint();
                 }
                 else
                 {
@@ -41,7 +40,7 @@ namespace UI.Pages.Index.Component.Charts
                 {
                     if (!object.Equals(Actual.Count, _globals.ActualPoint.Count))
                     {
-                        DrawChart().GetAwaiter();
+                        DrawActualPoint();
                     }
                 }
                 else
@@ -52,24 +51,25 @@ namespace UI.Pages.Index.Component.Charts
             }
         }
 
+
+        private void Reload()
+        {
+            InvokeAsync(StateHasChanged);
+        }
+
         protected override void OnInitialized()
         {
             _globals!.PropertyChanged += OnPropertyChanged;
         }
 
-        private Task DrawChart()
+        private Task DrawSetpoint()
         {
-            SetPoint.Clear();
-            Actual.Clear();
-            AFB.Clear();
-
             return Task.Run(() =>
             {
+                SetPoint.Clear();
                 _dateTime = _globals!.ActualPoint.Any() ? _globals.ActualPoint.First().TempTime : DateTime.Now;
-                _tempLog = _globals.ActualPoint;
-            }).ContinueWith(task =>
-            {
-                SetPoint.Add(new TempChart() { Time = _dateTime, TempValue = _globals!.SetPoint.First().Temp });
+
+                SetPoint.Add(new TempChart() { Time = _dateTime, TempValue = _globals!.SetPoint.FirstOrDefault()!.Temp });
                 foreach (var item in _globals.SetPoint)
                 {
                     _dateTime = _dateTime.AddMinutes(item.StepDuration.ToTimeSpan().TotalMinutes);
@@ -79,48 +79,72 @@ namespace UI.Pages.Index.Component.Charts
                         TempValue = item.Temp
                     });
                 }
-            }).ContinueWith(task =>
+                Reload();
+            });
+        }
+
+        private Task DrawActualPoint()
+        {
+            return Task.Run(() =>
             {
+                _tempLog = _globals!.ActualPoint;
+                _dateTime = _globals!.ActualPoint.Any() ? _globals.ActualPoint.First().TempTime : DateTime.Now;
+
                 if (_tempLog.Any())
                 {
+                    Actual.Clear();
+                    AFB.Clear();
+
                     foreach (var AP in _tempLog)
                     {
                         if (Actual.Any())
                         {
-                            if (Actual.Last().TempValue != AP.TempValue!.TempOven)
+                            Actual.Add(new TempChart()
                             {
-                                Actual.Add(new TempChart()
-                                {
-                                    Time = AP.TempTime.ToLocalTime(),
-                                    TempValue = AP.TempValue.TempOven
-                                });
+                                Time = AP.TempTime.ToLocalTime(),
+                                TempValue = AP.TempValue!.TempOven
+                            });
 
-                                AFB.Add(new TempChart()
-                                {
-                                    Time = AP.TempTime.ToLocalTime(),
-                                    TempValue = AP.TempValue.TempAFB
-                                });
-                            }
-                            else
+                            AFB.Add(new TempChart()
                             {
-                                foreach (var SP in SetPoint)
-                                {
-                                    if (AP.TempTime.ToString(_systemConfig!.DATE_FORMAT_STRING) == SP.Time.ToString(_systemConfig.DATE_FORMAT_STRING))
-                                    {
-                                        Actual.Add(new TempChart()
-                                        {
-                                            Time = AP.TempTime,
-                                            TempValue = AP.TempValue.TempOven
-                                        });
+                                Time = AP.TempTime.ToLocalTime(),
+                                TempValue = AP.TempValue.TempAFB
+                            });
 
-                                        AFB.Add(new TempChart()
-                                        {
-                                            Time = AP.TempTime.ToLocalTime(),
-                                            TempValue = AP.TempValue.TempAFB
-                                        });
-                                    }
-                                }
-                            }
+                            // if (Actual.Last().TempValue != AP.TempValue!.TempOven)
+                            // {
+                            //     Actual.Add(new TempChart()
+                            //     {
+                            //         Time = AP.TempTime.ToLocalTime(),
+                            //         TempValue = AP.TempValue.TempOven
+                            //     });
+
+                            //     AFB.Add(new TempChart()
+                            //     {
+                            //         Time = AP.TempTime.ToLocalTime(),
+                            //         TempValue = AP.TempValue.TempAFB
+                            //     });
+                            // }
+                            // else
+                            // {
+                            //     foreach (var SP in SetPoint)
+                            //     {
+                            //         if (AP.TempTime.ToString(_systemConfig!.DATE_FORMAT_STRING) == SP.Time.ToString(_systemConfig.DATE_FORMAT_STRING))
+                            //         {
+                            //             Actual.Add(new TempChart()
+                            //             {
+                            //                 Time = AP.TempTime,
+                            //                 TempValue = AP.TempValue.TempOven
+                            //             });
+
+                            //             AFB.Add(new TempChart()
+                            //             {
+                            //                 Time = AP.TempTime.ToLocalTime(),
+                            //                 TempValue = AP.TempValue.TempAFB
+                            //             });
+                            //         }
+                            //     }
+                            // }
                         }
                         else
                         {
@@ -137,11 +161,11 @@ namespace UI.Pages.Index.Component.Charts
                             });
                         }
                     }
+
+                    Reload();
                 }
-            }).ContinueWith(task =>
-            {
-                InvokeAsync(StateHasChanged);
             });
+
         }
     }
 }
