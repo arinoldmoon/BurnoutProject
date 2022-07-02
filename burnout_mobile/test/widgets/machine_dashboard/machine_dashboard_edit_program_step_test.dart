@@ -1,7 +1,10 @@
 import 'dart:async';
 
+<<<<<<< HEAD
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
+=======
+>>>>>>> a1e6298ce1e77ddb27a09daf75fdbd0e997296a7
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
 import 'package:burnout_mobile/utility/form_key.dart';
@@ -15,8 +18,11 @@ void main() {
   void findCommon() {
     expect(find.byKey(FormKey.formStepTempAndDurEditStep), findsOneWidget);
     expect(find.byKey(const Key('editStepListView')), findsOneWidget);
+<<<<<<< HEAD
     expect(find.byKey(const Key('addMoreStepButton')), findsOneWidget);
 
+=======
+>>>>>>> a1e6298ce1e77ddb27a09daf75fdbd0e997296a7
     for (int i = 0;
         i <
             MachineDashboardUtilityStepProvider()
@@ -66,8 +72,11 @@ void main() {
         findsNWidgets(2));
   }
 
+<<<<<<< HEAD
   int listLenght = MachineDashboardUtilityStepProvider().count;
 
+=======
+>>>>>>> a1e6298ce1e77ddb27a09daf75fdbd0e997296a7
   testWidgets('Edit Step ListView Should Render correctly', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -86,6 +95,7 @@ void main() {
     findCommon();
   });
 
+<<<<<<< HEAD
   testWidgets('Edit Step Should be able to add more step', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -105,6 +115,8 @@ void main() {
     await tester.pumpAndSettle();
   });
 
+=======
+>>>>>>> a1e6298ce1e77ddb27a09daf75fdbd0e997296a7
   testWidgets('Edit Step button should be able to callback', (tester) async {
     final Completer _completer = Completer();
     await tester.pumpWidget(
@@ -203,6 +215,7 @@ void main() {
         ),
       ),
     );
+<<<<<<< HEAD
     await tester.tap(find.byKey(const Key('addMoreStepButton')));
     await tester.pumpAndSettle();
     await multiScreenGolden(
@@ -231,6 +244,8 @@ void main() {
         ),
       ),
     );
+=======
+>>>>>>> a1e6298ce1e77ddb27a09daf75fdbd0e997296a7
     await multiScreenGolden(tester, 'machine_dashboard_edit_program_step',
         devices: [
           const Device(

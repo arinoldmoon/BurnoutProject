@@ -1,114 +1,67 @@
-using System;
-using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
+using GrpcService.Protos;
+using Microsoft.AspNetCore.Components;
 using UI.Models;
-using UI.Protos;
-using static UI.Protos.OperationProto;
+using static GrpcService.Protos.OperationProtoService;
 
 namespace UI.Services
 {
     public class OperationService
     {
         private GrpcChannel channel { get; set; }
-
-        public static OperationProtoClient OperationProto { get; set; }
-
-        private bool GrpcIsConnected { get { return OvenService.GrpcIsConnected; } }
-
-        private bool PLCIsConnected { get { return OvenService.PLCIsConnected; } }
+        private OperationProtoServiceClient OperationProto { get; set; }
 
         public OperationService(string IP)
         {
             var addr = new Uri($"http://{IP}:5000");
 
             channel = GrpcChannel.ForAddress(addr);
-            OperationProto = new OperationProtoClient(channel);
+            OperationProto = new OperationProtoServiceClient(channel);
         }
 
-        public async Task<bool> StopOperation()
+        public async Task<List<OperationLog>> GetOperationLog(int request)
         {
-            try
+            List<OperationLog> response = new List<OperationLog>();
+            ActualLogList result = await OperationProto.GetOperationLogWithIDAsync(new Int32Value() { Value = request });
+            if (result.TempLog.Any())
             {
-                return (await OperationProto.StopOperationAsync(new Empty())).Value;
-            }
-            catch (RpcException ex)
-            {
-                Console.WriteLine($"Connection Error : {ex.StatusCode}");
-                return false;
-            }
-        }
-
-        public async Task<bool> StartOpration(Pattern pattern)
-        {
-            try
-            {
-                ProtoPattern request = new ProtoPattern();
-                request.PatternId = pattern.PatternNumber;
-                request.StepCount = pattern.StepCount;
-                request.AirPump = new ProtoAirpump()
+                foreach (var item in result.TempLog)
                 {
-                    StartTemp = pattern.Airpump.StartTemp,
-                    EndTemp = pattern.Airpump.EndTemp,
-                    DelayMinuteDuration = TimeSpan.FromMinutes(pattern.Airpump.DelayDuration).ToDuration()
-                };
-
-                foreach (var item in pattern.PatternItems)
-                {
-                    ProtoPatternDetail detail = new ProtoPatternDetail();
-                    detail.Step = item.Step;
-                    detail.Temp = item.Temp;
-                    detail.StepDuration = TimeSpan.FromMinutes(item.StepDuration).ToDuration();
-
-                    request.PatternDetail.Add(detail);
-                }
-
-                return (await OperationProto.StartOperationAsync(request)).Value;
-            }
-            catch (RpcException ex)
-            {
-                Console.WriteLine($"Connection Error : {ex.StatusCode}");
-                return false;
-            }
-        }
-
-        public async Task<Pattern> CurrentPattern()
-        {
-            Pattern result = new Pattern();
-            try
-            {
-                ProtoPattern response = await OperationProto.CurrentPatternAsync(new Empty());
-                if (response != null)
-                {
-                    result.PatternNumber = response.PatternId;
-                    result.StepCount = response.StepCount;
-
-                    result.Airpump = new AirPumpSetting()
+                    response.Add(new OperationLog()
                     {
-                        StartTemp = response.AirPump.StartTemp,
-                        EndTemp = response.AirPump.EndTemp,
-                        DelayDuration = (int)TimeSpan.FromSeconds(response.AirPump.DelayMinuteDuration.Seconds).TotalMinutes
-                    };
-
-                    foreach (var item in response.PatternDetail)
-                    {
-                        result.PatternItems.Add(new PatternItem()
+                        TempTime = item.TempTime.ToDateTime().ToLocalTime(),
+                        TempValue = new Temp()
                         {
-                            Step = item.Step,
-                            Temp = item.Temp,
-                            StepDuration = (int)TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes
-                        });
-                    }
-                    return result;
+                            TempOven = item.TempValue.TempOven,
+                            TempAFB = item.TempValue.TempAFB
+                        }
+                    });
                 }
             }
-            catch (RpcException ex)
-            {
-                Console.WriteLine($"Connection Error : {ex.StatusCode}");
-            }
 
-            return result;
+            return response;
         }
+
+        public async Task<ProtoOperationLogInfo> GetOperationLogWithFilter(int year, int month)
+        {
+            ProtoOperationLogInfo response = new ProtoOperationLogInfo();
+
+            await Task.Run(async () =>
+            {
+                response = await OperationProto.GetOperationLogWithFilterAsync(new OperationLogWithFilter() { YearSelect = year, MonthSelect = month });
+                return Task.CompletedTask;
+            });
+
+            return response;
+        }
+
+        public async Task<BoolValue> StartOpration(ProtoPattern pattern) => await OperationProto.StartOperationAsync(pattern);
+
+        public async Task<BoolValue> StopOpration() => await OperationProto.StopOperationAsync(new Empty());
+
+        public async Task<ProtoPattern> CurrentPattern() => await OperationProto.CurrentPatternAsync(new Empty());
+
     }
 }

@@ -1,86 +1,161 @@
+@using Models
 @inherits PatternDetailComponent
 
-<div class="row" style="margin-bottom: 10px">
-    <div class="col-md-12">
-        <RadzenTextBox Placeholder="Program Name" style="width: 100%" Name="txtProgramName" @bind-Value="@PatternData.PatternName">
-        </RadzenTextBox>
-    </div>
-</div>
-<div style="margin-bottom: 5px; margin-top: 5px" class="row">
-    <div class="col-md-12">
-        <RadzenCard>
-            <ChildContent>
-                <div class="row">
-                    <div class="col-md-12">
-                        <RadzenHeading Size="H3" Text="Air Flow Setting">
-                        </RadzenHeading>
-                    </div>
+<div class="col" style="margin-top:-1.25rem; margin-bottom:-1.25rem;">
+    <RadzenTemplateForm class="w-100" TItem="PatternModel" Data=@_patternModel Submit=@OnSubmit>
+        <RadzenFieldset style="border: none;  margin-Right:-1.25rem; margin-Left:-1.25rem;">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pattern Name" />
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <RadzenLabel Text="On when tempurature reach">
-                        </RadzenLabel>
-                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false" @bind-Value="@PatternData.Airpump.StartTemp">
-                        </RadzenNumeric>
-                        <RadzenLabel Text="°C">
-                        </RadzenLabel>
-                    </div>
+                <div class="col">
+                    <RadzenTextBox style="display: block" Change="(args => TextBoxChanged())"
+                        Name="Name" @bind-Value=@_patternModel!.PatternName Class="w-100" />
+                    <RadzenRequiredValidator Component="Name" Text="Pattern name is required"
+                        Style="position: absolute" />
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <RadzenLabel Text="Off when tempurature reach">
-                        </RadzenLabel>
-                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false" @bind-Value="@PatternData.Airpump.EndTemp">
-                        </RadzenNumeric>
-                        <RadzenLabel Text="°C">
-                        </RadzenLabel>
-                    </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <RadzenCard class="mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row ">
+                                    <div class="col-md-12 justify-content-between d-flex">
+                                        <h5 class="h5">Use AFB</h5>
+                                        <RadzenSwitch style="display: inline-flex" @bind-Value="@_patternModel.UseAfb" />
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-12 justify-content-between d-flex">
+                                        <h5 class="h5">Air Pump</h5>
+                                        <RadzenSwitch style="display: inline-flex" @bind-Value="@_patternModel.AirPump.UseAirpump" />
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <RadzenLabel Text="StartTemp" />
+                                        <small style="display: block">(30° - 900)</small>
+                                    </div>
+                                    <div class="col">
+                                        <RadzenNumeric style="display: block" Name="StartTemp"
+                                            @bind-Value=@_patternModel.AirPump.StartTemp Class="w-100"
+                                            ShowUpDown="false" />
+                                        <RadzenNumericRangeValidator Component="StartTemp" Min="30" Max="900"
+                                            Text="30° - 900°" Style="position: absolute" />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <RadzenLabel Text="EndTemp" />
+                                        <small style="display: block">(30° - 900)</small>
+                                    </div>
+                                    <div class="col">
+                                        <RadzenNumeric style="display: block" Name="EndTemp"
+                                            @bind-Value=@_patternModel.AirPump.EndTemp Class="w-100"
+                                            ShowUpDown="false" />
+                                        <RadzenNumericRangeValidator Component="EndTemp" Min="30" Max="900"
+                                            Text="30° - 900°" Style="position: absolute" />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col">
+
+                                        <RadzenLabel Text="Duration" />
+                                        <small style="display: block">(mins)</small>
+
+                                    </div>
+                                    <div class="col">
+                                        <RadzenNumeric style="display: block" Name="Duration"
+                                            @bind-Value=@_patternModel.AirPump.DelayMinuteDuration Class="w-100"
+                                            ShowUpDown="false" />
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </RadzenCard>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <RadzenLabel Text="Turn off delay">
-                        </RadzenLabel>
-                        <RadzenNumeric style="margin-left: 5px; margin-right: 5px; width: 50px" ShowUpDown="false" @bind-Value="@PatternData.Airpump.DelayDuration">
-                        </RadzenNumeric>
-                        <RadzenLabel Text="min">
-                        </RadzenLabel>
-                    </div>
+                <div class="col-12">
+                    <RadzenCard>
+                        <h5 class="h5">Steps</h5>
+                        <div class="row" style="min-height: 250px;">                           
+                            <RadzenDataGrid @ref="patternGrid" EditMode="DataGridEditMode.Single" Data="@_patternModel.PatternDetail" TItem="PatternDetailModel"
+                                RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" LoadData="@LoadData">
+                                <Columns>                                   
+                                    <RadzenDataGridColumn TItem="PatternDetailModel" Context="pattern" Property="Step" Title="No.">
+                                        <EditTemplate Context="pattern">
+                                            <RadzenNumeric ShowUpDown="false" @bind-Value=@pattern.Step TValue="int" Max="16" />
+                                        </EditTemplate>
+                                    </RadzenDataGridColumn>
+
+                                     <RadzenDataGridColumn  TItem="PatternDetailModel" Context="pattern" Property="Temp" Title="Temp">
+                                        <EditTemplate Context="pattern">
+                                            <RadzenNumeric ShowUpDown="false" @bind-Value=@pattern.Temp TValue="int" Min="30" Max="900"/>
+                                        </EditTemplate>
+                                    </RadzenDataGridColumn>
+
+                                    <RadzenDataGridColumn TItem="PatternDetailModel" Context="pattern" Property="StepDuration" Title="Duration">
+                                        <EditTemplate Context="pattern">
+                                            <RadzenNumeric ShowUpDown="false" @bind-Value=@pattern.StepDuration TValue="double" Min="10"/>
+                                        </EditTemplate>
+                                    </RadzenDataGridColumn>
+                                   
+                                    <RadzenDataGridColumn TItem="PatternDetailModel" Context="patternDetail" TextAlign="TextAlign.Center" Width="110px">
+                                        <Template Context="patternDetail">
+                                            <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Class="m-1"
+                                                Click="@(args => EditRow(patternDetail))" @onclick:stopPropagation="true">
+                                            </RadzenButton>
+                                        </Template>
+                                        <EditTemplate Context="patternDetail">
+                                            <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1"
+                                                Click="@((args) => SaveRow(patternDetail))">
+                                            </RadzenButton>
+                                            <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Class="m-1"
+                                                Click="@((args) => CancelEdit(patternDetail))">
+                                            </RadzenButton>
+                                        </EditTemplate>
+                                    </RadzenDataGridColumn>
+                                    <RadzenDataGridColumn TItem="PatternDetailModel" Context="order" Filterable="false"
+                                        Sortable="false" TextAlign="TextAlign.Center" Width="60px">
+                                        <Template Context="order">
+                                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete"
+                                                Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(order))"
+                                                @onclick:stopPropagation="true">
+                                            </RadzenButton>
+                                        </Template>
+                                        <EditTemplate Context="order">
+                                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete"
+                                                Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(order))">
+                                            </RadzenButton>
+                                        </EditTemplate>
+                                    </RadzenDataGridColumn>
+                                </Columns>
+                            </RadzenDataGrid>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col" style="text-align: center">
+                                <RadzenButton Icon="add_circle_outline" ButtonType="ButtonType.Button"
+                                    ButtonStyle="ButtonStyle.Light" Click="@InsertRow" Disabled=@(orderToInsert != null) />
+                            </div>
+                        </div>
+                    </RadzenCard>
                 </div>
-            </ChildContent>
-        </RadzenCard>
-    </div>
-</div>
-<div class="row" style="margin-bottom: 10px">
-    <div class="col-md-12">
-        <RadzenDataGrid @ref="OvenStepGrid" AllowFiltering="false" AllowPaging="false" AllowSorting="false" Data="PatternData.PatternItems" TItem="PatternItem" LoadData="LoadDataGrid">
-            <Columns>
-                <RadzenDataGridColumn TItem="PatternItem" Property="Step" Title="Step No">
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="PatternItem" Property="Temp" Title="Temp">
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="PatternItem" Property="StepDuration" Title="Duration">
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="PatternItem" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
-                    <Template Context="OvenStep">
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, OvenStep))" @onclick:stopPropagation="true">
-                        </RadzenButton>
-                    </Template>
-                </RadzenDataGridColumn>
-            </Columns>
-        </RadzenDataGrid>
-    </div>
-</div>
-<div class="row" style="margin-bottom: 10px">
-    <div class="col-md-12" style="text-align: center">
-        <RadzenButton Icon="add_circle_outline" Click="@AddNewRow">
-        </RadzenButton>
-    </div>
-</div>
-<div class="row" style="margin-bottom: 10px">
-    <div class="col-md-12" style="text-align: center">
-        <RadzenButton style="background-color: #6d787d; margin-left: 5px; margin-right: 5px" Text="Save" Click="@((args) => Save(args))">
-        </RadzenButton>
-        <RadzenButton style="background-color: #e6c54f; margin-left: 5px; margin-right: 5px" Text="Next" Click="@((args) => Next(args))">
-        </RadzenButton>
-    </div>
+                
+            </div>
+            <div class="row mt-4" style="text-align: center;">
+                <div class="col">
+                    <RadzenButton Icon="save" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Secondary"
+                        style="margin-left: 5px; margin-right: 5px" Text="Save" />
+
+                    <RadzenButton Icon="done" ButtonType="ButtonType.Button" Disabled="btnDisable"
+                        ButtonStyle="ButtonStyle.Success" Click="@(args => Next(args))"
+                        style="margin-left: 5px; margin-right: 5px" Text="Next" />
+                </div>
+            </div>
+        </RadzenFieldset>
+    </RadzenTemplateForm>
 </div>

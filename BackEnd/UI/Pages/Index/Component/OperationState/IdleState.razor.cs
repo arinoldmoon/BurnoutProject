@@ -13,41 +13,31 @@ namespace UI.Pages.Index.Component.OperationState
         public int PatternID { get; set; } = 0;
 
         [Inject]
-        protected DialogService DialogService { get; set; }
+        protected DialogService? _dialogService { get; set; }
 
         [Inject]
-        protected GlobalService Globals { get; set; }
+        protected GlobalService? _globals { get; set; }
 
-        public bool IsDisable { get; set; } = false;
+        protected bool IsDisable { get; set; } = false;
 
-        public void Reload()
-        {
-            InvokeAsync(StateHasChanged);
-        }
-
-        public void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             if (args.Name == "GlobalPattern")
             {
-                IsDisable = Globals.GlobalPattern.PatternNumber == 0 ? false : true;
-            }
-
-            Reload();
+                PatternID = _globals!.GlobalPattern.PatternId;
+                IsDisable = (PatternID == 0) ? false : true;
+                
+                InvokeAsync(StateHasChanged);
+            }           
         }
 
         protected override void OnInitialized()
         {
-            Globals.PropertyChanged += OnPropertyChanged;
+            _globals!.PropertyChanged += OnPropertyChanged;
         }
 
-        protected async Task NewProgramClick(MouseEventArgs args)
-        {
-            await DialogService.OpenAsync<PatternDetail>("New Program", null);
-        }
-
-        protected async Task LoadProgram(MouseEventArgs args)
-        {
-            await DialogService.OpenAsync<PatternList>("Load Program", null);
-        }
+        protected async Task NewProgramClick(MouseEventArgs args) => await _dialogService!.OpenAsync<PatternDetail>("New Program", null);
+        protected async Task LoadProgram(MouseEventArgs args) => await _dialogService!.OpenAsync<PatternList>("Load Program", null);
+        
     }
 }

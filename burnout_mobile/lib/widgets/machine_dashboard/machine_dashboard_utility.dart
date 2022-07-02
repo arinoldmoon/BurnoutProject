@@ -11,7 +11,7 @@ class MachineDashboardUtility extends StatelessWidget {
   const MachineDashboardUtility({Key? key, required this.machineStatus})
       : super(key: key);
 
-  final MachineStatus machineStatus;
+  final MachineStatusRun machineStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MachineDashboardUtility extends StatelessWidget {
 
   Widget _buildTabController(BuildContext context) {
     switch (machineStatus) {
-      case MachineStatus.IDLE:
+      case MachineStatusRun.IDLE:
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(
@@ -47,7 +47,7 @@ class MachineDashboardUtility extends StatelessWidget {
             ],
           ),
         );
-      case MachineStatus.ONPROGRAM:
+      case MachineStatusRun.ONPROGRAM:
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(
@@ -69,7 +69,7 @@ class MachineDashboardUtility extends StatelessWidget {
             ],
           ),
         );
-      case MachineStatus.WAITING:
+      case MachineStatusRun.WAITING:
         return Container(
           padding:
               MachineDashboardSizes.machineDashboardUtilityContianerPadding,

@@ -111,13 +111,13 @@ class _MachineDashboardStatusState extends State<MachineDashboardStatus> {
     );
   }
 
-  Widget _buildMachineStatus(MachineStatus machineStatus) {
+  Widget _buildMachineStatus(MachineStatusRun machineStatus) {
     switch (machineStatus) {
-      case MachineStatus.IDLE:
+      case MachineStatusRun.IDLE:
         return _buildMachineStatusIdle();
-      case MachineStatus.WAITING:
+      case MachineStatusRun.WAITING:
         return _buildMachineStatusWaiting();
-      case MachineStatus.ONPROGRAM:
+      case MachineStatusRun.ONPROGRAM:
         return _buildMachineStatusOnProgram();
     }
   }

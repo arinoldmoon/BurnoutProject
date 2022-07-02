@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"assets/images/machine-removebg-preview-2.png":["assets/images/machine-removebg-preview-2.png"],"packages/cupertino_icons/assets/CupertinoIcons.ttf":["packages/cupertino_icons/assets/CupertinoIcons.ttf"],"packages/golden_toolkit/fonts/Roboto-Regular.ttf":["packages/golden_toolkit/fonts/Roboto-Regular.ttf"]}
+=======
+{"assets/images/machine-removebg-preview-2.png":["assets/images/machine-removebg-preview-2.png"],"packages/cupertino_icons/assets/CupertinoIcons.ttf":["packages/cupertino_icons/assets/CupertinoIcons.ttf"],"packages/flutter_phosphor_icons/fonts/Phosphor.ttf":["packages/flutter_phosphor_icons/fonts/Phosphor.ttf"],"packages/golden_toolkit/fonts/Roboto-Regular.ttf":["packages/golden_toolkit/fonts/Roboto-Regular.ttf"],"packages/phosphor_flutter/lib/fonts/phosphor.ttf":["packages/phosphor_flutter/lib/fonts/phosphor.ttf"]}
+>>>>>>> a1e6298ce1e77ddb27a09daf75fdbd0e997296a7

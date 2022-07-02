@@ -36,7 +36,7 @@ class MachineDashboardPageWaiting extends StatelessWidget {
             height: MachineDashboardSizes.machineDashboardWidgetSpacing,
           ),
           const MachineDashboardUtility(
-            machineStatus: MachineStatus.WAITING,
+            machineStatus: MachineStatusRun.WAITING,
           ),
         ],
       ),

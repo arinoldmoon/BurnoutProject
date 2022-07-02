@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class MockMachinePayload {
   final String machineName;
-  final MachineStatus machineStatus;
+  final MachineStatusRun machineStatus;
   final String? machineProgram;
   final int? machineProgramSteps;
   final int? machineTimeRemaing;
@@ -27,14 +27,14 @@ class MockMachinePayload {
   static MockMachinePayload mockMachinePayloadIdle = const MockMachinePayload(
     machineName: 'machine1',
     machineModel: 'S6 Eco',
-    machineStatus: MachineStatus.IDLE,
+    machineStatus: MachineStatusRun.IDLE,
   );
 
   static MockMachinePayload mockMachinePayloadWaiting =
       const MockMachinePayload(
     machineName: 'machine2',
     machineModel: 'S6 Eco',
-    machineStatus: MachineStatus.WAITING,
+    machineStatus: MachineStatusRun.WAITING,
     machineProgram: 'Program1',
     machineProgramSteps: 8,
   );
@@ -42,7 +42,7 @@ class MockMachinePayload {
   static MockMachinePayload mockMachinePayloadOnProgram = MockMachinePayload(
     machineName: 'machine3',
     machineModel: 'S6 Eco',
-    machineStatus: MachineStatus.ONPROGRAM,
+    machineStatus: MachineStatusRun.ONPROGRAM,
     machineProgram: 'Operating Program1',
     machineOnProgramPercent: 0.65,
     machineTimeRemaing: 225,

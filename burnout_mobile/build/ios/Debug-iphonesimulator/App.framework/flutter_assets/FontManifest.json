@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 [{"family":"MaterialIcons","fonts":[{"asset":"fonts/MaterialIcons-Regular.otf"}]},{"family":"packages/cupertino_icons/CupertinoIcons","fonts":[{"asset":"packages/cupertino_icons/assets/CupertinoIcons.ttf"}]},{"family":"packages/golden_toolkit/Roboto","fonts":[{"asset":"packages/golden_toolkit/fonts/Roboto-Regular.ttf"}]}]
+=======
+[{"family":"MaterialIcons","fonts":[{"asset":"fonts/MaterialIcons-Regular.otf"}]},{"family":"packages/cupertino_icons/CupertinoIcons","fonts":[{"asset":"packages/cupertino_icons/assets/CupertinoIcons.ttf"}]},{"family":"packages/flutter_phosphor_icons/Phosphor","fonts":[{"asset":"packages/flutter_phosphor_icons/fonts/Phosphor.ttf"}]},{"family":"packages/golden_toolkit/Roboto","fonts":[{"asset":"packages/golden_toolkit/fonts/Roboto-Regular.ttf"}]},{"family":"packages/phosphor_flutter/Phosphor","fonts":[{"weight":400,"asset":"packages/phosphor_flutter/lib/fonts/phosphor.ttf"}]}]
+>>>>>>> a1e6298ce1e77ddb27a09daf75fdbd0e997296a7
