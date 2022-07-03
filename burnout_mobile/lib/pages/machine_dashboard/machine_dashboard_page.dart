@@ -242,7 +242,7 @@ class _MachineDashboardPageState extends State<MachineDashboardPage> {
         return SizedBox(
           height: MachineDashboardSizes.machineDashboardPageCancelButtonHeight,
           width: double.infinity,
-          child: CommonCancelButton(
+          child: CommonButton(
             buttonTitle: UiStrings.common_cancel,
             fontSize: Theme.of(context).textTheme.headline6,
             onPress: () {},

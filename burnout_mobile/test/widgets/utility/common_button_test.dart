@@ -9,8 +9,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
-  testWidgets('Checkbox should work correctly test onpress', (tester) async {
-    final Completer _completer = new Completer();
+  testWidgets('Common Button should work correctly test onpress',
+      (tester) async {
+    final Completer _completer = Completer();
     const buttonTitle = "";
 
     await tester.pumpWidget(
@@ -18,7 +19,7 @@ void main() {
         home: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Scaffold(
-              body: CommonCancelButton(
+              body: CommonButton(
                 buttonTitle: buttonTitle,
                 fontSize: Theme.of(context).textTheme.headline6,
                 onPress: _completer.complete,
@@ -30,10 +31,11 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byType(CommonCancelButton));
+    await tester.tap(find.byType(CommonButton));
+    expect(_completer.isCompleted, isTrue);
   });
 
-  testGoldens('Common cancel should render correctly', (tester) async {
+  testGoldens('Common button should render correctly', (tester) async {
     await loadAppFonts();
     const buttonTitle = UiStrings.common_cancel;
     await tester.pumpWidget(
@@ -46,7 +48,7 @@ void main() {
                   height: MachineDashboardSizes
                       .machineDashboardPageCancelButtonHeight,
                   width: double.infinity,
-                  child: CommonCancelButton(
+                  child: CommonButton(
                     buttonTitle: buttonTitle,
                     fontSize: Theme.of(context).textTheme.headline6,
                     onPress: () {},

@@ -7,16 +7,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
-  testWidgets('Checkbox should work correctly test onpress', (tester) async {
-    final Completer _completer = new Completer();
+  testWidgets('Common Close should work correctly test onpress',
+      (tester) async {
+    final Completer _completer = Completer();
 
     await tester.pumpWidget(
       MaterialApp(
         home: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Scaffold(
-              body: CommonCloseButton(
-                onPress: _completer.complete,
+              body: Center(
+                child: SizedBox(
+                  height: MachineDashboardSizes
+                      .machineDashboardPageCancelButtonHeight,
+                  width: double.infinity,
+                  child: CommonCloseButton(
+                    onPress: _completer.complete,
+                  ),
+                ),
               ),
             );
           },
@@ -24,7 +32,10 @@ void main() {
       ),
     );
 
+    expect(find.byType(CommonCloseButton), findsOneWidget);
+
     await tester.tap(find.byType(CommonCloseButton));
+    expect(_completer.isCompleted, isTrue);
   });
 
   testGoldens('Common close button should render correctly', (tester) async {

@@ -3,8 +3,8 @@ import 'package:burnout_mobile/constants/ui_strings.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class CommonCancelButton extends StatefulWidget {
-  const CommonCancelButton({
+class CommonButton extends StatefulWidget {
+  const CommonButton({
     Key? key,
     required this.buttonTitle,
     required this.onPress,
@@ -18,10 +18,10 @@ class CommonCancelButton extends StatefulWidget {
   final Color buttonColor;
 
   @override
-  State<CommonCancelButton> createState() => _CommonCancelButtonState();
+  State<CommonButton> createState() => _CommonButtonState();
 }
 
-class _CommonCancelButtonState extends State<CommonCancelButton> {
+class _CommonButtonState extends State<CommonButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(

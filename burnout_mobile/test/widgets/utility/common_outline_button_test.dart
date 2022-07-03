@@ -35,6 +35,7 @@ void main() {
     );
 
     await tester.tap(find.byType(CommonOutlineButton));
+    expect(_completer.isCompleted, isTrue);
   });
 
   testGoldens('Common outline button should render correctly', (tester) async {

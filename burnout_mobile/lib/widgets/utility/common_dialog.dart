@@ -51,7 +51,7 @@ class CommonDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CommonCancelButton(
+            CommonButton(
               key: const Key('cancelButtonDialog'),
               buttonTitle: cancelButtonTile,
               onPress: cancelButtonCallBack,
@@ -61,7 +61,7 @@ class CommonDialog extends StatelessWidget {
             const SizedBox(
               width: Sizes.commonDialogButtonPadding,
             ),
-            CommonCancelButton(
+            CommonButton(
               key: const Key('submitButtonDialog'),
               buttonTitle: submitButtonTile,
               onPress: submitButtonCallBack,

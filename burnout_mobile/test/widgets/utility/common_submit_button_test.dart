@@ -27,6 +27,7 @@ void main() {
     );
 
     await tester.tap(find.byType(CommonSubmitButton));
+      expect(_completer.isCompleted, isTrue);
   });
 
   testGoldens('Common submit button should render correctly', (tester) async {

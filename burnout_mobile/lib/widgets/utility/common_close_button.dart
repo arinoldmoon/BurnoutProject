@@ -15,7 +15,7 @@ class _CommonCloseButtonState extends State<CommonCloseButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: widget.onPress,
       style: ElevatedButton.styleFrom(
         primary: AppTheme.redPrimary100,
         shape: RoundedRectangleBorder(
