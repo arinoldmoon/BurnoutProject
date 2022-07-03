@@ -50,7 +50,7 @@ class _MachineDashboardEditProgramStepState
                   padding: EdgeInsets.zero,
                   scrollDirection: Axis.vertical,
                   onReorder: (int oldIndex, int newIndex) {
-                    print('old = $oldIndex , new = $newIndex');
+                    value.reOrder(oldIndex, newIndex);
                   },
                   itemBuilder: (_, index) {
                     _tempTextController.add(TextEditingController());
