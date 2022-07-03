@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
 import 'package:burnout_mobile/utility/form_key.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_edit_program_step.dart';
@@ -44,7 +42,7 @@ void main() {
           ),
           findsOneWidget);
     }
-    expect(find.byKey(const Key('dividerListTile')), findsNWidgets(5));
+    expect(find.byKey(const Key('dividerListTile')), findsNWidgets(6));
     expect(
         find.byKey(
           const Key('coolingStepIcon'),
@@ -78,36 +76,6 @@ void main() {
       ),
     );
     findCommon();
-  });
-
-  testWidgets('Edit Step button should be able to callback', (tester) async {
-    final Completer _completer = Completer();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: Scaffold(
-            body: Center(
-              child: MachineDashboardEditProgramStep(
-                leadingCallback: _completer.complete,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    await tester.tap(find.byKey(
-      Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[0].machineUtilityStepTitle}leading'),
-    ));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(
-      Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[0].machineUtilityStepTitle}trailing'),
-    ));
-    await tester.pumpAndSettle();
   });
 
   testWidgets('Edit Step Textfiled should be able to input text',

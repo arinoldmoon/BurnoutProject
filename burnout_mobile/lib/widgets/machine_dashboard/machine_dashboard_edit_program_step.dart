@@ -15,11 +15,9 @@ import 'package:provider/provider.dart';
 class MachineDashboardEditProgramStep extends StatefulWidget {
   const MachineDashboardEditProgramStep({
     Key? key,
-    this.leadingCallback,
     this.trailingCallback,
   }) : super(key: key);
 
-  final VoidCallback? leadingCallback;
   final VoidCallback? trailingCallback;
 
   @override
@@ -45,31 +43,41 @@ class _MachineDashboardEditProgramStepState
             Flexible(
               child: Form(
                 key: FormKey.formStepTempAndDurEditStep,
-                child: ListView.separated(
-                    key: const Key('editStepListView'),
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (_, index) {
-                      _tempTextController.add(TextEditingController());
-                      _durationTextController.add(TextEditingController());
-                      return _buildListTileEditStep(
-                        context,
-                        value.machineDashboardUtilityStepList[index],
-                        _tempTextController[index],
-                        _durationTextController[index],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const Divider(
-                        key: Key('dividerListTile'),
-                        indent: MachineDashboardSizes
-                            .machineDashboardPeripheralItemSpacing,
-                        color: AppTheme.greyPrimary100,
-                      );
-                    },
-                    itemCount: context
-                        .watch<MachineDashboardUtilityStepProvider>()
-                        .count),
+                child: ReorderableListView.builder(
+                  key: const Key('editStepListView'),
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  onReorder: (int oldIndex, int newIndex) {
+                    print('old = $oldIndex , new = $newIndex');
+                  },
+                  itemBuilder: (_, index) {
+                    _tempTextController.add(TextEditingController());
+                    _durationTextController.add(TextEditingController());
+                    return Column(
+                      key: Key('tile$index'),
+                      children: [
+                        _buildListTileEditStep(
+                          context,
+                          value.machineDashboardUtilityStepList[index],
+                          _tempTextController[index],
+                          _durationTextController[index],
+                          index,
+                        ),
+                        const Divider(
+                          key: Key('dividerListTile'),
+                          indent: MachineDashboardSizes
+                              .machineDashboardPeripheralItemSpacing,
+                          color: AppTheme.greyPrimary100,
+                        )
+                      ],
+                    );
+                  },
+                  itemCount: context
+                      .watch<MachineDashboardUtilityStepProvider>()
+                      .count,
+                ),
               ),
             ),
             const SizedBox(
@@ -104,11 +112,14 @@ class _MachineDashboardEditProgramStepState
   }
 
   Widget _buildListTileEditStep(
-      BuildContext context,
-      MachineUtilityStep machineUtilityStep,
-      TextEditingController tempTextFieldController,
-      TextEditingController durationTextFieldController) {
+    BuildContext context,
+    MachineUtilityStep machineUtilityStep,
+    TextEditingController tempTextFieldController,
+    TextEditingController durationTextFieldController,
+    int index,
+  ) {
     return Container(
+      key: Key('$index'),
       alignment: Alignment.center,
       height: MachineDashboardSizes.machineDashboardEditStepTileHeight,
       child: ListTile(
@@ -119,15 +130,18 @@ class _MachineDashboardEditProgramStepState
         minLeadingWidth:
             MachineDashboardSizes.machineDashboardEditStepMinWidthLeading,
         onLongPress: callSkipDialog,
-        leading: IconButton(
-          key: Key('${machineUtilityStep.machineUtilityStepTitle}leading'),
-          padding: EdgeInsets.zero,
-          icon: const Icon(
-            Icons.more_vert,
-            size:
-                MachineDashboardSizes.machineDashboardEditStepTrailingIconSize,
+        leading: ReorderableDragStartListener(
+          index: index,
+          child: IconButton(
+            key: Key('${machineUtilityStep.machineUtilityStepTitle}leading'),
+            padding: EdgeInsets.zero,
+            icon: const Icon(
+              Icons.more_vert,
+              size: MachineDashboardSizes
+                  .machineDashboardEditStepTrailingIconSize,
+            ),
+            onPressed: () {},
           ),
-          onPressed: widget.leadingCallback,
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
