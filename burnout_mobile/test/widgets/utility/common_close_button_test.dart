@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
-import 'package:burnout_mobile/constants/ui_strings.dart';
-import 'package:burnout_mobile/widgets/utility/common_cancel_button.dart';
 import 'package:burnout_mobile/widgets/utility/common_close_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

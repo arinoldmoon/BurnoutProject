@@ -4,12 +4,18 @@ import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CommonCancelButton extends StatefulWidget {
-  const CommonCancelButton(
-      {Key? key, required this.buttonTitle, required this.onPress})
-      : super(key: key);
+  const CommonCancelButton({
+    Key? key,
+    required this.buttonTitle,
+    required this.onPress,
+    required this.fontSize,
+    required this.buttonColor,
+  }) : super(key: key);
 
   final String buttonTitle;
   final VoidCallback onPress;
+  final TextStyle? fontSize;
+  final Color buttonColor;
 
   @override
   State<CommonCancelButton> createState() => _CommonCancelButtonState();
@@ -21,13 +27,13 @@ class _CommonCancelButtonState extends State<CommonCancelButton> {
     return ElevatedButton(
       child: Text(
         widget.buttonTitle,
-        style: Theme.of(context).textTheme.headline6!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+        style: widget.fontSize!.copyWith(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
       style: ElevatedButton.styleFrom(
-        primary: AppTheme.redPrimary100,
+        primary: widget.buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             MachineDashboardSizes.machineDashboardPageCancelButtonRadius,

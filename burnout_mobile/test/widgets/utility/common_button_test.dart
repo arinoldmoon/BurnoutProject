@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
 import 'package:burnout_mobile/constants/ui_strings.dart';
-import 'package:burnout_mobile/widgets/utility/common_cancel_button.dart';
+import 'package:burnout_mobile/styles/app_theme.dart';
+import 'package:burnout_mobile/widgets/utility/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -19,7 +20,9 @@ void main() {
             return Scaffold(
               body: CommonCancelButton(
                 buttonTitle: buttonTitle,
+                fontSize: Theme.of(context).textTheme.headline6,
                 onPress: _completer.complete,
+                buttonColor: AppTheme.redPrimary100,
               ),
             );
           },
@@ -45,7 +48,9 @@ void main() {
                   width: double.infinity,
                   child: CommonCancelButton(
                     buttonTitle: buttonTitle,
+                    fontSize: Theme.of(context).textTheme.headline6,
                     onPress: () {},
+                    buttonColor: AppTheme.redPrimary100,
                   ),
                 ),
               ),
@@ -55,7 +60,7 @@ void main() {
       ),
     );
 
-    await multiScreenGolden(tester, 'common_cancel_button', devices: [
+    await multiScreenGolden(tester, 'common_button', devices: [
       const Device(
         name: 'Phone',
         size: Size(120, 60),

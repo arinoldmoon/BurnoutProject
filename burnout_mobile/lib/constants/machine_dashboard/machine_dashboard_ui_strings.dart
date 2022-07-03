@@ -70,4 +70,18 @@ class MachineDashboardUiStrings {
   static const machineDashboardEditProgramDialogHr = 'hr';
   static const machineDashboardEditProgramDialogSaveTitle = 'Save';
   static const machineDashboardEditProgramDialogNextTitle = 'Next';
+  static String startAtTitle(int step) {
+    step = step + 1;
+    return 'Start operation at step ${step.toString()}';
+  }
+
+  static String contentDialog(int step) {
+    step = step + 1;
+    return 'Are you sure you want to start at step ${step.toString()}?';
+  }
+
+  static const machineDashboardEditProgramDialogSubmitStartAtStep =
+      "Yes, I'm sure";
+
+  static const machineDashboardEditProgramDialogNo = 'No';
 }

@@ -7,6 +7,7 @@ import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_util
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/utility/form_key.dart';
 import 'package:burnout_mobile/utility/validator.dart';
+import 'package:burnout_mobile/widgets/utility/common_dialog.dart';
 import 'package:burnout_mobile/widgets/utility/common_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -36,78 +37,80 @@ class _MachineDashboardEditProgramStepState
     return ChangeNotifierProvider(
       create: (_) => MachineDashboardUtilityStepProvider(),
       child: Consumer<MachineDashboardUtilityStepProvider>(
-          builder: (context, value, child) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: Form(
-                key: FormKey.formStepTempAndDurEditStep,
-                child: ReorderableListView.builder(
-                  key: const Key('editStepListView'),
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.vertical,
-                  onReorder: (int oldIndex, int newIndex) {
-                    value.reOrder(oldIndex, newIndex);
-                  },
-                  itemBuilder: (_, index) {
-                    _tempTextController.add(TextEditingController());
-                    _durationTextController.add(TextEditingController());
-                    return Column(
-                      key: Key('tile$index'),
-                      children: [
-                        _buildListTileEditStep(
-                          context,
-                          value.machineDashboardUtilityStepList[index],
-                          _tempTextController[index],
-                          _durationTextController[index],
-                          index,
-                        ),
-                        const Divider(
-                          key: Key('dividerListTile'),
-                          indent: MachineDashboardSizes
-                              .machineDashboardPeripheralItemSpacing,
-                          color: AppTheme.greyPrimary100,
-                        )
-                      ],
-                    );
-                  },
-                  itemCount: context
-                      .watch<MachineDashboardUtilityStepProvider>()
-                      .count,
+        builder: (context, value, child) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Form(
+                  key: FormKey.formStepTempAndDurEditStep,
+                  child: ReorderableListView.builder(
+                    key: const Key('editStepListView'),
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    onReorder: (int oldIndex, int newIndex) {
+                      value.reOrder(oldIndex, newIndex);
+                    },
+                    itemBuilder: (_, index) {
+                      _tempTextController.add(TextEditingController());
+                      _durationTextController.add(TextEditingController());
+                      return Column(
+                        key: Key('tile$index'),
+                        children: [
+                          _buildListTileEditStep(
+                            context,
+                            value.machineDashboardUtilityStepList[index],
+                            _tempTextController[index],
+                            _durationTextController[index],
+                            index,
+                          ),
+                          const Divider(
+                            key: Key('dividerListTile'),
+                            indent: MachineDashboardSizes
+                                .machineDashboardPeripheralItemSpacing,
+                            color: AppTheme.greyPrimary100,
+                          )
+                        ],
+                      );
+                    },
+                    itemCount: context
+                        .watch<MachineDashboardUtilityStepProvider>()
+                        .count,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: MachineDashboardSizes
-                  .machineDashboardEditStepListViewButtonSpacing,
-            ),
-            IconButton(
-              key: const Key('addMoreStepButton'),
-              onPressed: () {
-                value.addMoreStep(
-                  MachineUtilityStep(
-                      machineUtilityStepTitle:
-                          'Step ${value.machineDashboardUtilityStepList.length + 1}',
-                      machineUtilityStepTemp: 80,
-                      machineUtilityStepTimeRemaining: 80,
-                      machineUtilityStepStatus:
-                          MachineUtilityStepStatus.UPCOMING,
-                      machineUtilityStepProcess:
-                          MachineUtilityStepProcess.HEATING),
-                );
-              },
-              icon: const Icon(
-                PhosphorIcons.plusCircle,
-                size: MachineDashboardSizes.machineDashboardEditStepButtonSize,
-                color: AppTheme.yellowPrimary,
+              const SizedBox(
+                height: MachineDashboardSizes
+                    .machineDashboardEditStepListViewButtonSpacing,
               ),
-            ),
-          ],
-        );
-      }),
+              IconButton(
+                key: const Key('addMoreStepButton'),
+                onPressed: () {
+                  value.addMoreStep(
+                    MachineUtilityStep(
+                        machineUtilityStepTitle:
+                            'Step ${value.machineDashboardUtilityStepList.length + 1}',
+                        machineUtilityStepTemp: 80,
+                        machineUtilityStepTimeRemaining: 80,
+                        machineUtilityStepStatus:
+                            MachineUtilityStepStatus.UPCOMING,
+                        machineUtilityStepProcess:
+                            MachineUtilityStepProcess.HEATING),
+                  );
+                },
+                icon: const Icon(
+                  PhosphorIcons.plusCircle,
+                  size:
+                      MachineDashboardSizes.machineDashboardEditStepButtonSize,
+                  color: AppTheme.yellowPrimary,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -243,7 +246,27 @@ class _MachineDashboardEditProgramStepState
         ),
         trailing: IconButton(
           key: Key('${machineUtilityStep.machineUtilityStepTitle}trailing'),
-          onPressed: widget.trailingCallback,
+          onPressed: () async {
+            await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CommonDialog(
+                key: const Key('startApStepDialog'),
+                cancelButtonTile: MachineDashboardUiStrings
+                    .machineDashboardEditProgramDialogNo,
+                contentText: MachineDashboardUiStrings.contentDialog(index),
+                submitButtonTile: MachineDashboardUiStrings
+                    .machineDashboardEditProgramDialogSubmitStartAtStep,
+                titleText: MachineDashboardUiStrings.startAtTitle(index),
+                cancelButtonColor: AppTheme.greyPrimary400,
+                submitButtonColor: AppTheme.redPrimary100,
+                cancelButtonCallBack: () {
+                  Navigator.pop(context);
+                },
+                submitButtonCallBack: () {},
+              ),
+            );
+          },
           icon: const Icon(
             PhosphorIcons.xCircle,
             color: AppTheme.redPrimary100,
