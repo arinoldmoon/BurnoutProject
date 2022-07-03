@@ -10,7 +10,27 @@ namespace GrpcService.Models
     {
         public string DATE_FORMAT_STRING { get { return "dd/MM/yyyy HH:mm"; } }
         public bool plcDeviceConnected { get; set; }
-        public int LastLogID { get; set; }        
+
+        private ProtoOvenInfo? _machineInfo;
+        public ProtoOvenInfo MachineInfo
+        {
+            get { return _machineInfo!; }
+            set { if (!object.Equals(_machineInfo, value)) { _machineInfo = value; } }
+        }
+        private ProtoOperationLogInfo? _OperationLogInfo;
+        public ProtoOperationLogInfo OperationLogInfo
+        {
+            get { return _OperationLogInfo!; }
+            set { if (!object.Equals(_OperationLogInfo, value)) { _OperationLogInfo = value; } }
+        }
+
+        private int _lastLogID;
+        public int LastLogID
+        {
+            get { return _lastLogID; }
+            set { if (!object.Equals(_lastLogID, value)) { _lastLogID = value; } }
+        }
+
 
         public void WriteLogFile(string logMessage)
         {

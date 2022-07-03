@@ -1,3 +1,6 @@
+using Google.Protobuf.WellKnownTypes;
+using GrpcService.Protos;
+
 namespace UI.Models
 {
     public class PatternModel
@@ -5,12 +8,13 @@ namespace UI.Models
         public int PatternId { get; set; }
         public string PatternName { get; set; } = string.Empty;
         public int StepCount { get; set; }
-        public int TotalTime { get; set; }
+        public double TotalTime { get; set; }
         public AirpumpModel AirPump { get; set; } = new AirpumpModel();
+        public bool UseAfb { get; set; }
+        public int AirpumpId { get; set; }
         public List<PatternDetailModel> PatternDetail { get; set; } = new List<PatternDetailModel>();
         public DateTime CreateDate { get; set; }
         public DateTime ModifyDate { get; set; }
-
     }
 
     public class AirpumpModel
@@ -19,7 +23,7 @@ namespace UI.Models
         public int StartTemp { get; set; }
         public int EndTemp { get; set; }
         public double DelayMinuteDuration { get; set; }
-        public bool UseAirpump { get; set; } 
+        public bool UseAirpump { get; set; }
     }
 
     public class PatternDetailModel

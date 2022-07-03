@@ -1,9 +1,10 @@
-using GrpcService.Protos;
-using Iot.Device.CpuTemperature;
 using Microsoft.AspNetCore.Components;
-using UI.Models;
 using UI.Services;
-
+using GrpcService.Protos;
+using Grpc.Core;
+using Google.Protobuf.WellKnownTypes;
+using System.ComponentModel;
+using UI.Models;
 
 namespace UI.Pages.Index
 {
@@ -13,143 +14,216 @@ namespace UI.Pages.Index
         protected OvenService? _ovenService { get; set; }
 
         [Inject]
+        protected PatternService? _patternService { get; set; }
+
+        [Inject]
         protected GlobalService? _globals { get; set; }
 
-        private ProtoOvenResponse Monitor = new ProtoOvenResponse();
-        private List<OperationLog> ActualPoint { get; set; } = new List<OperationLog>();
-
-        public int PercenValue
-        {
-            get
-            {
-                return (Monitor.Status.CurrentStep / Monitor.Status.TotalStep) * 100;
-            }
-        }
-
-        public void Dispose()
-        {
-            _globals!.PropertyChanged -= OnPropertyChanged;
-        }
+        private BackgroundWorker WorkerMonitor = new BackgroundWorker();
+        private CancellationToken cancellationToken = new CancellationToken();
+        public int PercenValue;
 
         private void Reload()
         {
             InvokeAsync(StateHasChanged);
         }
 
-        protected void OnPropertyChanged(PropertyChangedEventArgs args)
+        public void Dispose()
         {
-            if (args.Name == "GlobalMachineInfo")
-            {
-                if (_globals!.ServiceConnected)
-                {
-                    Task.Run(() => MonitorDevice());
-                }
-            }
-
-            if (args.Name == "GlobalPattern")
-            {
-                Reload();
-            }
+            WorkerMonitor.CancelAsync();
         }
+
+        // protected void OnPropertyChanged(PropertyChangedEventArgs args)
+        // {
+        //     if (args.Name == "GlobalMonitor")
+        //     {
+        //         Reload();
+        //         Console.WriteLine($"GlobalMonitor Update : {DateTime.UtcNow}");
+        //     }
+        // }
 
         protected override void OnInitialized()
         {
-            _globals!.PropertyChanged += OnPropertyChanged;
+            // _globals!.PropertyChanged += OnPropertyChanged;
+            WorkerMonitor.DoWork += WorkerMonitor_DoWork!;
+            WorkerMonitor.WorkerSupportsCancellation = true;
 
-            if (_globals.GlobalMonitor == null)
+            _globals!.GlobalMonitor = new ProtoOvenResponse()
             {
-                _globals.GlobalMonitor = new ProtoOvenResponse()
-                {
-                    Temp = new Temp(),
-                    Coil = new Coil(),
-                    Status = new MachineStatus()
-                };
-            }
+                Temp = new Temp(),
+                Coil = new Coil(),
+                Status = new MachineStatus()
+            };
+            _globals.GlobalPattern = new ProtoPattern();
+            _globals.ActualPoint = new List<OperationLog>();
+            _globals.SetPoint = new List<ProtoPatternDetail>();
 
-            if (_globals.GlobalPattern == null)
-            {
-                _globals.GlobalPattern = new ProtoPattern();
-            }
-
-            if (_globals.ActualPoint == null)
-            {
-                _globals.ActualPoint = new List<OperationLog>();
-            }
-
-            if (_globals.SetPoint == null)
-            {
-                _globals.SetPoint = new List<ProtoPatternDetail>();
-            }
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                Task.Run(() => _ovenService!.DeviceConnect().ContinueWith(res =>
+                ProtoServiceConnection response = await _ovenService!.DeviceConnect();
+                if (response != null)
                 {
-                    _globals!.ServiceConnected = res.IsCompletedSuccessfully;
-                    _globals.PlcConnected = res.Result.PlcConnected;
-                    _globals.GlobalMachineInfo = res.Result.OvenInfo;
-                    Console.WriteLine($"DeviceConnect : {res.IsCompletedSuccessfully}");
-                }));
+                    _globals!.ServiceConnected = true;
+                    _globals.PlcConnected = response.PlcConnected;
+                    _globals.GlobalMachineInfo = response.OvenInfo;
+                    _globals.OperationLogInfo = response.OperationLogInfo;
+
+                    Console.WriteLine("DeviceConnect : True");
+                    Reload();
+                }
+
+                if (!WorkerMonitor.IsBusy && _globals!.ServiceConnected)
+                {
+                    WorkerMonitor.RunWorkerAsync();
+                }
             }
         }
 
-        private Task MonitorDevice()
+        private async void WorkerMonitor_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (_globals!.PlcConnected)
+            BackgroundWorker worker = (BackgroundWorker)sender;
+            Console.WriteLine("MonitorDevice Start");
+
+            try
             {
-                return _ovenService!.MonitorDevice().ContinueWith(async res =>
+                using (var response = await _ovenService!.MonitorDevice())
                 {
-                    while (await res.Result.ResponseStream.MoveNext(CancellationToken.None))
+                    // await foreach (var item in response.ResponseStream.ReadAllAsync())
+                    // {
+                    //     ProtoOvenResponse Monitor = new ProtoOvenResponse()
+                    //     {
+                    //         Temp = new Temp()
+                    //         {
+                    //             TempOven = item.Temp.TempOven,
+                    //             TempAFB = item.Temp.TempAFB,
+                    //             TempFloor = item.Temp.TempFloor,
+                    //             TempTube = item.Temp.TempTube
+                    //         },
+                    //         Coil = new Coil()
+                    //         {
+                    //             CoilOven = item.Coil.CoilOven,
+                    //             CoilAFB = item.Coil.CoilAFB,
+                    //             CoilFloor = item.Coil.CoilFloor,
+                    //             CoilTube = item.Coil.CoilTube,
+                    //             CoilPump = item.Coil.CoilPump
+                    //         },
+                    //         Status = new MachineStatus()
+                    //         {
+                    //             Door = item.Status.Door,
+                    //             Operation = item.Status.Operation,
+                    //             PatternId = item.Status.PatternId,
+                    //             TotalStep = item.Status.TotalStep,
+                    //             CurrentStep = item.Status.CurrentStep,
+                    //             PatternStatus = item.Status.PatternStatus,
+                    //             RemainHours = item.Status.RemainHours,
+                    //             RemainMins = item.Status.RemainMins,
+                    //             TempLogList = item.Status.TempLogList
+                    //         }
+                    //     };
+
+                    //     if (!object.Equals(_globals!.GlobalMonitor.Status.Operation, Monitor.Status.Operation))
+                    //     {
+                    //         if (Monitor.Status.Operation)
+                    //         {
+                    //             _globals.GlobalPattern.PatternId = Monitor.Status.PatternId;
+                    //             _globals.GlobalPattern = await _patternService!.GetPatternByID(Monitor.Status.PatternId);
+                    //         }
+                    //     }
+
+                    //     if (Monitor.Status.Operation)
+                    //     {
+                    //         // if (Monitor.Status.TempLogList.TempLog.Any() && !_globals.ActualPoint.Any())
+                    //         // {
+                    //         //     Console.WriteLine("Generate ActualPoint");
+                    //         //     List<OperationLog> result = new List<OperationLog>();
+
+                    //         //     foreach (var item2 in Monitor.Status.TempLogList.TempLog)
+                    //         //     {
+                    //         //         result.Add(new OperationLog()
+                    //         //         {
+                    //         //             TempTime = item2.TempTime.ToDateTime().ToLocalTime(),
+                    //         //             TempValue = new Temp()
+                    //         //             {
+                    //         //                 TempOven = item2.TempValue.TempOven,
+                    //         //                 TempAFB = item2.TempValue.TempAFB,
+                    //         //                 TempFloor = item2.TempValue.TempFloor,
+                    //         //                 TempTube = item2.TempValue.TempTube
+                    //         //             }
+                    //         //         });
+                    //         //     }
+
+                    //         //     _globals.ActualPoint = result;
+                    //         //     _globals.SetPoint = _globals.GlobalPattern.PatternDetail.ToList();
+
+                    //         // }
+
+                    //         if (Monitor.Status.TotalStep > 0)
+                    //         {
+                    //             PercenValue = (Monitor.Status.CurrentStep / Monitor.Status.TotalStep) * 100;
+                    //         }
+
+                    //     }
+
+                    //     _globals!.GlobalMonitor = Monitor;
+                    //     Reload();
+                    // }
+
+                    while (await response.ResponseStream.MoveNext(CancellationToken.None) && !worker.CancellationPending)
                     {
-                        GetCPUTemp();
-                        await Task.Run(() =>
+                        ProtoOvenResponse Monitor = new ProtoOvenResponse()
                         {
-                            Monitor.Temp = new Temp()
+                            Temp = new Temp()
                             {
-                                TempOven = res.Result.ResponseStream.Current.Temp.TempOven,
-                                TempAFB = res.Result.ResponseStream.Current.Temp.TempAFB,
-                                TempFloor = res.Result.ResponseStream.Current.Temp.TempFloor,
-                                TempTube = res.Result.ResponseStream.Current.Temp.TempTube
-                            };
-
-                            Monitor.Coil = new Coil()
+                                TempOven = response.ResponseStream.Current.Temp.TempOven,
+                                TempAFB = response.ResponseStream.Current.Temp.TempAFB,
+                                TempFloor = response.ResponseStream.Current.Temp.TempFloor,
+                                TempTube = response.ResponseStream.Current.Temp.TempTube
+                            },
+                            Coil = new Coil()
                             {
-                                CoilOven = res.Result.ResponseStream.Current.Coil.CoilOven,
-                                CoilAFB = res.Result.ResponseStream.Current.Coil.CoilAFB,
-                                CoilFloor = res.Result.ResponseStream.Current.Coil.CoilFloor,
-                                CoilTube = res.Result.ResponseStream.Current.Coil.CoilTube,
-                                CoilPump = res.Result.ResponseStream.Current.Coil.CoilPump
-                            };
-
-                            Monitor.Status = new MachineStatus()
+                                CoilOven = response.ResponseStream.Current.Coil.CoilOven,
+                                CoilAFB = response.ResponseStream.Current.Coil.CoilAFB,
+                                CoilFloor = response.ResponseStream.Current.Coil.CoilFloor,
+                                CoilTube = response.ResponseStream.Current.Coil.CoilTube,
+                                CoilPump = response.ResponseStream.Current.Coil.CoilPump
+                            },
+                            Status = new MachineStatus()
                             {
-                                Door = res.Result.ResponseStream.Current.Status.Door,
-                                Operation = res.Result.ResponseStream.Current.Status.Operation,
-                                PatternId = res.Result.ResponseStream.Current.Status.PatternId,
-                                TotalStep = res.Result.ResponseStream.Current.Status.TotalStep,
-                                CurrentStep = res.Result.ResponseStream.Current.Status.CurrentStep,
-                                PatternStatus = res.Result.ResponseStream.Current.Status.PatternStatus,
-                                RemainHours = res.Result.ResponseStream.Current.Status.RemainHours,
-                                RemainMins = res.Result.ResponseStream.Current.Status.RemainMins,
-                            };
-                        }).ContinueWith(task =>
-                        {
-                            if (_globals.GlobalMonitor.Status != null)
-                            {
-                                if (!object.Equals(_globals.GlobalMonitor.Status.Operation, Monitor.Status.Operation))
-                                {
-                                    _globals.GlobalPattern.PatternId = (Monitor.Status.Operation) ? Monitor.Status.PatternId : 0;
-                                }
+                                Door = response.ResponseStream.Current.Status.Door,
+                                Operation = response.ResponseStream.Current.Status.Operation,
+                                PatternId = response.ResponseStream.Current.Status.PatternId,
+                                TotalStep = response.ResponseStream.Current.Status.TotalStep,
+                                CurrentStep = response.ResponseStream.Current.Status.CurrentStep,
+                                PatternStatus = response.ResponseStream.Current.Status.PatternStatus,
+                                RemainHours = response.ResponseStream.Current.Status.RemainHours,
+                                RemainMins = response.ResponseStream.Current.Status.RemainMins,
+                                TempLogList = response.ResponseStream.Current.Status.TempLogList
                             }
+                        };
 
-                            if (Monitor.Status.TempLog.Any() && !object.Equals(_globals.GlobalMonitor.Status!.TempLog.Count, Monitor.Status.TempLog.Count))
+                        if (!object.Equals(_globals!.GlobalMonitor.Status.Operation, Monitor.Status.Operation))
+                        {
+                            if (Monitor.Status.Operation)
                             {
-                                foreach (var item in Monitor.Status.TempLog)
+                                _globals.GlobalPattern.PatternId = Monitor.Status.PatternId;
+                                _globals.GlobalPattern = await _patternService!.GetPatternByID(Monitor.Status.PatternId);                                
+                            }
+                        }
+
+                        if (Monitor.Status.Operation)
+                        {
+                            if (Monitor.Status.TempLogList.TempLog.Any() && !_globals.ActualPoint.Any() || !object.Equals(_globals.ActualPoint.Count,Monitor.Status.TempLogList.TempLog.Count))
+                            {
+                                Console.WriteLine("Generate ActualPoint");
+                                List<OperationLog> result = new List<OperationLog>();
+
+                                foreach (var item in Monitor.Status.TempLogList.TempLog)
                                 {
-                                    ActualPoint.Add(new OperationLog()
+                                    result.Add(new OperationLog()
                                     {
                                         TempTime = item.TempTime.ToDateTime().ToLocalTime(),
                                         TempValue = new Temp()
@@ -161,50 +235,29 @@ namespace UI.Pages.Index
                                         }
                                     });
                                 }
+
+                                _globals.ActualPoint = result;
+                                _globals.SetPoint = _globals.GlobalPattern.PatternDetail.ToList();
+
                             }
 
+                            if (Monitor.Status.TotalStep > 0)
+                            {
+                                PercenValue = (Monitor.Status.CurrentStep / Monitor.Status.TotalStep) * 100;
+                            }
 
-                        }).ContinueWith(task =>
-                        {
-                            _globals.GlobalMonitor = Monitor;
-                            _globals.ActualPoint = ActualPoint;
-                            Reload();
-                        });
-
-                    }
-                });
-            }
-            else
-            {
-                Console.WriteLine("Cannot Connect PLC");
-                return Task.CompletedTask;
-            }
-        }
-
-        private void GetCPUTemp()
-        {           
-            try
-            {
-                using (CpuTemperature cpuTemperature = new CpuTemperature())
-                {
-                    if (cpuTemperature.IsAvailable)
-                    {
-                        var temperature = cpuTemperature.ReadTemperatures();
-                        foreach (var entry in temperature)
-                        {
-                            if (!double.IsNaN(entry.Temperature.DegreesCelsius))
-                            {                                
-                                _globals!.CpuTemp = entry.Temperature.DegreesCelsius;
-                            }                            
                         }
-                    }                    
-                    cpuTemperature.Dispose();
-                }                
+
+                        _globals!.GlobalMonitor = Monitor;
+                        Reload();
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception : {ex.Message}");
+                Console.WriteLine(ex.Message);
             }
         }
+
     }
 }

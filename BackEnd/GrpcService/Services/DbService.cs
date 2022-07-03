@@ -14,11 +14,11 @@ namespace GrpcService.Services
         Task<ProtoOperationLogInfo> GetOperationLogInfo();
         Task<ProtoOperationLogInfo> GetOperationLogWithFilter(int year, int month);
 
-        long GetLastLogID();
+        Task<long> GetLastLogID();
         Task<ProtoPatternList> GetPatternList();
         Task<Pattern> GetPattern(Int32Value Number);
 
-        Task<bool> OperationWriteLog(int logID);
+        bool OperationWriteLog(int logID);
         Task<BoolValue> CreatePattern(ProtoPattern pattern);
         Task<BoolValue> UpdatePattern(ProtoPattern newPattern);
         Task<BoolValue> DeletePattern(Int32Value PatternId);
@@ -46,11 +46,11 @@ namespace GrpcService.Services
         {
             ProtoOvenInfo response = new ProtoOvenInfo();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-                    MachineInfo result = _context.MachineInfos.Single();
+                    MachineInfo result = await _context.MachineInfos.SingleAsync();
                     if (result != null)
                     {
                         response.MachineName = result.MachineName;
@@ -73,14 +73,14 @@ namespace GrpcService.Services
         {
             ProtoOperationLogInfo response = new ProtoOperationLogInfo();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-                    response.YearList.AddRange(_context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Year).ToList().Distinct());
-                    response.MonthList.AddRange(_context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Month).ToList().Distinct());
+                    response.YearList.AddRange((await _context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Year).ToListAsync()).Distinct());
+                    response.MonthList.AddRange((await _context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Month).ToListAsync()).Distinct());
 
-                    var LogList = _context.OperationLogs.ToList()
+                    var LogList = (await _context.OperationLogs.ToListAsync())
                     .Where(x =>
                         DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Year == response.YearList.Last() &&
                         DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Month == response.MonthList.Last())
@@ -110,11 +110,11 @@ namespace GrpcService.Services
         {
             ProtoOperationLogInfo response = new ProtoOperationLogInfo();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-                    var LogList = _context.OperationLogs.ToList()
+                    var LogList = (await _context.OperationLogs.ToListAsync())
                 .Where(x =>
                     DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Year == year &&
                     DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Month == month)
@@ -143,17 +143,17 @@ namespace GrpcService.Services
 
         public async Task<List<OperationLog>> GetOperationLogByID(int LogID) => await _context.OperationLogs.Where(x => x.LogId == LogID).ToListAsync();
 
-        public long GetLastLogID() => _context.OperationLogs.Max(x => x.LogId);
+        public async Task<long> GetLastLogID() => await _context.OperationLogs.MaxAsync(x => x.LogId);
 
         public async Task<ProtoPatternList> GetPatternList()
         {
             ProtoPatternList response = new ProtoPatternList();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-                    List<Pattern> result = _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems).ToList();
+                    List<Pattern> result = await _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems).ToListAsync();
                     if (result.Any())
                     {
                         foreach (var item in result)
@@ -183,11 +183,11 @@ namespace GrpcService.Services
         public async Task<Pattern> GetPattern(Int32Value Id)
         {
             Pattern response = new Pattern();
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-                    response = _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems).Where(x => x.PatternNumber == Id.Value).Single();
+                    response = await _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems).Where(x => x.PatternNumber == Id.Value).SingleAsync();
                     _sysConfig.WriteLogFile($"GetPatternFromDB By ID : {Id.Value}");
                 }
                 catch (Exception ex)
@@ -200,47 +200,45 @@ namespace GrpcService.Services
             return response;
         }
 
-        public async Task<bool> OperationWriteLog(int logID)
+        public bool OperationWriteLog(int logID)
         {
             bool IsSuccess = false;
 
             try
             {
-                await Task.Run(() =>
+                ActualLog actual = new ActualLog()
                 {
-                    ActualLog actual = new ActualLog()
+                    TempTime = DateTime.UtcNow.ToTimestamp(),
+                    TempValue = new Temp()
                     {
-                        TempTime = DateTime.UtcNow.ToTimestamp(),
-                        TempValue = new Temp()
-                        {
-                            TempOven = _response.tempResponse!.TempOven,
-                            TempAFB = _response.tempResponse.TempAFB,
-                            TempFloor = _response.tempResponse.TempFloor,
-                            TempTube = _response.tempResponse.TempTube
-                        }
-                    };
+                        TempOven = _response.tempResponse!.TempOven,
+                        TempAFB = _response.tempResponse.TempAFB,
+                        TempFloor = _response.tempResponse.TempFloor,
+                        TempTube = _response.tempResponse.TempTube
+                    }
+                };
 
-                    OperationLog log = new OperationLog()
-                    {
-                        LogId = logID,
-                        Door = Convert.ToInt32(_response.statusResponse!.Door),
-                        PatternId = _response.statusResponse.PatternId,
-                        CurrentStep = _response.statusResponse.CurrentStep,
-                        TotalStep = _response.statusResponse.TotalStep,
-                        PatternStatus = _response.statusResponse.PatternStatus.ToString(),
-                        ActualTempOven = actual.TempValue.TempOven,
-                        ActualTempAfb = actual.TempValue.TempAFB,
-                        ActualTempFloor = actual.TempValue.TempFloor,
-                        ActualTempTube = actual.TempValue.TempTube,
-                        OperationTime = actual.TempTime.ToDateTime().ToString(_sysConfig.DATE_FORMAT_STRING)
-                    };
+                OperationLog log = new OperationLog()
+                {
+                    LogId = logID,
+                    Door = Convert.ToInt32(_response.statusResponse!.Door),
+                    PatternId = _response.statusResponse.PatternId,
+                    CurrentStep = _response.statusResponse.CurrentStep,
+                    TotalStep = _response.statusResponse.TotalStep,
+                    PatternStatus = _response.statusResponse.PatternStatus.ToString(),
+                    ActualTempOven = actual.TempValue.TempOven,
+                    ActualTempAfb = actual.TempValue.TempAFB,
+                    ActualTempFloor = actual.TempValue.TempFloor,
+                    ActualTempTube = actual.TempValue.TempTube,
+                    OperationTime = actual.TempTime.ToDateTime().ToString(_sysConfig.DATE_FORMAT_STRING)
+                };
 
-                    _context.OperationLogs.Add(log);
-                    _context.SaveChanges();
+                _context.OperationLogs.AddAsync(log);
+                _context.SaveChangesAsync();
 
-                    _response.statusResponse.TempLogList.TempLog.Add(actual);
-                    IsSuccess = true;
-                });
+                _response.statusResponse.TempLogList.TempLog.Add(actual);
+                IsSuccess = true;
+
 
             }
             catch (SqliteException ex)
@@ -251,20 +249,19 @@ namespace GrpcService.Services
             return IsSuccess;
         }
 
-
         public async Task<BoolValue> CreatePattern(ProtoPattern pattern)
         {
             BoolValue IsSuccess = new BoolValue() { Value = false };
             try
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     Pattern result = _convert.ConvertProtoPatternToPatternModel(pattern);
-                    long MaxID = _context.Patterns.Max(x => x.PatternNumber) + 1;
+                    long MaxID = await _context.Patterns.MaxAsync(x => x.PatternNumber) + 1;
                     result.PatternNumber = MaxID;
                     result.Airpump!.Id = MaxID;
                     result.CreateDate = DateTime.UtcNow.ToString(_sysConfig.DATE_FORMAT_STRING);
-                    _context.Patterns.Add(result);
+                    await _context.Patterns.AddAsync(result);
 
                     IsSuccess.Value = _context.SaveChangesAsync().IsCompletedSuccessfully;
 
@@ -339,9 +336,9 @@ namespace GrpcService.Services
             BoolValue IsSuccess = new BoolValue() { Value = false };
             try
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    Pattern result = _context.Patterns.Single(x => x.PatternNumber == PatternId.Value);
+                    Pattern result = await _context.Patterns.SingleAsync(x => x.PatternNumber == PatternId.Value);
                     if (result != null)
                     {
                         _context.PatternItems.RemoveRange(result.PatternItems);

@@ -45,10 +45,11 @@ message ProtoServiceConnection {
 }
 message ProtoOvenInfo {
     int32 SerialNumber = 1;
-    int32 MachineModel = 2;
-    google.protobuf.Timestamp WarrantyStart = 3;
-    google.protobuf.Timestamp WarrantyEnd = 4;
-    string MachineName = 5;        
+    string MachineName = 2;   
+    int32 MachineModel = 3;
+    google.protobuf.Timestamp WarrantyStart = 4;
+    google.protobuf.Timestamp WarrantyEnd = 5;
+    bool Operation = 6;         
 }
 
 message ProtoOperationLogInfo {

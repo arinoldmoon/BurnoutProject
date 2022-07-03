@@ -10,7 +10,7 @@
                 </div>
                 <div class="col">
                     <RadzenTextBox style="display: block" Change="(args => TextBoxChanged())"
-                        Name="Name" @bind-Value=@_patternModel.PatternName Class="w-100" />
+                        Name="Name" @bind-Value=@_patternModel!.PatternName Class="w-100" />
                     <RadzenRequiredValidator Component="Name" Text="Pattern name is required"
                         Style="position: absolute" />
                 </div>
@@ -22,8 +22,14 @@
                             <div class="col">
                                 <div class="row ">
                                     <div class="col-md-12 justify-content-between d-flex">
+                                        <h5 class="h5">Use AFB</h5>
+                                        <RadzenSwitch style="display: inline-flex" @bind-Value="@_patternModel.UseAfb" />
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-12 justify-content-between d-flex">
                                         <h5 class="h5">Air Pump</h5>
-                                        <RadzenSwitch style="display: inline-flex" Value="@_patternModel.AirPump.UseAirpump" />
+                                        <RadzenSwitch style="display: inline-flex" @bind-Value="@_patternModel.AirPump.UseAirpump" />
                                     </div>
                                 </div>
                                 <div class="row mt-3">
