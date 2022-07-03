@@ -39,10 +39,12 @@ class CommonDialog extends StatelessWidget {
             .textTheme
             .button!
             .copyWith(fontWeight: FontWeight.bold),
+        key: const Key('titleDialog'),
       ),
       content: Text(
         contentText,
         style: Theme.of(context).textTheme.bodyText2,
+        key: const Key('contentDialog'),
       ),
       actions: [
         Row(
@@ -50,6 +52,7 @@ class CommonDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CommonCancelButton(
+              key: const Key('cancelButtonDialog'),
               buttonTitle: cancelButtonTile,
               onPress: cancelButtonCallBack,
               fontSize: Theme.of(context).textTheme.button,
@@ -59,6 +62,7 @@ class CommonDialog extends StatelessWidget {
               width: Sizes.commonDialogButtonPadding,
             ),
             CommonCancelButton(
+              key: const Key('submitButtonDialog'),
               buttonTitle: submitButtonTile,
               onPress: submitButtonCallBack,
               fontSize: Theme.of(context).textTheme.button,
