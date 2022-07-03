@@ -62,8 +62,6 @@ void main() {
         findsNWidgets(2));
   }
 
-  int listLenght = MachineDashboardUtilityStepProvider().count;
-
   testWidgets('Edit Step ListView Should Render correctly', (tester) async {
     await tester.pumpWidget(
       MaterialApp(

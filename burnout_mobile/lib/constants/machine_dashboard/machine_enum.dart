@@ -1,4 +1,3 @@
-enum MachineStatus { IDLE, WAITING, ONPROGRAM }
 enum MachineStatusRun { IDLE, WAITING, ONPROGRAM }
 enum MachineOnOffStatus { ON, OFF }
 enum MachineHeater { OVEN, FLOOR, AFB, TUBE }
