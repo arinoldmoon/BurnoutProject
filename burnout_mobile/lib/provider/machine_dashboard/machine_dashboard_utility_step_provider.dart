@@ -50,7 +50,18 @@ class MachineDashboardUtilityStepProvider extends ChangeNotifier {
     }
     final MachineUtilityStep item =
         machineDashboardUtilityStepList.removeAt(oldIndex);
+
+    item.machineUtilityStepTitle = 'Step ${newIndex + 1}';
     machineDashboardUtilityStepList.insert(newIndex, item);
+    for (int i = 0; i < newIndex; i++) {
+      machineDashboardUtilityStepList[i].machineUtilityStepTitle =
+          'Step ${i + 1}';
+    }
+    for (int j = newIndex; j < machineDashboardUtilityStepList.length; j++) {
+      machineDashboardUtilityStepList[j].machineUtilityStepTitle =
+          'Step ${j + 1}';
+    }
+
     notifyListeners();
   }
 

@@ -104,11 +104,11 @@ class MachinePeripheral {
 }
 
 class MachineUtilityStep {
-  final String machineUtilityStepTitle;
-  final double machineUtilityStepTemp;
-  final double machineUtilityStepTimeRemaining;
-  final MachineUtilityStepStatus machineUtilityStepStatus;
-  final MachineUtilityStepProcess machineUtilityStepProcess;
+  String machineUtilityStepTitle;
+  double machineUtilityStepTemp;
+  double machineUtilityStepTimeRemaining;
+  MachineUtilityStepStatus machineUtilityStepStatus;
+  MachineUtilityStepProcess machineUtilityStepProcess;
 
   MachineUtilityStep(
       {required this.machineUtilityStepTitle,

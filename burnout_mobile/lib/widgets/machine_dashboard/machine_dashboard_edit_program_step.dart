@@ -52,6 +52,7 @@ class _MachineDashboardEditProgramStepState
                     scrollDirection: Axis.vertical,
                     onReorder: (int oldIndex, int newIndex) {
                       value.reOrder(oldIndex, newIndex);
+                      
                     },
                     itemBuilder: (_, index) {
                       _tempTextController.add(TextEditingController());
