@@ -1,3 +1,4 @@
+import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:flutter/widgets.dart';
@@ -51,15 +52,19 @@ class MachineDashboardUtilityStepProvider extends ChangeNotifier {
     final MachineUtilityStep item =
         machineDashboardUtilityStepList.removeAt(oldIndex);
 
-    item.machineUtilityStepTitle = 'Step ${newIndex + 1}';
+    item.machineUtilityStepTitle =
+        MachineDashboardUiStrings.machineDashboardEditProgramDialogReorderStep(
+            newIndex);
     machineDashboardUtilityStepList.insert(newIndex, item);
     for (int i = 0; i < newIndex; i++) {
       machineDashboardUtilityStepList[i].machineUtilityStepTitle =
-          'Step ${i + 1}';
+          MachineDashboardUiStrings
+              .machineDashboardEditProgramDialogReorderStep(i);
     }
     for (int j = newIndex; j < machineDashboardUtilityStepList.length; j++) {
       machineDashboardUtilityStepList[j].machineUtilityStepTitle =
-          'Step ${j + 1}';
+          MachineDashboardUiStrings
+              .machineDashboardEditProgramDialogReorderStep(j);
     }
 
     notifyListeners();

@@ -84,4 +84,7 @@ class MachineDashboardUiStrings {
       "Yes, I'm sure";
 
   static const machineDashboardEditProgramDialogNo = 'No';
+  static String machineDashboardEditProgramDialogReorderStep(int step) {
+    return 'Step ${step + 1}';
+  }
 }
