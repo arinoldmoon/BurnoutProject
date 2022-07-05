@@ -4,6 +4,7 @@ import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:flutter/widgets.dart';
 
 class MachineDashboardUtilityStepProvider extends ChangeNotifier {
+  late List<String> stepListStartAt = [];
   List<MachineUtilityStep> machineDashboardUtilityStepList = [
     MachineUtilityStep(
         machineUtilityStepTitle: 'Step 1',
@@ -70,11 +71,22 @@ class MachineDashboardUtilityStepProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  addMoreStep(MachineUtilityStep machineUtilityStep) {
+  void startAtStep(int step) {
+    stepListStartAt.clear();
+    for (int i = 0; i < step; i++) {
+      stepListStartAt
+          .add(machineDashboardUtilityStepList[i].machineUtilityStepTitle);
+    }
+    notifyListeners();
+  }
+
+  void addMoreStep(MachineUtilityStep machineUtilityStep) {
     machineDashboardUtilityStepList.add(machineUtilityStep);
     notifyListeners();
   }
 
   List<MachineUtilityStep> get machineUtiltilityStepList =>
       machineDashboardUtilityStepList;
+
+  List<String> get getStepListStartAt => stepListStartAt;
 }

@@ -240,6 +240,76 @@ void main() {
     }
   });
 
+  testWidgets('Edit Step Should Render Dialog When Tap Trailing Button',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ChangeNotifierProvider(
+          create: (_) {
+            MachineDashboardUtilityStepProvider();
+          },
+          child: const Scaffold(
+            body: Center(
+              child: MachineDashboardEditProgramStep(),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(
+      find.byKey(
+        Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byKey(Key('startApStepDialog')), findsOneWidget);
+  });
+
+  testWidgets('Edit Step Should Render Dialog When Tap Trailing Button',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ChangeNotifierProvider(
+          create: (_) {
+            MachineDashboardUtilityStepProvider();
+          },
+          child: const Scaffold(
+            body: Center(
+              child: MachineDashboardEditProgramStep(),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.byKey(Key(
+        '${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('startApStepDialog')), findsOneWidget);
+  });
+
+  testWidgets('Edit Step Should Render Dialog And Start At This Step Correctly',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ChangeNotifierProvider(
+          create: (_) {
+            MachineDashboardUtilityStepProvider();
+          },
+          child: const Scaffold(
+            body: Center(
+              child: MachineDashboardEditProgramStep(),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.byKey(Key(
+        '${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('startApStepDialog')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('submitButtonDialog')));
+  });
+
   testWidgets('Edit Step Textfiled should be able to input text',
       (tester) async {
     await tester.pumpWidget(
