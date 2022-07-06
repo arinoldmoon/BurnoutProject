@@ -7,6 +7,7 @@ import 'package:burnout_mobile/grpc/oven.pbgrpc.dart';
 import 'package:burnout_mobile/pages/machine_dashboard/machine_dashboard_page_operating.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
+import 'package:burnout_mobile/widgets/drawer_menu.dart';
 import 'package:burnout_mobile/widgets/utility/common_button.dart';
 import 'package:burnout_mobile/widgets/utility/common_close_button.dart';
 import 'package:burnout_mobile/widgets/utility/common_submit_button.dart';
@@ -27,13 +28,17 @@ class MachineDashboardPage extends StatefulWidget {
   State<MachineDashboardPage> createState() => _MachineDashboardPageState();
 }
 
-class _MachineDashboardPageState extends State<MachineDashboardPage> {
+class _MachineDashboardPageState extends State<MachineDashboardPage>
+    with SingleTickerProviderStateMixin {
   late MockMachinePayload machineData = widget.machinePayload;
   late ProtoServiceConnection ovenInfo;
   late List<MachineTemperature> machineTemperature =
       widget.machinePayload.machineTemperature!;
   late List<MachinePeripheral> machinePeripheral =
       widget.machinePayload.machinePeripheral!;
+
+  late AnimationController controller;
+  late Animation<Offset> offset;
 
   static final channel = ClientChannel(
     '192.168.15.134', // Use your IP address where the server is running
@@ -121,7 +126,32 @@ class _MachineDashboardPageState extends State<MachineDashboardPage> {
   @override
   void initState() {
     callGrpc();
+    controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 3));
+    offset = Tween<Offset>(begin: Offset(0.0, -4.0), end: Offset.zero)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.decelerate));
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  Animation<Offset> tweenIsNotCompleted() {
+    setState(() {
+      controller.forward();
+    });
+    return offset;
+  }
+
+  Animation<Offset> tweenIsCompleted() {
+    setState(() {
+      controller.reverse();
+    });
+    return offset;
   }
 
   @override
@@ -140,7 +170,17 @@ class _MachineDashboardPageState extends State<MachineDashboardPage> {
           backgroundColor: Colors.white,
           leading: IconButton(
             icon: const Icon(Icons.menu),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) {
+                    return DrawerMenu();
+                  },
+                ),
+              );
+            },
             color: AppTheme.titleAppbarIconColor,
           ),
           centerTitle: true,
@@ -273,7 +313,8 @@ class _MachineDashboardPageState extends State<MachineDashboardPage> {
             SizedBox(
               height:
                   MachineDashboardSizes.machineDashboardPageCancelButtonHeight,
-              width: 50,
+              width:
+                  MachineDashboardSizes.machineDashboardPageCancelButtonHeight,
               child: CommonCloseButton(
                 onPress: () {},
               ),
