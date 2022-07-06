@@ -1,4 +1,4 @@
-import 'package:burnout_mobile/widgets/home_page_tabbar.dart';
+import 'package:burnout_mobile/widgets/home_page/home_page_tabbar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
