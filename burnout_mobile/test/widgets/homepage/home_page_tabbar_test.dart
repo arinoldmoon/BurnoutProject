@@ -1,5 +1,5 @@
 import 'package:burnout_mobile/constants/homepage/home_page_ui_strings.dart';
-import 'package:burnout_mobile/widgets/home_page_tabbar.dart';
+import 'package:burnout_mobile/widgets/home_page/home_page_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
