@@ -1,4 +1,7 @@
+import 'package:burnout_mobile/constants/sizes.dart';
+import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -14,9 +17,12 @@ class DrawerMenuState extends State<DrawerMenu>
   void initState() {
     super.initState();
 
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 750));
-    position = Tween<Offset>(begin: Offset(0.0, -4.0), end: Offset.zero)
+    controller = AnimationController(
+        vsync: this,
+        duration: const Duration(
+            milliseconds: Sizes.drawerMenuSlideAnimationDuration));
+    position = Tween<Offset>(
+            begin: Sizes.drawerMenuSlideAnimationBeginOffSet, end: Offset.zero)
         .animate(CurvedAnimation(parent: controller, curve: Curves.decelerate));
 
     controller.forward();
@@ -29,32 +35,79 @@ class DrawerMenuState extends State<DrawerMenu>
         color: Colors.transparent,
         child: Align(
           alignment: Alignment.topCenter,
-          child: Padding(
-            padding: EdgeInsets.only(top: 56.0),
-            child: SlideTransition(
-              position: position,
-              child: Container(
-                height: 200,
-                width: double.infinity,
-                margin: EdgeInsets.only(left: 10, right: 10),
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    bottomRight: Radius.circular(5),
+          child: SlideTransition(
+            position: position,
+            child: Container(
+              padding: Sizes.drawerMenuContainerPadding,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: AppTheme.blackPrimary,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        controller.reverse();
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        PhosphorIcons.x,
+                        size: 32.0,
+                        color: AppTheme.yellowPrimary,
+                      ),
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          controller.reverse();
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.close))
-                  ],
-                ),
+                  Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 45,
+                          width: 125,
+                          color: AppTheme.yellowPrimary,
+                          child: const ListTile(
+                            title: Text("Menu 1"),
+                          ),
+                        ),
+                        Container(
+                          height: 45,
+                          width: 125,
+                          color: AppTheme.yellowPrimary,
+                          child: const ListTile(
+                            title: Text("Menu 1"),
+                          ),
+                        ),
+                        Container(
+                          height: 45,
+                          width: 125,
+                          color: AppTheme.yellowPrimary,
+                          child: const ListTile(
+                            title: Text("Menu 1"),
+                          ),
+                        ),
+                        Container(
+                          height: 45,
+                          width: 125,
+                          color: AppTheme.yellowPrimary,
+                          child: const ListTile(
+                            title: Text("Menu 1"),
+                          ),
+                        ),
+                        Container(
+                          height: 45,
+                          width: 125,
+                          color: AppTheme.yellowPrimary,
+                          child: const ListTile(
+                            title: Text("Menu 1"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
