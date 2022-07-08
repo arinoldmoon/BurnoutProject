@@ -310,36 +310,27 @@ namespace GrpcService.Services
             return IsSuccess;
         }
 
-        public async Task<ProtoOvenLog> GetOperationLog(int year, int month)
+        public async Task<ProtoOvenLog> GetOperationLog()
         {
             ProtoOvenLog response = new ProtoOvenLog();
 
-            var result = _Context.OperationLogs.Select(x => new
-            {
-                Date = DateTime.ParseExact(x.OperationTime, _factor.DATE_FORMAT_STRING, null),
-                x.LogID,
-                x.PatternID,
-                x.PatternStatus
-            }).ToList();
+            response.YearList.AddRange(_Context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime, _factor.DATE_FORMAT_STRING, null).Year).ToList().Distinct());
+            response.MonthList.AddRange(_Context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime, _factor.DATE_FORMAT_STRING, null).Month).ToList().Distinct());
 
-            foreach (var item in result.DistinctBy(x => x.Date.Year).ToList())
-            {
-                response.YearList.Add(item.Date.Year);
-            }
+            var LogList = _Context.OperationLogs.ToList()
+                        .Where(x =>
+                            DateTime.ParseExact(x.OperationTime, _factor.DATE_FORMAT_STRING, null).Year == response.YearList.Last() &&
+                            DateTime.ParseExact(x.OperationTime, _factor.DATE_FORMAT_STRING, null).Month == response.MonthList.Last())
+                        .GroupBy(x => x.LogID);
 
-            foreach (var item in result.Where(x => x.Date.Year == year).DistinctBy(x => x.Date.Month).ToList())
-            {
-                response.MonthList.Add(item.Date.Month);
-            }
-
-            foreach (var item in result.Where(x => x.Date.Year == year && x.Date.Month == month).GroupBy(x => x.LogID))
+            foreach (var item in LogList)
             {
                 response.LogList.Add(new ProtoOvenLogList()
                 {
                     LogID = item.First().LogID,
                     PatternID = item.First().PatternID,
-                    StartLog = DateTime.SpecifyKind(item.First().Date, DateTimeKind.Utc).ToTimestamp(),
-                    EndLog = DateTime.SpecifyKind(item.Last().Date, DateTimeKind.Utc).ToTimestamp()
+                    StartLog = DateTime.SpecifyKind(DateTime.ParseExact(item.First().OperationTime, _factor.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                    EndLog = DateTime.SpecifyKind(DateTime.ParseExact(item.Last().OperationTime, _factor.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
                 });
             }
 
@@ -347,6 +338,31 @@ namespace GrpcService.Services
             return response;
         }
 
+        public async Task<ProtoOvenLog> GetOperationLog(int year, int month)
+        {
+            ProtoOvenLog response = new ProtoOvenLog();
+
+            var LogList = _Context.OperationLogs.ToList()
+                        .Where(x =>
+                            DateTime.ParseExact(x.OperationTime, _factor.DATE_FORMAT_STRING, null).Year == year &&
+                            DateTime.ParseExact(x.OperationTime, _factor.DATE_FORMAT_STRING, null).Month == month)
+                        .GroupBy(x => x.LogID);
+
+            foreach (var item in LogList)
+            {
+                response.LogList.Add(new ProtoOvenLogList()
+                {
+                    LogID = item.First().LogID,
+                    PatternID = item.First().PatternID,
+                    StartLog = DateTime.SpecifyKind(DateTime.ParseExact(item.First().OperationTime, _factor.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                    EndLog = DateTime.SpecifyKind(DateTime.ParseExact(item.Last().OperationTime, _factor.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                });
+            }
+
+            await Task.CompletedTask;
+            return response;
+        }
+        
         public async Task<List<OperationLog>> GetOperationLogByID(int LogID) => await _Context.OperationLogs.Where(x => x.LogID == LogID).ToListAsync();
     }
 }

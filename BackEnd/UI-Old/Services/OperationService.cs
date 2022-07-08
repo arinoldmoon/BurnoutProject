@@ -136,5 +136,26 @@ namespace UI.Services
 
             return response;
         }
+    
+        // public async Task<OvenLogList> GetOperationLogList(int SelectYear, int SelectMonth)
+        // {
+        //     OvenLogList data = new OvenLogList();
+        //     ProtoOvenLogRequest req = new ProtoOvenLogRequest();
+
+        //     req.SelectYear = 2022;
+        //     req.SelectMonth = 3;
+
+        //     ProtoOvenLog result = await OperationProto.(req);
+
+        //     foreach (var item in result.LogList)
+        //     {
+        //         data.LogID = item.LogID;
+        //         data.PatternID = item.PatternID;
+        //         data.StartLog = item.StartLog.ToDateTime();
+        //         data.EndLog = item.EndLog.ToDateTime();
+        //     }
+
+        //     return data;
+        // }
     }
 }

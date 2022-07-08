@@ -15,7 +15,8 @@ service OvenProto {
     rpc UpdateMachineInfo(ProtoOvenInfo) returns (google.protobuf.BoolValue);  
     rpc GetOvenSetting(google.protobuf.Empty) returns (ProtoOvenSetting);
     rpc UpdateOvenSetting(ProtoOvenSetting) returns (google.protobuf.BoolValue);     
-    rpc MonitorDevice (google.protobuf.Empty) returns (stream ProtoOvenResponse);       
+    rpc MonitorDevice (google.protobuf.Empty) returns (stream ProtoOvenResponse);  
+    rpc GetOperationLog(ProtoOvenLogRequest)  returns(ProtoOvenLog);
 }
 
 service PatternProto {    
@@ -43,6 +44,12 @@ enum PatternStatus {
     Down = 2;
     Stable = 3;
     End = 4;
+}
+
+message ProtoOvenLogRequest 
+{
+    int32 SelectYear = 1;
+    int32 SelectMonth = 2;
 }
 
 message ProtoOvenInfo {

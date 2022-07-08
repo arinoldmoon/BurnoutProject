@@ -30,13 +30,27 @@ namespace UI.Pages.Index.Component.Controller
         protected ModelConvertor? _convert { get; set; }
 
 
-        public PatternModel? SelectedPattern;
+        protected PatternModel? SelectedPattern;
 
-        public RadzenDataGrid<PatternDetailModel>? OvenStepGrid;
+        private IList<PatternDetailModel>? _currentPattern;
+        protected IList<PatternDetailModel>? CurrentPattern
+        {
+            get { return _currentPattern; }
+            set
+            {
+                if (!object.Equals(_currentPattern, value))
+                {
+                    _currentPattern = value;
+                    DisableChangeMode = !object.Equals(value!.First().Step, SelectedPattern!.PatternDetail.Last().Step);
+                }
+            }
+        }
 
-        public IList<PatternDetailModel>? CurrentPattern;
-
-        public ProtoOvenSetting? Setting;
+        protected RadzenDataGrid<PatternDetailModel>? OvenStepGrid;
+        protected ProtoOvenSetting? Setting;
+        protected bool DisableChangeMode = true;
+        protected bool ManualMode;
+        protected int ManualTemp;
 
         protected void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -49,14 +63,16 @@ namespace UI.Pages.Index.Component.Controller
         protected override async Task OnInitializedAsync()
         {
             _globals!.PropertyChanged += OnPropertyChanged;
-            SelectedPattern = _convert!.ConvertProtoPatternToPatternModel(_globals!.GlobalPattern);
-            CurrentPattern = SelectedPattern!.PatternDetail.Where(x => x.Step == _globals!.GlobalMonitor.Status.CurrentStep).ToList();
-            Setting = await _ovenService!.GetSetting();            
+            SelectedPattern = _convert!.ConvertProtoPatternToPatternModel(_globals.GlobalPattern);
+            CurrentPattern = SelectedPattern!.PatternDetail.Where(x => x.Step == _globals.GlobalMonitor.Status.CurrentStep).ToList();
+            Setting = await _ovenService!.GetSetting();
+            ManualTemp = Setting.ManualTemp.Temp;
+            ManualMode = Setting.ManualTemp.Use;
         }
 
-        public async Task EditProgramClick(MouseEventArgs args) => await _dialogServices!.OpenAsync<PatternDetail>("Edit Program", new Dictionary<string, object> { { "_patternModel", SelectedPattern! } });
+        protected async Task EditProgramClick(MouseEventArgs args) => await _dialogServices!.OpenAsync<PatternDetail>("Edit Program", new Dictionary<string, object> { { "_patternModel", SelectedPattern! } });
 
-        public async Task CancelProgram(MouseEventArgs args)
+        protected async Task CancelProgram(MouseEventArgs args)
         {
             _globals!.GlobalPattern = new ProtoPattern()
             {
@@ -67,13 +83,13 @@ namespace UI.Pages.Index.Component.Controller
             await Task.CompletedTask;
         }
 
-        public async Task StartOperation(MouseEventArgs args)
+        protected async Task StartOperation(MouseEventArgs args)
         {
             await Task.Run(async () =>
             {
                 if ((await _operationService!.StartOpration(_globals!.GlobalPattern)).Value)
                 {
-                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation : ", Detail = $"Started" });
+                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = "Operation : ", Detail = "Started" });
                 }
                 else
                 {
@@ -82,30 +98,76 @@ namespace UI.Pages.Index.Component.Controller
             });
         }
 
-        public async Task StopOperation(MouseEventArgs args)
+        protected async Task StopOperation(MouseEventArgs args)
         {
-            if (await _dialogServices!.Confirm("Are you sure you want to cancel this operation?") == true)
+            await Task.Run(async () =>
             {
-                var response = await _operationService!.StopOpration();
-                if (response.Value)
+                if (await _dialogServices!.Confirm("Are you sure you want to cancel this operation?") == true)
                 {
-                    _globals!.SetPoint = new List<ProtoPatternDetail>();
-                    _globals.ActualPoint = new List<OperationLog>();
-                    _globals.GlobalPattern = new ProtoPattern()
+                    var response = await _operationService!.StopOpration();
+                    if (response.Value)
                     {
-                        AirPump = new ProtoAirpump()
-                    };
+                        _globals!.SetPoint = new List<ProtoPatternDetail>();
+                        _globals.ActualPoint = new List<OperationLog>();
+                        _globals.GlobalPattern = new ProtoPattern()
+                        {
+                            AirPump = new ProtoAirpump()
+                        };
 
-                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Stoped" });
+                        _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = "Operation", Detail = "Stoped" });
+                    }
+                    else
+                    {
+                        _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = "Operation", Detail = "Error" });
+                    }
+                }
+            });
+
+        }
+
+        protected async Task ChangeMode(bool value)
+        {
+            await Task.Run(async () =>
+            {
+                if (await _dialogServices!.Confirm("Are you sure you want to change mode?") == true)
+                {
+                    if (_operationService!.ManualTemp(new ProtoManualTemp() { Use = ManualMode, Temp = ManualTemp }).Result.Value)
+                    {
+                        _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = "Change to mode", Detail = "Changed" });
+                    }
                 }
                 else
                 {
-                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Error" });
+                    ManualMode = !value;
                 }
-            }
-
-            await Task.CompletedTask;
+            });
         }
 
+        protected async Task SetManualTemp()
+        {
+            await Task.Run(async () =>
+            {
+                if (await _dialogServices!.Confirm("Are you sure you want to change set value temp?") == true)
+                {
+                    Console.WriteLine($"Use = {ManualMode} Temp =  {ManualTemp}");
+                    //var response = await _operationService!.ManualTemp(new ProtoManualTemp(){Use = ManualMode,Temp = ManualTemp});
+                    //if (response.Value)
+                    //{
+                    //     _globals!.SetPoint = new List<ProtoPatternDetail>();
+                    //     _globals.ActualPoint = new List<OperationLog>();
+                    //     _globals.GlobalPattern = new ProtoPattern()
+                    //     {
+                    //         AirPump = new ProtoAirpump()
+                    //     };
+
+                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"OvenTemp", Detail = $"Changed" });
+                    //}
+                    // else
+                    // {
+                    //     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Error" });
+                    // }
+                }
+            });
+        }
     }
 }

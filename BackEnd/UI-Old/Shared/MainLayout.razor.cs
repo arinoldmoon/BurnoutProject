@@ -73,13 +73,13 @@ namespace UI.Shared
 
         protected async Task Notifications()
         {
-            var response = await operation.StopOperation();
-            if (response)
-            {
-                Globals.GlobalPattern = new Pattern();
-                Globals.GlobalPattern.Airpump = new AirPumpSetting();
-                Globals.GlobalPattern.PatternItems.Clear();
-            }
+            // var response = await operation.StopOperation();
+            // if (response)
+            // {
+            //     Globals.GlobalPattern = new Pattern();
+            //     Globals.GlobalPattern.Airpump = new AirPumpSetting();
+            //     Globals.GlobalPattern.PatternItems.Clear();
+            // }
         }
     }
 }

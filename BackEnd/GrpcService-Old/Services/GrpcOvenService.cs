@@ -49,7 +49,7 @@ namespace GrpcService.Services
             response.MachineName = result.MachineName;
             response.WarrantyStart = new Timestamp() { Seconds = result.WarrantyStart };
             response.WarrantyEnd = new Timestamp() { Seconds = result.WarrantyEnd };
-            response.OvenLog = await _dbService.GetOperationLog(DateTime.Now.Year, DateTime.Now.Month);
+            response.OvenLog = await _dbService.GetOperationLog();
 
             return response;
         }
@@ -109,6 +109,8 @@ namespace GrpcService.Services
                 Thread.Sleep(TimeSpan.FromMilliseconds(_config.Value.Delay2));
             }
         }
+
+       
 
     }
 }

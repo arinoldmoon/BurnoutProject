@@ -34,7 +34,7 @@ namespace UI.Pages.Index.Component.Controller
         {
             Globals.ActualPoint = new List<OperationLog>();
             Globals.SetPoint = new List<PatternItem>();
-            
+
             List<OperationLog> actual = await operationService.GetOperationLog(Selected.LogID);
             Pattern setpoint = (Selected.PatternID != 0 && Selected.PatternID != 99) ? await patternService.GetPatternByID(Selected.PatternID) : new Pattern();
 
@@ -43,6 +43,7 @@ namespace UI.Pages.Index.Component.Controller
 
             StateHasChanged();
         }
+
         public void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             if (args.Name == "MachineInfo")
@@ -56,7 +57,7 @@ namespace UI.Pages.Index.Component.Controller
         protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
-            {                
+            {
                 SetValue();
                 StateHasChanged();
             }
@@ -70,14 +71,30 @@ namespace UI.Pages.Index.Component.Controller
                 MonthList = Globals.GlobalMachineInfo.LogHeader.MonthList;
                 LogList = Globals.GlobalMachineInfo.LogHeader.LogList.ToList();
 
-                Selected = Globals.GlobalMachineInfo.LogHeader.LogList.First();
+                if (LogList.Any())
+                {
+                    Selected = Globals.GlobalMachineInfo.LogHeader.LogList.First();
+                }
             }
+
+            SelectYear = YearList.LastOrDefault();
+            SelectMonth = MonthList.LastOrDefault();
+
+            InvokeAsync(StateHasChanged);
         }
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            Globals.PropertyChanged += OnPropertyChanged;            
+            Globals.PropertyChanged += OnPropertyChanged;
+        }
+
+        public void OnChange(object value)
+        {
+            // var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+
+            Console.WriteLine($"Select Year : {SelectYear} | Month : {SelectMonth}");
+            // LogList = operationService.GetOperationLog()
         }
     }
 }

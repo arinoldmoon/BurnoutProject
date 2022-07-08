@@ -90,7 +90,7 @@ namespace UI.Services
                     }
 
                     foreach (var item in response.OvenLog.LogList)
-                    {                        
+                    {
                         info.LogHeader.LogList.Add(new OvenLogList()
                         {
                             LogID = item.LogID,
@@ -149,5 +149,7 @@ namespace UI.Services
 
             return Setting;
         }
+
+        
     }
 }

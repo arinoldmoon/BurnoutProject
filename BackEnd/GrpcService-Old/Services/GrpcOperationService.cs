@@ -64,5 +64,10 @@ namespace GrpcService.Services
             Console.WriteLine(result.Count);
             return response;
         }
+
+        // public override async Task<ProtoOvenLog> GetOperationLogList(ProtoOvenLogRequest request, ServerCallContext context)
+        // {
+        //     return await _dbService.GetOperationLog(request.SelectYear, request.SelectMonth);
+        // }
     }
 }

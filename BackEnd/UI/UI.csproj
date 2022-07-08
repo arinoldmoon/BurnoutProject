@@ -10,13 +10,13 @@
 
 
   <ItemGroup>
-    <PackageReference Include="google.protobuf" Version="3.20.1" />
-    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.46.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.46.1">
+    <PackageReference Include="google.protobuf" Version="3.21.2" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.47.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.47.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Radzen.Blazor" Version="3.18.9" />    
+    <PackageReference Include="Radzen.Blazor" Version="3.19.3" />    
   </ItemGroup>
 
     <ItemGroup>

@@ -18,6 +18,7 @@ namespace GrpcService.Services
         Task<bool> DeletePattern(int Number);
         Task<int> ChkOperationLogID();
         Task<bool> OperationWriteLog(int ID);
+        Task<ProtoOvenLog> GetOperationLog();
         Task<ProtoOvenLog> GetOperationLog(int year, int month);
         Task<List<OperationLog>> GetOperationLogByID(int LogID);
     }
