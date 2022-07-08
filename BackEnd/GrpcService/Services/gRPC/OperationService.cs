@@ -84,5 +84,7 @@ namespace GrpcService.Services.gRPC
 
         public override async Task<ProtoPattern> CurrentPattern(Empty request, ServerCallContext context) => await _plcService.GetCuerrentPattern();
 
+        public override async Task<BoolValue> ManualTemp(ProtoManualTemp request, ServerCallContext context) => await _plcService.SetManualTemp(request);
+       
     }
 }

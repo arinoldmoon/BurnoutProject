@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.burnout_mobile">
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.INTERNET" />
+>>>>>>> 52f5206429b9421c749acfffc513fe51c29378b3
    <application
         android:label="burnout_mobile"
         android:name="${applicationName}"

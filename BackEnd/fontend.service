@@ -1,0 +1,13 @@
+[Unit]
+Description=Burnout FontEnd BlazerServer
+After=network.target
+
+[Service]
+User=pi
+ExecStart=/home/pi/.dotnet/dotnet /home/pi/fontend/UI.dll
+WorkingDirectory=/home/pi/fontend
+
+[Install]
+WantedBy=multi-user.target
+
+

@@ -44,7 +44,7 @@ namespace UI.Services
             await Task.Run(async () =>
             {
                 response = await OvenProto.GetOvenSettingAsync(new Empty());
-                response.AfbDelay = response.AfbDelay / 60;
+                response.AfbDelay = (int)TimeSpan.FromSeconds(response.AfbDelay).TotalMinutes;
             });
 
             return response;

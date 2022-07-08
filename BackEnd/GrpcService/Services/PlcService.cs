@@ -19,6 +19,7 @@ namespace GrpcService.Services
         Task<BoolValue> StartOperation(ProtoPattern request);
         Task<BoolValue> StopOperation();
         Task<BoolValue> SetOvenSetting(ProtoOvenSetting request);
+        Task<BoolValue> SetManualTemp(ProtoManualTemp request);
 
         Task<ProtoPattern> GetCuerrentPattern();
         Task<ProtoOvenSetting> GetOvenSetting();
@@ -35,6 +36,9 @@ namespace GrpcService.Services
 
         private SerialPort serialPort = new SerialPort();
         private IModbusMaster Device = ModbusSerialMaster.CreateRtu(new SerialPort());
+
+        private const byte _slaveId = 1;
+        private const ushort _numOfPoint = 1;
 
         public PlcService(IOptions<PLCConfig> plcConfig, IDbService dbService, SystemConfig sysConfig, ResponseModel response, ModelConvertor convert)
         {
@@ -81,6 +85,68 @@ namespace GrpcService.Services
             return status;
         }
 
+        private async Task<bool> SendPatternToPLC(ProtoPattern request)
+        {
+            bool response = false;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    Device.WriteSingleRegister(_slaveId, registerAddress: 299, value: (ushort)request.PatternId);
+                    Task.Delay(10);
+                    Device.WriteSingleRegister(_slaveId, registerAddress: 200, value: (ushort)request.StepCount);
+                    Task.Delay(10);
+
+                    Device.WriteSingleCoil(_slaveId, coilAddress: 550, value: request.UseAfb);
+                    Task.Delay(10);
+                    Device.WriteSingleCoil(_slaveId, coilAddress: 552, value: request.AirPump.UseAirpump);
+                    Task.Delay(10);
+                    Device.WriteSingleRegister(_slaveId, registerAddress: (553), value: (ushort)request.AirPump.StartTemp);
+                    Task.Delay(10);
+                    Device.WriteSingleRegister(_slaveId, registerAddress: (554), value: (ushort)request.AirPump.EndTemp);
+                    Task.Delay(10);
+                    Device.WriteSingleRegister(_slaveId, registerAddress: (551), value: (ushort)request.AirPump.DelayMinuteDuration.Seconds);
+                    Task.Delay(10);
+
+                    List<ushort> result = new List<ushort>();
+                    if (request.StepCount > 0)
+                    {
+                        foreach (var item in request.PatternDetail)
+                        {
+                            var time = TimeSpan.FromSeconds(item.StepDuration.Seconds);
+                            result.Add((ushort)item.Temp);
+                            result.Add((ushort)time.Hours);
+                            result.Add((ushort)time.Minutes);
+                            Task.Delay(10);
+                        }
+
+                        ushort StartAddr = 201;
+                        foreach (ushort value in result)
+                        {
+                            Device.WriteSingleRegister(_slaveId, StartAddr, value);
+                            StartAddr++;
+                            Task.Delay(10);
+                        }
+                    }
+
+                    var chk1 = Device.ReadHoldingRegisters(_slaveId, startAddress: 299, _numOfPoint)[0];
+                    var chk2 = Device.ReadHoldingRegisters(_slaveId, startAddress: 200, _numOfPoint)[0];
+                    var chk3 = Device.ReadHoldingRegisters(_slaveId, startAddress: 554, _numOfPoint)[0];
+
+                    response = (chk1 == request.PatternId && chk2 == request.StepCount && chk3 == request.AirPump.EndTemp) ? true : false;
+                }
+                catch (Exception ex)
+                {
+                    string message = $"SendPatternToPLC Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                }
+            });
+
+
+            return response;
+        }
+
         public bool ConnectPLCDevice()
         {
             bool response = false;
@@ -99,7 +165,7 @@ namespace GrpcService.Services
             }
             catch (Exception ex)
             {
-                string message = $"ConnectPLCDevice Error : {ex.Message.ToString()}";
+                string message = $"ConnectPLCDevice Error : {ex.Message}";
                 _sysConfig.WriteLogFile(message);
 
                 _sysConfig.plcDeviceConnected = false;
@@ -112,11 +178,10 @@ namespace GrpcService.Services
         public bool CheckConnection()
         {
             bool result = false;
-            
 
             try
             {
-                if (Device.ReadCoilsAsync(1, 500, 1).Result.Any())
+                if (Device.ReadCoils(_slaveId, startAddress: 500, _numOfPoint).Any())
                 {
                     result = true;
                 }
@@ -125,7 +190,7 @@ namespace GrpcService.Services
             }
             catch (Exception ex)
             {
-                string message = $"{ex.Message.ToString()}";
+                string message = $"{ex.Message}";
                 _sysConfig.WriteLogFile(message);
                 Console.WriteLine(message);
             }
@@ -135,215 +200,112 @@ namespace GrpcService.Services
 
         public async Task GetTempSensor()
         {
-            try
+            await Task.Run(() =>
             {
-                ushort[] SensorList = { 100, 120, 160, 140 };
-                foreach (var item in SensorList)
+                try
                 {
-                    ushort result = (await Device.ReadHoldingRegistersAsync((byte)1, (ushort)item, (ushort)1))[0];
-                    switch (item)
-                    {
-                        case 100:
-                            _response.tempResponse.TempOven = (int)result;
-                            break;
-                        case 120:
-                            _response.tempResponse.TempAFB = (int)result;
-                            break;
-                        case 160:
-                            _response.tempResponse.TempFloor = (int)result;
-                            break;
-                        case 140:
-                            _response.tempResponse.TempTube = (int)result;
-                            break;
-                    }
-                    await Task.Delay(10);
+                    ushort[] AddressTempSensorList = { 100, 120, 160, 140 };
+                    _response.tempResponse.TempOven = Device.ReadHoldingRegisters(_slaveId, startAddress: AddressTempSensorList[0], _numOfPoint)[0];
+                    _response.tempResponse.TempAFB = Device.ReadHoldingRegisters(_slaveId, startAddress: AddressTempSensorList[1], _numOfPoint)[0];
+                    _response.tempResponse.TempFloor = Device.ReadHoldingRegisters(_slaveId, startAddress: AddressTempSensorList[2], _numOfPoint)[0];
+                    _response.tempResponse.TempTube = Device.ReadHoldingRegisters(_slaveId, startAddress: AddressTempSensorList[3], _numOfPoint)[0];
                 }
-
-            }
-            catch (Exception ex)
-            {
-                string message = $"GetTempSensor Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-                Console.WriteLine(message);
-            }
+                catch (Exception ex)
+                {
+                    string message = $"GetTempSensor Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                    Console.WriteLine(message);
+                }
+            });
         }
 
         public async Task GetCoilSensor()
         {
-            try
+            await Task.Run(() =>
             {
+                try
+                {
+                    bool[] result = Device.ReadCoils(_slaveId, startAddress: 70, numberOfPoints: 5);
+                    _response.coilResponse.CoilOven = result[0];
+                    _response.coilResponse.CoilAFB = result[1];
+                    _response.coilResponse.CoilTube = result[2];
+                    _response.coilResponse.CoilPump = result[3];
+                    _response.coilResponse.CoilFloor = result[4];
 
-                bool[] result = await Device.ReadCoilsAsync((byte)1, (ushort)70, (ushort)5);
-                _response.coilResponse.CoilOven = result[0];
-                _response.coilResponse.CoilAFB = result[1];
-                _response.coilResponse.CoilTube = result[2];
-                _response.coilResponse.CoilPump = result[3];
-                _response.coilResponse.CoilFloor = result[4];
-
-            }
-            catch (Exception ex)
-            {
-                string message = $"GetCoilSensor Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-                Console.WriteLine(message);
-            }
+                }
+                catch (Exception ex)
+                {
+                    string message = $"GetCoilSensor Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                    Console.WriteLine(message);
+                }
+            });
         }
 
         public async Task GetMachineStatus()
         {
-            try
+            await Task.Run(() =>
             {
-                if (_sysConfig.plcDeviceConnected)
+                try
                 {
-                    _response.statusResponse.Operation = (await Device.ReadCoilsAsync(1, 500, 1))[0];
-                    await Task.Delay(10);                     
-                    _response.statusResponse.Door = (await Device.ReadCoilsAsync(1, 85, 1))[0];
-
-                    // Read OperationInfo From PLC
-                    ushort[] HeaderList = { 200, 299, 500, 572, 574 };
-                    foreach (var item in HeaderList)
+                    if (_sysConfig.plcDeviceConnected)
                     {
-                        ushort StatusResult = (await Device.ReadHoldingRegistersAsync(1, item, 1))[0];
-                        switch (item)
-                        {
-                            case 200:
-                                _response.statusResponse.TotalStep = (int)StatusResult;
-                                break;
-                            case 299:
-                                _response.statusResponse.PatternId = (int)StatusResult;
-                                break;
-                            case 500:
-                                _response.statusResponse.CurrentStep = (int)StatusResult;
-                                break;
-                            case 572:
-                                _response.statusResponse.RemainMins = TimeSpan.FromMinutes((int)StatusResult).ToDuration();
-                                break;
-                            case 574:
-                                _response.statusResponse.RemainHours = TimeSpan.FromHours((int)StatusResult).ToDuration();
-                                break;
-                        }
-                        await Task.Delay(10);
-                    }
+                        _response.statusResponse.Operation = Device.ReadCoils(_slaveId, startAddress: 500, _numOfPoint)[0];
+                        Task.Delay(10);
+                        _response.statusResponse.Door = Device.ReadCoils(_slaveId, startAddress: 85, _numOfPoint)[0];
 
-                    // Read PatternStatus From PLC
-                    ushort[] StatusList = { 601, 602, 603, 607 };
-                    foreach (ushort item in StatusList)
-                    {
-                        if ((await Device.ReadCoilsAsync(1, item, 1))[0])
+                        // Read OperationInfo From PLC
+                        ushort[] AddrHeaderList = { 200, 299, 500, 572, 574 };
+                        _response.statusResponse.TotalStep = Device.ReadHoldingRegisters(_slaveId, startAddress: AddrHeaderList[0], _numOfPoint)[0];
+                        _response.statusResponse.PatternId = Device.ReadHoldingRegisters(_slaveId, startAddress: AddrHeaderList[1], _numOfPoint)[0];
+                        _response.statusResponse.CurrentStep = Device.ReadHoldingRegisters(_slaveId, startAddress: AddrHeaderList[2], _numOfPoint)[0];
+                        _response.statusResponse.RemainMins = TimeSpan.FromMinutes(Device.ReadHoldingRegisters(_slaveId, startAddress: AddrHeaderList[3], _numOfPoint)[0]).ToDuration();
+                        _response.statusResponse.RemainHours = TimeSpan.FromHours(Device.ReadHoldingRegisters(_slaveId, startAddress: AddrHeaderList[4], _numOfPoint)[0]).ToDuration();
+
+                        // Read PatternStatus From PLC                       
+                        List<ushort> AddrStatusList = new List<ushort>() { 601, 602, 603, 607 };
+
+                        foreach (var (addr, index) in AddrStatusList.Select((value, i) => (value, i)))
                         {
-                            switch (item)
+                            if (Device.ReadCoils(_slaveId, startAddress: addr, _numOfPoint)[0])
                             {
-                                case 601:
-                                    _response.statusResponse.PatternStatus = PatternStatus.Down;
-                                    break;
-                                case 602:
-                                    _response.statusResponse.PatternStatus = PatternStatus.Up;
-                                    break;
-                                case 603:
-                                    _response.statusResponse.PatternStatus = PatternStatus.Stable;
-                                    break;
-                                case 607:
-                                    _response.statusResponse.PatternStatus = PatternStatus.End;
-                                    break;
-                                default:
-                                    _response.statusResponse.PatternStatus = PatternStatus.Standby;
-                                    break;
+                                _response.statusResponse.PatternStatus = (PatternStatus)index;
                             }
+
+                            Task.Delay(10);
                         }
-                        await Task.Delay(10);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                string message = $"GetMachineStatus Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-                Console.WriteLine(message);
-            }
-        }
-
-        private async Task<bool> SendPatternToPLC(ProtoPattern request)
-        {
-            bool response = false;
-
-            try
-            {
-                await Task.Run(async () =>
+                catch (Exception ex)
                 {
-                    await Device.WriteSingleRegisterAsync((byte)1, (ushort)299, (ushort)request.PatternId);
-                    await Task.Delay(10);
-                    await Device.WriteSingleRegisterAsync((byte)1, (ushort)200, (ushort)request.StepCount);
-                    await Task.Delay(10);
-
-                    await Device.WriteSingleCoilAsync((byte)1, (ushort)550, request.UseAfb);
-                    await Task.Delay(10);
-                    await Device.WriteSingleCoilAsync((byte)1, (ushort)552, request.AirPump.UseAirpump);
-                    await Task.Delay(10);
-                    await Device.WriteSingleRegisterAsync((byte)1, (ushort)(553), (ushort)request.AirPump.StartTemp);
-                    await Task.Delay(10);
-                    await Device.WriteSingleRegisterAsync((byte)1, (ushort)(554), (ushort)request.AirPump.EndTemp);
-                    await Task.Delay(10);
-                    await Device.WriteSingleRegisterAsync((byte)1, (ushort)(551), (ushort)request.AirPump.DelayMinuteDuration.Seconds);
-                    await Task.Delay(10);
-
-                    List<ushort> result = new List<ushort>();
-                    if (request.StepCount > 0)
-                    {
-                        foreach (var item in request.PatternDetail)
-                        {
-                            var time = TimeSpan.FromSeconds(item.StepDuration.Seconds);
-                            result.Add((ushort)item.Temp);
-                            result.Add((ushort)time.Hours);
-                            result.Add((ushort)time.Minutes);
-                            await Task.Delay(10);
-                        }
-
-                        ushort StartAddr = 201;
-                        foreach (var item in result)
-                        {
-                            await Device.WriteSingleRegisterAsync((byte)1, StartAddr, item);
-                            StartAddr++;
-                            await Task.Delay(10);
-                        }
-                    }
-
-                    var chk1 = (await Device.ReadHoldingRegistersAsync(1, 299, 1))[0];
-                    var chk2 = (await Device.ReadHoldingRegistersAsync(1, 200, 1))[0];
-                    var chk3 = (await Device.ReadHoldingRegistersAsync(1, 554, 1))[0];
-
-                    response = (chk1 == request.PatternId && chk2 == request.StepCount && chk3 == request.AirPump.EndTemp) ? true : false;
-                });
-            }
-            catch (Exception ex)
-            {
-                string message = $"SendPatternToPLC Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-            }
-
-            return response;
+                    string message = $"GetMachineStatus Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                    Console.WriteLine(message);
+                }
+            });
         }
 
         public async Task<BoolValue> StartOperation(ProtoPattern request)
         {
             BoolValue response = new BoolValue() { Value = false };
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(async () =>
+                try
                 {
                     if (_sysConfig.plcDeviceConnected)
                     {
                         if (_response.statusResponse!.Operation == false)
                         {
-                            if (await SendPatternToPLC(request))
+                            if (SendPatternToPLC(request).Result)
                             {
                                 if (_dbService.OperationWriteLog(++_sysConfig.LastLogID))
                                 {
-                                    await Device.WriteSingleCoilAsync((byte)1, 38, true);
-                                    await Task.Delay(3000);
-                                    await Device.WriteSingleCoilAsync((byte)1, 38, false);
+                                    Device.WriteSingleCoil(_slaveId, coilAddress: 38, value: true);
+                                    Task.Delay(3000);
+                                    Device.WriteSingleCoil(_slaveId, coilAddress: 38, value: false);
 
-                                    if ((await Device.ReadCoilsAsync(1, 500, 1))[0])
+                                    if (Device.ReadCoils(_slaveId, startAddress: 500, _numOfPoint)[0])
                                     {
                                         response.Value = true;
                                         _sysConfig.WriteLogFile($"StartOperation PatternID : {request.PatternId} | LogID : {_sysConfig.LastLogID}");
@@ -356,13 +318,14 @@ namespace GrpcService.Services
                             Console.WriteLine("Operation State : Stay Runing ");
                         }
                     }
-                });
-            }
-            catch (Exception ex)
-            {
-                string message = $"StartOperation Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-            }
+                }
+                catch (Exception ex)
+                {
+                    string message = $"StartOperation Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                }
+            });
+
 
             return response;
 
@@ -372,31 +335,32 @@ namespace GrpcService.Services
         {
             BoolValue response = new BoolValue() { Value = false };
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(async () =>
+                try
                 {
+
                     if (_sysConfig.plcDeviceConnected)
                     {
                         if (_response.statusResponse!.Operation)
                         {
-                            await Device.WriteSingleCoilAsync((byte)1, 39, true);
-                            await Task.Delay(3000);
-                            await Device.WriteSingleCoilAsync((byte)1, 39, false);
+                            Device.WriteSingleCoil(_slaveId, coilAddress: 39, value: true);
+                            Task.Delay(3000);
+                            Device.WriteSingleCoil(_slaveId, coilAddress: 39, value: false);
 
-                            await Device.WriteSingleRegisterAsync((byte)1, 200, (ushort)0);
-                            await Task.Delay(10);
-                            await Device.WriteSingleRegisterAsync((byte)1, 299, (ushort)0);
-                            await Task.Delay(10);
-                            await Device.WriteSingleRegisterAsync((byte)1, 500, 0);
-                            await Task.Delay(10);
+                            Device.WriteSingleRegister(_slaveId, registerAddress: 200, value: 0);
+                            Task.Delay(10);
+                            Device.WriteSingleRegister(_slaveId, registerAddress: 299, value: 0);
+                            Task.Delay(10);
+                            Device.WriteSingleRegister(_slaveId, registerAddress: 500, value: 0);
+                            Task.Delay(10);
 
                             WorkerService.WorkerGetActual!.CancelAsync();
                             Console.WriteLine("StopWorkerGetActual From StopOperation");
 
                             _response.statusResponse.TempLogList.TempLog.Clear();
 
-                            response.Value = !(await Device.ReadCoilsAsync(1, 500, 1))[0];
+                            response.Value = !Device.ReadCoils(_slaveId, startAddress: 500, _numOfPoint)[0];
                             _sysConfig.WriteLogFile("StopOperation");
                             _sysConfig.OperationLogInfo = _dbService.GetOperationLogInfo().Result;
                         }
@@ -405,13 +369,13 @@ namespace GrpcService.Services
                             Console.WriteLine("Operation State : Not Run");
                         }
                     }
-                });
-            }
-            catch (Exception ex)
-            {
-                string message = $"StopOperation Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-            }
+                }
+                catch (Exception ex)
+                {
+                    string message = $"StopOperation Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                }
+            });
 
             return response;
         }
@@ -420,44 +384,63 @@ namespace GrpcService.Services
         {
             BoolValue response = new BoolValue() { Value = false };
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                try
                 {
-                    Device.WriteSingleRegisterAsync(1, 542, (ushort)10);
+                    if (_sysConfig.plcDeviceConnected)
+                    {
+                        Device.WriteSingleRegister(_slaveId, registerAddress: 542, value: 10);
 
-                    // Device.WriteSingleRegisterAsync(1, 545, (ushort)setting.AlarmOven);
-                    // Device.WriteSingleRegisterAsync(1, 546, (ushort)setting.AlarmAfb);
-                    // Device.WriteSingleRegisterAsync(1, 547, (ushort)setting.AfbStartTemp);
-                    // Device.WriteSingleRegisterAsync(1, 548, (ushort)setting.AfbEndTemp);
-                    // Device.WriteSingleRegisterAsync(1, 549, (ushort)setting.AfbDelay);
-                    ushort[] SetSystem = new ushort[] { (ushort)setting.AlarmOven, (ushort)setting.AlarmAfb, (ushort)setting.AfbStartTemp, (ushort)setting.AfbEndTemp, (ushort)setting.AfbDelay };
-                    Device.WriteMultipleRegistersAsync(1, 545, SetSystem);
-                    Device.WriteSingleRegisterAsync(1, 556, (ushort)setting.TubeStartTemp);
-                    Device.WriteSingleRegisterAsync(1, 558, (ushort)setting.FloorStartTemp);
+                        ushort[] SetSystemValueList = new ushort[] { (ushort)setting.AlarmOven, (ushort)setting.AlarmAfb, (ushort)setting.AfbStartTemp, (ushort)setting.AfbEndTemp, (ushort)setting.AfbDelay };
+                        Device.WriteMultipleRegisters(_slaveId, startAddress: 545, data: SetSystemValueList);
+                        Device.WriteSingleRegister(_slaveId, registerAddress: 556, value: (ushort)setting.TubeStartTemp);
+                        Device.WriteSingleRegister(_slaveId, registerAddress: 558, value: (ushort)setting.FloorStartTemp);
 
-                    // Device.WriteSingleRegisterAsync(1, 536, (ushort)setting.SetpointTemp.TempAFB);
-                    // Device.WriteSingleRegisterAsync(1, 537, (ushort)setting.SetpointTemp.TempTube);
-                    // Device.WriteSingleRegisterAsync(1, 538, (ushort)setting.SetpointTemp.TempFloor);
-                    ushort[] SetTempValue = new ushort[] { (ushort)setting.SetpointTemp.TempAFB, (ushort)setting.SetpointTemp.TempTube, (ushort)setting.SetpointTemp.TempFloor };
-                    Device.WriteMultipleRegistersAsync(1, 536, SetTempValue);
 
-                    // Device.WriteSingleCoilAsync(1, 550, setting.CoilSetting.CoilAFB);
-                    // Device.WriteSingleCoilAsync(1, 551, setting.CoilSetting.CoilTube);
-                    // Device.WriteSingleCoilAsync(1, 552, setting.CoilSetting.CoilPump);
-                    // Device.WriteSingleCoilAsync(1, 553, setting.CoilSetting.CoilFloor);
-                    bool[] CoilValue = new bool[] { setting.CoilSetting.CoilAFB, setting.CoilSetting.CoilTube, setting.CoilSetting.CoilPump, setting.CoilSetting.CoilFloor };
-                    Device.WriteMultipleCoilsAsync(1, 550, CoilValue);
+                        ushort[] SetTempValueList = new ushort[] { (ushort)setting.SetpointTemp.TempAFB, (ushort)setting.SetpointTemp.TempTube, (ushort)setting.SetpointTemp.TempFloor };
+                        Device.WriteMultipleRegistersAsync(_slaveId, startAddress: 536, data: SetTempValueList);
 
-                    response.Value = true;
-                });
-            }
-            catch (Exception ex)
+
+                        bool[] SetCoilValueList = new bool[] { setting.CoilSetting.CoilAFB, setting.CoilSetting.CoilTube, setting.CoilSetting.CoilPump, setting.CoilSetting.CoilFloor };
+                        Device.WriteMultipleCoilsAsync(_slaveId, startAddress: 550, data: SetCoilValueList);
+
+                        response.Value = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string message = $"GetOvenSetting Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                }
+            });
+
+            return response;
+        }
+
+        public async Task<BoolValue> SetManualTemp(ProtoManualTemp request)
+        {
+            BoolValue response = new BoolValue() { Value = false };
+
+            await Task.Run(() =>
             {
-                string message = $"GetOvenSetting Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-            }
+                try
+                {
+                    if (_sysConfig.plcDeviceConnected)
+                    {
+                        Device.WriteSingleRegister(_slaveId, registerAddress: 560, value: (ushort)request.Temp);
+                        Task.Delay(10);
+                        Device.WriteSingleCoil(_slaveId, coilAddress: 606, value: request.Use);
 
+                        response.Value = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string message = $"SetManualTemp Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                }
+            });
 
             return response;
         }
@@ -466,9 +449,9 @@ namespace GrpcService.Services
         {
             ProtoPattern response = new ProtoPattern();
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(async () =>
+                try
                 {
                     if (_response.statusResponse!.Operation)
                     {
@@ -477,20 +460,20 @@ namespace GrpcService.Services
                             ushort addr = 201;
                             List<int> DetailList = new List<int>();
                             response.PatternId = 99;
-                            response.StepCount = (await Device.ReadHoldingRegistersAsync((byte)1, (ushort)200, (ushort)1))[0];
+                            response.StepCount = Device.ReadHoldingRegisters(_slaveId, startAddress: 200, _numOfPoint)[0];
 
                             if (response.StepCount != 0)
                             {
                                 response.AirPump = new ProtoAirpump()
                                 {
-                                    StartTemp = (await Device.ReadHoldingRegistersAsync((byte)1, (ushort)553, (ushort)1))[0],
-                                    EndTemp = (await Device.ReadHoldingRegistersAsync((byte)1, (ushort)554, (ushort)1))[0],
-                                    DelayMinuteDuration = TimeSpan.FromSeconds((await Device.ReadHoldingRegistersAsync((byte)1, (ushort)551, (ushort)1))[0]).ToDuration()
+                                    StartTemp = Device.ReadHoldingRegisters(_slaveId, startAddress: 553, _numOfPoint)[0],
+                                    EndTemp = Device.ReadHoldingRegisters(_slaveId, startAddress: 554, _numOfPoint)[0],
+                                    DelayMinuteDuration = TimeSpan.FromSeconds(Device.ReadHoldingRegisters(_slaveId, startAddress: 551, _numOfPoint)[0]).ToDuration()
                                 };
 
                                 for (int i = 0; i < response.StepCount * 3; i++)
                                 {
-                                    int item = Convert.ToInt32((await Device.ReadHoldingRegistersAsync((byte)1, addr, 1))[0]);
+                                    int item = Convert.ToInt32(Device.ReadHoldingRegisters(_slaveId, startAddress: addr, _numOfPoint)[0]);
                                     DetailList.Add(item);
                                     addr++;
                                 }
@@ -519,13 +502,14 @@ namespace GrpcService.Services
                             _sysConfig.WriteLogFile($"GetPattern From DB TotalStep : {response.StepCount}");
                         }
                     }
-                });
-            }
-            catch (Exception ex)
-            {
-                string message = $"GetCuerrentPattern Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-            }
+                }
+                catch (Exception ex)
+                {
+                    string message = $"GetCuerrentPattern Error : {ex.Message.ToString()}";
+                    _sysConfig.WriteLogFile(message);
+                }
+            });
+
 
 
             return response;
@@ -534,50 +518,58 @@ namespace GrpcService.Services
         public async Task<ProtoOvenSetting> GetOvenSetting()
         {
             ProtoOvenSetting response = new ProtoOvenSetting();
-            try
+
+            await Task.Run(() =>
             {
-                await Task.Run(async () =>
+                try
                 {
                     if (_sysConfig.plcDeviceConnected)
                     {
-                        int[] SettingList1 = new int[] { 536, 537, 538, 545, 546, 547, 548, 549, 556, 558 };
-                        List<ushort> value = new List<ushort>();
-                        foreach (var item in SettingList1)
+                        int[] AddrSettingList = new int[] { 536, 537, 538, 545, 546, 547, 548, 549, 556, 558 };
+                        List<ushort> SettingListValue = new List<ushort>();
+                        foreach (ushort addr in AddrSettingList)
                         {
-                            value.Add((await Device.ReadHoldingRegistersAsync(1, (ushort)item, 1))[0]);
-                            await Task.Delay(10);
+                            SettingListValue.Add(Device.ReadHoldingRegisters(_slaveId, startAddress: addr, _numOfPoint)[0]);
+                            Task.Delay(10);
                         }
 
-                        response.AlarmOven = value[3];
-                        response.AlarmAfb = value[4];
-                        response.AfbStartTemp = value[5];
-                        response.AfbEndTemp = value[6];
-                        response.AfbDelay = value[7];
-                        response.TubeStartTemp = value[8];
-                        response.FloorStartTemp = value[9];
+                        response.AlarmOven = SettingListValue[3];
+                        response.AlarmAfb = SettingListValue[4];
+                        response.AfbStartTemp = SettingListValue[5];
+                        response.AfbEndTemp = SettingListValue[6];
+                        response.AfbDelay = SettingListValue[7];
+                        response.TubeStartTemp = SettingListValue[8];
+                        response.FloorStartTemp = SettingListValue[9];
                         response.SetpointTemp = new Temp()
                         {
-                            TempAFB = value[0],
-                            TempTube = value[1],
-                            TempFloor = value[2],
+                            TempAFB = SettingListValue[0],
+                            TempTube = SettingListValue[1],
+                            TempFloor = SettingListValue[2],
                         };
 
-                        bool[] value2 = await Device.ReadCoilsAsync(1, 550, 4);
+                        bool[] CoilListValue = Device.ReadCoils(_slaveId, startAddress: 550, numberOfPoints: 4);
                         response.CoilSetting = new Coil()
                         {
-                            CoilAFB = value2[0],
-                            CoilPump = value2[2],
-                            CoilTube = value2[1],
-                            CoilFloor = value2[3]
+                            CoilAFB = CoilListValue[0],
+                            CoilPump = CoilListValue[2],
+                            CoilTube = CoilListValue[1],
+                            CoilFloor = CoilListValue[3]
+                        };
+
+                        response.ManualTemp = new ProtoManualTemp()
+                        {
+                            Use = Device.ReadCoils(_slaveId, startAddress: 606, _numOfPoint)[0],
+                            Temp = Device.ReadHoldingRegisters(_slaveId, startAddress: 560, _numOfPoint)[0]
                         };
                     }
-                });
-            }
-            catch (Exception ex)
-            {
-                string message = $"GetOvenSetting Error : {ex.Message.ToString()}";
-                _sysConfig.WriteLogFile(message);
-            }
+                }
+                catch (Exception ex)
+                {
+                    string message = $"GetOvenSetting Error : {ex.Message}";
+                    _sysConfig.WriteLogFile(message);
+                }
+            });
+
 
             return response;
         }
