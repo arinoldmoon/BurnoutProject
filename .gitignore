@@ -454,4 +454,6 @@ app.*.map.json
 
 #MyIgnore
 Note.txt
-/build/
+.vscode
+/BackEnd/UI-Old/
+/BackEnd/GrpcService-Old/

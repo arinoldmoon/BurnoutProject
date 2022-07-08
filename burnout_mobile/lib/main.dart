@@ -12,7 +12,7 @@ import 'package:grpc/grpc.dart';
 void main() {
   runApp(MaterialApp(
       theme:
-          ThemeData(scaffoldBackgroundColor: AppTheme.primaryBackGroungColor),
+      ThemeData(scaffoldBackgroundColor: AppTheme.primaryBackGroungColor),
       routes: Routes.routes,
-      home: Burnout()));
+      home: const Burnout()));
 }
