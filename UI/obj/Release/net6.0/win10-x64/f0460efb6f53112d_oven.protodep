@@ -1,0 +1,6 @@
+obj/Release/net6.0/win10-x64/Oven.cs \
+obj/Release/net6.0/win10-x64/OvenGrpc.cs: /Users/arinsrichupeam/.nuget/packages/grpc.tools/2.46.1/build/native/include/google/protobuf/empty.proto\
+ /Users/arinsrichupeam/.nuget/packages/grpc.tools/2.46.1/build/native/include/google/protobuf/timestamp.proto\
+ /Users/arinsrichupeam/.nuget/packages/grpc.tools/2.46.1/build/native/include/google/protobuf/duration.proto\
+ /Users/arinsrichupeam/.nuget/packages/grpc.tools/2.46.1/build/native/include/google/protobuf/wrappers.proto\
+ ../GrpcService/Protos/oven.proto

@@ -1,0 +1,41 @@
+@using GrpcService.Protos
+@inherits PatternListComponent
+
+<div class="row">
+    <div class="col-md-12">
+        <RadzenLabel Text="Select your desired program from the list of available program."></RadzenLabel>
+    </div>
+</div>
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12">
+        <RadzenDataGrid Data="@_patternList" TItem="ProtoPattern" @ref="_dataGrid" LoadData="@(LoadData)"
+            SelectionMode="DataGridSelectionMode.Single" @bind-Value=@Selected>
+            <Columns>                
+                <RadzenDataGridColumn TItem="ProtoPattern" Property="PatternName" Title="PatternName"
+                    TextAlign="TextAlign.Center" />
+                <RadzenDataGridColumn TItem="ProtoPattern" Title="StepCount" TextAlign="TextAlign.Center">
+                    <Template Context="data">
+                        @data.StepCount Steps.
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ProtoPattern" Title="TotalTime" TextAlign="TextAlign.Center">
+                    <Template Context="data">
+                        @TimeSpan.FromSeconds(data.TotalTime.Seconds).ToString(@"hh\:mm") Hrs.
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ProtoPattern" Title="TotalTime" TextAlign="TextAlign.Center">
+                    <Template Context="data">
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1"
+                            Click="@(args => DeleteRow(data))">
+                        </RadzenButton>
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12" style="text-align:center;">
+        <RadzenButton Size="ButtonSize.Medium" Text="Load" Click="@((args) => btnLoadClick(args))"></RadzenButton>
+    </div>
+</div>

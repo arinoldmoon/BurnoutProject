@@ -1,0 +1,33 @@
+﻿<Properties StartupConfiguration="{321BAABB-C252-4F9D-A037-BAB1CCE4E8D3}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Protos/oven.proto">
+    <Files>
+      <File FileName="Services/PlcService.cs" Line="276" Column="44" />
+      <File FileName="Protos/oven.proto" Line="99" Column="16" />
+      <File FileName="command.txt" Line="4" Column="47" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="GrpcService" expanded="True">
+            <Node name="GrpcService" expanded="True">
+              <Node name="Protos" expanded="True" />
+              <Node name="Services" expanded="True">
+                <Node name="PlcService.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.GrpcService PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+</Properties>

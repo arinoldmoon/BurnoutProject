@@ -1,0 +1,26 @@
+15/06/2022 09:00 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+15/06/2022 09:54 PlcConnected NotConnect
+15/06/2022 10:05 PlcConnected NotConnect
+15/06/2022 10:07 PlcConnected NotConnect
+16/06/2022 16:17 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+16/06/2022 16:23 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+23/06/2022 11:12 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+23/06/2022 12:59 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+23/06/2022 13:01 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+23/06/2022 14:31 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+23/06/2022 14:32 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+23/06/2022 14:34 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+27/06/2022 15:48 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+07/07/2022 12:51 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+07/07/2022 12:51 PlcConnected NotConnect
+07/07/2022 12:52 SetManualTemp Error : Object reference not set to an instance of an object.
+08/07/2022 13:50 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+08/07/2022 13:51 GetPatternFromDB By ID : 15
+08/07/2022 13:54 GetPatternFromDB By ID : 15
+08/07/2022 13:54 GetPatternFromDB By ID : 15
+08/07/2022 13:55 GetPatternFromDB By ID : 1
+08/07/2022 13:55 GetPatternFromDB By ID : 1
+08/07/2022 14:04 GetPatternFromDB By ID : 16
+08/07/2022 14:07 GetPatternFromDB By ID : 12

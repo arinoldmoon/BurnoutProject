@@ -1,0 +1,14 @@
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/UI
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/appsettings.Development.json
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/appsettings.json
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/UI.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/UI.runtimeconfig.json
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/UI.pdb
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/Google.Protobuf.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/Grpc.Core.Api.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/Grpc.Net.Client.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/Grpc.Net.ClientFactory.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/Grpc.Net.Common.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/Radzen.Blazor.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/System.Linq.Dynamic.Core.dll
+/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm/publish/UI.deps.json
