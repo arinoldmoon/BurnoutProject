@@ -6,6 +6,8 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:nil/nil.dart';
 
 class DrawerMenu extends StatefulWidget {
+  const DrawerMenu({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => DrawerMenuState();
 }
@@ -15,10 +17,12 @@ class DrawerMenuState extends State<DrawerMenu>
   late AnimationController controller;
   late Animation<Offset> position;
 
+  late int currentPage;
+
   @override
   void initState() {
     super.initState();
-
+    currentPage = 0;
     controller = AnimationController(
         vsync: this,
         duration: const Duration(
@@ -76,32 +80,58 @@ class DrawerMenuState extends State<DrawerMenu>
                               i++)
                             Column(
                               children: [
-                                Container(
-                                  height: Sizes.drawerMenuSlideMenuHeight,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: AppTheme.yellowPrimary,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      DrawerMenuModel.drawerMenuList[i].icon,
-                                      const SizedBox(
-                                        width: Sizes
-                                            .drawerMenuSlideIconTitleSpacing,
-                                      ),
-                                      Text(
-                                        DrawerMenuModel.drawerMenuList[i].title,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6!
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ],
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      currentPage = i;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: Sizes.drawerMenuSlideMenuHeight,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: (() {
+                                        if (currentPage == i) {
+                                          return AppTheme.yellowPrimary;
+                                        } else {
+                                          return Colors.white;
+                                        }
+                                      }()),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          DrawerMenuModel
+                                              .drawerMenuList[i].icon,
+                                          size: Sizes.drawerMenuSlideIconSize,
+                                          color: ((){
+                                            if(currentPage == i){
+                                              return AppTheme.yellowPrimary;
+                                            }else{
+                                              return Colors.white;
+                                            }
+                                          }()),
+                                        ),
+                                        const SizedBox(
+                                          width: Sizes
+                                              .drawerMenuSlideIconTitleSpacing,
+                                        ),
+                                        Text(
+                                          DrawerMenuModel
+                                              .drawerMenuList[i].title,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6!
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(

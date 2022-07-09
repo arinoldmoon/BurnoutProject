@@ -4,34 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
 class DrawerMenuModel {
-  final Icon icon;
+  final IconData icon;
   final String title;
 
   DrawerMenuModel({required this.icon, required this.title});
 
   static List<DrawerMenuModel> drawerMenuList = [
     DrawerMenuModel(
-      icon: const Icon(
-        PhosphorIcons.hard_drives,
-        size: Sizes.drawerMenuSlideIconSize,
-        color: Colors.white,
-      ),
+      icon: PhosphorIcons.hard_drives,
       title: UiStrings.drawerMenuMyMachine,
     ),
     DrawerMenuModel(
-      icon: const Icon(
-        PhosphorIcons.gear_six,
-        size: Sizes.drawerMenuSlideIconSize,
-        color: Colors.white,
-      ),
+      icon: PhosphorIcons.gear_six,
       title: UiStrings.drawerMenuSetting,
     ),
     DrawerMenuModel(
-      icon: const Icon(
-        PhosphorIcons.phone_disconnect,
-        size: Sizes.drawerMenuSlideIconSize,
-        color: Colors.white,
-      ),
+      icon: PhosphorIcons.phone_disconnect,
       title: UiStrings.drawerMenuContact,
     )
   ];
