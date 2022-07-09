@@ -38,7 +38,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
   );
 
-  static final OvenProtoServiceClient ovenStub = OvenProtoServiceClient(channel);
+  static final OvenProtoServiceClient ovenStub =
+      OvenProtoServiceClient(channel);
 
   Stream<ProtoOvenResponse> monitorDevice() async* {
     await for (ProtoOvenResponse monitor in ovenStub.monitorDevice(Empty())) {
@@ -64,14 +65,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     connect();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     super.dispose();
     channel.shutdown();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
