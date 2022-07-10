@@ -87,4 +87,19 @@ class MachineDashboardUiStrings {
   static String machineDashboardEditProgramDialogReorderStep(int step) {
     return 'Step ${step + 1}';
   }
+
+  // Machine Dashboard Delete Program Dialog
+  static String machineDashboardDeleteProgramDialogTitle(int index){
+    index += 1;
+    return  'Delete Program $index';
+    
+  }
+
+  static String machineDashboardDeleteProgramDialoContent(){
+    return 'Are you sure you want to delete this program? \nOnce the program get deleted, it cannot be restore.';
+
+  }
+
+  static const machineDashboardDeleteProgramDialoSubmitTitle = "Yes, I'm sure";
+  static const machineDashboardDeleteProgramDialoCancelTitle = 'No';
 }
