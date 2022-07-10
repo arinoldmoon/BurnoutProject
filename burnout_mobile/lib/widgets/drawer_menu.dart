@@ -1,9 +1,8 @@
 import 'package:burnout_mobile/constants/sizes.dart';
-import 'package:burnout_mobile/data_models/drawer_menu.dart';
+import 'package:burnout_mobile/data_models/drawer_menu_model.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:nil/nil.dart';
 
 class DrawerMenu extends StatefulWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -56,6 +55,7 @@ class DrawerMenuState extends State<DrawerMenu>
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
+                      key: const Key('closeButton'),
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         controller.reverse();
@@ -95,7 +95,7 @@ class DrawerMenuState extends State<DrawerMenu>
                                         if (currentPage == i) {
                                           return AppTheme.yellowPrimary;
                                         } else {
-                                          return Colors.white;
+                                          return AppTheme.blackPrimary;
                                         }
                                       }()),
                                     ),
@@ -107,13 +107,8 @@ class DrawerMenuState extends State<DrawerMenu>
                                           DrawerMenuModel
                                               .drawerMenuList[i].icon,
                                           size: Sizes.drawerMenuSlideIconSize,
-                                          color: ((){
-                                            if(currentPage == i){
-                                              return AppTheme.yellowPrimary;
-                                            }else{
-                                              return Colors.white;
-                                            }
-                                          }()),
+                                          color: Colors.white,
+                                          key: const Key('leadingIcon'),
                                         ),
                                         const SizedBox(
                                           width: Sizes
@@ -129,6 +124,7 @@ class DrawerMenuState extends State<DrawerMenu>
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
                                               ),
+                                          key:  Key('titleMenuText$i'),
                                         ),
                                       ],
                                     ),
