@@ -63,5 +63,6 @@ namespace UI.Services
 
         public async Task<ProtoPattern> CurrentPattern() => await OperationProto.CurrentPatternAsync(new Empty());
 
+        public async Task<BoolValue> ManualTemp(ProtoManualTemp request) => await OperationProto.ManualTempAsync(request);
     }
 }
