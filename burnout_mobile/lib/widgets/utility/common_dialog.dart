@@ -17,7 +17,7 @@ class CommonDialog extends StatelessWidget {
   }) : super(key: key);
 
   final String titleText;
-  final String contentText;
+  final Widget contentText;
   final String submitButtonTile;
   final String cancelButtonTile;
   final Color submitButtonColor;
@@ -41,11 +41,7 @@ class CommonDialog extends StatelessWidget {
             .copyWith(fontWeight: FontWeight.bold),
         key: const Key('titleDialog'),
       ),
-      content: Text(
-        contentText,
-        style: Theme.of(context).textTheme.bodyText2,
-        key: const Key('contentDialog'),
-      ),
+      content: contentText,
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

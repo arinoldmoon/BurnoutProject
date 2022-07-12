@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'dart:core';
-import 'package:burnout_mobile/styles/app_theme.dart';
+import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_cancel_operation_dialog.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_delete_program_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
-  int mockDeleteProgram = 0;
   group(MachineDashboardDeleteProgramDialog, () {
     testWidgets(
-        'Machine Dashboard Delete Program Dialog should render correctly',
+        'Machine Dashboard Cancel Operation Dialog should render correctly',
         (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -21,8 +20,7 @@ void main() {
                 onTap: () async {
                   await showDialog(
                     context: context,
-                    builder: (_) => MachineDashboardDeleteProgramDialog(
-                      programIndex: mockDeleteProgram,
+                    builder: (_) => MachineDashboardCancelOperationDialog(
                       cancelCallBack: () {},
                       submitCallBack: () {},
                     ),
@@ -37,7 +35,6 @@ void main() {
       await tester.tap(find.byType(GestureDetector));
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
-      expect(find.text('Delete Program 1'), findsOneWidget);
       expect(find.byKey(const Key('titleDialog')), findsOneWidget);
       expect(find.byKey(const Key('contentText')), findsOneWidget);
       expect(find.byKey(const Key('cancelButtonDialog')), findsOneWidget);
@@ -45,7 +42,7 @@ void main() {
     });
 
     testWidgets(
-        'Machine Dashboard Delete Program Dialog Cancel Call Back Should work correctly',
+        'Machine Dashboard Cancel Operation Dialog Cancel Call Back Should work correctly',
         (tester) async {
       final Completer completer = Completer();
       await tester.pumpWidget(
@@ -57,8 +54,7 @@ void main() {
                 onTap: () async {
                   await showDialog(
                     context: context,
-                    builder: (_) => MachineDashboardDeleteProgramDialog(
-                      programIndex: mockDeleteProgram,
+                    builder: (_) => MachineDashboardCancelOperationDialog(
                       cancelCallBack: completer.complete,
                       submitCallBack: () {},
                     ),
@@ -77,7 +73,7 @@ void main() {
     });
 
     testWidgets(
-        'Machine Dashboard Delete Program Dialog Submit Call Back Should work correctly',
+        'Machine Dashboard Cancel Operation Dialog Submit Call Back Should work correctly',
         (tester) async {
       final Completer completer = Completer();
       await tester.pumpWidget(
@@ -89,8 +85,7 @@ void main() {
                 onTap: () async {
                   await showDialog(
                     context: context,
-                    builder: (_) => MachineDashboardDeleteProgramDialog(
-                      programIndex: mockDeleteProgram,
+                    builder: (_) => MachineDashboardCancelOperationDialog(
                       cancelCallBack: () {},
                       submitCallBack: completer.complete,
                     ),
@@ -119,8 +114,7 @@ void main() {
                 onTap: () async {
                   await showDialog(
                     context: context,
-                    builder: (_) => MachineDashboardDeleteProgramDialog(
-                      programIndex: mockDeleteProgram,
+                    builder: (_) => MachineDashboardCancelOperationDialog(
                       cancelCallBack: () {},
                       submitCallBack: () {},
                     ),
@@ -134,7 +128,8 @@ void main() {
       await tester.tap(find.byType(GestureDetector));
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
-      await multiScreenGolden(tester, 'machine_dashboard_delete_program_dialog',
+      await multiScreenGolden(
+          tester, 'machine_dashboard_cancel_operation_dialog',
           devices: [
             const Device(
               name: 'Phone',

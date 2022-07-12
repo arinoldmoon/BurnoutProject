@@ -3,15 +3,11 @@ import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/utility/common_dialog.dart';
 import 'package:flutter/material.dart';
 
-class MachineDashboardDeleteProgramDialog extends StatelessWidget {
-  const MachineDashboardDeleteProgramDialog(
-      {Key? key,
-      required this.programIndex,
-      required this.cancelCallBack,
-      required this.submitCallBack})
+class MachineDashboardCancelOperationDialog extends StatelessWidget {
+ const MachineDashboardCancelOperationDialog(
+      {Key? key, required this.cancelCallBack, required this.submitCallBack})
       : super(key: key);
 
-  final int programIndex;
   final VoidCallback cancelCallBack;
   final VoidCallback submitCallBack;
 
@@ -19,8 +15,7 @@ class MachineDashboardDeleteProgramDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonDialog(
       titleText:
-          MachineDashboardUiStrings.machineDashboardDeleteProgramDialogTitle(
-              programIndex),
+          MachineDashboardUiStrings.machineDashboardCaneclOperationDialogTitle,
       contentText: RichText(
         key: const Key('contentText'),
         text: TextSpan(
@@ -28,11 +23,11 @@ class MachineDashboardDeleteProgramDialog extends StatelessWidget {
           children: [
             const TextSpan(
               text: MachineDashboardUiStrings
-                  .machineDashboardDeleteProgramDialoContent,
+                  .machineDashboardCancelOperationContentFirstLine,
             ),
             TextSpan(
               text: MachineDashboardUiStrings
-                  .machineDashboardCancelOperationContentCannotBeRestore,
+                  .machineDashboardCancelOperationContentCannotBeResume,
               style: Theme.of(context)
                   .textTheme
                   .bodyText2!

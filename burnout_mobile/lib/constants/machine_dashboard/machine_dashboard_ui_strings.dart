@@ -89,17 +89,24 @@ class MachineDashboardUiStrings {
   }
 
   // Machine Dashboard Delete Program Dialog
-  static String machineDashboardDeleteProgramDialogTitle(int index){
+  static String machineDashboardDeleteProgramDialogTitle(int index) {
     index += 1;
-    return  'Delete Program $index';
-    
+    return 'Delete Program $index';
   }
 
-  static String machineDashboardDeleteProgramDialoContent(){
-    return 'Are you sure you want to delete this program? \nOnce the program get deleted, it cannot be restore.';
-
-  }
+  static const machineDashboardDeleteProgramDialoContent =
+     'Are you sure you want to delete this program? \nOnce the program get deleted, ';
+  
 
   static const machineDashboardDeleteProgramDialoSubmitTitle = "Yes, I'm sure";
   static const machineDashboardDeleteProgramDialoCancelTitle = 'No';
+    static const machineDashboardCancelOperationContentCannotBeRestore =
+      'it cannot be restore.';
+
+  // Machine Dashboard Cancel Operation Dialog
+  static const machineDashboardCaneclOperationDialogTitle = 'Cancel Operation';
+  static const machineDashboardCancelOperationContentFirstLine =
+      'Are you sure you want to cancel this operation?\nOnce the operation get cancelled, ';
+  static const machineDashboardCancelOperationContentCannotBeResume =
+      'it cannot be resume.';
 }

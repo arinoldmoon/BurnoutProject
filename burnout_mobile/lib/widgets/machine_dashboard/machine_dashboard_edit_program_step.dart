@@ -263,8 +263,14 @@ class _MachineDashboardEditProgramStepState
                                         key: const Key('startApStepDialog'),
                                         cancelButtonTile: MachineDashboardUiStrings
                                             .machineDashboardEditProgramDialogNo,
-                                        contentText: MachineDashboardUiStrings
-                                            .contentDialog(index),
+                                        contentText: Text(
+                                          MachineDashboardUiStrings
+                                              .contentDialog(index),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                          key: const Key('contentText'),
+                                        ),
                                         submitButtonTile: MachineDashboardUiStrings
                                             .machineDashboardEditProgramDialogSubmitStartAtStep,
                                         titleText: MachineDashboardUiStrings

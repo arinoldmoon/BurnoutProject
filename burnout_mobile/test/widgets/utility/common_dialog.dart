@@ -20,7 +20,10 @@ void main() {
                     context: context,
                     builder: (_) => CommonDialog(
                         titleText: 'titleText',
-                        contentText: 'contentText',
+                        contentText: Text(
+                          'content',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                         submitButtonTile: 'submit',
                         cancelButtonTile: 'cancel',
                         submitButtonColor: AppTheme.greenPrimary100,
@@ -39,7 +42,6 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(find.byKey(const Key('titleDialog')), findsOneWidget);
-      expect(find.byKey(const Key('contentDialog')), findsOneWidget);
       expect(find.byKey(const Key('cancelButtonDialog')), findsOneWidget);
       expect(find.byKey(const Key('submitButtonDialog')), findsOneWidget);
     });
@@ -58,7 +60,10 @@ void main() {
                     context: context,
                     builder: (_) => CommonDialog(
                         titleText: 'titleText',
-                        contentText: 'contentText',
+                        contentText: Text(
+                          'content',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                         submitButtonTile: 'submit',
                         cancelButtonTile: 'cancel',
                         submitButtonColor: AppTheme.greenPrimary100,
@@ -93,7 +98,10 @@ void main() {
                     context: context,
                     builder: (_) => CommonDialog(
                         titleText: 'titleText',
-                        contentText: 'contentText',
+                        contentText: Text(
+                          'content',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                         submitButtonTile: 'submit',
                         cancelButtonTile: 'cancel',
                         submitButtonColor: AppTheme.greenPrimary100,
@@ -126,7 +134,10 @@ void main() {
                     context: context,
                     builder: (_) => CommonDialog(
                         titleText: 'titleText',
-                        contentText: 'contentText',
+                        contentText: Text(
+                          'content',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                         submitButtonTile: 'submit',
                         cancelButtonTile: 'cancel',
                         submitButtonColor: AppTheme.greenPrimary100,
@@ -145,7 +156,6 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(find.byKey(const Key('titleDialog')), findsOneWidget);
-      expect(find.byKey(const Key('contentDialog')), findsOneWidget);
       expect(find.byKey(const Key('cancelButtonDialog')), findsOneWidget);
       expect(find.byKey(const Key('submitButtonDialog')), findsOneWidget);
     });
@@ -163,7 +173,10 @@ void main() {
                     context: context,
                     builder: (_) => CommonDialog(
                         titleText: 'titleText',
-                        contentText: 'contentText',
+                        contentText: Text(
+                          'content',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                         submitButtonTile: 'submit',
                         cancelButtonTile: 'cancel',
                         submitButtonColor: AppTheme.greenPrimary100,
