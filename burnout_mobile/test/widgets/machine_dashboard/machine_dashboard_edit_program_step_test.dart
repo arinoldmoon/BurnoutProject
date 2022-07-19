@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
+import 'package:burnout_mobile/provider/machine_data_provider.dart';
 import 'package:burnout_mobile/utility/form_key.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_edit_program_step.dart';
 import 'package:flutter/gestures.dart';
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   List<MachineUtilityStep> originalListItems =
-      MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList;
+      MachineDataProvider().machineDashboardUtilityStepList;
   late List<MachineUtilityStep> listItems;
   const double itemHeight = 48.0;
 
@@ -44,24 +44,20 @@ void main() {
     EdgeInsets padding = EdgeInsets.zero,
     TargetPlatform? platform,
   }) {
-    return MaterialApp(
-      home: ChangeNotifierProvider(
-        create: (context) => MachineDashboardUtilityStepProvider(),
-        child: Consumer<MachineDashboardUtilityStepProvider>(
-          builder: (context, value, child) {
-            return SizedBox(
-              height: itemHeight * 10,
-              width: itemHeight * 10,
-              child: ReorderableListView(
-                header: header,
-                scrollDirection: scrollDirection,
-                onReorder: onReorder,
-                reverse: reverse,
-                padding: padding,
-                children: listItems.map<Widget>(listItemToWidget).toList(),
-              ),
-            );
-          },
+    return ChangeNotifierProvider(
+      create: (context) => MachineDataProvider(),
+      child: MaterialApp(
+        home: SizedBox(
+          height: itemHeight * 10,
+          width: itemHeight * 10,
+          child: ReorderableListView(
+            header: header,
+            scrollDirection: scrollDirection,
+            onReorder: onReorder,
+            reverse: reverse,
+            padding: padding,
+            children: listItems.map<Widget>(listItemToWidget).toList(),
+          ),
         ),
       ),
     );
@@ -80,33 +76,30 @@ void main() {
     expect(find.byKey(FormKey.formStepTempAndDurEditStep), findsOneWidget);
     expect(find.byKey(const Key('editStepListView')), findsOneWidget);
     for (int i = 0;
-        i <
-            MachineDashboardUtilityStepProvider()
-                .machineDashboardUtilityStepList
-                .length;
+        i < MachineDataProvider().machineDashboardUtilityStepList.length;
         i++) {
       expect(
           find.byKey(Key(
-              '${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}leading')),
+              '${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}leading')),
           findsOneWidget);
       expect(
           find.byKey(
-            Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}title'),
+            Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}title'),
           ),
           findsOneWidget);
       expect(
           find.byKey(
-            Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}tempTextField'),
+            Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}tempTextField'),
           ),
           findsOneWidget);
       expect(
           find.byKey(
-            Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}durTextField'),
+            Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}durTextField'),
           ),
           findsOneWidget);
       expect(
           find.byKey(
-            Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}trailing'),
+            Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}trailing'),
           ),
           findsOneWidget);
     }
@@ -130,12 +123,10 @@ void main() {
 
   testWidgets('Edit Step ListView Should Render correctly', (tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: Center(
               child: MachineDashboardEditProgramStep(),
             ),
@@ -148,16 +139,10 @@ void main() {
 
   testWidgets('Machine Dashboard Utility Step Test Scroll', (tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (_) {
-                MachineDashboardUtilityStepProvider();
-              },
-            ),
-          ],
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: MachineDashboardEditProgramStep(),
           ),
         ),
@@ -243,12 +228,10 @@ void main() {
   testWidgets('Edit Step Should Render Dialog When Tap Trailing Button',
       (tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: Center(
               child: MachineDashboardEditProgramStep(),
             ),
@@ -258,7 +241,7 @@ void main() {
     );
     await tester.tap(
       find.byKey(
-        Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing'),
+        Key('${MachineDataProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing'),
       ),
     );
     await tester.pumpAndSettle();
@@ -268,12 +251,10 @@ void main() {
   testWidgets('Edit Step Should Render Dialog When Tap Trailing Button',
       (tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: Center(
               child: MachineDashboardEditProgramStep(),
             ),
@@ -282,7 +263,7 @@ void main() {
       ),
     );
     await tester.tap(find.byKey(Key(
-        '${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing')));
+        '${MachineDataProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('startApStepDialog')), findsOneWidget);
   });
@@ -290,12 +271,10 @@ void main() {
   testWidgets('Edit Step Should Render Dialog And Start At This Step Correctly',
       (tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: Center(
               child: MachineDashboardEditProgramStep(),
             ),
@@ -304,7 +283,7 @@ void main() {
       ),
     );
     await tester.tap(find.byKey(Key(
-        '${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing')));
+        '${MachineDataProvider().machineDashboardUtilityStepList[2].machineUtilityStepTitle}trailing')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('startApStepDialog')), findsOneWidget);
     await tester.tap(find.byKey(const Key('submitButtonDialog')));
@@ -313,12 +292,10 @@ void main() {
   testWidgets('Edit Step Textfiled should be able to input text',
       (tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: Center(
               child: MachineDashboardEditProgramStep(),
             ),
@@ -327,20 +304,17 @@ void main() {
       ),
     );
     for (int i = 0;
-        i <
-            MachineDashboardUtilityStepProvider()
-                .machineDashboardUtilityStepList
-                .length;
+        i < MachineDataProvider().machineDashboardUtilityStepList.length;
         i++) {
       expect(
           find.byKey(
-            Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}tempTextField'),
+            Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}tempTextField'),
           ),
           findsOneWidget);
       await tester.pumpAndSettle();
       await tester.enterText(
         find.byKey(
-          Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}tempTextField'),
+          Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}tempTextField'),
         ),
         'test',
       );
@@ -348,13 +322,13 @@ void main() {
 
       expect(
           find.byKey(
-            Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}durTextField'),
+            Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}durTextField'),
           ),
           findsOneWidget);
       await tester.pumpAndSettle();
       await tester.enterText(
         find.byKey(
-          Key('${MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}durTextField'),
+          Key('${MachineDataProvider().machineDashboardUtilityStepList[i].machineUtilityStepTitle}durTextField'),
         ),
         'test',
       );
@@ -365,12 +339,10 @@ void main() {
   testGoldens('should have the right screenshot', (tester) async {
     await loadAppFonts();
     await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: Center(
               child: MachineDashboardEditProgramStep(),
             ),
@@ -393,12 +365,10 @@ void main() {
   testGoldens('Add more step should have the right screenshot', (tester) async {
     await loadAppFonts();
     await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider(
-          create: (_) {
-            MachineDashboardUtilityStepProvider();
-          },
-          child: const Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(
             body: Center(
               child: MachineDashboardEditProgramStep(),
             ),

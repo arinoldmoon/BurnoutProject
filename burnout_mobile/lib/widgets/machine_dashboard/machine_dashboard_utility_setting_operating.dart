@@ -1,6 +1,7 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_setting_provider.dart';
+import 'package:burnout_mobile/provider/machine_data_provider.dart';
+
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/utility/common_checkbox.dart';
 import 'package:flutter/material.dart';
@@ -267,100 +268,96 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
   }
 
   Widget _buildAdditionalSetting(BuildContext context, Key key) {
-    return ChangeNotifierProvider(
-      create: (context) => MachineDashboardUtilitySettingProvider(),
-      child: Padding(
-        padding:
-            MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
-        child: Column(
-          key: key,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              MachineDashboardUiStrings
-                  .machineDashboardUtilitySettingAdditionalSetting,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Consumer<MachineDashboardUtilitySettingProvider>(
-                  builder: (context, value, child) {
-                    return CommonCheckbox(
-                      key: const Key('HoldLastStepCheckbox'),
-                      isCheck: value.machineUtilitySetting
-                          .machineUtilitySettingAdditionalHoldLastStep,
-                      onCheck: (isChecked) {
-                        value.isCheckAdditionalHoldLastStep(isChecked);
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(
-                    width: MachineDashboardSizes
-                        .machineDashboardUtilitySettingAdditionalCheckboxSpacing),
-                Text(
-                  MachineDashboardUiStrings
-                      .machineDashboardUtilitySettingOnCaption,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-              ],
-            ),
-            const SizedBox(
-                height: MachineDashboardSizes
-                    .machineDashboardUtilitySettingItemSpacing),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Consumer<MachineDashboardUtilitySettingProvider>(
-                  builder: (context, value, child) {
-                    return CommonCheckbox(
-                      key: const Key('ScheduleCheckbox'),
-                      isCheck: value.machineUtilitySetting
-                          .machineUtilitySettingAdditionalScheduleOperationStatus,
-                      onCheck: (isChecked) {
-                        value.isCheckAdditionalScheduleOperation(isChecked);
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(
-                    width: MachineDashboardSizes
-                        .machineDashboardUtilitySettingAdditionalCheckboxSpacing),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      MachineDashboardUiStrings
-                          .machineDashboardUtilitySettingScheduleOperation,
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          MachineDashboardUiStrings
-                              .machineDashboardUtilitySettingStartAt,
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                        Text(
-                          MachineDashboardUiStrings
-                              .machineDashboardUtilitySettingStartAt,
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+    return Padding(
+      padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
+      child: Column(
+        key: key,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            MachineDashboardUiStrings
+                .machineDashboardUtilitySettingAdditionalSetting,
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CommonCheckbox(
+                key: const Key('HoldLastStepCheckbox'),
+                isCheck: context
+                    .watch<MachineDataProvider>()
+                    .machineUtilitySetting
+                    .machineUtilitySettingAdditionalHoldLastStep,
+                onCheck: (isChecked) {
+                  context
+                      .read<MachineDataProvider>()
+                      .isCheckAdditionalHoldLastStep(isChecked);
+                },
+              ),
+              const SizedBox(
+                  width: MachineDashboardSizes
+                      .machineDashboardUtilitySettingAdditionalCheckboxSpacing),
+              Text(
+                MachineDashboardUiStrings
+                    .machineDashboardUtilitySettingOnCaption,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ],
+          ),
+          const SizedBox(
+              height: MachineDashboardSizes
+                  .machineDashboardUtilitySettingItemSpacing),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CommonCheckbox(
+                key: const Key('ScheduleCheckbox'),
+                isCheck: context
+                    .watch<MachineDataProvider>()
+                    .machineUtilitySetting
+                    .machineUtilitySettingAdditionalScheduleOperationStatus,
+                onCheck: (isChecked) {
+                  context
+                      .read<MachineDataProvider>()
+                      .isCheckAdditionalScheduleOperation(isChecked);
+                },
+              ),
+              const SizedBox(
+                  width: MachineDashboardSizes
+                      .machineDashboardUtilitySettingAdditionalCheckboxSpacing),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    MachineDashboardUiStrings
+                        .machineDashboardUtilitySettingScheduleOperation,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        MachineDashboardUiStrings
+                            .machineDashboardUtilitySettingStartAt,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      Text(
+                        MachineDashboardUiStrings
+                            .machineDashboardUtilitySettingStartAt,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

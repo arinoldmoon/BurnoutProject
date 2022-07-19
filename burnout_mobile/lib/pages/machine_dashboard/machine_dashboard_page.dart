@@ -5,7 +5,6 @@ import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/grpc/google/protobuf/empty.pb.dart';
 import 'package:burnout_mobile/grpc/oven.pbgrpc.dart';
 import 'package:burnout_mobile/pages/machine_dashboard/machine_dashboard_page_operating.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/drawer_menu.dart';
 import 'package:burnout_mobile/widgets/utility/common_button.dart';

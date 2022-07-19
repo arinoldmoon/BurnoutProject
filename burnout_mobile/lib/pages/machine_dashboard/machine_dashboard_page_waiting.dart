@@ -2,7 +2,6 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_siz
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/constants/ui_strings.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_peripheral_zone_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_peripheral_zone.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_status.dart';
@@ -19,27 +18,18 @@ class MachineDashboardPageWaiting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) {
-            return MachineDashboardPeripheralZoneProvider();
-          },
+    return Column(
+      children: [
+        MachineDashboardStatus(
+          mockMachinePayload: machinePayload,
+        ),
+        const SizedBox(
+          height: MachineDashboardSizes.machineDashboardWidgetSpacing,
+        ),
+        const MachineDashboardUtility(
+          machineStatus: MachineStatusRun.WAITING,
         ),
       ],
-      child: Column(
-        children: [
-          MachineDashboardStatus(
-            mockMachinePayload: machinePayload,
-          ),
-          const SizedBox(
-            height: MachineDashboardSizes.machineDashboardWidgetSpacing,
-          ),
-          const MachineDashboardUtility(
-            machineStatus: MachineStatusRun.WAITING,
-          ),
-        ],
-      ),
     );
   }
 }

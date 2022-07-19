@@ -1,5 +1,5 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
+import 'package:burnout_mobile/provider/machine_data_provider.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility_step_operating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,43 +19,24 @@ void main() {
     expect(find.byKey(const Key('maintainStepIcon')), findsNWidgets(2));
   }
 
+  Widget build() {
+    return ChangeNotifierProvider(
+      create: (context) => MachineDataProvider(),
+      child: const MaterialApp(
+        home: Scaffold(body: MachineDashboardUtilityStepOperating()),
+      ),
+    );
+  }
+
   testWidgets(
       'Machine Dashboard Utility Step Operating Should Render Correctly',
       (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (_) {
-                MachineDashboardUtilityStepProvider();
-              },
-            ),
-          ],
-          child: const Scaffold(body: MachineDashboardUtilityStepOperating()),
-        ),
-      ),
-    );
+    await tester.pumpWidget(build());
     findCommon();
   });
 
   testWidgets('Machine Dashboard Utility Step Test Scroll', (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (_) {
-                MachineDashboardUtilityStepProvider();
-              },
-            ),
-          ],
-          child: const Scaffold(
-            body: MachineDashboardUtilityStepOperating(),
-          ),
-        ),
-      ),
-    );
+    await tester.pumpWidget(build());
 
     await tester.drag(find.byKey(const Key('ListViewStepOperating')),
         const Offset(0.0, -300));
@@ -65,16 +46,10 @@ void main() {
   testGoldens('should have the right screenshot', (tester) async {
     await loadAppFonts();
     await tester.pumpWidget(
-      MaterialApp(
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (_) {
-                MachineDashboardUtilityStepProvider();
-              },
-            ),
-          ],
-          child: Scaffold(
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: MaterialApp(
+          home: Scaffold(
             body: Padding(
               padding: MachineDashboardSizes.machineDashboardPagePadding,
               child: Container(
