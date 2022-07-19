@@ -44,7 +44,8 @@ class MachineDashboardUtilityStepProvider extends ChangeNotifier {
         machineUtilityStepTimeRemaining: 120),
   ];
 
-  int get count => machineDashboardUtilityStepList.length;
+  int get countMachineDashboardUtilityStepList =>
+      machineDashboardUtilityStepList.length;
 
   void reOrder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {

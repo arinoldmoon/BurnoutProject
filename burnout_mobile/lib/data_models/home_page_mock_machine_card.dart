@@ -51,8 +51,8 @@ class HomePageMockMachineCard {
               RouteNames.machineDashboardPage,
               arguments: {
                 RouteParameters.machinePayload: context
-                    .watch<MachineDataProvider>()
-                    .mockMachinePayloadWaiting
+                    .read<MachineDataProvider>()
+                    .getMockMachinePayloadWaiting
               },
             );
           }),

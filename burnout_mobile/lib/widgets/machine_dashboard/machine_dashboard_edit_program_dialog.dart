@@ -98,20 +98,13 @@ class _MachineDashboardEditProgramDialogState
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (tempDurFormValidate(FormKey.formStepTempAndDurEditStep)) {
+                      if (tempDurFormValidate(
+                          FormKey.formStepTempAndDurEditStep)) {
                         print('Valid');
                       } else {
                         print('Invalid');
                       }
                     },
-                    child: Text(
-                      MachineDashboardUiStrings
-                          .machineDashboardEditProgramDialogSaveTitle,
-                      style: Theme.of(context).textTheme.button!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                    ),
                     style: ElevatedButton.styleFrom(
                       primary: AppTheme.greyPrimary300,
                       shape: RoundedRectangleBorder(
@@ -121,6 +114,14 @@ class _MachineDashboardEditProgramDialogState
                         ),
                       ),
                     ),
+                    child: Text(
+                      MachineDashboardUiStrings
+                          .machineDashboardEditProgramDialogSaveTitle,
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                    ),
                   ),
                   const SizedBox(
                     width: MachineDashboardSizes
@@ -128,14 +129,6 @@ class _MachineDashboardEditProgramDialogState
                   ),
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text(
-                      MachineDashboardUiStrings
-                          .machineDashboardEditProgramDialogNextTitle,
-                      style: Theme.of(context).textTheme.button!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                    ),
                     style: ElevatedButton.styleFrom(
                       primary: AppTheme.yellowPrimary,
                       shape: RoundedRectangleBorder(
@@ -144,6 +137,14 @@ class _MachineDashboardEditProgramDialogState
                               .machineDashboardPageCancelButtonRadius,
                         ),
                       ),
+                    ),
+                    child: Text(
+                      MachineDashboardUiStrings
+                          .machineDashboardEditProgramDialogNextTitle,
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                     ),
                   ),
                 ],

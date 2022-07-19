@@ -2,7 +2,8 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_siz
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_strings.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
+
+import 'package:burnout_mobile/provider/machine_data_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -15,29 +16,27 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MachineDashboardUtilityStepProvider(),
-      child: Consumer<MachineDashboardUtilityStepProvider>(
-          builder: (context, value, child) {
-        return ListView.separated(
-          key: const Key('ListViewStepOperating'),
-          padding: EdgeInsets.zero,
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemBuilder: (_, index) {
-            return _buildStep(
-                value.machineDashboardUtilityStepList[index], context);
-          },
-          itemCount: context.watch<MachineDashboardUtilityStepProvider>().count,
-          separatorBuilder: (BuildContext context, int index) {
-            return const Divider(
-              indent:
-                  MachineDashboardSizes.machineDashboardPeripheralItemSpacing,
-              color: Colors.transparent,
-            );
-          },
+    return ListView.separated(
+      key: const Key('ListViewStepOperating'),
+      padding: EdgeInsets.zero,
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      itemBuilder: (_, index) {
+        return _buildStep(
+            context
+                .read<MachineDataProvider>()
+                .machineDashboardUtilityStepList[index],
+            context);
+      },
+      itemCount: context
+          .read<MachineDataProvider>()
+          .countMachineDashboardUtilityStepList,
+      separatorBuilder: (BuildContext context, int index) {
+        return const Divider(
+          indent: MachineDashboardSizes.machineDashboardPeripheralItemSpacing,
+          color: Colors.transparent,
         );
-      }),
+      },
     );
   }
 

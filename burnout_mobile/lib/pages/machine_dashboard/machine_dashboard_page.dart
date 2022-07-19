@@ -134,107 +134,98 @@ class _MachineDashboardPageState extends State<MachineDashboardPage>
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) {
-            return MachineDashboardPeripheralZoneProvider();
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (BuildContext context, _, __) {
+                  return const DrawerMenu();
+                },
+              ),
+            );
           },
+          color: AppTheme.titleAppbarIconColor,
         ),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  opaque: false,
-                  pageBuilder: (BuildContext context, _, __) {
-                    return const DrawerMenu();
-                  },
-                ),
-              );
-            },
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              machineData.machineName,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              width: MachineDashboardSizes.machineDashboardPageTitleSpacing,
+            ),
+            Text(machineData.machineModel,
+                style: Theme.of(context).textTheme.headline5),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_none_rounded),
+            onPressed: () {},
             color: AppTheme.titleAppbarIconColor,
           ),
-          centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                machineData.machineName,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                width: MachineDashboardSizes.machineDashboardPageTitleSpacing,
-              ),
-              Text(machineData.machineModel,
-                  style: Theme.of(context).textTheme.headline5),
-            ],
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.notifications_none_rounded),
-              onPressed: () {},
-              color: AppTheme.titleAppbarIconColor,
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                padding: MachineDashboardSizes.machineDashboardPagePadding,
-                child: _buildPage(),
-              ),
-            ),
-            Padding(
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               padding: MachineDashboardSizes.machineDashboardPagePadding,
-              child: _buildBottom(context),
+              child: _buildPage(),
             ),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: AppTheme.yellowPrimary,
-          unselectedItemColor: AppTheme.yellowPrimary.withOpacity(.50),
-          onTap: (value) {},
-          items: const [
-            BottomNavigationBarItem(
-              label: '',
-              icon: Icon(
-                PhosphorIcons.activity,
-                size: MachineDashboardSizes
-                    .machineDashboardPageBottomNavItemIconSize,
-              ),
+          ),
+          Padding(
+            padding: MachineDashboardSizes.machineDashboardPagePadding,
+            child: _buildBottom(context),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: AppTheme.yellowPrimary,
+        unselectedItemColor: AppTheme.yellowPrimary.withOpacity(.50),
+        onTap: (value) {},
+        items: const [
+          BottomNavigationBarItem(
+            label: '',
+            icon: Icon(
+              PhosphorIcons.activity,
+              size: MachineDashboardSizes
+                  .machineDashboardPageBottomNavItemIconSize,
             ),
-            BottomNavigationBarItem(
-              label: '',
-              icon: Icon(
-                PhosphorIcons.chartLine,
-                size: MachineDashboardSizes
-                    .machineDashboardPageBottomNavItemIconSize,
-              ),
+          ),
+          BottomNavigationBarItem(
+            label: '',
+            icon: Icon(
+              PhosphorIcons.chartLine,
+              size: MachineDashboardSizes
+                  .machineDashboardPageBottomNavItemIconSize,
             ),
-            BottomNavigationBarItem(
-              label: '',
-              icon: Icon(
-                PhosphorIcons.gearSix,
-                size: MachineDashboardSizes
-                    .machineDashboardPageBottomNavItemIconSize,
-              ),
+          ),
+          BottomNavigationBarItem(
+            label: '',
+            icon: Icon(
+              PhosphorIcons.gearSix,
+              size: MachineDashboardSizes
+                  .machineDashboardPageBottomNavItemIconSize,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

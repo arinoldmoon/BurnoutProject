@@ -3,6 +3,7 @@ import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_ui_
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
+import 'package:burnout_mobile/provider/machine_data_provider.dart';
 import 'package:burnout_mobile/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -20,27 +21,25 @@ class _MachineDashboardUtilityStepWaitingState
     extends State<MachineDashboardUtilityStepWaiting> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MachineDashboardUtilityStepProvider(),
-      child: Consumer<MachineDashboardUtilityStepProvider>(
-        builder: (context, value, child) {
-          return ReorderableListView.builder(
-            key: const Key('ListViewStepWaiting'),
-            onReorder: (oldIndex, newIndex) {
-              value.reOrder(oldIndex, newIndex);
-            },
-            padding: EdgeInsets.zero,
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemBuilder: (_, index) {
-              return _buildListTileStep(
-                  value.machineDashboardUtilityStepList[index], context, index);
-            },
-            itemCount:
-                context.watch<MachineDashboardUtilityStepProvider>().count,
-          );
-        },
-      ),
+    return ReorderableListView.builder(
+      key: const Key('ListViewStepWaiting'),
+      onReorder: (oldIndex, newIndex) {
+        context.read<MachineDataProvider>().reOrder(oldIndex, newIndex);
+      },
+      padding: EdgeInsets.zero,
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      itemBuilder: (_, index) {
+        return _buildListTileStep(
+            context
+                .read<MachineDataProvider>()
+                .machineDashboardUtilityStepList[index],
+            context,
+            index);
+      },
+      itemCount: context
+          .read<MachineDataProvider>()
+          .countMachineDashboardUtilityStepList,
     );
   }
 
