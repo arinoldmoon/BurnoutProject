@@ -39,4 +39,7 @@ class MachineDataProvider with ChangeNotifier {
     machineSoftwareVersion: '',
     machineWarranty: '',
   );
+
+  MockMachinePayload get getMockMachinePayloadOnProgram =>
+      mockMachinePayloadOnProgram;
 }

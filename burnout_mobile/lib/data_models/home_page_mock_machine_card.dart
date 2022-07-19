@@ -33,11 +33,9 @@ class HomePageMockMachineCard {
             context,
             RouteNames.machineDashboardPage,
             arguments: {
-              RouteParameters.machinePayload:
-                  //On Program
-                  context
-                      .watch<MachineDataProvider>()
-                      .mockMachinePayloadOnProgram
+              RouteParameters.machinePayload: context
+                  .read<MachineDataProvider>()
+                  .getMockMachinePayloadOnProgram
             },
           );
         },
