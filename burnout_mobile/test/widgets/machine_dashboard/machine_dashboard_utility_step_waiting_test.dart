@@ -1,7 +1,7 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
-import 'package:burnout_mobile/provider/machine_dashboard/machine_dashboard_utility_step_provider.dart';
+import 'package:burnout_mobile/provider/machine_data_provider.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility_step_operating.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility_step_waiting.dart';
 import 'package:flutter/foundation.dart';
@@ -15,7 +15,7 @@ import 'package:collection/collection.dart';
 
 void main() {
   List<MachineUtilityStep> originalListItems =
-      MachineDashboardUtilityStepProvider().machineDashboardUtilityStepList;
+      MachineDataProvider().machineDashboardUtilityStepList;
 
   late List<MachineUtilityStep> listItems;
   const double itemHeight = 48.0;
@@ -45,24 +45,20 @@ void main() {
     EdgeInsets padding = EdgeInsets.zero,
     TargetPlatform? platform,
   }) {
-    return MaterialApp(
-      home: ChangeNotifierProvider(
-        create: (context) => MachineDashboardUtilityStepProvider(),
-        child: Consumer<MachineDashboardUtilityStepProvider>(
-          builder: (context, value, child) {
-            return SizedBox(
-              height: itemHeight * 10,
-              width: itemHeight * 10,
-              child: ReorderableListView(
-                header: header,
-                scrollDirection: scrollDirection,
-                onReorder: onReorder,
-                reverse: reverse,
-                padding: padding,
-                children: listItems.map<Widget>(listItemToWidget).toList(),
-              ),
-            );
-          },
+    return ChangeNotifierProvider(
+      create: (context) => MachineDataProvider(),
+      child: MaterialApp(
+        home: SizedBox(
+          height: itemHeight * 10,
+          width: itemHeight * 10,
+          child: ReorderableListView(
+            header: header,
+            scrollDirection: scrollDirection,
+            onReorder: onReorder,
+            reverse: reverse,
+            padding: padding,
+            children: listItems.map<Widget>(listItemToWidget).toList(),
+          ),
         ),
       ),
     );
@@ -96,8 +92,11 @@ void main() {
       'Machine Dashboard Utility Step Operating Should Render Correctly',
       (tester) async {
     await tester.pumpWidget(
-      const MaterialApp(
-        home: Scaffold(body: MachineDashboardUtilityStepWaiting()),
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(body: MachineDashboardUtilityStepWaiting()),
+        ),
       ),
     );
     findCommon();
@@ -105,13 +104,13 @@ void main() {
 
   testWidgets('Machine Dashboard Utility Step Test Scroll', (tester) async {
     await tester.pumpWidget(
-      const MaterialApp(
-        home: Scaffold(
-          body: MachineDashboardUtilityStepWaiting(),
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(body: MachineDashboardUtilityStepWaiting()),
         ),
       ),
     );
-
     await tester.drag(
         find.byKey(const Key('ListViewStepWaiting')), const Offset(0.0, -300));
     await tester.pump();
@@ -191,9 +190,10 @@ void main() {
   testGoldens('should have the right screenshot', (tester) async {
     await loadAppFonts();
     await tester.pumpWidget(
-      const MaterialApp(
-        home: Scaffold(
-          body: MachineDashboardUtilityStepWaiting(),
+      ChangeNotifierProvider(
+        create: (context) => MachineDataProvider(),
+        child: const MaterialApp(
+          home: Scaffold(body: MachineDashboardUtilityStepWaiting()),
         ),
       ),
     );
