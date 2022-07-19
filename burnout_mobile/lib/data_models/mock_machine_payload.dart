@@ -1,5 +1,4 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
-import 'package:flutter/cupertino.dart';
 
 class MockMachinePayload {
   final String machineName;
@@ -11,6 +10,10 @@ class MockMachinePayload {
   final List<MachineTemperature>? machineTemperature;
   final List<MachinePeripheral>? machinePeripheral;
   final String machineModel;
+  final String machineSerialNumber;
+  final String machineModelYear;
+  final String machineSoftwareVersion;
+  final String machineWarranty;
 
   const MockMachinePayload({
     required this.machineName,
@@ -22,33 +25,11 @@ class MockMachinePayload {
     this.machineTimeRemaing,
     this.machineTemperature,
     this.machinePeripheral,
+    required this.machineSerialNumber,
+    required this.machineModelYear,
+    required this.machineSoftwareVersion,
+    required this.machineWarranty,
   });
-
-  static MockMachinePayload mockMachinePayloadIdle = const MockMachinePayload(
-    machineName: 'machine1',
-    machineModel: 'S6 Eco',
-    machineStatus: MachineStatusRun.IDLE,
-  );
-
-  static MockMachinePayload mockMachinePayloadWaiting =
-      const MockMachinePayload(
-    machineName: 'machine2',
-    machineModel: 'S6 Eco',
-    machineStatus: MachineStatusRun.WAITING,
-    machineProgram: 'Program1',
-    machineProgramSteps: 8,
-  );
-
-  static MockMachinePayload mockMachinePayloadOnProgram = MockMachinePayload(
-    machineName: 'machine3',
-    machineModel: 'S6 Eco',
-    machineStatus: MachineStatusRun.ONPROGRAM,
-    machineProgram: 'Operating Program1',
-    machineOnProgramPercent: 0.65,
-    machineTimeRemaing: 225,
-    machineTemperature: MachineTemperature.mockMachineTemp,
-    machinePeripheral: MachinePeripheral.mockMachinePeripheral,
-  );
 }
 
 class MachineTemperature {
@@ -148,4 +129,69 @@ class MachineUtilitySetting {
     required this.machineUtilitySettingAdditionalScheduleOperationStatus,
     required this.machineUtilitySettingAdditionalScheduleOperationDate,
   });
+}
+
+class MachineNetworkConnection {
+  final MachineWifiConnection machineWifiConnection;
+  final String machineNetworkConnectionEthernet;
+  final String machineNetworkConnectionGateway;
+  final String machineNetworkConnectionDNS;
+
+  MachineNetworkConnection({
+    required this.machineWifiConnection,
+    required this.machineNetworkConnectionEthernet,
+    required this.machineNetworkConnectionGateway,
+    required this.machineNetworkConnectionDNS,
+  });
+
+  static MachineNetworkConnection machineNetworkConnection =
+      MachineNetworkConnection(
+          machineNetworkConnectionDNS: '',
+          machineNetworkConnectionEthernet: '',
+          machineNetworkConnectionGateway: '',
+          machineWifiConnection:
+              MachineWifiConnection.machineNetworkConnection);
+}
+
+class MachineWifiConnection {
+  final String machineWifiConnectionSSID;
+  final String machineWifiConnectionPassword;
+  final bool machineWifiConnectionDHCP;
+  final bool machineWifiConnectionStatic;
+  final String machineWifiConnectionIpAddress;
+  final String machineWifiConnectionSubnet;
+
+  MachineWifiConnection({
+    required this.machineWifiConnectionSSID,
+    required this.machineWifiConnectionPassword,
+    required this.machineWifiConnectionDHCP,
+    required this.machineWifiConnectionStatic,
+    required this.machineWifiConnectionIpAddress,
+    required this.machineWifiConnectionSubnet,
+  });
+
+  static MachineWifiConnection machineNetworkConnection = MachineWifiConnection(
+      machineWifiConnectionDHCP: false,
+      machineWifiConnectionIpAddress: '',
+      machineWifiConnectionPassword: '',
+      machineWifiConnectionSSID: '',
+      machineWifiConnectionStatic: false,
+      machineWifiConnectionSubnet: '');
+}
+
+class MachineSupport {
+  final String machineSupportContactSupport;
+  final String machineSupportUserManual;
+  final String machineSupportFaq;
+
+  MachineSupport({
+    required this.machineSupportContactSupport,
+    required this.machineSupportFaq,
+    required this.machineSupportUserManual,
+  });
+
+  static MachineSupport machineSupport = MachineSupport(
+      machineSupportContactSupport: 'machineSupportContactSupport',
+      machineSupportFaq: 'machineSupportFaq',
+      machineSupportUserManual: 'machineSupportUserManual');
 }

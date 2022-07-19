@@ -95,12 +95,11 @@ class MachineDashboardUiStrings {
   }
 
   static const machineDashboardDeleteProgramDialoContent =
-     'Are you sure you want to delete this program? \nOnce the program get deleted, ';
-  
+      'Are you sure you want to delete this program? \nOnce the program get deleted, ';
 
   static const machineDashboardDeleteProgramDialoSubmitTitle = "Yes, I'm sure";
   static const machineDashboardDeleteProgramDialoCancelTitle = 'No';
-    static const machineDashboardCancelOperationContentCannotBeRestore =
+  static const machineDashboardCancelOperationContentCannotBeRestore =
       'it cannot be restore.';
 
   // Machine Dashboard Cancel Operation Dialog
@@ -109,4 +108,15 @@ class MachineDashboardUiStrings {
       'Are you sure you want to cancel this operation?\nOnce the operation get cancelled, ';
   static const machineDashboardCancelOperationContentCannotBeResume =
       'it cannot be resume.';
+
+  // Machine Dashboard Expansion Setting Menu
+  static const machineDashboardExpansionSettingMachineName = 'Machine name';
+  static const machineDashboardExpansionSettingMachineSerialNumber =
+      'Serial number';
+  static const machineDashboardExpansionSettingMachineModel = 'Model';
+  static const machineDashboardExpansionSettingMachineModelYear = 'Model year';
+  static const machineDashboardExpansionSettingMachineSoftwareVersion =
+      'Software version';
+  static const machineDashboardExpansionSettingMachineWarranty =
+      'Warranty (start-end)';
 }
