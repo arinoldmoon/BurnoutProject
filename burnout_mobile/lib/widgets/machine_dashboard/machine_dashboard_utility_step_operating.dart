@@ -16,27 +16,30 @@ class MachineDashboardUtilityStepOperating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      key: const Key('ListViewStepOperating'),
-      padding: EdgeInsets.zero,
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      itemBuilder: (_, index) {
-        return _buildStep(
-            context
-                .read<MachineDataProvider>()
-                .machineDashboardUtilityStepList[index],
-            context);
-      },
-      itemCount: context
-          .read<MachineDataProvider>()
-          .countMachineDashboardUtilityStepList,
-      separatorBuilder: (BuildContext context, int index) {
-        return const Divider(
-          indent: MachineDashboardSizes.machineDashboardPeripheralItemSpacing,
-          color: Colors.transparent,
-        );
-      },
+    return ChangeNotifierProvider(
+      create: (context) => MachineDataProvider(),
+      child: Consumer<MachineDataProvider>(
+        builder: (context, value, child) {
+          return ListView.separated(
+            key: const Key('ListViewStepOperating'),
+            padding: EdgeInsets.zero,
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemBuilder: (_, index) {
+              return _buildStep(
+                  value.machineDashboardUtilityStepList[index], context);
+            },
+            itemCount: value.countMachineDashboardUtilityStepList,
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider(
+                indent:
+                    MachineDashboardSizes.machineDashboardPeripheralItemSpacing,
+                color: Colors.transparent,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 

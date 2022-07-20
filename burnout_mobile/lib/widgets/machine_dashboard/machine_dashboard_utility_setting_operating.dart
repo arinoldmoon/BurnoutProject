@@ -12,26 +12,80 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MachineDashboardSizes.machineDashboardUtilityContainerPadding,
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            _buildTubeHeater(context, const Key('TubeHeater')),
-            _buildDivider(),
-            _buildFloorHeater(context, const Key('FloorHeater')),
-            _buildDivider(),
-            _buildAfterBurner(context, const Key('AfterBurner')),
-            _buildDivider(),
-            _buildOverHeatAlarm(context, const Key('HeatAlarm')),
-            _buildDivider(),
-            _buildAirFlowSetting(context, const Key('AirflowSetting')),
-            _buildDivider(),
-            _buildAdditionalSetting(context, const Key('AdditionalSetting')),
-            _buildDivider(),
-          ],
-        ),
+    return ChangeNotifierProvider(
+      create: (context) => MachineDataProvider(),
+      child: Consumer<MachineDataProvider>(
+        builder: (context, value, child) {
+          return Padding(
+            padding:
+                MachineDashboardSizes.machineDashboardUtilityContainerPadding,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  _buildTubeHeater(
+                      value.machineUtilitySetting
+                          .machineUtilitySettingTubeOnTempReach
+                          .toString(),
+                      context,
+                      const Key('TubeHeater')),
+                  _buildDivider(),
+                  _buildFloorHeater(
+                      value.machineUtilitySetting
+                          .machineUtilitySettingFloorOnTempReach
+                          .toString(),
+                      context,
+                      const Key('FloorHeater')),
+                  _buildDivider(),
+                  _buildAfterBurner(
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAfterBurnerOnTempReach
+                          .toString(),
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAfterBurnerOffTempReach
+                          .toString(),
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAfterBurnerTurnOffDelay
+                          .toString(),
+                      context,
+                      const Key('AfterBurner')),
+                  _buildDivider(),
+                  _buildOverHeatAlarm(
+                      value.machineUtilitySetting
+                          .machineUtilitySettingOverHeatAlarmOvenTempLimit
+                          .toString(),
+                      value.machineUtilitySetting
+                          .machineUtilitySettingOverHeatAlarmAfterBurnerTempLimit
+                          .toString(),
+                      context,
+                      const Key('HeatAlarm')),
+                  _buildDivider(),
+                  _buildAirFlowSetting(
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAirFlowOnTempReach
+                          .toString(),
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAirFlowOffTempReach
+                          .toString(),
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAirFlowTurnOffDelay
+                          .toString(),
+                      context,
+                      const Key('AirflowSetting')),
+                  _buildDivider(),
+                  _buildAdditionalSetting(
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAdditionalHoldLastStep,
+                      value.machineUtilitySetting
+                          .machineUtilitySettingAdditionalScheduleOperationStatus,
+                      context,
+                      const Key('AdditionalSetting')),
+                  _buildDivider(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -44,7 +98,8 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildTubeHeater(BuildContext context, Key key) {
+  Widget _buildTubeHeater(String data, BuildContext context, Key key) {
+    print('TubeHeater');
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
@@ -69,6 +124,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingOnCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                data,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
         ],
@@ -76,7 +135,8 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildFloorHeater(BuildContext context, Key key) {
+  Widget _buildFloorHeater(String data, BuildContext context, Key key) {
+    print('FloorHeater');
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
@@ -101,6 +161,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingOnCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                data,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
         ],
@@ -108,7 +172,9 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildAfterBurner(BuildContext context, Key key) {
+  Widget _buildAfterBurner(String onTempReach, String offTempReach,
+      String turnOffDelay, BuildContext context, Key key) {
+    print('AfterBurner');
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
@@ -133,6 +199,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingOnCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                onTempReach,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
           const SizedBox(
@@ -143,6 +213,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
               Text(
                 MachineDashboardUiStrings
                     .machineDashboardUtilitySettingOffCaption,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              Text(
+                offTempReach,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
             ],
@@ -157,6 +231,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingTurnOffDelayCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                turnOffDelay,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
         ],
@@ -164,7 +242,9 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildOverHeatAlarm(BuildContext context, Key key) {
+  Widget _buildOverHeatAlarm(String ovenTempLimit, String afterBurnerTempLimit,
+      BuildContext context, Key key) {
+    print('OverHeatAlarm');
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
@@ -190,6 +270,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingOvenTempLimitCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                ovenTempLimit,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
           const SizedBox(
@@ -202,6 +286,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingOvenAfterBurnerTempLimitCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                afterBurnerTempLimit,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
         ],
@@ -209,7 +297,9 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildAirFlowSetting(BuildContext context, Key key) {
+  Widget _buildAirFlowSetting(String onTempReach, String offTempReach,
+      String turnOffDelay, BuildContext context, Key key) {
+    print('AirFlow');
     return Padding(
       key: const Key('AirFLowSetting'),
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
@@ -236,6 +326,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingOnCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                onTempReach,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
           const SizedBox(
@@ -246,6 +340,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
               Text(
                 MachineDashboardUiStrings
                     .machineDashboardUtilitySettingOffCaption,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              Text(
+                offTempReach,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
             ],
@@ -260,6 +358,10 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
                     .machineDashboardUtilitySettingTurnOffDelayCaption,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Text(
+                turnOffDelay,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ],
           ),
         ],
@@ -267,7 +369,9 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
     );
   }
 
-  Widget _buildAdditionalSetting(BuildContext context, Key key) {
+  Widget _buildAdditionalSetting(bool holdLastStepStatus, bool scheduleStatus,
+      BuildContext context, Key key) {
+    print('Additional');
     return Padding(
       padding: MachineDashboardSizes.machineDashboardUtilitySettingItemPadding,
       child: Column(
@@ -289,10 +393,7 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
             children: [
               CommonCheckbox(
                 key: const Key('HoldLastStepCheckbox'),
-                isCheck: context
-                    .watch<MachineDataProvider>()
-                    .machineUtilitySetting
-                    .machineUtilitySettingAdditionalHoldLastStep,
+                isCheck: holdLastStepStatus,
                 onCheck: (isChecked) {
                   context
                       .read<MachineDataProvider>()
@@ -318,10 +419,7 @@ class MachineDashboardUtilitySettingOperating extends StatelessWidget {
             children: [
               CommonCheckbox(
                 key: const Key('ScheduleCheckbox'),
-                isCheck: context
-                    .watch<MachineDataProvider>()
-                    .machineUtilitySetting
-                    .machineUtilitySettingAdditionalScheduleOperationStatus,
+                isCheck: scheduleStatus,
                 onCheck: (isChecked) {
                   context
                       .read<MachineDataProvider>()

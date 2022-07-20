@@ -20,25 +20,26 @@ class _MachineDashboardUtilityStepWaitingState
     extends State<MachineDashboardUtilityStepWaiting> {
   @override
   Widget build(BuildContext context) {
-    return ReorderableListView.builder(
-      key: const Key('ListViewStepWaiting'),
-      onReorder: (oldIndex, newIndex) {
-        context.read<MachineDataProvider>().reOrder(oldIndex, newIndex);
-      },
-      padding: EdgeInsets.zero,
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      itemBuilder: (_, index) {
-        return _buildListTileStep(
-            context
-                .read<MachineDataProvider>()
-                .machineDashboardUtilityStepList[index],
-            context,
-            index);
-      },
-      itemCount: context
-          .read<MachineDataProvider>()
-          .countMachineDashboardUtilityStepList,
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => MachineDataProvider(),
+      child: Consumer<MachineDataProvider>(
+        builder: (context, value, child) {
+          return ReorderableListView.builder(
+            key: const Key('ListViewStepWaiting'),
+            onReorder: (oldIndex, newIndex) {
+              value.reOrder(oldIndex, newIndex);
+            },
+            padding: EdgeInsets.zero,
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemBuilder: (_, index) {
+              return _buildListTileStep(
+                  value.machineDashboardUtilityStepList[index], context, index);
+            },
+            itemCount: value.countMachineDashboardUtilityStepList,
+          );
+        },
+      ),
     );
   }
 
@@ -102,9 +103,7 @@ class _MachineDashboardUtilityStepWaitingState
               style: Theme.of(context).textTheme.headline6,
             ),
             Text(
-              MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(
-                      machineUtilityStep.machineUtilityStepTemp) +
-                  '°C',
+              '${MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(machineUtilityStep.machineUtilityStepTemp)}°C',
               key: const Key('stepTemp'),
               style: Theme.of(context)
                   .textTheme

@@ -109,6 +109,7 @@ class MachineDashboardSizes {
   static const machineDashboardEditStepTextFieldSpacing = 6.0;
   static const machineDashboardEditStepListViewButtonSpacing = 20.0;
   static const machineDashboardEditStepButtonSize = 32.0;
+  static const machineDashboardEditStepDividerThickness = 1.0;
 
   // Machine Dashboard Setting
   static const machineDashboardSettingExpasnsionalTrailingSize = 32.0;

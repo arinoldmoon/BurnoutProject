@@ -83,6 +83,8 @@ class MachineDataProvider with ChangeNotifier {
       machineUtilitySettingAdditionalScheduleOperationStatus: true,
       machineUtilitySettingAdditionalScheduleOperationDate: '18:00 01/02/2022');
 
+  MachineUtilitySetting get getMachineUtilitySetting => machineUtilitySetting;
+
   void isCheckAdditionalHoldLastStep(bool? value) {
     machineUtilitySetting.machineUtilitySettingAdditionalHoldLastStep = value!;
     notifyListeners();

@@ -33,137 +33,75 @@ class _MachineDashboardEditProgramStepState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(
-          child: Form(
-            key: FormKey.formStepTempAndDurEditStep,
-            child: ReorderableListView.builder(
-              key: const Key('editStepListView'),
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.vertical,
-              onReorder: (int oldIndex, int newIndex) {
-                context.read<MachineDataProvider>().reOrder(oldIndex, newIndex);
-              },
-              itemBuilder: (_, index) {
-                _tempTextController.add(TextEditingController());
-                _durationTextController.add(TextEditingController());
-                return Column(
-                  key: Key('tile$index'),
-                  children: [
-                    Container(
-                      key: Key('$index'),
-                      alignment: Alignment.center,
-                      height: MachineDashboardSizes
-                          .machineDashboardEditStepTileHeight,
-                      child: ListTile(
-                        key: Key(context
-                            .watch<MachineDataProvider>()
-                            .machineDashboardUtilityStepList[index]
-                            .machineUtilityStepTitle),
-                        contentPadding: EdgeInsets.zero,
-                        horizontalTitleGap: MachineDashboardSizes
-                            .machineDashboardEditStepHorizontalGap,
-                        minLeadingWidth: MachineDashboardSizes
-                            .machineDashboardEditStepMinWidthLeading,
-                        onLongPress: () {},
-                        leading: ReorderableDragStartListener(
-                          index: index,
-                          child: IconButton(
-                            key: Key(
-                                '${context.watch<MachineDataProvider>().machineDashboardUtilityStepList[index].machineUtilityStepTitle}leading'),
-                            padding: EdgeInsets.zero,
-                            icon: const Icon(
-                              Icons.more_vert,
-                              size: MachineDashboardSizes
-                                  .machineDashboardEditStepTrailingIconSize,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              key: Key(
-                                  '${context.watch<MachineDataProvider>().machineDashboardUtilityStepList[index].machineUtilityStepTitle}title'),
-                              children: [
-                                Text(
-                                  context
-                                      .watch<MachineDataProvider>()
-                                      .machineDashboardUtilityStepList[index]
-                                      .machineUtilityStepTitle,
-                                  style: context
-                                          .watch<MachineDataProvider>()
-                                          .getStepListStartAt
-                                          .contains(context
-                                              .watch<MachineDataProvider>()
-                                              .machineDashboardUtilityStepList[
-                                                  index]
-                                              .machineUtilityStepTitle)
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .subtitle1!
-                                          .copyWith(
-                                              decoration:
-                                                  TextDecoration.lineThrough)
-                                      : Theme.of(context).textTheme.subtitle1,
+    return ChangeNotifierProvider(
+      create: (context) => MachineDataProvider(),
+      child: Consumer<MachineDataProvider>(
+        builder: (context, provider, child) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Form(
+                  key: FormKey.formStepTempAndDurEditStep,
+                  child: ReorderableListView.builder(
+                    key: const Key('editStepListView'),
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    onReorder: (int oldIndex, int newIndex) {
+                      provider.reOrder(oldIndex, newIndex);
+                    },
+                    itemBuilder: (_, index) {
+                      _tempTextController.add(TextEditingController());
+                      _durationTextController.add(TextEditingController());
+                      return Column(
+                        key: Key('tile$index'),
+                        children: [
+                          Container(
+                            key: Key('$index'),
+                            alignment: Alignment.center,
+                            height: MachineDashboardSizes
+                                .machineDashboardEditStepTileHeight,
+                            child: ListTile(
+                              key: Key(context
+                                  .watch<MachineDataProvider>()
+                                  .machineDashboardUtilityStepList[index]
+                                  .machineUtilityStepTitle),
+                              contentPadding: EdgeInsets.zero,
+                              horizontalTitleGap: MachineDashboardSizes
+                                  .machineDashboardEditStepHorizontalGap,
+                              minLeadingWidth: MachineDashboardSizes
+                                  .machineDashboardEditStepMinWidthLeading,
+                              onLongPress: () {},
+                              leading: ReorderableDelayedDragStartListener(
+                                index: index,
+                                child: IconButton(
+                                  key: Key(
+                                      '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}leading'),
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                    Icons.more_vert,
+                                    size: MachineDashboardSizes
+                                        .machineDashboardEditStepTrailingIconSize,
+                                  ),
+                                  onPressed: () {},
                                 ),
-                                const SizedBox(
-                                  width: MachineDashboardSizes
-                                      .machineDashboardEditStepTitleIconSpacing,
-                                ),
-                                _buildStepProcessIcon(
-                                  context
-                                      .watch<MachineDataProvider>()
-                                      .machineDashboardUtilityStepList[index]
-                                      .machineUtilityStepProcess,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: MachineDashboardSizes
-                                  .machineDashboardEditStepTextFieldTitleSpacing,
-                            ),
-                            Expanded(
-                              child: Row(
+                              ),
+                              title: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     key: Key(
-                                        '${context.watch<MachineDataProvider>().machineDashboardUtilityStepList[index].machineUtilityStepTitle}tempTextField'),
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                        '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}title'),
                                     children: [
-                                      SizedBox(
-                                        width: MachineDashboardSizes
-                                            .machineDashboardEditStepTextFieldWidth,
-                                        child: CommonTextFormField(
-                                          labelText: MachineDashboardUiStrings
-                                              .machineDashboardEditProgramDialogTemperature,
-                                          fillColor: Colors.white,
-                                          borderFocusColorBorder:
-                                              AppTheme.greyPrimary100,
-                                          labelTextFontSize: MachineDashboardSizes
-                                              .machineDashboardEditStepLabelTextFontSize,
-                                          controller:
-                                              _tempTextController[index],
-                                          keyboardType: TextInputType.number,
-                                          contentPadding: EdgeInsets.zero,
-                                          validator: Validators.isDigit(
-                                              UiStrings.digitOnly),
-                                        ),
-                                      ),
                                       Text(
-                                        MachineDashboardUiStrings
-                                            .machineDashboardTemperatureCelciusSymbol,
-                                        style: context
-                                                .watch<MachineDataProvider>()
-                                                .getStepListStartAt
+                                        provider
+                                            .machineDashboardUtilityStepList[
+                                                index]
+                                            .machineUtilityStepTitle,
+                                        style: provider.getStepListStartAt
                                                 .contains(context
                                                     .watch<
                                                         MachineDataProvider>()
@@ -172,171 +110,256 @@ class _MachineDashboardEditProgramStepState
                                                     .machineUtilityStepTitle)
                                             ? Theme.of(context)
                                                 .textTheme
-                                                .button!
+                                                .subtitle1!
                                                 .copyWith(
-                                                    fontWeight: FontWeight.bold,
                                                     decoration: TextDecoration
                                                         .lineThrough)
                                             : Theme.of(context)
                                                 .textTheme
-                                                .button!
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                .subtitle1,
+                                      ),
+                                      const SizedBox(
+                                        width: MachineDashboardSizes
+                                            .machineDashboardEditStepTitleIconSpacing,
+                                      ),
+                                      _buildStepProcessIcon(
+                                        provider
+                                            .machineDashboardUtilityStepList[
+                                                index]
+                                            .machineUtilityStepProcess,
                                       ),
                                     ],
                                   ),
                                   const SizedBox(
                                     width: MachineDashboardSizes
-                                        .machineDashboardEditStepTextFieldSpacing,
+                                        .machineDashboardEditStepTextFieldTitleSpacing,
                                   ),
-                                  Row(
-                                    key: Key(
-                                        '${context.watch<MachineDataProvider>().machineDashboardUtilityStepList[index].machineUtilityStepTitle}durTextField'),
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: MachineDashboardSizes
-                                            .machineDashboardEditStepDurationTextFieldWidth,
-                                        child: CommonTextFormField(
-                                          labelText: MachineDashboardUiStrings
-                                              .machineDashboardEditProgramDialogDuration,
-                                          fillColor: Colors.white,
-                                          borderFocusColorBorder:
-                                              AppTheme.greyPrimary100,
-                                          labelTextFontSize: MachineDashboardSizes
-                                              .machineDashboardEditStepLabelTextFontSize,
-                                          controller:
-                                              _durationTextController[index],
-                                          keyboardType: TextInputType.number,
-                                          contentPadding: EdgeInsets.zero,
-                                          validator: Validators.isDigit(
-                                              UiStrings.digitOnly),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          key: Key(
+                                              '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}tempTextField'),
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: MachineDashboardSizes
+                                                  .machineDashboardEditStepTextFieldWidth,
+                                              child: CommonTextFormField(
+                                                labelText: MachineDashboardUiStrings
+                                                    .machineDashboardEditProgramDialogTemperature,
+                                                fillColor: Colors.white,
+                                                borderFocusColorBorder:
+                                                    AppTheme.greyPrimary100,
+                                                labelTextFontSize:
+                                                    MachineDashboardSizes
+                                                        .machineDashboardEditStepLabelTextFontSize,
+                                                controller:
+                                                    _tempTextController[index],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                contentPadding: EdgeInsets.zero,
+                                                validator: Validators.isDigit(
+                                                    UiStrings.digitOnly),
+                                              ),
+                                            ),
+                                            Text(
+                                              MachineDashboardUiStrings
+                                                  .machineDashboardTemperatureCelciusSymbol,
+                                              style: context
+                                                      .watch<
+                                                          MachineDataProvider>()
+                                                      .getStepListStartAt
+                                                      .contains(context
+                                                          .watch<
+                                                              MachineDataProvider>()
+                                                          .machineDashboardUtilityStepList[
+                                                              index]
+                                                          .machineUtilityStepTitle)
+                                                  ? Theme.of(context)
+                                                      .textTheme
+                                                      .button!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough)
+                                                  : Theme.of(context)
+                                                      .textTheme
+                                                      .button!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      Text(
-                                        MachineDashboardUiStrings
-                                            .machineDashboardEditProgramDialogHr,
-                                        style: context
-                                                .watch<MachineDataProvider>()
-                                                .getStepListStartAt
-                                                .contains(context
-                                                    .watch<
-                                                        MachineDataProvider>()
-                                                    .machineDashboardUtilityStepList[
-                                                        index]
-                                                    .machineUtilityStepTitle)
-                                            ? Theme.of(context)
-                                                .textTheme
-                                                .button!
-                                                .copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration: TextDecoration
-                                                        .lineThrough)
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .button!
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                      )
-                                    ],
+                                        const SizedBox(
+                                          width: MachineDashboardSizes
+                                              .machineDashboardEditStepTextFieldSpacing,
+                                        ),
+                                        Row(
+                                          key: Key(
+                                              '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}durTextField'),
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: MachineDashboardSizes
+                                                  .machineDashboardEditStepDurationTextFieldWidth,
+                                              child: CommonTextFormField(
+                                                labelText: MachineDashboardUiStrings
+                                                    .machineDashboardEditProgramDialogDuration,
+                                                fillColor: Colors.white,
+                                                borderFocusColorBorder:
+                                                    AppTheme.greyPrimary100,
+                                                labelTextFontSize:
+                                                    MachineDashboardSizes
+                                                        .machineDashboardEditStepLabelTextFontSize,
+                                                controller:
+                                                    _durationTextController[
+                                                        index],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                contentPadding: EdgeInsets.zero,
+                                                validator: Validators.isDigit(
+                                                    UiStrings.digitOnly),
+                                              ),
+                                            ),
+                                            Text(
+                                              MachineDashboardUiStrings
+                                                  .machineDashboardEditProgramDialogHr,
+                                              style: context
+                                                      .watch<
+                                                          MachineDataProvider>()
+                                                      .getStepListStartAt
+                                                      .contains(context
+                                                          .watch<
+                                                              MachineDataProvider>()
+                                                          .machineDashboardUtilityStepList[
+                                                              index]
+                                                          .machineUtilityStepTitle)
+                                                  ? Theme.of(context)
+                                                      .textTheme
+                                                      .button!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough)
+                                                  : Theme.of(context)
+                                                      .textTheme
+                                                      .button!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
+                              trailing: IconButton(
+                                key: Key(
+                                    '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}trailing'),
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => CommonDialog(
+                                        key: const Key('startApStepDialog'),
+                                        cancelButtonTile: MachineDashboardUiStrings
+                                            .machineDashboardEditProgramDialogNo,
+                                        contentText: Text(
+                                          MachineDashboardUiStrings
+                                              .contentDialog(index),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                          key: const Key('contentText'),
+                                        ),
+                                        submitButtonTile: MachineDashboardUiStrings
+                                            .machineDashboardEditProgramDialogSubmitStartAtStep,
+                                        titleText: MachineDashboardUiStrings
+                                            .startAtTitle(index),
+                                        cancelButtonColor:
+                                            AppTheme.greyPrimary400,
+                                        submitButtonColor:
+                                            AppTheme.redPrimary100,
+                                        cancelButtonCallBack: () {
+                                          Navigator.pop(context);
+                                        },
+                                        submitButtonCallBack: () {
+                                          provider.startAtStep(index);
+                                          Navigator.pop(context);
+                                          print(context
+                                              .read<MachineDataProvider>()
+                                              .getStepListStartAt);
+                                        }),
+                                  );
+                                },
+                                icon: const Icon(
+                                  PhosphorIcons.xCircle,
+                                  color: AppTheme.redPrimary100,
+                                  size: MachineDashboardSizes
+                                      .machineDashboardEditStepTrailingIconSize,
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                        trailing: IconButton(
-                          key: Key(
-                              '${context.watch<MachineDataProvider>().machineDashboardUtilityStepList[index].machineUtilityStepTitle}trailing'),
-                          onPressed: () async {
-                            await showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) => CommonDialog(
-                                  key: const Key('startApStepDialog'),
-                                  cancelButtonTile: MachineDashboardUiStrings
-                                      .machineDashboardEditProgramDialogNo,
-                                  contentText: Text(
-                                    MachineDashboardUiStrings.contentDialog(
-                                        index),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
-                                    key: const Key('contentText'),
-                                  ),
-                                  submitButtonTile: MachineDashboardUiStrings
-                                      .machineDashboardEditProgramDialogSubmitStartAtStep,
-                                  titleText:
-                                      MachineDashboardUiStrings.startAtTitle(
-                                          index),
-                                  cancelButtonColor: AppTheme.greyPrimary400,
-                                  submitButtonColor: AppTheme.redPrimary100,
-                                  cancelButtonCallBack: () {
-                                    Navigator.pop(context);
-                                  },
-                                  submitButtonCallBack: () {
-                                    context
-                                        .read<MachineDataProvider>()
-                                        .startAtStep(index);
-                                    Navigator.pop(context);
-                                    print(context
-                                        .read<MachineDataProvider>()
-                                        .getStepListStartAt);
-                                  }),
-                            );
-                          },
-                          icon: const Icon(
-                            PhosphorIcons.xCircle,
-                            color: AppTheme.redPrimary100,
-                            size: MachineDashboardSizes
-                                .machineDashboardEditStepTrailingIconSize,
                           ),
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      key: Key('dividerListTile'),
-                      indent: MachineDashboardSizes
-                          .machineDashboardPeripheralItemSpacing,
-                      color: AppTheme.greyPrimary100,
-                    )
-                  ],
-                );
-              },
-              itemCount: context
-                  .watch<MachineDataProvider>()
-                  .countMachineDashboardUtilityStepList,
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: MachineDashboardSizes
-              .machineDashboardEditStepListViewButtonSpacing,
-        ),
-        IconButton(
-          key: const Key('addMoreStepButton'),
-          onPressed: () {
-            context.read<MachineDataProvider>().addMoreStep(
-                  MachineUtilityStep(
-                      machineUtilityStepTitle:
-                          'Step ${context.read<MachineDataProvider>().machineDashboardUtilityStepList.length + 1}',
-                      machineUtilityStepTemp: 80,
-                      machineUtilityStepTimeRemaining: 80,
-                      machineUtilityStepStatus:
-                          MachineUtilityStepStatus.UPCOMING,
-                      machineUtilityStepProcess:
-                          MachineUtilityStepProcess.HEATING),
-                );
-          },
-          icon: const Icon(
-            PhosphorIcons.plusCircle,
-            size: MachineDashboardSizes.machineDashboardEditStepButtonSize,
-            color: AppTheme.yellowPrimary,
-          ),
-        ),
-      ],
+                          const Divider(
+                            key: Key('dividerListTile'),
+                            thickness: MachineDashboardSizes
+                                .machineDashboardEditStepDividerThickness,
+                            indent: MachineDashboardSizes
+                                .machineDashboardPeripheralItemSpacing,
+                            color: AppTheme.greyPrimary100,
+                          )
+                        ],
+                      );
+                    },
+                    itemCount: context
+                        .watch<MachineDataProvider>()
+                        .countMachineDashboardUtilityStepList,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: MachineDashboardSizes
+                    .machineDashboardEditStepListViewButtonSpacing,
+              ),
+              IconButton(
+                key: const Key('addMoreStepButton'),
+                onPressed: () {
+                  provider.addMoreStep(
+                    MachineUtilityStep(
+                        machineUtilityStepTitle:
+                            'Step ${provider.machineDashboardUtilityStepList.length + 1}',
+                        machineUtilityStepTemp: 80,
+                        machineUtilityStepTimeRemaining: 80,
+                        machineUtilityStepStatus:
+                            MachineUtilityStepStatus.UPCOMING,
+                        machineUtilityStepProcess:
+                            MachineUtilityStepProcess.HEATING),
+                  );
+                },
+                icon: const Icon(
+                  PhosphorIcons.plusCircle,
+                  size:
+                      MachineDashboardSizes.machineDashboardEditStepButtonSize,
+                  color: AppTheme.yellowPrimary,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

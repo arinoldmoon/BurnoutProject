@@ -54,7 +54,8 @@ class MachineDashboardUiStrings {
       'Oven temperature limit at';
   static const machineDashboardUtilitySettingOvenAfterBurnerTempLimitCaption =
       'After burner temperature limit at';
-  static const machineDashboardUtilitySettingAirFlowSetting = 'After Burner';
+  static const machineDashboardUtilitySettingAirFlowSetting =
+      'Air Flow Setting';
   static const machineDashboardUtilitySettingAdditionalSetting =
       'Additional Settings';
   static const machineDashboardUtilitySettingScheduleOperation =
