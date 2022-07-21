@@ -3,7 +3,7 @@
 //  source: oven.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:async' as $async;
 
@@ -296,6 +296,11 @@ class OperationProtoServiceClient extends $grpc.Client {
       '/Oven.OperationProtoService/CurrentPattern',
       ($0.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.ProtoPattern.fromBuffer(value));
+  static final _$manualTemp =
+      $grpc.ClientMethod<$1.ProtoManualTemp, $2.BoolValue>(
+          '/Oven.OperationProtoService/ManualTemp',
+          ($1.ProtoManualTemp value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $2.BoolValue.fromBuffer(value));
 
   OperationProtoServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -328,6 +333,11 @@ class OperationProtoServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.ProtoPattern> currentPattern($0.Empty request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$currentPattern, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$2.BoolValue> manualTemp($1.ProtoManualTemp request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$manualTemp, request, options: options);
   }
 }
 
@@ -372,6 +382,13 @@ abstract class OperationProtoServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.ProtoPattern value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.ProtoManualTemp, $2.BoolValue>(
+        'ManualTemp',
+        manualTemp_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.ProtoManualTemp.fromBuffer(value),
+        ($2.BoolValue value) => value.writeToBuffer()));
   }
 
   $async.Future<$1.ActualLogList> getOperationLogWithID_Pre(
@@ -400,6 +417,11 @@ abstract class OperationProtoServiceBase extends $grpc.Service {
     return currentPattern(call, await request);
   }
 
+  $async.Future<$2.BoolValue> manualTemp_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.ProtoManualTemp> request) async {
+    return manualTemp(call, await request);
+  }
+
   $async.Future<$1.ActualLogList> getOperationLogWithID(
       $grpc.ServiceCall call, $2.Int32Value request);
   $async.Future<$1.ProtoOperationLogInfo> getOperationLogWithFilter(
@@ -410,4 +432,6 @@ abstract class OperationProtoServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.ProtoPattern> currentPattern(
       $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$2.BoolValue> manualTemp(
+      $grpc.ServiceCall call, $1.ProtoManualTemp request);
 }

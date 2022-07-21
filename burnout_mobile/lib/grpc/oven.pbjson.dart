@@ -3,7 +3,7 @@
 //  source: oven.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,deprecated_member_use_from_same_package,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
@@ -13,15 +13,15 @@ const PatternStatus$json = const {
   '1': 'PatternStatus',
   '2': const [
     const {'1': 'Standby', '2': 0},
-    const {'1': 'Up', '2': 1},
-    const {'1': 'Down', '2': 2},
+    const {'1': 'Down', '2': 1},
+    const {'1': 'Up', '2': 2},
     const {'1': 'Stable', '2': 3},
     const {'1': 'End', '2': 4},
   ],
 };
 
 /// Descriptor for `PatternStatus`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List patternStatusDescriptor = $convert.base64Decode('Cg1QYXR0ZXJuU3RhdHVzEgsKB1N0YW5kYnkQABIGCgJVcBABEggKBERvd24QAhIKCgZTdGFibGUQAxIHCgNFbmQQBA==');
+final $typed_data.Uint8List patternStatusDescriptor = $convert.base64Decode('Cg1QYXR0ZXJuU3RhdHVzEgsKB1N0YW5kYnkQABIICgREb3duEAESBgoCVXAQAhIKCgZTdGFibGUQAxIHCgNFbmQQBA==');
 @$core.Deprecated('Use operationLogWithFilterDescriptor instead')
 const OperationLogWithFilter$json = const {
   '1': 'OperationLogWithFilter',
@@ -50,15 +50,16 @@ const ProtoOvenInfo$json = const {
   '1': 'ProtoOvenInfo',
   '2': const [
     const {'1': 'SerialNumber', '3': 1, '4': 1, '5': 5, '10': 'SerialNumber'},
-    const {'1': 'MachineModel', '3': 2, '4': 1, '5': 5, '10': 'MachineModel'},
-    const {'1': 'WarrantyStart', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'WarrantyStart'},
-    const {'1': 'WarrantyEnd', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'WarrantyEnd'},
-    const {'1': 'MachineName', '3': 5, '4': 1, '5': 9, '10': 'MachineName'},
+    const {'1': 'MachineName', '3': 2, '4': 1, '5': 9, '10': 'MachineName'},
+    const {'1': 'MachineModel', '3': 3, '4': 1, '5': 5, '10': 'MachineModel'},
+    const {'1': 'WarrantyStart', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'WarrantyStart'},
+    const {'1': 'WarrantyEnd', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'WarrantyEnd'},
+    const {'1': 'Operation', '3': 6, '4': 1, '5': 8, '10': 'Operation'},
   ],
 };
 
 /// Descriptor for `ProtoOvenInfo`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoOvenInfoDescriptor = $convert.base64Decode('Cg1Qcm90b092ZW5JbmZvEiIKDFNlcmlhbE51bWJlchgBIAEoBVIMU2VyaWFsTnVtYmVyEiIKDE1hY2hpbmVNb2RlbBgCIAEoBVIMTWFjaGluZU1vZGVsEkAKDVdhcnJhbnR5U3RhcnQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUg1XYXJyYW50eVN0YXJ0EjwKC1dhcnJhbnR5RW5kGAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFILV2FycmFudHlFbmQSIAoLTWFjaGluZU5hbWUYBSABKAlSC01hY2hpbmVOYW1l');
+final $typed_data.Uint8List protoOvenInfoDescriptor = $convert.base64Decode('Cg1Qcm90b092ZW5JbmZvEiIKDFNlcmlhbE51bWJlchgBIAEoBVIMU2VyaWFsTnVtYmVyEiAKC01hY2hpbmVOYW1lGAIgASgJUgtNYWNoaW5lTmFtZRIiCgxNYWNoaW5lTW9kZWwYAyABKAVSDE1hY2hpbmVNb2RlbBJACg1XYXJyYW50eVN0YXJ0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFINV2FycmFudHlTdGFydBI8CgtXYXJyYW50eUVuZBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSC1dhcnJhbnR5RW5kEhwKCU9wZXJhdGlvbhgGIAEoCFIJT3BlcmF0aW9u');
 @$core.Deprecated('Use protoOperationLogInfoDescriptor instead')
 const ProtoOperationLogInfo$json = const {
   '1': 'ProtoOperationLogInfo',
@@ -175,11 +176,12 @@ const ProtoOvenSetting$json = const {
     const {'1': 'AlarmAfb', '3': 7, '4': 1, '5': 5, '10': 'AlarmAfb'},
     const {'1': 'SetpointTemp', '3': 8, '4': 1, '5': 11, '6': '.Oven.Temp', '10': 'SetpointTemp'},
     const {'1': 'CoilSetting', '3': 9, '4': 1, '5': 11, '6': '.Oven.Coil', '10': 'CoilSetting'},
+    const {'1': 'ManualTemp', '3': 10, '4': 1, '5': 11, '6': '.Oven.ProtoManualTemp', '10': 'ManualTemp'},
   ],
 };
 
 /// Descriptor for `ProtoOvenSetting`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoOvenSettingDescriptor = $convert.base64Decode('ChBQcm90b092ZW5TZXR0aW5nEiIKDEFmYlN0YXJ0VGVtcBgBIAEoBVIMQWZiU3RhcnRUZW1wEh4KCkFmYkVuZFRlbXAYAiABKAVSCkFmYkVuZFRlbXASGgoIQWZiRGVsYXkYAyABKAVSCEFmYkRlbGF5EiQKDVR1YmVTdGFydFRlbXAYBCABKAVSDVR1YmVTdGFydFRlbXASJgoORmxvb3JTdGFydFRlbXAYBSABKAVSDkZsb29yU3RhcnRUZW1wEhwKCUFsYXJtT3ZlbhgGIAEoBVIJQWxhcm1PdmVuEhoKCEFsYXJtQWZiGAcgASgFUghBbGFybUFmYhIuCgxTZXRwb2ludFRlbXAYCCABKAsyCi5PdmVuLlRlbXBSDFNldHBvaW50VGVtcBIsCgtDb2lsU2V0dGluZxgJIAEoCzIKLk92ZW4uQ29pbFILQ29pbFNldHRpbmc=');
+final $typed_data.Uint8List protoOvenSettingDescriptor = $convert.base64Decode('ChBQcm90b092ZW5TZXR0aW5nEiIKDEFmYlN0YXJ0VGVtcBgBIAEoBVIMQWZiU3RhcnRUZW1wEh4KCkFmYkVuZFRlbXAYAiABKAVSCkFmYkVuZFRlbXASGgoIQWZiRGVsYXkYAyABKAVSCEFmYkRlbGF5EiQKDVR1YmVTdGFydFRlbXAYBCABKAVSDVR1YmVTdGFydFRlbXASJgoORmxvb3JTdGFydFRlbXAYBSABKAVSDkZsb29yU3RhcnRUZW1wEhwKCUFsYXJtT3ZlbhgGIAEoBVIJQWxhcm1PdmVuEhoKCEFsYXJtQWZiGAcgASgFUghBbGFybUFmYhIuCgxTZXRwb2ludFRlbXAYCCABKAsyCi5PdmVuLlRlbXBSDFNldHBvaW50VGVtcBIsCgtDb2lsU2V0dGluZxgJIAEoCzIKLk92ZW4uQ29pbFILQ29pbFNldHRpbmcSNQoKTWFudWFsVGVtcBgKIAEoCzIVLk92ZW4uUHJvdG9NYW51YWxUZW1wUgpNYW51YWxUZW1w');
 @$core.Deprecated('Use protoPatternListDescriptor instead')
 const ProtoPatternList$json = const {
   '1': 'ProtoPatternList',
@@ -236,3 +238,14 @@ const ProtoPatternDetail$json = const {
 
 /// Descriptor for `ProtoPatternDetail`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoPatternDetailDescriptor = $convert.base64Decode('ChJQcm90b1BhdHRlcm5EZXRhaWwSGgoIRGV0YWlsSWQYASABKAVSCERldGFpbElkEhwKCVBhdHRlcm5JZBgCIAEoBVIJUGF0dGVybklkEhIKBFN0ZXAYAyABKAVSBFN0ZXASEgoEVGVtcBgEIAEoBVIEVGVtcBI9CgxTdGVwRHVyYXRpb24YBSABKAsyGS5nb29nbGUucHJvdG9idWYuRHVyYXRpb25SDFN0ZXBEdXJhdGlvbg==');
+@$core.Deprecated('Use protoManualTempDescriptor instead')
+const ProtoManualTemp$json = const {
+  '1': 'ProtoManualTemp',
+  '2': const [
+    const {'1': 'Use', '3': 1, '4': 1, '5': 8, '10': 'Use'},
+    const {'1': 'Temp', '3': 2, '4': 1, '5': 5, '10': 'Temp'},
+  ],
+};
+
+/// Descriptor for `ProtoManualTemp`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoManualTempDescriptor = $convert.base64Decode('Cg9Qcm90b01hbnVhbFRlbXASEAoDVXNlGAEgASgIUgNVc2USEgoEVGVtcBgCIAEoBVIEVGVtcA==');

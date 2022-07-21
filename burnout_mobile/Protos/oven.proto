@@ -13,7 +13,6 @@ service OvenProtoService {
     rpc MonitorDevice (google.protobuf.Empty) returns (stream ProtoOvenResponse);       
     rpc GetOvenSetting(google.protobuf.Empty) returns (ProtoOvenSetting);
     rpc UpdateOvenSetting(ProtoOvenSetting) returns (google.protobuf.BoolValue);     
-//     rpc UpdateMachineInfo(ProtoOvenInfo) returns (google.protobuf.BoolValue);  
 }
 
 service PatternProtoService {    
@@ -30,6 +29,7 @@ service OperationProtoService {
     rpc StartOperation(ProtoPattern) returns (google.protobuf.BoolValue);
     rpc StopOperation(google.protobuf.Empty) returns (google.protobuf.BoolValue);
     rpc CurrentPattern(google.protobuf.Empty) returns (ProtoPattern);
+    rpc ManualTemp(ProtoManualTemp) returns (google.protobuf.BoolValue);
 
 }
 
@@ -45,10 +45,11 @@ message ProtoServiceConnection {
 }
 message ProtoOvenInfo {
     int32 SerialNumber = 1;
-    int32 MachineModel = 2;
-    google.protobuf.Timestamp WarrantyStart = 3;
-    google.protobuf.Timestamp WarrantyEnd = 4;
-    string MachineName = 5;        
+    string MachineName = 2;   
+    int32 MachineModel = 3;
+    google.protobuf.Timestamp WarrantyStart = 4;
+    google.protobuf.Timestamp WarrantyEnd = 5;
+    bool Operation = 6;         
 }
 
 message ProtoOperationLogInfo {
@@ -94,10 +95,10 @@ message MachineStatus {
 }
 enum PatternStatus {
     Standby = 0;
-    Up = 1;
-    Down = 2;
+    Down = 1;
+    Up = 2;
     Stable = 3;
-    End = 4;
+    End = 4;    
 }
 
 message ActualLogList
@@ -119,9 +120,8 @@ message ProtoOvenSetting {
     int32 AlarmAfb = 7;
     Temp SetpointTemp = 8;
     Coil CoilSetting = 9;
+    ProtoManualTemp ManualTemp = 10;
 }
-
-
 
 message ProtoPatternList {
     repeated ProtoPattern Pattern = 1;
@@ -152,3 +152,8 @@ message ProtoPatternDetail {
     google.protobuf.Duration StepDuration = 5;
 }
 
+message ProtoManualTemp
+{
+    bool Use = 1;
+    int32 Temp = 2;
+}

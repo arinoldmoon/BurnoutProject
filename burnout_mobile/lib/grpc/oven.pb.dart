@@ -3,7 +3,7 @@
 //  source: oven.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -159,24 +159,29 @@ class ProtoServiceConnection extends $pb.GeneratedMessage {
 class ProtoOvenInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOvenInfo', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
     ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'SerialNumber', $pb.PbFieldType.O3, protoName: 'SerialNumber')
-    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MachineModel', $pb.PbFieldType.O3, protoName: 'MachineModel')
-    ..aOM<$3.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'WarrantyStart', protoName: 'WarrantyStart', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'WarrantyEnd', protoName: 'WarrantyEnd', subBuilder: $3.Timestamp.create)
-    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MachineName', protoName: 'MachineName')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MachineName', protoName: 'MachineName')
+    ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MachineModel', $pb.PbFieldType.O3, protoName: 'MachineModel')
+    ..aOM<$3.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'WarrantyStart', protoName: 'WarrantyStart', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'WarrantyEnd', protoName: 'WarrantyEnd', subBuilder: $3.Timestamp.create)
+    ..aOB(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Operation', protoName: 'Operation')
     ..hasRequiredFields = false
   ;
 
   ProtoOvenInfo._() : super();
   factory ProtoOvenInfo({
     $core.int? serialNumber,
+    $core.String? machineName,
     $core.int? machineModel,
     $3.Timestamp? warrantyStart,
     $3.Timestamp? warrantyEnd,
-    $core.String? machineName,
+    $core.bool? operation,
   }) {
     final _result = create();
     if (serialNumber != null) {
       _result.serialNumber = serialNumber;
+    }
+    if (machineName != null) {
+      _result.machineName = machineName;
     }
     if (machineModel != null) {
       _result.machineModel = machineModel;
@@ -187,8 +192,8 @@ class ProtoOvenInfo extends $pb.GeneratedMessage {
     if (warrantyEnd != null) {
       _result.warrantyEnd = warrantyEnd;
     }
-    if (machineName != null) {
-      _result.machineName = machineName;
+    if (operation != null) {
+      _result.operation = operation;
     }
     return _result;
   }
@@ -223,50 +228,59 @@ class ProtoOvenInfo extends $pb.GeneratedMessage {
   void clearSerialNumber() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.int get machineModel => $_getIZ(1);
+  $core.String get machineName => $_getSZ(1);
   @$pb.TagNumber(2)
-  set machineModel($core.int v) { $_setSignedInt32(1, v); }
+  set machineName($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasMachineModel() => $_has(1);
+  $core.bool hasMachineName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearMachineModel() => clearField(2);
+  void clearMachineName() => clearField(2);
 
   @$pb.TagNumber(3)
-  $3.Timestamp get warrantyStart => $_getN(2);
+  $core.int get machineModel => $_getIZ(2);
   @$pb.TagNumber(3)
-  set warrantyStart($3.Timestamp v) { setField(3, v); }
+  set machineModel($core.int v) { $_setSignedInt32(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasWarrantyStart() => $_has(2);
+  $core.bool hasMachineModel() => $_has(2);
   @$pb.TagNumber(3)
-  void clearWarrantyStart() => clearField(3);
-  @$pb.TagNumber(3)
-  $3.Timestamp ensureWarrantyStart() => $_ensure(2);
+  void clearMachineModel() => clearField(3);
 
   @$pb.TagNumber(4)
-  $3.Timestamp get warrantyEnd => $_getN(3);
+  $3.Timestamp get warrantyStart => $_getN(3);
   @$pb.TagNumber(4)
-  set warrantyEnd($3.Timestamp v) { setField(4, v); }
+  set warrantyStart($3.Timestamp v) { setField(4, v); }
   @$pb.TagNumber(4)
-  $core.bool hasWarrantyEnd() => $_has(3);
+  $core.bool hasWarrantyStart() => $_has(3);
   @$pb.TagNumber(4)
-  void clearWarrantyEnd() => clearField(4);
+  void clearWarrantyStart() => clearField(4);
   @$pb.TagNumber(4)
-  $3.Timestamp ensureWarrantyEnd() => $_ensure(3);
+  $3.Timestamp ensureWarrantyStart() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $core.String get machineName => $_getSZ(4);
+  $3.Timestamp get warrantyEnd => $_getN(4);
   @$pb.TagNumber(5)
-  set machineName($core.String v) { $_setString(4, v); }
+  set warrantyEnd($3.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
-  $core.bool hasMachineName() => $_has(4);
+  $core.bool hasWarrantyEnd() => $_has(4);
   @$pb.TagNumber(5)
-  void clearMachineName() => clearField(5);
+  void clearWarrantyEnd() => clearField(5);
+  @$pb.TagNumber(5)
+  $3.Timestamp ensureWarrantyEnd() => $_ensure(4);
+
+  @$pb.TagNumber(6)
+  $core.bool get operation => $_getBF(5);
+  @$pb.TagNumber(6)
+  set operation($core.bool v) { $_setBool(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasOperation() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearOperation() => clearField(6);
 }
 
 class ProtoOperationLogInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoOperationLogInfo', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
-    ..p<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'YearList', $pb.PbFieldType.P3, protoName: 'YearList')
-    ..p<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MonthList', $pb.PbFieldType.P3, protoName: 'MonthList')
+    ..p<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'YearList', $pb.PbFieldType.K3, protoName: 'YearList')
+    ..p<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'MonthList', $pb.PbFieldType.K3, protoName: 'MonthList')
     ..pc<ProtoOvenLogList>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'LogList', $pb.PbFieldType.PM, protoName: 'LogList', subBuilder: ProtoOvenLogList.create)
     ..hasRequiredFields = false
   ;
@@ -968,6 +982,7 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
     ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'AlarmAfb', $pb.PbFieldType.O3, protoName: 'AlarmAfb')
     ..aOM<Temp>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'SetpointTemp', protoName: 'SetpointTemp', subBuilder: Temp.create)
     ..aOM<Coil>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'CoilSetting', protoName: 'CoilSetting', subBuilder: Coil.create)
+    ..aOM<ProtoManualTemp>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'ManualTemp', protoName: 'ManualTemp', subBuilder: ProtoManualTemp.create)
     ..hasRequiredFields = false
   ;
 
@@ -982,6 +997,7 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
     $core.int? alarmAfb,
     Temp? setpointTemp,
     Coil? coilSetting,
+    ProtoManualTemp? manualTemp,
   }) {
     final _result = create();
     if (afbStartTemp != null) {
@@ -1010,6 +1026,9 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
     }
     if (coilSetting != null) {
       _result.coilSetting = coilSetting;
+    }
+    if (manualTemp != null) {
+      _result.manualTemp = manualTemp;
     }
     return _result;
   }
@@ -1118,6 +1137,17 @@ class ProtoOvenSetting extends $pb.GeneratedMessage {
   void clearCoilSetting() => clearField(9);
   @$pb.TagNumber(9)
   Coil ensureCoilSetting() => $_ensure(8);
+
+  @$pb.TagNumber(10)
+  ProtoManualTemp get manualTemp => $_getN(9);
+  @$pb.TagNumber(10)
+  set manualTemp(ProtoManualTemp v) { setField(10, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasManualTemp() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearManualTemp() => clearField(10);
+  @$pb.TagNumber(10)
+  ProtoManualTemp ensureManualTemp() => $_ensure(9);
 }
 
 class ProtoPatternList extends $pb.GeneratedMessage {
@@ -1530,5 +1560,66 @@ class ProtoPatternDetail extends $pb.GeneratedMessage {
   void clearStepDuration() => clearField(5);
   @$pb.TagNumber(5)
   $4.Duration ensureStepDuration() => $_ensure(4);
+}
+
+class ProtoManualTemp extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoManualTemp', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Oven'), createEmptyInstance: create)
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Use', protoName: 'Use')
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Temp', $pb.PbFieldType.O3, protoName: 'Temp')
+    ..hasRequiredFields = false
+  ;
+
+  ProtoManualTemp._() : super();
+  factory ProtoManualTemp({
+    $core.bool? use,
+    $core.int? temp,
+  }) {
+    final _result = create();
+    if (use != null) {
+      _result.use = use;
+    }
+    if (temp != null) {
+      _result.temp = temp;
+    }
+    return _result;
+  }
+  factory ProtoManualTemp.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoManualTemp.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoManualTemp clone() => ProtoManualTemp()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoManualTemp copyWith(void Function(ProtoManualTemp) updates) => super.copyWith((message) => updates(message as ProtoManualTemp)) as ProtoManualTemp; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoManualTemp create() => ProtoManualTemp._();
+  ProtoManualTemp createEmptyInstance() => create();
+  static $pb.PbList<ProtoManualTemp> createRepeated() => $pb.PbList<ProtoManualTemp>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoManualTemp getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoManualTemp>(create);
+  static ProtoManualTemp? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get use => $_getBF(0);
+  @$pb.TagNumber(1)
+  set use($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUse() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUse() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get temp => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set temp($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTemp() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTemp() => clearField(2);
 }
 
