@@ -64,8 +64,7 @@ class _MachineDashboardEditProgramStepState
                             height: MachineDashboardSizes
                                 .machineDashboardEditStepTileHeight,
                             child: ListTile(
-                              key: Key(context
-                                  .watch<MachineDataProvider>()
+                              key: Key(provider
                                   .machineDashboardUtilityStepList[index]
                                   .machineUtilityStepTitle),
                               contentPadding: EdgeInsets.zero,
@@ -134,131 +133,132 @@ class _MachineDashboardEditProgramStepState
                                     width: MachineDashboardSizes
                                         .machineDashboardEditStepTextFieldTitleSpacing,
                                   ),
-                                  Expanded(
+                                  Flexible(
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          key: Key(
-                                              '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}tempTextField'),
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: MachineDashboardSizes
-                                                  .machineDashboardEditStepTextFieldWidth,
-                                              child: CommonTextFormField(
-                                                labelText: MachineDashboardUiStrings
-                                                    .machineDashboardEditProgramDialogTemperature,
-                                                fillColor: Colors.white,
-                                                borderFocusColorBorder:
-                                                    AppTheme.greyPrimary100,
-                                                labelTextFontSize:
-                                                    MachineDashboardSizes
-                                                        .machineDashboardEditStepLabelTextFontSize,
-                                                controller:
-                                                    _tempTextController[index],
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                contentPadding: EdgeInsets.zero,
-                                                validator: Validators.isDigit(
-                                                    UiStrings.digitOnly),
+                                        Flexible(
+                                          child: Row(
+                                            key: Key(
+                                                '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}tempTextField'),
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: CommonTextFormField(
+                                                  labelText:
+                                                      MachineDashboardUiStrings
+                                                          .machineDashboardEditProgramDialogTemperature,
+                                                  fillColor: Colors.white,
+                                                  borderFocusColorBorder:
+                                                      AppTheme.greyPrimary100,
+                                                  labelTextFontSize:
+                                                      MachineDashboardSizes
+                                                          .machineDashboardEditStepLabelTextFontSize,
+                                                  controller:
+                                                      _tempTextController[
+                                                          index],
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  contentPadding:
+                                                      EdgeInsets.zero,
+                                                  validator: Validators.isDigit(
+                                                      UiStrings.digitOnly),
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              MachineDashboardUiStrings
-                                                  .machineDashboardTemperatureCelciusSymbol,
-                                              style: context
-                                                      .watch<
-                                                          MachineDataProvider>()
-                                                      .getStepListStartAt
-                                                      .contains(context
-                                                          .watch<
-                                                              MachineDataProvider>()
-                                                          .machineDashboardUtilityStepList[
-                                                              index]
-                                                          .machineUtilityStepTitle)
-                                                  ? Theme.of(context)
-                                                      .textTheme
-                                                      .button!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough)
-                                                  : Theme.of(context)
-                                                      .textTheme
-                                                      .button!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                            ),
-                                          ],
+                                              Text(
+                                                MachineDashboardUiStrings
+                                                    .machineDashboardTemperatureCelciusSymbol,
+                                                style: provider
+                                                        .getStepListStartAt
+                                                        .contains(provider
+                                                            .machineDashboardUtilityStepList[
+                                                                index]
+                                                            .machineUtilityStepTitle)
+                                                    ? Theme.of(context)
+                                                        .textTheme
+                                                        .button!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough)
+                                                    : Theme.of(context)
+                                                        .textTheme
+                                                        .button!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: MachineDashboardSizes
                                               .machineDashboardEditStepTextFieldSpacing,
                                         ),
-                                        Row(
-                                          key: Key(
-                                              '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}durTextField'),
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: MachineDashboardSizes
-                                                  .machineDashboardEditStepDurationTextFieldWidth,
-                                              child: CommonTextFormField(
-                                                labelText: MachineDashboardUiStrings
-                                                    .machineDashboardEditProgramDialogDuration,
-                                                fillColor: Colors.white,
-                                                borderFocusColorBorder:
-                                                    AppTheme.greyPrimary100,
-                                                labelTextFontSize:
-                                                    MachineDashboardSizes
-                                                        .machineDashboardEditStepLabelTextFontSize,
-                                                controller:
-                                                    _durationTextController[
-                                                        index],
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                contentPadding: EdgeInsets.zero,
-                                                validator: Validators.isDigit(
-                                                    UiStrings.digitOnly),
+                                        Flexible(
+                                          child: Row(
+                                            key: Key(
+                                                '${provider.machineDashboardUtilityStepList[index].machineUtilityStepTitle}durTextField'),
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: CommonTextFormField(
+                                                  labelText:
+                                                      MachineDashboardUiStrings
+                                                          .machineDashboardEditProgramDialogDuration,
+                                                  fillColor: Colors.white,
+                                                  borderFocusColorBorder:
+                                                      AppTheme.greyPrimary100,
+                                                  labelTextFontSize:
+                                                      MachineDashboardSizes
+                                                          .machineDashboardEditStepLabelTextFontSize,
+                                                  controller:
+                                                      _durationTextController[
+                                                          index],
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  contentPadding:
+                                                      EdgeInsets.zero,
+                                                  validator: Validators.isDigit(
+                                                      UiStrings.digitOnly),
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              MachineDashboardUiStrings
-                                                  .machineDashboardEditProgramDialogHr,
-                                              style: context
-                                                      .watch<
-                                                          MachineDataProvider>()
-                                                      .getStepListStartAt
-                                                      .contains(context
-                                                          .watch<
-                                                              MachineDataProvider>()
-                                                          .machineDashboardUtilityStepList[
-                                                              index]
-                                                          .machineUtilityStepTitle)
-                                                  ? Theme.of(context)
-                                                      .textTheme
-                                                      .button!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough)
-                                                  : Theme.of(context)
-                                                      .textTheme
-                                                      .button!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                            )
-                                          ],
+                                              Text(
+                                                MachineDashboardUiStrings
+                                                    .machineDashboardEditProgramDialogHr,
+                                                style: provider
+                                                        .getStepListStartAt
+                                                        .contains(context
+                                                            .watch<
+                                                                MachineDataProvider>()
+                                                            .machineDashboardUtilityStepList[
+                                                                index]
+                                                            .machineUtilityStepTitle)
+                                                    ? Theme.of(context)
+                                                        .textTheme
+                                                        .button!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough)
+                                                    : Theme.of(context)
+                                                        .textTheme
+                                                        .button!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -298,9 +298,7 @@ class _MachineDashboardEditProgramStepState
                                         submitButtonCallBack: () {
                                           provider.startAtStep(index);
                                           Navigator.pop(context);
-                                          print(context
-                                              .read<MachineDataProvider>()
-                                              .getStepListStartAt);
+                                          print(provider.getStepListStartAt);
                                         }),
                                   );
                                 },
@@ -324,9 +322,7 @@ class _MachineDashboardEditProgramStepState
                         ],
                       );
                     },
-                    itemCount: context
-                        .watch<MachineDataProvider>()
-                        .countMachineDashboardUtilityStepList,
+                    itemCount: provider.countMachineDashboardUtilityStepList,
                   ),
                 ),
               ),
