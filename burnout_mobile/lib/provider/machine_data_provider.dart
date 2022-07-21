@@ -4,7 +4,7 @@ import '../constants/machine_dashboard/machine_enum.dart';
 import '../data_models/mock_machine_payload.dart';
 
 class MachineDataProvider with ChangeNotifier {
-  MockMachinePayload mockMachinePayloadIdle = const MockMachinePayload(
+  MockMachinePayload mockMachinePayloadIdle = MockMachinePayload(
     machineName: 'machine1',
     machineModel: 'S6 Eco',
     machineStatus: MachineStatusRun.IDLE,
@@ -12,9 +12,10 @@ class MachineDataProvider with ChangeNotifier {
     machineSerialNumber: '',
     machineSoftwareVersion: '',
     machineWarranty: '',
+    machineNetworkConnection: mockMachineNetworkConnection,
   );
 
-  MockMachinePayload mockMachinePayloadWaiting = const MockMachinePayload(
+  MockMachinePayload mockMachinePayloadWaiting = MockMachinePayload(
     machineName: 'machine2',
     machineModel: 'S6 Eco',
     machineStatus: MachineStatusRun.WAITING,
@@ -24,6 +25,7 @@ class MachineDataProvider with ChangeNotifier {
     machineSerialNumber: '',
     machineSoftwareVersion: '',
     machineWarranty: '',
+    machineNetworkConnection: mockMachineNetworkConnection,
   );
 
   MockMachinePayload mockMachinePayloadOnProgram = MockMachinePayload(
@@ -35,10 +37,11 @@ class MachineDataProvider with ChangeNotifier {
     machineTimeRemaing: 225,
     machineTemperature: MachineTemperature.mockMachineTemp,
     machinePeripheral: MachinePeripheral.mockMachinePeripheral,
-    machineModelYear: '',
-    machineSerialNumber: '',
-    machineSoftwareVersion: '',
-    machineWarranty: '',
+    machineModelYear: '2020',
+    machineSerialNumber: 'S6-2021-11854F',
+    machineSoftwareVersion: 'OM 11.0.16 AA',
+    machineWarranty: '04/11/2021 - 03/11/2022',
+    machineNetworkConnection: mockMachineNetworkConnection,
   );
 
   MockMachinePayload get getMockMachinePayloadOnProgram =>
@@ -182,4 +185,20 @@ class MachineDataProvider with ChangeNotifier {
       machineDashboardUtilityStepList;
 
   List<String> get getStepListStartAt => stepListStartAt;
+
+  static MachineNetworkConnection mockMachineNetworkConnection =
+      MachineNetworkConnection(
+          machineNetworkConnectionDNS: '',
+          machineNetworkConnectionEthernet: '',
+          machineNetworkConnectionGateway: '',
+          machineWifiConnection: mockMachineWifiConnection);
+
+  static MachineWifiConnection mockMachineWifiConnection =
+      MachineWifiConnection(
+          machineWifiConnectionDHCP: false,
+          machineWifiConnectionIpAddress: '',
+          machineWifiConnectionPassword: '',
+          machineWifiConnectionSSID: '',
+          machineWifiConnectionStatic: false,
+          machineWifiConnectionSubnet: '');
 }

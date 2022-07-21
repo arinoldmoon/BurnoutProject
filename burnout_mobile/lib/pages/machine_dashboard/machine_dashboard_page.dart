@@ -1,5 +1,6 @@
 import 'package:burnout_mobile/constants/machine_dashboard/machine_dashboard_sizes.dart';
 import 'package:burnout_mobile/constants/machine_dashboard/machine_enum.dart';
+import 'package:burnout_mobile/constants/routes.dart';
 import 'package:burnout_mobile/constants/ui_strings.dart';
 import 'package:burnout_mobile/data_models/mock_machine_payload.dart';
 import 'package:burnout_mobile/grpc/google/protobuf/empty.pb.dart';
@@ -35,6 +36,7 @@ class _MachineDashboardPageState extends State<MachineDashboardPage>
       widget.machinePayload.machineTemperature!;
   late List<MachinePeripheral> machinePeripheral =
       widget.machinePayload.machinePeripheral!;
+  late int _currentPage;
 
   // static final channel = ClientChannel(
   //   '192.168.15.134', // Use your IP address where the server is running
@@ -121,7 +123,7 @@ class _MachineDashboardPageState extends State<MachineDashboardPage>
 
   // @override
   // void initState() {
-  //   callGrpc();
+  //   _currentPage = 0;
   //   super.initState();
   // }
 
@@ -198,7 +200,20 @@ class _MachineDashboardPageState extends State<MachineDashboardPage>
         backgroundColor: Colors.white,
         selectedItemColor: AppTheme.yellowPrimary,
         unselectedItemColor: AppTheme.yellowPrimary.withOpacity(.50),
-        onTap: (value) {},
+        onTap: (value) {
+          setState(() {
+            _currentPage = value;
+          });
+          switch (_currentPage) {
+            case 0:
+              Navigator.pushNamed(context, RouteNames.machineDashboardPage);
+              break;
+            case 1:
+            case 2:
+              Navigator.pushNamed(context, RouteNames.machineDashboardPage);
+              break;
+          }
+        },
         items: const [
           BottomNavigationBarItem(
             label: '',

@@ -14,8 +14,9 @@ class MockMachinePayload {
   final String machineModelYear;
   final String machineSoftwareVersion;
   final String machineWarranty;
+  late MachineNetworkConnection machineNetworkConnection;
 
-  const MockMachinePayload({
+  MockMachinePayload({
     required this.machineName,
     required this.machineStatus,
     required this.machineModel,
@@ -29,6 +30,7 @@ class MockMachinePayload {
     required this.machineModelYear,
     required this.machineSoftwareVersion,
     required this.machineWarranty,
+    required this.machineNetworkConnection,
   });
 }
 
@@ -143,14 +145,6 @@ class MachineNetworkConnection {
     required this.machineNetworkConnectionGateway,
     required this.machineNetworkConnectionDNS,
   });
-
-  static MachineNetworkConnection machineNetworkConnection =
-      MachineNetworkConnection(
-          machineNetworkConnectionDNS: '',
-          machineNetworkConnectionEthernet: '',
-          machineNetworkConnectionGateway: '',
-          machineWifiConnection:
-              MachineWifiConnection.machineNetworkConnection);
 }
 
 class MachineWifiConnection {
@@ -169,14 +163,6 @@ class MachineWifiConnection {
     required this.machineWifiConnectionIpAddress,
     required this.machineWifiConnectionSubnet,
   });
-
-  static MachineWifiConnection machineNetworkConnection = MachineWifiConnection(
-      machineWifiConnectionDHCP: false,
-      machineWifiConnectionIpAddress: '',
-      machineWifiConnectionPassword: '',
-      machineWifiConnectionSSID: '',
-      machineWifiConnectionStatic: false,
-      machineWifiConnectionSubnet: '');
 }
 
 class MachineSupport {

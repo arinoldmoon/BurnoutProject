@@ -55,7 +55,7 @@ class _MachineDashboardExpansionalSettingState
             (data) => ListTile(
               title: Text(data.machineDashboardExpansionalSettingMenuTitle),
               subtitle: Column(
-                  children: data.machineDashboardExpansionalSettingMenuSubtitle
+                  children: data.machineDashboardExpansionalSettingValue
                       .map((data) => Text(data))
                       .toList()),
               trailing: IconButton(

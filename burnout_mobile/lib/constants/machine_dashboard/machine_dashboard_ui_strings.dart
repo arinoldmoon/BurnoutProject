@@ -120,4 +120,7 @@ class MachineDashboardUiStrings {
       'Software version';
   static const machineDashboardExpansionSettingMachineWarranty =
       'Warranty (start-end)';
+  static const machineDashboardExpansionSettingAboutMachine = 'About Machine';
+  static const machineDashboardExpansionSettingAboutMachineSubTitle =
+      'Machine name, model, software version';
 }
