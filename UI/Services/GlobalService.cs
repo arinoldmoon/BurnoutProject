@@ -130,23 +130,37 @@ namespace UI.Services
             }
         }
     
-        private List<OperationLog>? _ActualPoint;
-        public List<OperationLog> ActualPoint
+        private List<TempActualLog>? _ActualPoint;
+        public List<TempActualLog> ActualPoint
         {
             get { return _ActualPoint!; }
             set
-            {
+            {                
                 if (!object.Equals(_ActualPoint, value))
                 {
-
                     var args = new PropertyChangedEventArgs() { Name = "ActualPoint", NewValue = value, OldValue = _ActualPoint, IsGlobal = true };
-
                     _ActualPoint = value;
+                    
                     PropertyChanged?.Invoke(args);
                 }
             }
         }
-        
+
+        private bool _isMobile;
+        public bool isMobile
+        {
+            get { return _isMobile; }
+            set
+            {                
+                if (!object.Equals(_isMobile, value))
+                {
+                    var args = new PropertyChangedEventArgs() { Name = "isMobile", NewValue = value, OldValue = _isMobile, IsGlobal = true };
+                    _isMobile = value;
+                    
+                    PropertyChanged?.Invoke(args);
+                }
+            }            
+        }     
     }
 
     public partial class PropertyChangedEventArgs

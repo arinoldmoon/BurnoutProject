@@ -25,8 +25,9 @@ namespace UI.Pages.Index.Component.Controller
         protected List<int> YearList { get; set; } = new List<int>();
         protected List<int> MonthList { get; set; } = new List<int>();
 
-        public int SelectYear = 0;
-        public int SelectMonth = 0;
+        protected int SelectYear = 0;
+        protected int SelectMonth = 0;
+        public static bool plotBusy = false;
 
         protected ProtoOvenLogList? Selected;
 
@@ -53,6 +54,7 @@ namespace UI.Pages.Index.Component.Controller
             if (firstRender)
             {
                 await GetData();
+                plotBusy = false;
             }
         }
 
@@ -64,7 +66,7 @@ namespace UI.Pages.Index.Component.Controller
                 {
                     YearList = _globals.OperationLogInfo.YearList.ToList();
                     MonthList = _globals.OperationLogInfo.MonthList.ToList();
-                    foreach (var item in _globals.OperationLogInfo.LogList.OrderByDescending(x => x.LogID))
+                    foreach (var item in _globals.OperationLogInfo.LogList.Where(x => x.PatternID != 17 && x.PatternID != 0).OrderByDescending(x => x.LogID))
                     {
                         LogList.Add(new ProtoOvenLogList()
                         {
@@ -85,16 +87,15 @@ namespace UI.Pages.Index.Component.Controller
 
         protected async Task PlotChart(MouseEventArgs args)
         {
-            _globals!.ActualPoint = new List<OperationLog>();
-            _globals.SetPoint = new List<ProtoPatternDetail>();
-
-            List<OperationLog> actual = await _operationService!.GetOperationLog(Selected!.LogID);
-            ProtoPattern setpoint = (Selected.PatternID != 0 && Selected.PatternID != 99) ? await _patternService!.GetPatternByID(Selected.PatternID) : new ProtoPattern();
-
-            _globals.ActualPoint = actual;
-            _globals.SetPoint = setpoint.PatternDetail.ToList();
-
-            Console.WriteLine($"PlotChart ID : {Selected.LogID}");
+            await Task.Run(() =>
+            {
+                plotBusy = true;
+                _globals!.ActualPoint = new List<TempActualLog>();
+                _globals.SetPoint = new List<ProtoPatternDetail>();
+                _globals.ActualPoint = _operationService!.GetOperationLog(Selected!.LogID).Result;
+                _globals.SetPoint = _patternService!.GetPatternByID(Selected.PatternID).Result.PatternDetail.ToList();
+                Console.WriteLine($"PlotChart ID : {Selected.LogID}");
+            });
         }
 
         protected async void OnChange(object value)

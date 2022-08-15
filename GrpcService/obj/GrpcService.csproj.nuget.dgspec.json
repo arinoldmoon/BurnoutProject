@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj": {}
+    "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj": {}
   },
   "projects": {
-    "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj": {
+    "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj",
+        "projectUniqueName": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj",
         "projectName": "GrpcService",
-        "projectPath": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj",
+        "projectPath": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj",
         "packagesPath": "/Users/arinsrichupeam/.nuget/packages/",
-        "outputPath": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/GrpcService/obj/",
+        "outputPath": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/GrpcService/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/arinsrichupeam/.nuget/NuGet/NuGet.Config"
@@ -75,6 +75,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.linux-arm64",
+              "version": "[6.0.6, 6.0.6]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-arm64",
+              "version": "[6.0.6, 6.0.6]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.linux-arm64",
+              "version": "[6.0.6, 6.0.6]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -84,6 +98,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.301/RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "linux-arm64": {
+          "#import": []
         }
       }
     }

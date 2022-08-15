@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3w/YQVwaWZ0HV6jsfMS0ZNxZA6njqBsKduXTiSbqlBhjz6VmruHaVubDcvlpVTR5HvG4v76HGOAiYE9NMGMgKw==",
+  "dgSpecHash": "OaeRTP0aNR3nFnjDfG7T2ZLsuUgMC1qACg8I5PMDroJBMEB+CgfECUXtJWGGoS9yesVJDINnZMx74LzUDp1K0g==",
   "success": true,
-  "projectFilePath": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/UI.csproj",
+  "projectFilePath": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/UI.csproj",
   "expectedPackageFiles": [
     "/Users/arinsrichupeam/.nuget/packages/google.protobuf/3.21.2/google.protobuf.3.21.2.nupkg.sha512",
     "/Users/arinsrichupeam/.nuget/packages/grpc.core.api/2.47.0/grpc.core.api.2.47.0.nupkg.sha512",
@@ -32,7 +32,10 @@
     "/Users/arinsrichupeam/.nuget/packages/radzen.blazor/3.19.3/radzen.blazor.3.19.3.nupkg.sha512",
     "/Users/arinsrichupeam/.nuget/packages/system.io.pipelines/5.0.0/system.io.pipelines.5.0.0.nupkg.sha512",
     "/Users/arinsrichupeam/.nuget/packages/system.linq.dynamic.core/1.2.12/system.linq.dynamic.core.1.2.12.nupkg.sha512",
-    "/Users/arinsrichupeam/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
+    "/Users/arinsrichupeam/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
+    "/Users/arinsrichupeam/.nuget/packages/microsoft.netcore.app.runtime.linux-arm64/6.0.6/microsoft.netcore.app.runtime.linux-arm64.6.0.6.nupkg.sha512",
+    "/Users/arinsrichupeam/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-arm64/6.0.6/microsoft.aspnetcore.app.runtime.linux-arm64.6.0.6.nupkg.sha512",
+    "/Users/arinsrichupeam/.nuget/packages/microsoft.netcore.app.host.linux-arm64/6.0.6/microsoft.netcore.app.host.linux-arm64.6.0.6.nupkg.sha512"
   ],
   "logs": []
 }

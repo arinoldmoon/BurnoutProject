@@ -36,10 +36,11 @@ namespace GrpcService.Services
 
         public DbService(SQLiteContext Context, SystemConfig sysConfig, ResponseModel response, ModelConvertor convert)
         {
+             Context.Database.MigrateAsync();
             _context = Context;
             _sysConfig = sysConfig;
             _response = response;
-            _convert = convert;
+            _convert = convert;           
         }
 
         public async Task<ProtoOvenInfo> GetMachineInfo()
@@ -77,13 +78,13 @@ namespace GrpcService.Services
             {
                 try
                 {
-                    response.YearList.AddRange((await _context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Year).ToListAsync()).Distinct());
-                    response.MonthList.AddRange((await _context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Month).ToListAsync()).Distinct());
+                    response.YearList.AddRange((await _context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null).Year).ToListAsync()).Distinct());
+                    response.MonthList.AddRange((await _context.OperationLogs.Select(x => DateTime.ParseExact(x.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null).Month).ToListAsync()).Distinct());
 
                     var LogList = (await _context.OperationLogs.ToListAsync())
                     .Where(x =>
-                        DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Year == response.YearList.Last() &&
-                        DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Month == response.MonthList.Last())
+                        DateTime.ParseExact(x.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null).Year == response.YearList.Last() &&
+                        DateTime.ParseExact(x.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null).Month == response.MonthList.Last())
                     .GroupBy(x => x.LogId);
 
                     foreach (var item in LogList)
@@ -92,8 +93,8 @@ namespace GrpcService.Services
                         {
                             LogID = Convert.ToInt32(item.First().LogId),
                             PatternID = Convert.ToInt32(item.First().PatternId!),
-                            StartLog = DateTime.SpecifyKind(DateTime.ParseExact(item.First().OperationTime!, _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
-                            EndLog = DateTime.SpecifyKind(DateTime.ParseExact(item.Last().OperationTime!, _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                            StartLog = DateTime.SpecifyKind(DateTime.ParseExact(item.First().OperationTime!, SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                            EndLog = DateTime.SpecifyKind(DateTime.ParseExact(item.Last().OperationTime!, SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
                         });
                     }
                 }
@@ -116,8 +117,8 @@ namespace GrpcService.Services
                 {
                     var LogList = (await _context.OperationLogs.ToListAsync())
                 .Where(x =>
-                    DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Year == year &&
-                    DateTime.ParseExact(x.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null).Month == month)
+                    DateTime.ParseExact(x.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null).Year == year &&
+                    DateTime.ParseExact(x.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null).Month == month)
                 .GroupBy(x => x.LogId);
 
                     foreach (var item in LogList)
@@ -126,8 +127,8 @@ namespace GrpcService.Services
                         {
                             LogID = Convert.ToInt32(item.First().LogId),
                             PatternID = Convert.ToInt32(item.First().PatternId!),
-                            StartLog = DateTime.SpecifyKind(DateTime.ParseExact(item.First().OperationTime!, _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
-                            EndLog = DateTime.SpecifyKind(DateTime.ParseExact(item.Last().OperationTime!, _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                            StartLog = DateTime.SpecifyKind(DateTime.ParseExact(item.First().OperationTime!, SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                            EndLog = DateTime.SpecifyKind(DateTime.ParseExact(item.Last().OperationTime!, SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
                         });
                     }
                 }
@@ -143,7 +144,7 @@ namespace GrpcService.Services
 
         public async Task<List<OperationLog>> GetOperationLogByID(int LogID) => await _context.OperationLogs.Where(x => x.LogId == LogID).ToListAsync();
 
-        public async Task<long> GetLastLogID() => await _context.OperationLogs.MaxAsync(x => x.LogId);
+        public async Task<long> GetLastLogID() => (await _context.OperationLogs.MaxAsync(x => (int?)x.LogId)) ?? 0;
 
         public async Task<ProtoPatternList> GetPatternList()
         {
@@ -153,7 +154,7 @@ namespace GrpcService.Services
             {
                 try
                 {
-                    List<Pattern> result = await _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems).ToListAsync();
+                    List<Pattern> result = await _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems.OrderBy(x => x.Step)).ToListAsync();
                     if (result.Any())
                     {
                         foreach (var item in result)
@@ -164,8 +165,8 @@ namespace GrpcService.Services
                                 PatternName = item.PatternName,
                                 StepCount = item.PatternItems.Count,
                                 TotalTime = TimeSpan.FromMinutes(item.PatternItems.Sum(x => x.StepDuration)).ToDuration(),
-                                CreateDate = string.IsNullOrEmpty(item.CreateDate) ? null : DateTime.SpecifyKind(DateTime.ParseExact(item.CreateDate.ToString(), _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
-                                ModifyDate = string.IsNullOrEmpty(item.ModifyDate) ? null : DateTime.SpecifyKind(DateTime.ParseExact(item.ModifyDate.ToString(), _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                                CreateDate = string.IsNullOrEmpty(item.CreateDate) ? null : DateTime.SpecifyKind(DateTime.ParseExact(item.CreateDate.ToString(), SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                                ModifyDate = string.IsNullOrEmpty(item.ModifyDate) ? null : DateTime.SpecifyKind(DateTime.ParseExact(item.ModifyDate.ToString(), SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
                             };
                             response.Pattern.Add(Pattern);
                         }
@@ -187,7 +188,7 @@ namespace GrpcService.Services
             {
                 try
                 {
-                    response = await _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems).Where(x => x.PatternNumber == Id.Value).SingleAsync();
+                    response = await _context.Patterns.Include(x => x.Airpump).Include(x => x.PatternItems.OrderBy(x => x.Step)).Where(x => x.PatternNumber == Id.Value).SingleAsync();
                     _sysConfig.WriteLogFile($"GetPatternFromDB By ID : {Id.Value}");
                 }
                 catch (Exception ex)
@@ -230,16 +231,12 @@ namespace GrpcService.Services
                     ActualTempAfb = actual.TempValue.TempAFB,
                     ActualTempFloor = actual.TempValue.TempFloor,
                     ActualTempTube = actual.TempValue.TempTube,
-                    OperationTime = actual.TempTime.ToDateTime().ToString(_sysConfig.DATE_FORMAT_STRING)
+                    OperationTime = actual.TempTime.ToDateTime().ToString(SystemConfig.DATE_FORMAT_STRING)
                 };
 
                 _context.OperationLogs.AddAsync(log);
                 _context.SaveChangesAsync();
-
-                _response.statusResponse.TempLogList.TempLog.Add(actual);
                 IsSuccess = true;
-
-
             }
             catch (SqliteException ex)
             {
@@ -256,16 +253,15 @@ namespace GrpcService.Services
             {
                 await Task.Run(async () =>
                 {
+                    // int MaxID = (int)(await _context.Patterns.MaxAsync(x => x.PatternNumber)) + 1;
+                    // pattern.PatternId = MaxID;
+                    // pattern.AirPump.Id = (int)MaxID;
+
                     Pattern result = _convert.ConvertProtoPatternToPatternModel(pattern);
-                    long MaxID = await _context.Patterns.MaxAsync(x => x.PatternNumber) + 1;
-                    result.PatternNumber = MaxID;
-                    result.Airpump!.Id = MaxID;
-                    result.CreateDate = DateTime.UtcNow.ToString(_sysConfig.DATE_FORMAT_STRING);
+                    result.CreateDate = DateTime.UtcNow.ToString(SystemConfig.DATE_FORMAT_STRING);
                     await _context.Patterns.AddAsync(result);
-
                     IsSuccess.Value = _context.SaveChangesAsync().IsCompletedSuccessfully;
-
-                    _sysConfig.WriteLogFile($"CreatePattern ID : {MaxID}");
+                    _sysConfig.WriteLogFile($"CreatePattern ID : {pattern.PatternId}");
                 });
             }
             catch (Exception ex)
@@ -285,7 +281,7 @@ namespace GrpcService.Services
                     Pattern odata = _convert.ConvertProtoPatternToPatternModel(pattern);
                     Pattern update = GetPattern(new Int32Value() { Value = pattern.PatternId }).Result;
 
-                    odata.ModifyDate = DateTime.UtcNow.ToString(_sysConfig.DATE_FORMAT_STRING);
+                    odata.ModifyDate = DateTime.UtcNow.ToString(SystemConfig.DATE_FORMAT_STRING);
                     _context.Entry(update).CurrentValues.SetValues(odata);
                     _context.Entry(update.Airpump!).CurrentValues.SetValues(odata.Airpump!);
 

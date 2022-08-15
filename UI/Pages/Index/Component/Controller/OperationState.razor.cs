@@ -41,7 +41,6 @@ namespace UI.Pages.Index.Component.Controller
                 if (!object.Equals(_currentPattern, value))
                 {
                     _currentPattern = value;
-                    DisableChangeMode = !object.Equals(value!.First().Step, SelectedPattern!.PatternDetail.Last().Step);
                 }
             }
         }
@@ -50,6 +49,8 @@ namespace UI.Pages.Index.Component.Controller
         protected ProtoOvenSetting? Setting;
         protected bool DisableChangeMode = true;
         protected bool ManualMode;
+        protected bool startBtnBusy = false;
+        protected bool stopBtnBusy = false;
         protected int ManualTemp;
 
         protected void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -57,17 +58,23 @@ namespace UI.Pages.Index.Component.Controller
             if (args.Name == "GlobalMonitor")
             {
                 CurrentPattern = SelectedPattern!.PatternDetail.Where(x => x.Step == _globals!.GlobalMonitor.Status.CurrentStep).ToList();
+                DisableChangeMode = !object.Equals(_globals!.GlobalMonitor.Status.CurrentStep, SelectedPattern!.PatternDetail.Last().Step);
             }
         }
 
         protected override async Task OnInitializedAsync()
         {
             _globals!.PropertyChanged += OnPropertyChanged;
-            SelectedPattern = _convert!.ConvertProtoPatternToPatternModel(_globals.GlobalPattern);
+            SelectedPattern = _convert!.ConvertProtoPatternToPatternModel(_globals!.GlobalPattern);
             CurrentPattern = SelectedPattern!.PatternDetail.Where(x => x.Step == _globals.GlobalMonitor.Status.CurrentStep).ToList();
             Setting = await _ovenService!.GetSetting();
-            ManualTemp = Setting.ManualTemp.Temp;
-            ManualMode = Setting.ManualTemp.Use;
+            if (_globals.PlcConnected)
+            {
+                ManualTemp = Setting.ManualTemp.Temp;
+                ManualMode = Setting.ManualTemp.Use;
+                DisableChangeMode = !object.Equals(_globals!.GlobalMonitor.Status.CurrentStep, SelectedPattern!.PatternDetail.Last().Step);
+            }
+            // Console.WriteLine(SelectedPattern.PatternDetail.Where(x => x.Step == 2).FirstOrDefault()!.StepDuration.ToString());
         }
 
         protected async Task EditProgramClick(MouseEventArgs args) => await _dialogServices!.OpenAsync<PatternDetail>("Edit Program", new Dictionary<string, object> { { "_patternModel", SelectedPattern! } });
@@ -85,21 +92,26 @@ namespace UI.Pages.Index.Component.Controller
 
         protected async Task StartOperation(MouseEventArgs args)
         {
-            await Task.Run(async () =>
+            startBtnBusy = true;
+            await Task.Run(() =>
             {
-                if ((await _operationService!.StartOpration(_globals!.GlobalPattern)).Value)
+                var result = _operationService!.StartOpration(_globals!.GlobalPattern).Result.Value;
+                Console.WriteLine(result);
+                if (result)
                 {
+                    _globals.GlobalMonitor.Status.Operation = result;
                     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = "Operation : ", Detail = "Started" });
                 }
                 else
                 {
                     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = "Operation : ", Detail = "Not Start" });
                 }
-            });
+            });                    
         }
 
         protected async Task StopOperation(MouseEventArgs args)
         {
+            stopBtnBusy = true;
             await Task.Run(async () =>
             {
                 if (await _dialogServices!.Confirm("Are you sure you want to cancel this operation?") == true)
@@ -108,11 +120,12 @@ namespace UI.Pages.Index.Component.Controller
                     if (response.Value)
                     {
                         _globals!.SetPoint = new List<ProtoPatternDetail>();
-                        _globals.ActualPoint = new List<OperationLog>();
+                        _globals.ActualPoint = new List<TempActualLog>();
                         _globals.GlobalPattern = new ProtoPattern()
                         {
                             AirPump = new ProtoAirpump()
                         };
+                        _globals.GlobalPattern.PatternId = 0;
 
                         _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = "Operation", Detail = "Stoped" });
                     }
@@ -122,7 +135,7 @@ namespace UI.Pages.Index.Component.Controller
                     }
                 }
             });
-
+            stopBtnBusy = false;
         }
 
         protected async Task ChangeMode(bool value)
@@ -150,22 +163,15 @@ namespace UI.Pages.Index.Component.Controller
                 if (await _dialogServices!.Confirm("Are you sure you want to change set value temp?") == true)
                 {
                     Console.WriteLine($"Use = {ManualMode} Temp =  {ManualTemp}");
-                    //var response = await _operationService!.ManualTemp(new ProtoManualTemp(){Use = ManualMode,Temp = ManualTemp});
-                    //if (response.Value)
-                    //{
-                    //     _globals!.SetPoint = new List<ProtoPatternDetail>();
-                    //     _globals.ActualPoint = new List<OperationLog>();
-                    //     _globals.GlobalPattern = new ProtoPattern()
-                    //     {
-                    //         AirPump = new ProtoAirpump()
-                    //     };
-
-                    _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"OvenTemp", Detail = $"Changed" });
-                    //}
-                    // else
-                    // {
-                    //     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Operation", Detail = $"Error" });
-                    // }
+                    var response = await _operationService!.ManualTemp(new ProtoManualTemp() { Use = ManualMode, Temp = ManualTemp });
+                    if (response.Value)
+                    {
+                        _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"OvenTemp", Detail = $"Changed" });
+                    }
+                    else
+                    {
+                        _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"SetOvenTemp", Detail = $"Error" });
+                    }
                 }
             });
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JFlGAlH6A2Y/6+xuylAp65YORKDcuu5BBgy3DWLAtXE1cygWqhsU6zgOWGaTEBXDXWozLltw9rgWa3NQYi3bCA==",
+  "dgSpecHash": "FvaB5WTMFVTgtsiCxkPUDhZh2L9I2p44anMukWRfggeifPwEuP4GC++/DzA8TMfwcK/0IOdaCHmNpNZBkgphdQ==",
   "success": true,
-  "projectFilePath": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj",
+  "projectFilePath": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/GrpcService/GrpcService.csproj",
   "expectedPackageFiles": [
     "/Users/arinsrichupeam/.nuget/packages/google.protobuf/3.19.4/google.protobuf.3.19.4.nupkg.sha512",
     "/Users/arinsrichupeam/.nuget/packages/grpc.aspnetcore/2.47.0/grpc.aspnetcore.2.47.0.nupkg.sha512",
@@ -51,7 +51,10 @@
     "/Users/arinsrichupeam/.nuget/packages/system.memory/4.5.4/system.memory.4.5.4.nupkg.sha512",
     "/Users/arinsrichupeam/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/Users/arinsrichupeam/.nuget/packages/system.text.encodings.web/6.0.0/system.text.encodings.web.6.0.0.nupkg.sha512",
-    "/Users/arinsrichupeam/.nuget/packages/system.text.json/6.0.0/system.text.json.6.0.0.nupkg.sha512"
+    "/Users/arinsrichupeam/.nuget/packages/system.text.json/6.0.0/system.text.json.6.0.0.nupkg.sha512",
+    "/Users/arinsrichupeam/.nuget/packages/microsoft.netcore.app.runtime.linux-arm64/6.0.6/microsoft.netcore.app.runtime.linux-arm64.6.0.6.nupkg.sha512",
+    "/Users/arinsrichupeam/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-arm64/6.0.6/microsoft.aspnetcore.app.runtime.linux-arm64.6.0.6.nupkg.sha512",
+    "/Users/arinsrichupeam/.nuget/packages/microsoft.netcore.app.host.linux-arm64/6.0.6/microsoft.netcore.app.host.linux-arm64.6.0.6.nupkg.sha512"
   ],
   "logs": []
 }

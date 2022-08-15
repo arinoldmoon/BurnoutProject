@@ -5,7 +5,7 @@ namespace UI.Models
 {
     public class SystemConfig
     {
-        public string DATE_FORMAT_STRING { get { return "dd/MM/yyyy HH:mm"; } }
+        public string DATE_FORMAT_STRING { get { return "yyyy-MM-dd HH:mm:ss"; } }  // yyyy-MM-dd HH:mm:ss  dd/MM/yyyy HH:mm
     }
 
     public class ModelConvertor
@@ -71,7 +71,7 @@ namespace UI.Models
                 UseAirpump = proto.AirPump.UseAirpump
             };
 
-            foreach (var item in proto.PatternDetail)
+            foreach (var item in proto.PatternDetail.OrderBy(x => x.Step))
             {
                 response.PatternDetail.Add(new PatternDetailModel()
                 {

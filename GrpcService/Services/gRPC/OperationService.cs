@@ -34,7 +34,7 @@ namespace GrpcService.Services.gRPC
                         {
                             response.TempLog.Add(new ActualLog()
                             {
-                                TempTime = DateTime.SpecifyKind(DateTime.ParseExact(item.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                                TempTime = DateTime.SpecifyKind(DateTime.ParseExact(item.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
                                 TempValue = new Temp()
                                 {
                                     TempOven = Convert.ToInt32(item.ActualTempOven),

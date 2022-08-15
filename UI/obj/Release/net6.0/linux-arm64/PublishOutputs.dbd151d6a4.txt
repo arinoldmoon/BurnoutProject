@@ -1,0 +1,4 @@
+/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm64/publish/appsettings.Development.json
+/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm64/publish/appsettings.json
+/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm64/publish/UI.pdb
+/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/bin/Release/net6.0/linux-arm64/publish/UI

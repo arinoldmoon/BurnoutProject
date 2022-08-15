@@ -28,12 +28,17 @@ namespace UI.Pages.Index.Component.OperationState
                 IsDisable = (PatternID == 0) ? false : true;
                 
                 InvokeAsync(StateHasChanged);
-            }           
+            }     
+
+            if(args.Name == "isMobile")
+            {                
+                InvokeAsync(StateHasChanged);
+            }      
         }
 
         protected override void OnInitialized()
         {
-            _globals!.PropertyChanged += OnPropertyChanged;
+            _globals!.PropertyChanged += OnPropertyChanged;            
         }
 
         protected async Task NewProgramClick(MouseEventArgs args) => await _dialogService!.OpenAsync<PatternDetail>("New Program", null);

@@ -5,6 +5,7 @@ using Grpc.Core;
 using Google.Protobuf.WellKnownTypes;
 using System.ComponentModel;
 using UI.Models;
+using Microsoft.JSInterop;
 
 namespace UI.Pages.Index
 {
@@ -18,10 +19,14 @@ namespace UI.Pages.Index
 
         [Inject]
         protected GlobalService? _globals { get; set; }
+        [Inject]
+        protected IJSRuntime? jsRuntime { get; set; }
 
         private BackgroundWorker WorkerMonitor = new BackgroundWorker();
 
-        public int PercenValue;
+        protected int PercenValue;
+
+        private ProtoOvenResponse Monitor = new ProtoOvenResponse();
 
         private void Reload()
         {
@@ -45,15 +50,15 @@ namespace UI.Pages.Index
                 Status = new MachineStatus()
             };
             _globals.GlobalPattern = new ProtoPattern();
-            _globals.ActualPoint = new List<OperationLog>();
+            _globals.ActualPoint = new List<TempActualLog>();
             _globals.SetPoint = new List<ProtoPatternDetail>();
-
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
+                _globals!.isMobile = await jsRuntime!.InvokeAsync<bool>("isDevice");
                 ProtoServiceConnection response = await _ovenService!.DeviceConnect();
                 if (response != null)
                 {
@@ -85,36 +90,7 @@ namespace UI.Pages.Index
                     {
                         while (await response.ResponseStream.MoveNext(CancellationToken.None) && !worker.CancellationPending)
                         {
-                            ProtoOvenResponse Monitor = new ProtoOvenResponse()
-                            {
-                                Temp = new Temp()
-                                {
-                                    TempOven = response.ResponseStream.Current.Temp.TempOven,
-                                    TempAFB = response.ResponseStream.Current.Temp.TempAFB,
-                                    TempFloor = response.ResponseStream.Current.Temp.TempFloor,
-                                    TempTube = response.ResponseStream.Current.Temp.TempTube
-                                },
-                                Coil = new Coil()
-                                {
-                                    CoilOven = response.ResponseStream.Current.Coil.CoilOven,
-                                    CoilAFB = response.ResponseStream.Current.Coil.CoilAFB,
-                                    CoilFloor = response.ResponseStream.Current.Coil.CoilFloor,
-                                    CoilTube = response.ResponseStream.Current.Coil.CoilTube,
-                                    CoilPump = response.ResponseStream.Current.Coil.CoilPump
-                                },
-                                Status = new MachineStatus()
-                                {
-                                    Door = response.ResponseStream.Current.Status.Door,
-                                    Operation = response.ResponseStream.Current.Status.Operation,
-                                    PatternId = response.ResponseStream.Current.Status.PatternId,
-                                    TotalStep = response.ResponseStream.Current.Status.TotalStep,
-                                    CurrentStep = response.ResponseStream.Current.Status.CurrentStep,
-                                    PatternStatus = response.ResponseStream.Current.Status.PatternStatus,
-                                    RemainHours = response.ResponseStream.Current.Status.RemainHours,
-                                    RemainMins = response.ResponseStream.Current.Status.RemainMins,
-                                    TempLogList = response.ResponseStream.Current.Status.TempLogList
-                                }
-                            };
+                            Monitor = response.ResponseStream.Current;
 
                             if (!object.Equals(_globals!.GlobalMonitor.Status.Operation, Monitor.Status.Operation))
                             {
@@ -123,32 +99,59 @@ namespace UI.Pages.Index
                                     _globals.GlobalPattern.PatternId = Monitor.Status.PatternId;
                                     _globals.GlobalPattern = await _patternService!.GetPatternByID(Monitor.Status.PatternId);
                                 }
+                                else
+                                {
+                                    _globals.GlobalPattern.PatternId = 0;
+                                    _globals.ActualPoint = new List<TempActualLog>();
+                                    _globals.SetPoint = new List<ProtoPatternDetail>();
+                                }
                             }
 
                             if (Monitor.Status.Operation)
                             {
-                                if (Monitor.Status.TempLogList.TempLog.Any() && !_globals.ActualPoint.Any() || !object.Equals(_globals.ActualPoint.Count, Monitor.Status.TempLogList.TempLog.Count))
+                                if (Monitor.Status.TempLogList.TempLog.Any())
                                 {
-                                    Console.WriteLine("Generate ActualPoint");
-                                    List<OperationLog> result = new List<OperationLog>();
-
-                                    foreach (var item in Monitor.Status.TempLogList.TempLog)
+                                    List<TempActualLog> result = new List<TempActualLog>();
+                                    if (!_globals.ActualPoint.Any())
                                     {
-                                        result.Add(new OperationLog()
+                                        foreach (var item in Monitor.Status.TempLogList.TempLog)
                                         {
-                                            TempTime = item.TempTime.ToDateTime().ToLocalTime(),
-                                            TempValue = new Temp()
+                                            result.Add(new TempActualLog()
                                             {
-                                                TempOven = item.TempValue.TempOven,
-                                                TempAFB = item.TempValue.TempAFB,
-                                                TempFloor = item.TempValue.TempFloor,
-                                                TempTube = item.TempValue.TempTube
-                                            }
-                                        });
+                                                TempTime = item.TempTime.ToDateTime().ToLocalTime(),
+                                                TempValue = new Temp()
+                                                {
+                                                    TempOven = item.TempValue.TempOven,
+                                                    TempAFB = item.TempValue.TempAFB,
+                                                    TempFloor = item.TempValue.TempFloor,
+                                                    TempTube = item.TempValue.TempTube
+                                                }
+                                            });
+                                        }
+                                        _globals.ActualPoint = result;
+                                        _globals.SetPoint = _globals.GlobalPattern.PatternDetail.ToList();
+                                        Console.WriteLine($"Add ActualPoint Success : {_globals.ActualPoint.Count}");
                                     }
-
-                                    _globals.ActualPoint = result;
-                                    _globals.SetPoint = _globals.GlobalPattern.PatternDetail.ToList();
+                                    else
+                                    {
+                                        if (!object.Equals(_globals.ActualPoint.Count, Monitor.Status.TempLogList.TempLog.Count))
+                                        {
+                                            result.AddRange(_globals.ActualPoint);
+                                            result.Add(new TempActualLog()
+                                            {
+                                                TempTime = Monitor.Status.TempLogList.TempLog.Last().TempTime.ToDateTime().ToLocalTime(),
+                                                TempValue = new Temp()
+                                                {
+                                                    TempOven = Monitor.Status.TempLogList.TempLog.Last().TempValue.TempOven,
+                                                    TempAFB = Monitor.Status.TempLogList.TempLog.Last().TempValue.TempAFB,
+                                                    TempFloor = Monitor.Status.TempLogList.TempLog.Last().TempValue.TempFloor,
+                                                    TempTube = Monitor.Status.TempLogList.TempLog.Last().TempValue.TempTube
+                                                }
+                                            });
+                                            _globals.ActualPoint = result;
+                                            Console.WriteLine($"Add ActualPoint Success : {_globals.ActualPoint.Count}");
+                                        }
+                                    }
                                 }
 
                                 if (Monitor.Status.TotalStep > 0)
@@ -163,7 +166,7 @@ namespace UI.Pages.Index
                     }
                 }));
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is OperationCanceledException && worker.CancellationPending)
             {
                 Console.WriteLine(ex.Message);
             }

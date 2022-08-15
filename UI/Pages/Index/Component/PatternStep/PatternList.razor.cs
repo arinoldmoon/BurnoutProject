@@ -32,7 +32,7 @@ namespace UI.Pages.Index.Component.PatternStep
             {
                 if (res.Result != null)
                 {
-                    _globals!.ActualPoint = new List<OperationLog>();
+                    _globals!.ActualPoint = new List<TempActualLog>();
                     _globals.SetPoint = new List<ProtoPatternDetail>();
 
                     _globals!.GlobalPattern = res.Result;

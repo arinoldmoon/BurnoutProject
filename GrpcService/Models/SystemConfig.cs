@@ -8,7 +8,7 @@ namespace GrpcService.Models
 {
     public class SystemConfig
     {
-        public string DATE_FORMAT_STRING { get { return "dd/MM/yyyy HH:mm"; } }
+        public static string DATE_FORMAT_STRING { get { return "yyyy-MM-dd HH:mm:ss"; } }  // yyyy-MM-dd HH:mm:ss  dd/MM/yyyy HH:mm
         public bool plcDeviceConnected { get; set; }
 
         private ProtoOvenInfo? _machineInfo;
@@ -72,8 +72,8 @@ namespace GrpcService.Models
                 StepCount = model.PatternItems.Count,
                 TotalTime = TimeSpan.FromSeconds(model.PatternItems.Sum(x => x.StepDuration)).ToDuration(),
                 UseAfb = Convert.ToBoolean(model.UseAfb),
-                CreateDate = !string.IsNullOrEmpty(model.CreateDate) ? DateTime.ParseExact(model.CreateDate!, "dd/MM/yyyy HH:mm", null).ToUniversalTime().ToTimestamp() : null,
-                ModifyDate = !string.IsNullOrEmpty(model.ModifyDate) ? DateTime.ParseExact(model.ModifyDate!, "dd/MM/yyyy HH:mm", null).ToUniversalTime().ToTimestamp() : null
+                CreateDate = !string.IsNullOrEmpty(model.CreateDate) ? DateTime.ParseExact(model.CreateDate!, SystemConfig.DATE_FORMAT_STRING, null).ToUniversalTime().ToTimestamp() : null,
+                ModifyDate = !string.IsNullOrEmpty(model.ModifyDate) ? DateTime.ParseExact(model.ModifyDate!, SystemConfig.DATE_FORMAT_STRING, null).ToUniversalTime().ToTimestamp() : null
             };
 
             response.AirPump = new ProtoAirpump()
@@ -110,7 +110,7 @@ namespace GrpcService.Models
                 PatternName = proto.PatternName,
                 AirpumpId = proto.AirPump.Id,
                 UseAfb = Convert.ToInt32(proto.UseAfb),
-                CreateDate = proto.CreateDate!.ToDateTime().ToUniversalTime().ToString("dd/MM/yyyy HH:mm")
+                CreateDate = proto.CreateDate!.ToDateTime().ToUniversalTime().ToString(SystemConfig.DATE_FORMAT_STRING)
             };
 
             response.Airpump = new AirPumpSetting()

@@ -30,7 +30,7 @@
                             Text="@($"End : {(context as ProtoOvenLogList)!.EndLog.ToDateTime().ToLocalTime().ToString(_sysConfig!.DATE_FORMAT_STRING)}")" />
                     </Template>
                 </RadzenListBox>
-                <RadzenButton ButtonStyle="ButtonStyle.Warning" Text="Plot" Size="ButtonSize.Medium"
+                <RadzenButton IsBusy=@plotBusy ButtonStyle="ButtonStyle.Warning" Text="Plot" Size="ButtonSize.Medium"
                     style="margin-top :15px;" Class="w-100" Click="@(args => PlotChart(args))" />
             </div>
         </div>

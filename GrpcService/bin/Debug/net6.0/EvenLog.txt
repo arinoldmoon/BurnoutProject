@@ -24,3 +24,207 @@ Access to the port '/dev/tty.usbserial-120' is denied.
 08/07/2022 13:55 GetPatternFromDB By ID : 1
 08/07/2022 14:04 GetPatternFromDB By ID : 16
 08/07/2022 14:07 GetPatternFromDB By ID : 12
+13/07/2022 10:30 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+13/07/2022 10:30 GetPatternFromDB By ID : 15
+13/07/2022 10:31 GetPatternFromDB By ID : 14
+13/07/2022 13:04 GetPatternFromDB By ID : 15
+13/07/2022 13:04 GetPatternFromDB By ID : 15
+13/07/2022 13:08 GetPatternFromDB By ID : 15
+13/07/2022 13:08 GetPatternFromDB By ID : 15
+13/07/2022 13:09 GetPatternFromDB By ID : 15
+13/07/2022 13:11 GetPatternFromDB By ID : 15
+13/07/2022 13:13 StopOperation
+13/07/2022 13:20 GetPatternFromDB By ID : 15
+13/07/2022 13:20 GetPatternFromDB By ID : 15
+13/07/2022 13:25 GetPatternFromDB By ID : 15
+13/07/2022 13:26 GetPatternFromDB By ID : 15
+13/07/2022 13:26 GetPatternFromDB By ID : 15
+13/07/2022 13:27 GetPatternFromDB By ID : 15
+13/07/2022 13:27 GetPatternFromDB By ID : 15
+13/07/2022 13:27 GetPatternFromDB By ID : 15
+13/07/2022 13:27 GetPatternFromDB By ID : 15
+13/07/2022 13:27 GetPatternFromDB By ID : 15
+13/07/2022 13:28 GetPatternFromDB By ID : 15
+13/07/2022 13:29 GetPatternFromDB By ID : 15
+13/07/2022 13:29 GetPatternFromDB By ID : 15
+13/07/2022 13:29 GetPatternFromDB By ID : 15
+13/07/2022 13:29 GetPatternFromDB By ID : 15
+13/07/2022 13:30 GetPatternFromDB By ID : 15
+13/07/2022 13:30 GetPatternFromDB By ID : 15
+13/07/2022 13:31 GetPatternFromDB By ID : 15
+13/07/2022 13:31 GetPatternList Error : A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+13/07/2022 13:31 GetPatternFromDB By ID : 15
+13/07/2022 13:31 GetPatternFromDB By ID : 15
+13/07/2022 13:32 GetPatternFromDB By ID : 15
+13/07/2022 13:32 GetPatternList Error : A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+13/07/2022 13:33 GetPatternFromDB By ID : 15
+13/07/2022 13:33 GetPatternFromDB By ID : 15
+13/07/2022 13:34 GetPatternFromDB By ID : 15
+13/07/2022 13:35 GetPatternFromDB By ID : 15
+13/07/2022 13:35 GetPatternFromDB By ID : 15
+13/07/2022 13:36 GetPatternFromDB By ID : 15
+13/07/2022 13:41 GetPatternFromDB By ID : 15
+13/07/2022 14:20 GetPatternFromDB By ID : 15
+13/07/2022 14:20 GetPatternFromDB By ID : 15
+14/07/2022 13:33 StopOperation
+14/07/2022 13:36 StopOperation
+14/07/2022 13:38 StopOperation
+14/07/2022 13:39 StopOperation
+14/07/2022 13:44 StopOperation
+14/07/2022 13:44 StartOperation PatternID : 16 | LogID : 102
+14/07/2022 13:45 StopOperation
+14/07/2022 13:56 GetPatternFromDB By ID : 16
+14/07/2022 13:56 StartOperation PatternID : 16 | LogID : 103
+14/07/2022 13:56 StopOperation
+15/07/2022 11:42 GetMachineStatus Error : The port is closed.
+15/07/2022 11:42 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:42 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:44 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:45 GetMachineStatus Error : The operation has timed out.
+15/07/2022 11:45 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:47 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:47 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:48 GetMachineStatus Error : The operation has timed out.
+15/07/2022 11:48 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:50 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:50 GetMachineStatus Error : The operation has timed out.
+15/07/2022 11:51 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:52 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:53 GetMachineStatus Error : The operation has timed out.
+15/07/2022 11:53 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:54 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:55 GetMachineStatus Error : The operation has timed out.
+15/07/2022 11:55 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:56 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:56 GetMachineStatus Error : The operation has timed out.
+15/07/2022 11:57 GetTempSensor Error : The operation has timed out.
+15/07/2022 11:58 GetCoilSensor Error : The operation has timed out.
+15/07/2022 11:59 GetMachineStatus Error : The operation has timed out.
+15/07/2022 11:59 GetTempSensor Error : The operation has timed out.
+21/07/2022 16:44 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+22/07/2022 16:57 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+22/07/2022 16:57 GetPatternList Error : Sequence contains no elements.
+22/07/2022 16:57 GetPatternList Error : Sequence contains no elements.
+22/07/2022 16:57 GetPatternList Error : Sequence contains no elements.
+22/07/2022 16:57 GetPatternFromDB By ID : 15
+22/07/2022 16:58 CreatePattern ID : 17
+22/07/2022 16:59 CreatePattern Error : The instance of entity type 'PatternItem' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+22/07/2022 16:59 CreatePattern Error : The instance of entity type 'Pattern' cannot be tracked because another instance with the same key value for {'PatternNumber'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+22/07/2022 17:00 CreatePattern Error : The instance of entity type 'Pattern' cannot be tracked because another instance with the same key value for {'PatternNumber'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+22/07/2022 17:34 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+22/07/2022 17:34 CreatePattern ID : 18
+22/07/2022 17:34 CreatePattern Error : The instance of entity type 'PatternItem' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+22/07/2022 17:34 CreatePattern Error : The instance of entity type 'Pattern' cannot be tracked because another instance with the same key value for {'PatternNumber'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+22/07/2022 17:35 GetPatternFromDB By ID : 18
+22/07/2022 17:38 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+22/07/2022 17:43 GetPatternFromDB By ID : 18
+22/07/2022 17:44 DeletePattern ID : 17 | Status : true
+22/07/2022 17:44 DeletePattern ID : 18 | Status : true
+22/07/2022 17:47 CreatePattern ID : 17
+22/07/2022 17:47 GetPatternFromDB By ID : 17
+22/07/2022 17:48 GetPatternFromDB By ID : 17
+22/07/2022 17:48 GetPatternFromDB By ID : 17
+22/07/2022 17:49 GetPatternFromDB By ID : 17
+22/07/2022 18:01 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+22/07/2022 18:01 GetPatternFromDB By ID : 15
+22/07/2022 18:01 GetPatternFromDB By ID : 17
+22/07/2022 18:02 GetPatternFromDB By ID : 17
+22/07/2022 18:07 GetPatternFromDB By ID : 17
+22/07/2022 18:08 GetPatternFromDB By ID : 17
+22/07/2022 18:09 GetPatternFromDB By ID : 17
+22/07/2022 18:13 GetPatternFromDB By ID : 17
+22/07/2022 18:13 GetPatternFromDB By ID : 17
+22/07/2022 18:14 GetPatternFromDB By ID : 17
+22/07/2022 18:14 GetPatternFromDB By ID : 17
+22/07/2022 18:14 GetPatternFromDB By ID : 17
+22/07/2022 18:15 GetPatternFromDB By ID : 1
+22/07/2022 18:16 GetPatternFromDB By ID : 1
+22/07/2022 18:16 GetPatternFromDB By ID : 1
+22/07/2022 18:16 GetPatternFromDB By ID : 1
+25/07/2022 12:50 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+25/07/2022 12:50 PlcConnected NotConnect
+2022-08-08 12:34:31 GetOperationLogInfo Error : String '03/03/2022 06:01' was not recognized as a valid DateTime.
+2022-08-08 12:34:31 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+08/08/2022 12:37 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+08/08/2022 12:37 GetPatternFromDB By ID : 18
+08/08/2022 12:37 GetPatternFromDB By ID : 16
+08/08/2022 12:40 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+08/08/2022 12:40 GetPatternFromDB By ID : 18
+08/08/2022 12:43 GetPatternFromDB By ID : 18
+08/08/2022 12:43 GetOperationLogWithID : 145
+08/08/2022 12:43 GetPatternFromDB By ID : 18
+08/08/2022 12:43 GetOperationLogWithID : 144
+08/08/2022 12:43 GetPatternFromDB By ID : 14
+08/08/2022 12:43 GetOperationLogWithID : 145
+08/08/2022 12:43 GetPatternFromDB By ID : 18
+08/08/2022 12:43 GetOperationLogWithID : 143
+08/08/2022 12:43 GetPatternFromDB By ID : 13
+08/08/2022 12:43 GetOperationLogWithID : 142
+08/08/2022 12:43 GetPatternFromDB By ID : 15
+2022-08-10 09:12:10 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:12:10 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:14:41 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:14:41 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:17:42 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:17:42 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:18:43 CreatePattern ID : 0
+2022-08-10 09:18:43 GetPatternList Error : Sequence contains no elements.
+2022-08-10 09:26:50 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:26:50 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:27:25 CreatePattern ID : 0
+2022-08-10 09:27:25 GetPatternList Error : Sequence contains no elements.
+2022-08-10 09:29:43 CreatePattern ID : 2
+2022-08-10 09:29:43 GetPatternFromDB By ID : 2
+2022-08-10 09:30:00 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:30:00 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:31:05 CreatePattern ID : 0
+2022-08-10 09:31:05 GetPatternList Error : Sequence contains no elements.
+2022-08-10 09:32:08 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:32:08 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:32:36 CreatePattern ID : 0
+2022-08-10 09:32:36 GetPatternList Error : Sequence contains no elements.
+2022-08-10 09:38:43 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:38:43 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:39:19 CreatePattern ID : 0
+2022-08-10 09:39:28 GetPatternFromDB By ID : 1
+2022-08-10 09:46:52 GetPatternFromDB By ID : 1
+2022-08-10 09:47:03 GetPatternFromDB By ID : 1
+2022-08-10 09:47:03 UpdatePattern ID : 1 Status : True
+2022-08-10 09:47:29 CreatePattern ID : 2
+2022-08-10 09:48:18 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:48:18 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:48:42 CreatePattern ID : 0
+2022-08-10 09:50:05 GetPatternFromDB By ID : 1
+2022-08-10 09:50:39 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:50:39 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:51:17 CreatePattern ID : 0
+2022-08-10 09:51:18 GetPatternList Error : Sequence contains no elements.
+2022-08-10 09:54:51 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:54:51 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:55:08 CreatePattern ID : 0
+2022-08-10 09:55:08 GetPatternList Error : Sequence contains no elements.
+2022-08-10 09:55:41 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 09:55:41 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 09:56:04 CreatePattern ID : 1
+2022-08-10 09:56:04 GetPatternFromDB By ID : 1
+2565-08-10 11:56:27 GetMachineInfo Error : Sequence contains no elements.
+2565-08-10 11:56:27 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.
+2565-08-10 11:58:15 GetMachineInfo Error : Sequence contains no elements.
+2565-08-10 11:58:15 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2565-08-10 11:58:38 GetMachineInfo Error : Sequence contains no elements.
+2565-08-10 11:58:38 PlcConnected NotConnect
+Access to the port '/dev/tty.usbserial-120' is denied.
+2022-08-10 15:05:44 GetMachineInfo Error : Sequence contains no elements.
+2022-08-10 15:05:44 SerialPort Init Error : Access to the port '/dev/tty.usbserial-120' is denied.

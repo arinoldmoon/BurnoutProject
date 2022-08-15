@@ -21,15 +21,15 @@ namespace UI.Services
             OperationProto = new OperationProtoServiceClient(channel);
         }
 
-        public async Task<List<OperationLog>> GetOperationLog(int request)
+        public async Task<List<TempActualLog>> GetOperationLog(int request)
         {
-            List<OperationLog> response = new List<OperationLog>();
+            List<TempActualLog> response = new List<TempActualLog>();
             ActualLogList result = await OperationProto.GetOperationLogWithIDAsync(new Int32Value() { Value = request });
             if (result.TempLog.Any())
             {
                 foreach (var item in result.TempLog)
                 {
-                    response.Add(new OperationLog()
+                    response.Add(new TempActualLog()
                     {
                         TempTime = item.TempTime.ToDateTime().ToLocalTime(),
                         TempValue = new Temp()

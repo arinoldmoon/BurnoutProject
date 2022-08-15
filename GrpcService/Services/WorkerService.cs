@@ -47,13 +47,13 @@ namespace GrpcService.Services
             {
                 Console.WriteLine("GrpcService Started");
                 _response.statusResponse!.TempLogList = new ActualLogList();
-
-                _sysConfig.LastLogID = (int)(_dbService.GetLastLogID().Result);
+                                
                 _sysConfig.MachineInfo = _dbService.GetMachineInfo().Result;
                 _sysConfig.OperationLogInfo = _dbService.GetOperationLogInfo().Result;
 
                 if (_plcService.ConnectPLCDevice())
                 {
+                    _sysConfig.LastLogID = (int)(_dbService.GetLastLogID().Result);
                     WorkerMonitor.RunWorkerAsync(stoppingToken);
                 }
                 else
@@ -68,7 +68,7 @@ namespace GrpcService.Services
         {
             BackgroundWorker worker = (BackgroundWorker)sender;
             while (!worker.CancellationPending)
-            {               
+            {
                 _plcService.GetTempSensor();
                 _plcService.GetCoilSensor();
                 _plcService.GetMachineStatus();
@@ -77,15 +77,14 @@ namespace GrpcService.Services
                 {
                     if (_response.statusResponse.TempLogList.TempLog.Count == 0)
                     {
-                        Console.WriteLine($"GetOperationLogByID : {_sysConfig.LastLogID}");
+                        Console.WriteLine($"{DateTime.Now} GetOperationLogByID : {_sysConfig.LastLogID}");
                         List<OperationLog> result = _dbService.GetOperationLogByID(_sysConfig.LastLogID).Result;
-                        Console.WriteLine($"OperationLogCount : {result.Count}");
 
                         foreach (var item in result)
                         {
                             _response.statusResponse.TempLogList.TempLog.Add(new ActualLog()
                             {
-                                TempTime = DateTime.SpecifyKind(DateTime.ParseExact(item.OperationTime!, _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
+                                TempTime = DateTime.SpecifyKind(DateTime.ParseExact(item.OperationTime!, SystemConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
                                 TempValue = new Temp()
                                 {
                                     TempOven = (int)item.ActualTempOven!,
@@ -97,7 +96,7 @@ namespace GrpcService.Services
 
                     WorkerGetActual.RunWorkerAsync(sender);
                     Console.WriteLine("WorkerGetActual Run");
-                }                
+                }
 
                 Thread.Sleep(_plcConfig.Value.WorkerMonitorDelay);
             }
@@ -121,7 +120,7 @@ namespace GrpcService.Services
                 _response.statusResponse.TempLogList.TempLog.Add(data);
                 _dbService.OperationWriteLog(_sysConfig.LastLogID);
 
-                Console.WriteLine($"Temp : {data.TempValue.TempOven} | {data.TempTime}");                
+                Console.WriteLine($"Temp : {data.TempValue.TempOven} | {data.TempTime.ToDateTime()} | Count {_response.statusResponse.TempLogList.TempLog.Count}");
                 Thread.Sleep(_plcConfig.Value.OperationWriteLogDelay);
             }
         }
@@ -157,72 +156,5 @@ namespace GrpcService.Services
                 Console.WriteLine("WorkerGetActual Stoped");
             }
         }
-
-
-
-        // private void WorkerMonitorEvent(CancellationToken stoppingToken)
-        // {
-        //     ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
-        //     {
-        //         while (!stoppingToken.IsCancellationRequested)
-        //         {
-        //             _plcService.GetTempSensor();
-        //             _plcService.GetCoilSensor();
-        //             _plcService.GetMachineStatus();
-
-
-        //             // if (_response.statusResponse!.Operation && !_response.statusResponse.TempLogList.TempLog.Any() && !_sysConfig.OperationWriteLog.Enabled)
-        //             // {
-        //             //     Console.WriteLine($"Gen ActualLogList last : {_sysConfig.LastLogID}");
-        //             //     foreach (var item in _dbService.GetOperationLogByID(_sysConfig.LastLogID))
-        //             //     {
-        //             //     ActualLog data = new ActualLog()
-        //             //     {
-        //             //         TempTime = string.IsNullOrEmpty(item.OperationTime) ? DateTime.UtcNow.ToTimestamp() : DateTime.SpecifyKind(DateTime.ParseExact(item.OperationTime, _sysConfig.DATE_FORMAT_STRING, null), DateTimeKind.Utc).ToTimestamp(),
-        //             //         TempValue = new Temp()
-        //             //         {
-        //             //             TempOven = (int)item.ActualTempOven!,
-        //             //             TempAFB = (int)item.ActualTempAfb!,
-        //             //             TempFloor = (int)item.ActualTempFloor!,
-        //             //             TempTube = (int)item.ActualTempTube!
-        //             //         }
-        //             //     };
-        //             //     _response.statusResponse.TempLogList.TempLog.Add(data);
-        //             //     }
-
-        //             //     Console.WriteLine("OperationWriteLog Start");
-        //             //     _sysConfig.OperationWriteLog.Start();
-        //             // }
-
-        //             Thread.Sleep(_plcConfig.Value.WorkerMonitorDelay);
-        //         }
-        //     }));
-        // }
-
-        // private void OperationWriteLogEvent(Object? source, ElapsedEventArgs e)
-        // {
-        //     ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
-        //     {
-        //         Console.WriteLine("New row");
-        //         ActualLog data = new ActualLog()
-        //         {
-        //             TempTime = DateTime.UtcNow.ToTimestamp(),
-        //             TempValue = new Temp()
-        //             {
-        //                 TempOven = _response.tempResponse.TempOven,
-        //                 TempAFB = _response.tempResponse.TempAFB
-        //             }
-        //         };
-        //         _response.statusResponse.TempLogList.TempLog.Add(data);
-
-        //         // if (_dbService.OperationWriteLog(_sysConfig.LastLogID))
-        //         // {
-        //         //     Console.WriteLine($"NewRecord ID : {_sysConfig.LastLogID} | {DateTime.UtcNow.ToString()} | Status : true");
-        //         // }
-        //     }));
-        // }
-
-
-
     }
 }

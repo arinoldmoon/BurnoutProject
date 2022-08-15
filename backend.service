@@ -1,0 +1,13 @@
+[Unit]
+Description=Burnout BackEnd
+After=network.target
+
+[Service]
+User=pi
+ExecStart=/home/pi/.dotnet/dotnet /home/pi/backend/GrpcService.dll
+WorkingDirectory=/home/pi/backend
+
+[Install]
+WantedBy=multi-user.target
+
+

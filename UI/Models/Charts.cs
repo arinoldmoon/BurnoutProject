@@ -8,7 +8,7 @@ namespace UI.Models
         public double TempValue { get; set; }
     }
 
-    public class OperationLog
+    public class TempActualLog
     {
         public DateTime TempTime { get; set; }
         public Temp? TempValue { get; set; }

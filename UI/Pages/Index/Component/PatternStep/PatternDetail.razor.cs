@@ -58,30 +58,35 @@ namespace UI.Pages.Index.Component.PatternStep
         protected async void OnSubmit(PatternModel model)
         {
             if (!string.IsNullOrEmpty(model.PatternName) && model.PatternDetail.Any())
-            {
-                Console.WriteLine(model.AirPump.Id);
-
+            {               
                 ProtoPattern _protoPattern = _convert!.ConvertPatternModelToProtoPattern(model);
-
                 BoolValue result = new BoolValue() { Value = false };
+                int PatternID = 0;
 
                 if (_protoPattern.PatternId == 99)
                 {
+                     PatternID = ((await _patternService!.GetPatternListAsync()).Max(x => (int?)x.PatternId) ?? 0) + 1;
+                     Console.WriteLine(PatternID);
+                    _protoPattern.PatternId = PatternID;
+                    _protoPattern.AirPump.Id = PatternID;
+                    foreach (var pid in _protoPattern.PatternDetail)
+                    {
+                        pid.PatternId = PatternID;
+                    }
                     result = await _patternService!.CreatePattern(_protoPattern);
 
-                    _protoPattern.PatternId = (await _patternService!.GetPatternListAsync()).Max(x => x.PatternId);
                     _protoPattern.StepCount = _protoPattern.PatternDetail.Count;
                     _protoPattern.TotalTime = TimeSpan.FromSeconds(_protoPattern.PatternDetail.Sum(x => x.StepDuration.Seconds)).ToDuration();
                 }
                 else
                 {
-
+                    PatternID = model.PatternId;
                     result = await _patternService!.UpdatePattern(_protoPattern);
-                }
+                }                
 
                 if (result.Value)
-                {
-                    _globals!.GlobalPattern = await _patternService.GetPatternByID(_protoPattern.PatternId);
+                {                    
+                    _globals!.GlobalPattern = await _patternService.GetPatternByID(PatternID);
                     _globals.SetPoint = _protoPattern!.PatternDetail.ToList();
 
                     _notificationService!.Notify(new NotificationMessage() { Severity = NotificationSeverity.Success, Summary = $"Update Pattern", Detail = $"Success" });

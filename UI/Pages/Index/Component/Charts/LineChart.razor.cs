@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Components;
 using UI.Models;
+using UI.Pages.Index.Component.Controller;
 using UI.Services;
 
 namespace UI.Pages.Index.Component.Charts
@@ -17,16 +18,16 @@ namespace UI.Pages.Index.Component.Charts
         protected List<TempChart> SetPoint { get; set; } = new List<TempChart>();
         protected List<TempChart> Actual { get; set; } = new List<TempChart>();
 
-        private List<OperationLog> _tempLog { get; set; } = new List<OperationLog>();
+        private List<TempActualLog> _tempLog { get; set; } = new List<TempActualLog>();
         private DateTime _dateTime { get; set; }
 
-        protected void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected async void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             if (args.Name == "SetPoint")
             {
                 if (_globals!.SetPoint.Any())
                 {
-                    DrawSetpoint();
+                    await DrawSetpoint();
                 }
                 else
                 {
@@ -35,12 +36,12 @@ namespace UI.Pages.Index.Component.Charts
             }
 
             if (args.Name == "ActualPoint")
-            {
+            {                
                 if (_globals!.ActualPoint.Any())
                 {
                     if (!object.Equals(Actual.Count, _globals.ActualPoint.Count))
                     {
-                        DrawActualPoint();
+                        await DrawActualPoint();
                     }
                 }
                 else
@@ -62,15 +63,15 @@ namespace UI.Pages.Index.Component.Charts
             _globals!.PropertyChanged += OnPropertyChanged;
         }
 
-        private Task DrawSetpoint()
+        private async Task DrawSetpoint()
         {
-            return Task.Run(() =>
+            await Task.Run(() =>
             {
                 SetPoint.Clear();
                 _dateTime = _globals!.ActualPoint.Any() ? _globals.ActualPoint.First().TempTime : DateTime.Now;
 
                 SetPoint.Add(new TempChart() { Time = _dateTime, TempValue = _globals!.SetPoint.FirstOrDefault()!.Temp });
-                foreach (var item in _globals.SetPoint)
+                foreach (var item in _globals.SetPoint.OrderBy(x => x.Step))
                 {
                     _dateTime = _dateTime.AddMinutes(item.StepDuration.ToTimeSpan().TotalMinutes);
                     SetPoint.Add(new TempChart()
@@ -83,74 +84,19 @@ namespace UI.Pages.Index.Component.Charts
             });
         }
 
-        private Task DrawActualPoint()
+        private async Task DrawActualPoint()
         {
-            return Task.Run(() =>
+            await Task.Run(() =>
             {
-                _tempLog = _globals!.ActualPoint;
-                _dateTime = _globals!.ActualPoint.Any() ? _globals.ActualPoint.First().TempTime : DateTime.Now;
-
-                if (_tempLog.Any())
+                if (!Actual.Any())
                 {
-                    Actual.Clear();
-                    AFB.Clear();
-
-                    foreach (var AP in _tempLog)
+                    foreach (var AP in _globals!.ActualPoint)
                     {
-                        if (Actual.Any())
+                        if (!Actual.Any() || !object.Equals((int)Actual.Last().TempValue, AP.TempValue!.TempOven))
                         {
                             Actual.Add(new TempChart()
                             {
                                 Time = AP.TempTime.ToLocalTime(),
-                                TempValue = AP.TempValue!.TempOven
-                            });
-
-                            AFB.Add(new TempChart()
-                            {
-                                Time = AP.TempTime.ToLocalTime(),
-                                TempValue = AP.TempValue.TempAFB
-                            });
-
-                            // if (Actual.Last().TempValue != AP.TempValue!.TempOven)
-                            // {
-                            //     Actual.Add(new TempChart()
-                            //     {
-                            //         Time = AP.TempTime.ToLocalTime(),
-                            //         TempValue = AP.TempValue.TempOven
-                            //     });
-
-                            //     AFB.Add(new TempChart()
-                            //     {
-                            //         Time = AP.TempTime.ToLocalTime(),
-                            //         TempValue = AP.TempValue.TempAFB
-                            //     });
-                            // }
-                            // else
-                            // {
-                            //     foreach (var SP in SetPoint)
-                            //     {
-                            //         if (AP.TempTime.ToString(_systemConfig!.DATE_FORMAT_STRING) == SP.Time.ToString(_systemConfig.DATE_FORMAT_STRING))
-                            //         {
-                            //             Actual.Add(new TempChart()
-                            //             {
-                            //                 Time = AP.TempTime,
-                            //                 TempValue = AP.TempValue.TempOven
-                            //             });
-
-                            //             AFB.Add(new TempChart()
-                            //             {
-                            //                 Time = AP.TempTime.ToLocalTime(),
-                            //                 TempValue = AP.TempValue.TempAFB
-                            //             });
-                            //         }
-                            //     }
-                            // }
-                        }
-                        else
-                        {
-                            Actual.Add(new TempChart()
-                            {
-                                Time = AP.TempTime,
                                 TempValue = AP.TempValue!.TempOven
                             });
 
@@ -161,11 +107,48 @@ namespace UI.Pages.Index.Component.Charts
                             });
                         }
                     }
+                    Console.WriteLine("DrawActualPoint Success");
+                    GraphSetting.plotBusy = false;
+                }
+                else
+                {
+                    if (!object.Equals((int)Actual.Last().TempValue, _globals!.ActualPoint.Last().TempValue!.TempOven))
+                    {
+                        Actual.Add(new TempChart()
+                        {
+                            Time = _globals!.ActualPoint.Last().TempTime.ToLocalTime(),
+                            TempValue = _globals.ActualPoint.Last().TempValue!.TempOven
+                        });
 
-                    Reload();
+                        AFB.Add(new TempChart()
+                        {
+                            Time = _globals!.ActualPoint.Last().TempTime.ToLocalTime(),
+                            TempValue = _globals.ActualPoint.Last().TempValue!.TempAFB
+                        });
+                    }
+                    else
+                    {
+                        foreach (var SP in SetPoint)
+                        {
+                            if (_globals.ActualPoint.Last().TempTime.ToString(_systemConfig!.DATE_FORMAT_STRING) == SP.Time.ToString(_systemConfig.DATE_FORMAT_STRING))
+                            {
+                                Actual.Add(new TempChart()
+                                {
+                                    Time = _globals.ActualPoint.Last().TempTime,
+                                    TempValue = _globals.ActualPoint.Last().TempValue!.TempOven
+                                });
+
+                                AFB.Add(new TempChart()
+                                {
+                                    Time = _globals.ActualPoint.Last().TempTime.ToLocalTime(),
+                                    TempValue = _globals.ActualPoint.Last().TempValue!.TempAFB
+                                });
+                            }
+                        }
+                    }
                 }
             });
+        }       
 
-        }
     }
 }

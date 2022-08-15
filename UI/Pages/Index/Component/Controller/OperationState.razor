@@ -11,13 +11,13 @@
                 @switch ((int)_globals!.GlobalMonitor.Status.PatternStatus)
                 {
                     case 1:
-                        <RadzenIcon class="ph-arrow-up-right" style="vertical-align: bottom; color:red;" />
-                        break;
-                    case 2:
                         <RadzenIcon class="ph-arrow-down-right" style="vertical-align: bottom; color:blue;" />
                         break;
+                    case 2:
+                        <RadzenIcon class="ph-arrow-up-right" style="vertical-align: bottom; color:red;" />           
+                        break;
                     case 3:
-                        <RadzenIcon class="ph-arrow-right" style="vertical-align: bottom; color:green;" />
+                        <RadzenIcon class="ph-arrow-right" style="vertical-align: bottom; color:green;" />    
                         break;
                 }
 
@@ -59,7 +59,8 @@
                                             <RadzenDataGridColumn TItem="PatternDetailModel" Title="Duration"
                                                                   TextAlign="TextAlign.Center">
                                                 <Template Context="data">
-                                                    @TimeSpan.FromMinutes(data.StepDuration).ToString(@"hh\:mm") Hrs.
+                                                    @(((int)data.StepDuration / 60).ToString("00")) : @(((data.StepDuration / 60) % 1 * 60).ToString("00")) Hrs.
+                                                    @* @TimeSpan.FromMinutes(data.StepDuration).ToString(@"dd\:hh\:mm") Hrs. *@
                                                 </Template>
                                             </RadzenDataGridColumn>
                                         </Columns>
@@ -126,7 +127,7 @@
             </div>
             <div class="row" style="padding-top: 15px;">
                 <div class="col-9 d-flex justify-content-around">
-                    <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Button" Size="ButtonSize.Medium"
+                    <RadzenButton IsBusy=@startBtnBusy BusyText="Starting ..." ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Button" Size="ButtonSize.Medium"
                                   Text="Start Operation" style="width: 100%" Click="@(args => StartOperation(args))">
                     </RadzenButton>
                 </div>
@@ -141,7 +142,7 @@
         {
             <div class="row" style="padding-top: 15px;">
                 <div class="col-md-12 d-flex justify-content-around">
-                    <RadzenButton ButtonStyle="ButtonStyle.Danger" ButtonType="ButtonType.Button" Size="ButtonSize.Small"
+                    <RadzenButton IsBusy=@stopBtnBusy BusyText="Stoping ..." ButtonStyle="ButtonStyle.Danger" ButtonType="ButtonType.Button" Size="ButtonSize.Small"
                                   style="width: 100%" Text="Stop Operation" Click="@(args => StopOperation(args))">
                     </RadzenButton>
                 </div>

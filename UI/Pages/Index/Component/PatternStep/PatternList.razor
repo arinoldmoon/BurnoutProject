@@ -20,7 +20,8 @@
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="ProtoPattern" Title="TotalTime" TextAlign="TextAlign.Center">
                     <Template Context="data">
-                        @TimeSpan.FromSeconds(data.TotalTime.Seconds).ToString(@"hh\:mm") Hrs.
+                        @(((int)TimeSpan.FromSeconds(data.TotalTime.Seconds).TotalMinutes / 60).ToString("00")) : @(((TimeSpan.FromSeconds(data.TotalTime.Seconds).TotalMinutes / 60) % 1 * 60).ToString("00")) Hrs.
+                        @* @TimeSpan.FromSeconds(data.TotalTime.Seconds).ToString(@"hh\:mm") Hrs. *@
                     </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="ProtoPattern" Title="TotalTime" TextAlign="TextAlign.Center">

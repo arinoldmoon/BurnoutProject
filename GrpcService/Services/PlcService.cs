@@ -112,12 +112,15 @@ namespace GrpcService.Services
                     List<ushort> result = new List<ushort>();
                     if (request.StepCount > 0)
                     {
-                        foreach (var item in request.PatternDetail)
+                        foreach (var item in request.PatternDetail.OrderBy(x => x.Step))
                         {
-                            var time = TimeSpan.FromSeconds(item.StepDuration.Seconds);
+                            double totalMinutes = TimeSpan.FromSeconds(item.StepDuration.Seconds).TotalMinutes;
+                            int hh = (int)(totalMinutes / 60);
+                            int mm = (int)((totalMinutes / 60) % 1 * 60);
+
                             result.Add((ushort)item.Temp);
-                            result.Add((ushort)time.Hours);
-                            result.Add((ushort)time.Minutes);
+                            result.Add((ushort)hh);
+                            result.Add((ushort)mm);
                             Task.Delay(10);
                         }
 
@@ -265,8 +268,9 @@ namespace GrpcService.Services
                         // Read PatternStatus From PLC                       
                         List<ushort> AddrStatusList = new List<ushort>() { 601, 602, 603, 607 };
 
-                        foreach (var (addr, index) in AddrStatusList.Select((value, i) => (value, i)))
+                        foreach (var (addr, index) in AddrStatusList.Select((value, i) => (value, i + 1)))
                         {
+
                             if (Device.ReadCoils(_slaveId, startAddress: addr, _numOfPoint)[0])
                             {
                                 _response.statusResponse.PatternStatus = (PatternStatus)index;
@@ -289,7 +293,7 @@ namespace GrpcService.Services
         {
             BoolValue response = new BoolValue() { Value = false };
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
@@ -299,10 +303,11 @@ namespace GrpcService.Services
                         {
                             if (SendPatternToPLC(request).Result)
                             {
+                                _response.statusResponse.PatternId = request.PatternId;
                                 if (_dbService.OperationWriteLog(++_sysConfig.LastLogID))
                                 {
                                     Device.WriteSingleCoil(_slaveId, coilAddress: 38, value: true);
-                                    Task.Delay(3000);
+                                    await Task.Delay(3000);
                                     Device.WriteSingleCoil(_slaveId, coilAddress: 38, value: false);
 
                                     if (Device.ReadCoils(_slaveId, startAddress: 500, _numOfPoint)[0])
@@ -325,35 +330,31 @@ namespace GrpcService.Services
                     _sysConfig.WriteLogFile(message);
                 }
             });
-
-
             return response;
-
         }
 
         public async Task<BoolValue> StopOperation()
         {
             BoolValue response = new BoolValue() { Value = false };
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-
                     if (_sysConfig.plcDeviceConnected)
                     {
                         if (_response.statusResponse!.Operation)
                         {
                             Device.WriteSingleCoil(_slaveId, coilAddress: 39, value: true);
-                            Task.Delay(3000);
+                            await Task.Delay(3000);
                             Device.WriteSingleCoil(_slaveId, coilAddress: 39, value: false);
 
                             Device.WriteSingleRegister(_slaveId, registerAddress: 200, value: 0);
-                            Task.Delay(10);
+                            await Task.Delay(10);
                             Device.WriteSingleRegister(_slaveId, registerAddress: 299, value: 0);
-                            Task.Delay(10);
+                            await Task.Delay(10);
                             Device.WriteSingleRegister(_slaveId, registerAddress: 500, value: 0);
-                            Task.Delay(10);
+                            await Task.Delay(10);
 
                             WorkerService.WorkerGetActual!.CancelAsync();
                             Console.WriteLine("StopWorkerGetActual From StopOperation");
@@ -361,6 +362,8 @@ namespace GrpcService.Services
                             _response.statusResponse.TempLogList.TempLog.Clear();
 
                             response.Value = !Device.ReadCoils(_slaveId, startAddress: 500, _numOfPoint)[0];
+                            Console.WriteLine($"response : {response.Value}");
+
                             _sysConfig.WriteLogFile("StopOperation");
                             _sysConfig.OperationLogInfo = _dbService.GetOperationLogInfo().Result;
                         }
@@ -369,6 +372,7 @@ namespace GrpcService.Services
                             Console.WriteLine("Operation State : Not Run");
                         }
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -376,7 +380,6 @@ namespace GrpcService.Services
                     _sysConfig.WriteLogFile(message);
                 }
             });
-
             return response;
         }
 
@@ -384,26 +387,26 @@ namespace GrpcService.Services
         {
             BoolValue response = new BoolValue() { Value = false };
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
                     if (_sysConfig.plcDeviceConnected)
                     {
-                        Device.WriteSingleRegister(_slaveId, registerAddress: 542, value: 10);
+                        await Device.WriteSingleRegisterAsync(_slaveId, registerAddress: 542, value: 10);
 
                         ushort[] SetSystemValueList = new ushort[] { (ushort)setting.AlarmOven, (ushort)setting.AlarmAfb, (ushort)setting.AfbStartTemp, (ushort)setting.AfbEndTemp, (ushort)setting.AfbDelay };
-                        Device.WriteMultipleRegisters(_slaveId, startAddress: 545, data: SetSystemValueList);
-                        Device.WriteSingleRegister(_slaveId, registerAddress: 556, value: (ushort)setting.TubeStartTemp);
-                        Device.WriteSingleRegister(_slaveId, registerAddress: 558, value: (ushort)setting.FloorStartTemp);
+                        await Device.WriteMultipleRegistersAsync(_slaveId, startAddress: 545, data: SetSystemValueList);
+                        await Device.WriteSingleRegisterAsync(_slaveId, registerAddress: 558, value: (ushort)setting.FloorStartTemp);
+                        await Device.WriteSingleRegisterAsync(_slaveId, registerAddress: 556, value: (ushort)setting.TubeStartTemp);
 
 
                         ushort[] SetTempValueList = new ushort[] { (ushort)setting.SetpointTemp.TempAFB, (ushort)setting.SetpointTemp.TempTube, (ushort)setting.SetpointTemp.TempFloor };
-                        Device.WriteMultipleRegistersAsync(_slaveId, startAddress: 536, data: SetTempValueList);
+                        await Device.WriteMultipleRegistersAsync(_slaveId, startAddress: 536, data: SetTempValueList);
 
 
                         bool[] SetCoilValueList = new bool[] { setting.CoilSetting.CoilAFB, setting.CoilSetting.CoilTube, setting.CoilSetting.CoilPump, setting.CoilSetting.CoilFloor };
-                        Device.WriteMultipleCoilsAsync(_slaveId, startAddress: 550, data: SetCoilValueList);
+                        await Device.WriteMultipleCoilsAsync(_slaveId, startAddress: 550, data: SetCoilValueList);
 
                         response.Value = true;
                     }
@@ -422,15 +425,15 @@ namespace GrpcService.Services
         {
             BoolValue response = new BoolValue() { Value = false };
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
                     if (_sysConfig.plcDeviceConnected)
                     {
-                        Device.WriteSingleRegister(_slaveId, registerAddress: 560, value: (ushort)request.Temp);
-                        Task.Delay(10);
-                        Device.WriteSingleCoil(_slaveId, coilAddress: 606, value: request.Use);
+                        await Device.WriteSingleRegisterAsync(_slaveId, registerAddress: 560, value: (ushort)request.Temp);
+                        await Task.Delay(10);
+                        await Device.WriteSingleCoilAsync(_slaveId, coilAddress: 606, value: request.Use);
 
                         response.Value = true;
                     }
@@ -449,7 +452,7 @@ namespace GrpcService.Services
         {
             ProtoPattern response = new ProtoPattern();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
@@ -460,20 +463,20 @@ namespace GrpcService.Services
                             ushort addr = 201;
                             List<int> DetailList = new List<int>();
                             response.PatternId = 99;
-                            response.StepCount = Device.ReadHoldingRegisters(_slaveId, startAddress: 200, _numOfPoint)[0];
+                            response.StepCount = (await Device.ReadHoldingRegistersAsync(_slaveId, startAddress: 200, _numOfPoint))[0];
 
                             if (response.StepCount != 0)
                             {
                                 response.AirPump = new ProtoAirpump()
                                 {
-                                    StartTemp = Device.ReadHoldingRegisters(_slaveId, startAddress: 553, _numOfPoint)[0],
-                                    EndTemp = Device.ReadHoldingRegisters(_slaveId, startAddress: 554, _numOfPoint)[0],
+                                    StartTemp = (await Device.ReadHoldingRegistersAsync(_slaveId, startAddress: 553, _numOfPoint))[0],
+                                    EndTemp = (await Device.ReadHoldingRegistersAsync(_slaveId, startAddress: 554, _numOfPoint))[0],
                                     DelayMinuteDuration = TimeSpan.FromSeconds(Device.ReadHoldingRegisters(_slaveId, startAddress: 551, _numOfPoint)[0]).ToDuration()
                                 };
 
                                 for (int i = 0; i < response.StepCount * 3; i++)
                                 {
-                                    int item = Convert.ToInt32(Device.ReadHoldingRegisters(_slaveId, startAddress: addr, _numOfPoint)[0]);
+                                    int item = Convert.ToInt32((await Device.ReadHoldingRegistersAsync(_slaveId, startAddress: addr, _numOfPoint))[0]);
                                     DetailList.Add(item);
                                     addr++;
                                 }
@@ -519,7 +522,7 @@ namespace GrpcService.Services
         {
             ProtoOvenSetting response = new ProtoOvenSetting();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
@@ -529,8 +532,8 @@ namespace GrpcService.Services
                         List<ushort> SettingListValue = new List<ushort>();
                         foreach (ushort addr in AddrSettingList)
                         {
-                            SettingListValue.Add(Device.ReadHoldingRegisters(_slaveId, startAddress: addr, _numOfPoint)[0]);
-                            Task.Delay(10);
+                            SettingListValue.Add((await Device.ReadHoldingRegistersAsync(_slaveId, startAddress: addr, _numOfPoint))[0]);
+                            await Task.Delay(10);
                         }
 
                         response.AlarmOven = SettingListValue[3];
@@ -547,7 +550,7 @@ namespace GrpcService.Services
                             TempFloor = SettingListValue[2],
                         };
 
-                        bool[] CoilListValue = Device.ReadCoils(_slaveId, startAddress: 550, numberOfPoints: 4);
+                        bool[] CoilListValue = await Device.ReadCoilsAsync(_slaveId, startAddress: 550, numberOfPoints: 4);
                         response.CoilSetting = new Coil()
                         {
                             CoilAFB = CoilListValue[0],
@@ -558,8 +561,8 @@ namespace GrpcService.Services
 
                         response.ManualTemp = new ProtoManualTemp()
                         {
-                            Use = Device.ReadCoils(_slaveId, startAddress: 606, _numOfPoint)[0],
-                            Temp = Device.ReadHoldingRegisters(_slaveId, startAddress: 560, _numOfPoint)[0]
+                            Use = (await Device.ReadCoilsAsync(_slaveId, startAddress: 606, _numOfPoint))[0],
+                            Temp = (await Device.ReadHoldingRegistersAsync(_slaveId, startAddress: 560, _numOfPoint))[0]
                         };
                     }
                 }

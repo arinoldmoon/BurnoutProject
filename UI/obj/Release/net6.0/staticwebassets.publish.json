@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "j3MLeOB40GypmVziaCyeskRfY/dtxoR+jfWCShplWdQ=",
+  "Hash": "iRsBeuf5pgoUVSZHTQI+g1Our2klw3ZG8ANdjWFZjH4=",
   "Source": "UI",
   "BasePath": "_content/UI",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "UI/wwwroot",
       "Source": "UI",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "Pattern": "**"
     }
@@ -476,10 +476,10 @@
       "OriginalItemSpec": "/Users/arinsrichupeam/.nuget/packages/radzen.blazor/3.19.3/staticwebassets/Radzen.Blazor.js"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/css/default.css",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/css/default.css",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "css/default.css",
       "AssetKind": "All",
@@ -493,10 +493,10 @@
       "OriginalItemSpec": "wwwroot/css/default.css"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/css/site.css",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/css/site.css",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -510,10 +510,10 @@
       "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/css/styles-generated.css",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/css/styles-generated.css",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "css/styles-generated.css",
       "AssetKind": "All",
@@ -527,10 +527,10 @@
       "OriginalItemSpec": "wwwroot/css/styles-generated.css"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/favicon.ico",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/favicon.ico",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -544,10 +544,10 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/MaterialIcons-Regular.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/MaterialIcons-Regular.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/MaterialIcons-Regular.woff",
       "AssetKind": "All",
@@ -561,10 +561,10 @@
       "OriginalItemSpec": "wwwroot/fonts/MaterialIcons-Regular.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-regular.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-regular.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/roboto-regular.woff",
       "AssetKind": "All",
@@ -578,10 +578,10 @@
       "OriginalItemSpec": "wwwroot/fonts/roboto-regular.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-v15-latin-300.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-v15-latin-300.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/roboto-v15-latin-300.woff",
       "AssetKind": "All",
@@ -595,10 +595,10 @@
       "OriginalItemSpec": "wwwroot/fonts/roboto-v15-latin-300.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-v15-latin-700.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-v15-latin-700.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/roboto-v15-latin-700.woff",
       "AssetKind": "All",
@@ -612,10 +612,10 @@
       "OriginalItemSpec": "wwwroot/fonts/roboto-v15-latin-700.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-v15-latin-regular.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/roboto-v15-latin-regular.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/roboto-v15-latin-regular.woff",
       "AssetKind": "All",
@@ -629,10 +629,10 @@
       "OriginalItemSpec": "wwwroot/fonts/roboto-v15-latin-regular.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Black.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Black.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-Black.woff",
       "AssetKind": "All",
@@ -646,10 +646,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-Black.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-BlackIt.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-BlackIt.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-BlackIt.woff",
       "AssetKind": "All",
@@ -663,10 +663,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-BlackIt.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Bold.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Bold.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-Bold.woff",
       "AssetKind": "All",
@@ -680,10 +680,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-Bold.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-BoldIt.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-BoldIt.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-BoldIt.woff",
       "AssetKind": "All",
@@ -697,10 +697,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-BoldIt.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-ExtraLight.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-ExtraLight.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-ExtraLight.woff",
       "AssetKind": "All",
@@ -714,10 +714,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-ExtraLight.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-ExtraLightIt.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-ExtraLightIt.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-ExtraLightIt.woff",
       "AssetKind": "All",
@@ -731,10 +731,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-ExtraLightIt.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-It.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-It.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-It.woff",
       "AssetKind": "All",
@@ -748,10 +748,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-It.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Light.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Light.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-Light.woff",
       "AssetKind": "All",
@@ -765,10 +765,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-Light.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-LightIt.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-LightIt.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-LightIt.woff",
       "AssetKind": "All",
@@ -782,10 +782,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-LightIt.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Regular.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Regular.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-Regular.woff",
       "AssetKind": "All",
@@ -799,10 +799,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-Regular.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Semibold.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-Semibold.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-Semibold.woff",
       "AssetKind": "All",
@@ -816,10 +816,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-Semibold.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-SemiboldIt.woff",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/fonts/SourceSansPro-SemiboldIt.woff",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "fonts/SourceSansPro-SemiboldIt.woff",
       "AssetKind": "All",
@@ -833,10 +833,10 @@
       "OriginalItemSpec": "wwwroot/fonts/SourceSansPro-SemiboldIt.woff"
     },
     {
-      "Identity": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/img/icon-512.png",
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/img/icon-512.png",
       "SourceId": "UI",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
       "BasePath": "_content/UI",
       "RelativePath": "img/icon-512.png",
       "AssetKind": "All",
@@ -848,6 +848,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/img/icon-512.png"
+    },
+    {
+      "Identity": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/script.js",
+      "SourceId": "UI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/wwwroot/",
+      "BasePath": "_content/UI",
+      "RelativePath": "script.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/script.js"
     }
   ]
 }

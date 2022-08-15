@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Radzen.Blazor;
 using UI.Services;
 
@@ -11,6 +12,8 @@ namespace UI.Shared
 
         [Inject]
         protected OvenService? _service { get; set; }
+        [Inject]
+        protected IJSRuntime? jsRuntime { get; set; }
 
         protected RadzenBody? body0;
         protected RadzenSidebar? sidebar0;
@@ -23,14 +26,14 @@ namespace UI.Shared
             if (args.Name == "GlobalMachineInfo")
             {
                 MachineName = _globals!.GlobalMachineInfo.MachineName;
-                MachineModel = "S6 Eco (Fixed)";
-
+                MachineModel = "S6 Eco (Fixed)";                
                 InvokeAsync(StateHasChanged);
             }
         }
 
         protected override void OnInitialized()
         {
+            
             _globals!.PropertyChanged += OnPropertyChanged;
         }
 
@@ -39,6 +42,7 @@ namespace UI.Shared
             if (firstRender)
             {
                 await SidebarToggleClick();
+                
             }
         }
 

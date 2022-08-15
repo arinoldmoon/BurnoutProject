@@ -8,69 +8,69 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = UI
 build_property.RootNamespace = UI
-build_property.ProjectDir = /Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/
+build_property.ProjectDir = /Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI
+build_property.MSBuildProjectDirectory = /Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/App.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Cards/SensorCard.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Cards/SensorCard.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L0NhcmRzL1NlbnNvckNhcmQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Cards/TempCard.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Cards/TempCard.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L0NhcmRzL1RlbXBDYXJkLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Charts/LineChart.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Charts/LineChart.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L0NoYXJ0cy9MaW5lQ2hhcnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Controller/GraphSetting.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Controller/GraphSetting.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L0NvbnRyb2xsZXIvR3JhcGhTZXR0aW5nLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Controller/OperationState.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/Controller/OperationState.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L0NvbnRyb2xsZXIvT3BlcmF0aW9uU3RhdGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/OperationState/IdleState.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/OperationState/IdleState.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L09wZXJhdGlvblN0YXRlL0lkbGVTdGF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/OperationState/RuningState.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/OperationState/RuningState.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L09wZXJhdGlvblN0YXRlL1J1bmluZ1N0YXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/PatternStep/PatternDetail.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/PatternStep/PatternDetail.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L1BhdHRlcm5TdGVwL1BhdHRlcm5EZXRhaWwucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/PatternStep/PatternList.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Component/PatternStep/PatternList.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvQ29tcG9uZW50L1BhdHRlcm5TdGVwL1BhdHRlcm5MaXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/Index/Index.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/Index/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Shared/MainLayout.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/_Imports.razor]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/_Host.cshtml]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/arinsrichupeam/Projects/burnout_iot/BackEnd/UI/Pages/_Layout.cshtml]
+[/Users/arinsrichupeam/Documents/Projects/burnout_iot/BackEnd/UI/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
