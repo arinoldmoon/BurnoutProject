@@ -63,11 +63,8 @@ void main() {
       ),
     );
 
-    await multiScreenGolden(tester, 'drawer_menu', devices: [
-      const Device(
-        name: 'Phone',
-        size: Size(450, 1000),
-      )
-    ]);
+    await multiScreenGolden(tester, 'drawer_menu', devices: [Device.iphone11]);
+
+    await screenMatchesGolden(tester, 'goldens/drawer_menu.Phone');
   });
 }

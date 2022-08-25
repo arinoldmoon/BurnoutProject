@@ -16,7 +16,7 @@ class Sizes {
   static const drawerMenuSlideAnimationDuration = 750;
   static const drawerMenuSlideIconSize = 32.0;
   static const drawerMenuContainerPadding =
-      EdgeInsets.symmetric(vertical: 6, horizontal: 18);
+      EdgeInsets.symmetric(vertical: 35, horizontal: 18);
   static const drawerMenuSlideMenuSpacing = 25.0;
   static const drawerMenuSlideMenuHeight = 55.0;
   static const drawerMenuSlideIconTitleSpacing = 25.0;

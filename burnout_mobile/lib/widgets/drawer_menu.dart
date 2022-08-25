@@ -34,112 +34,114 @@ class DrawerMenuState extends State<DrawerMenu>
   }
 
   @override
+  dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Material(
-        color: Colors.transparent,
-        child: SlideTransition(
-          position: position,
-          child: Container(
-            padding: Sizes.drawerMenuContainerPadding,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppTheme.blackPrimary,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      key: const Key('closeButton'),
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        controller.reverse();
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        PhosphorIcons.x,
-                        size: Sizes.drawerMenuSlideIconSize,
-                        color: AppTheme.yellowPrimary,
-                      ),
+    return Material(
+      color: Colors.transparent,
+      child: SlideTransition(
+        position: position,
+        child: Container(
+          padding: Sizes.drawerMenuContainerPadding,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: AppTheme.blackPrimary,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    key: const Key('closeButton'),
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      controller.reverse();
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      PhosphorIcons.x,
+                      size: Sizes.drawerMenuSlideIconSize,
+                      color: AppTheme.yellowPrimary,
                     ),
-                  ],
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: Sizes.drawerMenuContainerPadding,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          for (int i = 0;
-                              i < DrawerMenuModel.drawerMenuList.length;
-                              i++)
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      currentPage = i;
-                                    });
-                                  },
-                                  child: Container(
-                                    height: Sizes.drawerMenuSlideMenuHeight,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      color: (() {
-                                        if (currentPage == i) {
-                                          return AppTheme.yellowPrimary;
-                                        } else {
-                                          return AppTheme.blackPrimary;
-                                        }
-                                      }()),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          DrawerMenuModel
-                                              .drawerMenuList[i].icon,
-                                          size: Sizes.drawerMenuSlideIconSize,
-                                          color: Colors.white,
-                                          key: const Key('leadingIcon'),
-                                        ),
-                                        const SizedBox(
-                                          width: Sizes
-                                              .drawerMenuSlideIconTitleSpacing,
-                                        ),
-                                        Text(
-                                          DrawerMenuModel
-                                              .drawerMenuList[i].title,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6!
-                                              .copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                          key:  Key('titleMenuText$i'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: Sizes.drawerMenuContainerPadding,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int i = 0;
+                          i < DrawerMenuModel.drawerMenuList.length;
+                          i++)
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  currentPage = i;
+                                });
+                              },
+                              child: Container(
+                                height: Sizes.drawerMenuSlideMenuHeight,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: (() {
+                                    if (currentPage == i) {
+                                      return AppTheme.yellowPrimary;
+                                    } else {
+                                      return AppTheme.blackPrimary;
+                                    }
+                                  }()),
                                 ),
-                                const SizedBox(
-                                  height: Sizes.drawerMenuSlideMenuSpacing,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      DrawerMenuModel.drawerMenuList[i].icon,
+                                      size: Sizes.drawerMenuSlideIconSize,
+                                      color: Colors.white,
+                                      key: const Key('leadingIcon'),
+                                    ),
+                                    const SizedBox(
+                                      width:
+                                          Sizes.drawerMenuSlideIconTitleSpacing,
+                                    ),
+                                    Text(
+                                      DrawerMenuModel.drawerMenuList[i].title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                      key: Key('titleMenuText$i'),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            )
-                        ]),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: Sizes.drawerMenuSlideMenuSpacing,
+                            ),
+                          ],
+                        )
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
