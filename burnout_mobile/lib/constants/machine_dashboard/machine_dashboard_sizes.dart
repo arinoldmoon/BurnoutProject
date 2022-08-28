@@ -49,7 +49,7 @@ class MachineDashboardSizes {
   static const machineDashboardUtilityContainerHeight = 520.0;
   static const machineDashboardUtilityContainerHeightIdle = 440.0;
   static const machineDashboardUtilityContainerMargin =
-      EdgeInsets.symmetric(vertical: 30, horizontal: 20);
+      EdgeInsets.symmetric(vertical: 30, horizontal: 8);
   static const machineDashboardUtilityContainerPadding =
       EdgeInsets.symmetric(horizontal: 20);
   static const machineDashboardUtilityTabbarRadius = 40.0;

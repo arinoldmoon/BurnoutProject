@@ -59,7 +59,7 @@ class MachineDashboardUtility extends StatelessWidget {
           height: MachineDashboardSizes.machineDashboardUtilityContainerHeight,
           child: Column(
             children: [
-              _buildCustomTabbar(),
+              Flexible(child: _buildCustomTabbar()),
               Flexible(
                 child: TabBarView(
                   children: MachineDashboardUtilityMenu
@@ -82,12 +82,10 @@ class MachineDashboardUtility extends StatelessWidget {
           child: Column(
             children: [
               _buildCustomTabbar(),
-              Expanded(
-                child: Flexible(
-                  child: TabBarView(
-                    children: MachineDashboardUtilityMenu
-                        .machineDashboardUtilityMenuOnProgramTabbarViewWaiting,
-                  ),
+              Flexible(
+                child: TabBarView(
+                  children: MachineDashboardUtilityMenu
+                      .machineDashboardUtilityMenuOnProgramTabbarViewWaiting,
                 ),
               ),
               const SizedBox(

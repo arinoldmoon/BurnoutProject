@@ -3,6 +3,7 @@ import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utili
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility_step_operating.dart';
 import 'package:burnout_mobile/widgets/machine_dashboard/machine_dashboard_utility_step_waiting.dart';
 import 'package:flutter/material.dart';
+import 'package:nil/nil.dart';
 
 class MachineDashboardUtilityMenu {
   static const List<Tab> machineDashboardUtilityMenuOnProgram = [
@@ -19,23 +20,13 @@ class MachineDashboardUtilityMenu {
 
   static List<Widget> machineDashboardUtilityMenuOnProgramTabbarViewOperating =
       [
-    Container(
-      alignment: Alignment.center,
-      child: const Text(
-        MachineDashboardUiStrings.machineDashboardUtilityMenuOnProgramGraph,
-      ),
-    ),
+    const Nil(),
     const MachineDashboardUtilityStepOperating(),
     const MachineDashboardUtilitySettingOperating(),
   ];
 
   static List<Widget> machineDashboardUtilityMenuOnProgramTabbarViewWaiting = [
-    Container(
-      alignment: Alignment.center,
-      child: const Text(
-        MachineDashboardUiStrings.machineDashboardUtilityMenuOnProgramGraph,
-      ),
-    ),
+    const Nil(),
     const MachineDashboardUtilityStepWaiting(),
     const MachineDashboardUtilitySettingOperating(),
   ];
