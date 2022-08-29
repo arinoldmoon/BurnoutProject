@@ -104,9 +104,7 @@ class _MachineDashboardUtilityStepWaitingState
               style: Theme.of(context).textTheme.headline6,
             ),
             Text(
-              MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(
-                      machineUtilityStep.machineUtilityStepTemp) +
-                  '°C',
+              '${MachineDashboardUiStrings.machineDashboardTemperatureTempDigit(machineUtilityStep.machineUtilityStepTemp)}°C',
               key: const Key('stepTemp'),
               style: Theme.of(context)
                   .textTheme
