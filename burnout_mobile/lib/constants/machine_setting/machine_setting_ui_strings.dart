@@ -1,4 +1,8 @@
 class MachineSettingUiStrings {
+  // Machine Setting Page
+  static const machineSettingPageHeader = 'Machine Settings';
+  static const machineSettingPageMockMachineName = 'Furnance1';
+
   // Machine Setting Panel Header Value
   static const machineSettingPanelHeaderValueAboutMachine = 'About Machine';
   static const machineSettingPanelHeaderValueNetworkAndConnection =
